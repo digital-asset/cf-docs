@@ -1,0 +1,78 @@
+---
+title: "Checking, Validating and Preventing Database Corruptions"
+description: "Manual how to avoid and recover from database corruptions in Canton"
+---
+
+Canton relies on PostgreSQL for its storage needs. A key capability of Canton is privacy through data segregation, which results in the fact that ultimately, data must be stored reliably and cannot just be recovered trivially from other actors on the network.
+
+# Use a Professional Cloud Operator
+
+While there are procedures to recover a node's data from the network, they are rather complex (there is an incoming improvement with GetRemoteAcs in 3.7), time-consuming, and only allow you to recover the current state, not history. The simpler approach is therefore to avoid performing these procedures by not corrupting your data.
+
+Operating a database is not trivial, especially when dealing with faults and issues. The simplest way is to rely on cloud-based SQL services offered by all cloud providers, and additionally export the database and store it securely in a second location (ideally encrypted).
+
+If you choose to run your own database yourself, you need to ensure that your data is correct and that your recovery procedures are in place. The present guide summarizes a few recipes in this regard. Note that some recipes require expert knowledge and are listed here solely to guide experts through the recovery process. Manipulating databases without care may result in data corruption and loss.
+
+# Preventing Data Corruption
+
+The following action items may help you to prevent data corruption.
+
+- **Prevent Duplicate Volume Access:** If two Postgres instances access the same data volume, they can corrupt the data directory. Postgres does not auto-detect this situation in containerized deployments (as each process runs in its own namespace with pid=1). Therefore, you must ensure that this doesn’t happen at the orchestration and operations layers!
+In Kubernetes, use StatefulSets and use at least ReadWriteOnce (or even better ReadWriteOncePod) to protect the volume.
+If you are using Docker Compose, be very careful when manipulating compose.yaml or changing volume and Postgres service names. Always check what is running before operating the cluster, and manually shut down any existing ones before starting new containers. Never run with `--scale=2` and similar.
+
+- **Ensure Postgres Shuts Down Cleanly:** Postgres is designed to recover from crashes and sudden system shutdowns. However, recovering from a crash delays startup and therefore the restart time, and increases the risk of data corruption by triggering bugs in either the containerization, the file system, or the disk driver. It may also be a sign of duplicate access to the volume. Therefore, monitor the postgres.log of your database, and check whether Postgres is invoking crash recovery, which is indicated by the following log line:
+`database system was not properly shut down; automatic recovery in progress`
+
+- **Checksums:** Make sure that Postgres checksums are enabled. Use PSQL to check `SHOW data_checksums`. Alternatively, use `SELECT name, setting, source FROM pg_settings WHERE name IN ('fsync','full_page_writes','synchronous_commit', 'wal_sync_method','data_checksums');` to inspect various consistency-related settings of your Postgres instance.
+
+- **Use Professional Hardware and Software:** Invest in your hardware and software setup, ensuring you use ECC memory, file systems, and hard drives resilient to data degradation.
+
+- **Back up your Database:** Use `pg_dump` to back up your database regularly, rather than relying on file-system backups. A file-system backup is only possible if you can take a snapshot of the filesystem. A copy of the files will not be synchronized and therefore will be corrupted. Furthermore, Postgres offers many different ways to perform backups, even at scale (e.g., WAL copying for point-in-time recovery).
+
+- **Replicate your Data:** Postgres provides various methods to replicate data to another instance for failover. A participant can replay any missing transactions from the synchronizer, meaning that asynchronous replication is sufficient for data recovery (without loss of important data, since the synchronizer buffers transactions for 4 weeks). Additionally, Canton writes data internally in an eventually consistent manner, using internal watermarks to track consistent vs. inconsistent data, which helps in this case as well.
+
+- **Use Co-Validation:** Parties on Canton can be hosted on multiple nodes with configurable confirmation thresholds. This allows you to distribute your party to e.g. three nodes with a confirmation threshold of 2, providing you a significantly higher level of security and availability. 
+
+# Be Prepared to Deal with Database Corruption
+
+- **Prune Your System:** Recovering a database of a few GBs is faster and simpler than recovering a 1TB database. Therefore, ensure that [pruning of your node](/appdev/faq#how-do-i-enable-pruning-on-my-validator)  is enabled and keep your active contract set small (e.g., UTXO management).
+Monitor the metric `daml.pruning.max-event-age` ([see reference](/global-synchronizer/reference/canton-metrics#daml-pruning-max-event-age)) to verify that your system is getting pruned.
+
+- **Verify your Backup:** Postgres offers a tool (pg_verifybackup https://www.postgresql.org/docs/current/app-pgverifybackup.html ) to verify your backups. There is a reason that this tool exists. Therefore, you should use it.
+
+- **Verify the Order of Backups:** Note that your data is likely spread over multiple databases. You must ensure that your data is [backed up in the right order](/global-synchronizer/production-operations/validator-backups#backups-of-postgres-instances).
+
+- **Practice DR:** Attempt to restore your node from a backup (e.g. on Devnet). Practice this procedure regularly.
+
+- **Enable Metadata Storage in PQS:** If you enable the “--pipeline-filter-metadata=*” flag in PQS, PQS will store the contract in its original form, which can be re-imported into Canton.
+
+# Detecting Data Corruption
+
+- **Check your Database Regularly:** Run `pg_amcheck -v -d postgres --install-missing --parent-check --heapallindexed` regularly against your database during quiet times. If it reports corruption, act immediately. If you run the command in a container, run it in the background and pipe the output into a file. The command may take a long time, and your active terminal connection might be interrupted, causing you to lose all progress.
+
+- **Monitor Log Files:** If Canton logs ERRORs such as org.postgresql.util.PSQLException: ERROR: missing chunk number Z for toast value X in pg_toast_Y, then your database is corrupted.
+
+- **Check for an I/O Issues:** Postgres includes the tool `pg_test_fsync` ([see reference](https://www.postgresql.org/docs/current/pgtestfsync.html)), which lets you determine the ideal fsync method used by Postgres. As part of this test, it can be useful to detect I/O issues.
+
+- **Check if Postgres can Load a Table:** Run a query which will perform a full sequential scan of the table and therefore force Postgres to load all database rows: `SELECT count(tbl::text) FROM <tablename> tbl`
+
+- **Check with Disabled Indexes:** If indexes are corrupted, you can also try to run the same query with and without using indexes: 
+  `SET enable_indexscan = off; SET enable_bitmapscan = off; SET enable_indexonlyscan = off` will force sequential scans. After you tested, revert the settings back to on.
+
+# Repairing Data Corruption
+
+There are several ways to recover from disasters, documented already here. https://docs.canton.network/global-synchronizer/production-operations/validator-disaster-recovery and global-synchronizer/production-operations/disaster-recovery
+
+They are:
+- Restore from a recent backup and replay any missing data from the synchronizers. Note that this will not include local changes such as user configurations or command deduplications, but it will recover all transactions. Note that components “downstream” will also need to be restored if they depend on the participant node's offset, as the participant node offset is a local, non-deterministic property.
+- Recreate the current contract state (without any history) using an identity backup and gathering the data from other participants.
+- Repair the database.
+
+Repairing the database is generally not possible. If the database is corrupted, there is no guarantee that the new data written to it is correct, since it is based on potentially stale reads; therefore, a corrupted state might propagate undetected.
+
+The only case where a database might be repaired is when some indexes on auxiliary tables are broken. In this case, a simple REINDEX TABLE <tablename> will rebuild the database index. This might be an option in case the issue affects a section of the database where errors cannot propagate. Note that broken indexes may result from hardware failure; as such, further investigation is necessary.
+
+# Final Summary
+
+There has been no reported case of database corruption in Canton operated on Cloud SQL. The same cannot be said for databases run in containers, whether on K8S or Docker Compose setups.
