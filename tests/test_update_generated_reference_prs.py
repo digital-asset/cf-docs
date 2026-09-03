@@ -375,6 +375,7 @@ def test_generated_clean_paths_include_target_paths_and_internal_output() -> Non
     assert "docs-main/global-synchronizer/reference/canton-console-commands.mdx" in clean_paths
     assert "docs-main/global-synchronizer/reference/error-codes.mdx" in clean_paths
     assert "docs-main/release-notes/releases-and-versioning.mdx" in clean_paths
+    assert "docs-main/appdev/deep-dives/external-signing-topology.mdx" in clean_paths
     assert "docs-main/global-synchronizer/reference/canton-metrics.mdx" in clean_paths
     assert "docs-main/global-synchronizer/release-notes" in clean_paths
     assert "docs-main/integrations/release-notes/wallet-gateway.mdx" in clean_paths

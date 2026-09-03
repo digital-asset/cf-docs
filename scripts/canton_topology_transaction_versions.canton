@@ -1,0 +1,15 @@
+import io.circe.syntax._
+import com.digitalasset.canton.topology.transaction.TopologyTransaction
+import com.digitalasset.canton.version.ProtocolVersion
+
+val rows = ProtocolVersion.supported.filterNot(_.isDev).map { protocolVersion =>
+  protocolVersion.v.toString -> List(
+    TopologyTransaction.protoVersionFor(protocolVersion).v.toString
+  )
+}
+
+println(
+  io.circe.Json
+    .obj("topologyTransactionProtocolVersionToProtobufVersions" -> rows.asJson)
+    .spaces2
+)
