@@ -127,7 +127,7 @@ Additional parameters describing your own setup as opposed to the connection to 
 
 </Tab>
 
-<Tab title="MainNet (0.7.3)">
+<Tab title="MainNet (0.7.4)">
 
 1)  A running Kubernetes cluster in which you have administrator access to create and manage namespaces.
 
@@ -138,10 +138,10 @@ Additional parameters describing your own setup as opposed to the connection to 
 
 3)  Your cluster needs a static egress IP. After acquiring that, provide it to your SV sponsor who will propose adding it to the IP allowlist to the other SVs.
 
-4)  Please download the release artifacts containing the sample Helm value files, from here: <a href="https://github.com/digital-asset/decentralized-canton-sync/releases/download/v0.7.3/0.7.3_splice-node.tar.gz">Download Bundle (MainNet 0.7.3)</a>, and extract the bundle:
+4)  Please download the release artifacts containing the sample Helm value files, from here: <a href="https://github.com/digital-asset/decentralized-canton-sync/releases/download/v0.7.4/0.7.4_splice-node.tar.gz">Download Bundle (MainNet 0.7.4)</a>, and extract the bundle:
 
 ```bash
-tar xzvf 0.7.3_splice-node.tar.gz
+tar xzvf 0.7.4_splice-node.tar.gz
 ```
 
 <Warning>
@@ -623,12 +623,12 @@ Finally, please download the UI config values file from [https://github.com/glob
 
 </Tab>
 
-<Tab title="MainNet (0.7.3)">
+<Tab title="MainNet (0.7.4)">
 
 To install the Helm charts needed to start a Validator node connected to the cluster, you will need to meet a few preconditions. The first is that there needs to be an environment variable defined to refer to the version of the Helm charts necessary to connect to this environment:
 
 ```bash
-export CHART_VERSION=0.7.3
+export CHART_VERSION=0.7.4
 ```
 
 Please modify the file `splice-node/examples/sv-helm/participant-values.yaml` as follows:
@@ -790,7 +790,7 @@ Note also that `Pod` restarts may happen during bringup, particularly if all hel
 
 </Tab>
 
-<Tab title="MainNet (0.7.3)">
+<Tab title="MainNet (0.7.4)">
 
 With these files in place, you can execute the following helm commands in sequence. It's generally a good idea to wait until each deployment reaches a stable state prior to moving on to the next step.
 
@@ -1035,7 +1035,7 @@ helm install cluster-ingress-validator oci://ghcr.io/digital-asset/decentralized
 
 </Tab>
 
-<Tab title="MainNet (0.7.3)">
+<Tab title="MainNet (0.7.4)">
 
 Create a `cluster-ingress` namespace:
 
