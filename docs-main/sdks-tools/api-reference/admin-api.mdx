@@ -22,7 +22,7 @@ These services run on participant nodes alongside the Ledger API. They are defin
 
 ### Canton-Specific Admin Services
 
-Canton extends the standard Ledger API admin services with operations specific to Canton's architecture. Access these through the [Canton Console](/global-synchronizer/reference/canton-console-reference) or directly via gRPC.
+Canton extends the standard Ledger API admin services with operations specific to Canton's architecture. Access these through the [Canton Console](/global-synchronizer/production-operations/console-access) or directly via gRPC.
 
 - **Key management** — generate, import, export, and rotate signing and encryption keys. List keys by purpose (signing, encryption) and view key metadata.
 - **Topology management** — inspect and modify the topology state: party-to-participant mappings, namespace delegations, synchronizer trust certificates, and package vetting. Topology transactions are the mechanism through which Canton nodes discover each other's capabilities.
@@ -51,7 +51,7 @@ While the Admin API is primarily an operator tool, app developers interact with 
 
 Or via gRPC using the `PartyManagementService.AllocateParty` RPC.
 
-**DAR uploads** — your compiled Daml packages must be uploaded to the participant before contracts can be created. Note that `dpm` does not currently have a `deploy` command for uploading DARs to remote validators. For DAR uploads, use the Admin API directly (via `PackageManagementService.UploadDarFile` gRPC call, `curl`, or the [Canton Console](/global-synchronizer/reference/canton-console-reference)).
+**DAR uploads** — your compiled Daml packages must be uploaded to the participant before contracts can be created. Note that `dpm` does not currently have a `deploy` command for uploading DARs to remote validators. For DAR uploads, use the Admin API directly (via `PackageManagementService.UploadDarFile` gRPC call, `curl`, or the [Canton Console](/global-synchronizer/production-operations/console-access)).
 
 **User management** — the Ledger API authorizes requests based on user rights (actAs, readAs, executeAs, readAsAnyParty, executeAsAnyParty). Create and configure users through `UserManagementService` to control which parties your application can operate as.
 
@@ -67,7 +67,7 @@ Or via gRPC using the `PartyManagementService.AllocateParty` RPC.
   <Card title="Splice APIs" href="/sdks-tools/api-reference/splice-apis">
     Scan, Validator, and SV REST APIs
   </Card>
-  <Card title="Canton Console Reference" href="/global-synchronizer/reference/canton-console-reference">
+  <Card title="Console Access" href="/global-synchronizer/production-operations/console-access">
     Console commands for interacting with the Admin API
   </Card>
 </CardGroup>

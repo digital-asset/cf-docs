@@ -429,6 +429,7 @@
               "global-synchronizer/deployment/oidc-providers",
               "global-synchronizer/deployment/docker",
               "global-synchronizer/reference/metrics-reference",
+              "global-synchronizer/production-operations/console-access",
               "global-synchronizer/troubleshooting-guide/runbooks",
               {
                 "group": "Super Validator only",
@@ -500,7 +501,6 @@
           {
             "group": "Reference",
             "pages": [
-              "global-synchronizer/reference/canton-console-reference",
               "global-synchronizer/reference/canton-console-commands",
               "global-synchronizer/reference/configuration-reference",
               "global-synchronizer/reference/canton-configuration-guide",
@@ -2901,6 +2901,10 @@
     ]
   },
   "redirects": [
+    {
+      "source": "/global-synchronizer/reference/canton-console-reference",
+      "destination": "/global-synchronizer/production-operations/console-access"
+    },
     {
       "source": "/sdks-tools/development-tools/pqs/download",
       "destination": "/sdks-tools/development-tools/pqs#install-and-download"
