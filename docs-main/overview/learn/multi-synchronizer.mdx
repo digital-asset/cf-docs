@@ -98,7 +98,7 @@ Suppose a user wants to execute a Daml transaction that involves contracts that 
 
 1.  Find a suitable Synchronizer for the transaction, let's call it `S`
 
-    The conditions that `S` should fulfill are made more precise below in [reassignment-validations](#reassignment-validations). At minimum, all the stakeholders should be hosted on `S`, and every package of every input contract should be vetted on `S`.
+    The conditions that `S` should fulfill are made more precise below in [reassignment-validations](#validation-of-unassignment-and-assignment-requests). At minimum, all the stakeholders should be hosted on `S`, and every package of every input contract should be vetted on `S`.
 
 2.  Change the assignation of all input contracts to `S` (that is, reassign all the input contracts to `S`).
 

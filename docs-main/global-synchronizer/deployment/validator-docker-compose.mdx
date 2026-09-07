@@ -365,7 +365,7 @@ The Canton Admin API is not exposed by default as it does not yet support auth. 
 The default deployment uses highly insecure self-signed tokens. Anyone with access to the wallet UI (or the machine and/or its network interface) may log in to your wallet as a user of their choice. For any production use, you should configure proper authentication as described in this section.
 </Warning>
 
-Please refer to the authentication section for instructions on how to set up an OAuth provider for your validator. The URLs to configure for callbacks are `http://wallet.localhost` and `http://ans.localhost`.
+Please refer to the [Okta and Keycloak OIDC configuration guide](/global-synchronizer/deployment/oidc-providers) or the [community Keycloak configuration guide](/global-synchronizer/deployment/community-keycloak-config) for instructions on how to set up an OAuth provider for your validator. The URLs to configure for callbacks are `http://wallet.localhost` and `http://ans.localhost`.
 
 Once you have set up your OAuth provider, you need to configure it by setting the following environment variables in the `.env` file:
 

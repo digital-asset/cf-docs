@@ -1,0 +1,38 @@
+import io.circe.syntax._
+import com.digitalasset.canton.version.{ProtocolVersion, ReleaseVersionToProtocolVersions}
+
+sealed trait ProtocolVersionStatus {
+  def protocolVersion: ProtocolVersion
+  def isBeta: Boolean = this match {
+    case ProtocolVersionStatus.Beta(_) => true
+    case _ => false
+  }
+}
+
+object ProtocolVersionStatus {
+  implicit val ordering: Ordering[ProtocolVersionStatus] = Ordering.by(_.protocolVersion)
+  final case class Beta(protocolVersion: ProtocolVersion) extends ProtocolVersionStatus
+  final case class Stable(protocolVersion: ProtocolVersion) extends ProtocolVersionStatus
+}
+
+val stable = ReleaseVersionToProtocolVersions.majorMinorToStableProtocolVersions.view
+  .mapValues(_.map(ProtocolVersionStatus.Stable))
+  .toMap
+val beta = ReleaseVersionToProtocolVersions.majorMinorToBetaProtocolVersions.view
+  .mapValues(_.map(ProtocolVersionStatus.Beta))
+  .toMap
+val combined = stable.foldLeft[Map[(Int, Int), List[ProtocolVersionStatus]]](beta) {
+  case (accumulator, (releaseVersion, protocolVersions)) =>
+    accumulator + (releaseVersion -> (accumulator.getOrElse(releaseVersion, Nil) ++ protocolVersions))
+}
+val rows = combined.toList
+  .sortBy { case (releaseVersion, _) => releaseVersion }
+  .map { case ((major, minor), protocolVersions) =>
+    s"$major.$minor" -> protocolVersions.sorted.map { version =>
+      val suffix = if (version.isBeta) "*" else ""
+      s"${version.protocolVersion}$suffix"
+    }
+  }
+  .filter { case (_, protocolVersions) => protocolVersions.nonEmpty }
+
+println(io.circe.Json.obj("releaseVersionsToProtocolVersions" -> rows.asJson).spaces2)

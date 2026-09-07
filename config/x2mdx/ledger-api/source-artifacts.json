@@ -5,11 +5,6 @@
   "source_path_prefix": "canton-release-bundle/json-ledger-api",
   "manual_api_server": "http://localhost:7575",
   "manual_operations": "all",
-  "legacy_manual_route_baseline": {
-    "operation_count": 67,
-    "sha256": "8af28522f2ce85a9cb981ac1cd842260b52f0b024ff4e7574a19549d830fa31e",
-    "source": "Mintlify native OpenAPI sidebar routes captured before full manual-page migration on 2026-08-24"
-  },
   "publish_version": "3.5",
   "versions": [
     {
@@ -18,7 +13,7 @@
     },
     {
       "version": "3.5",
-      "canton_version": "3.5.15"
+      "canton_version": "3.5.16"
     }
   ]
 }

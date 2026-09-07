@@ -1,6 +1,6 @@
 {
   "_generated": {
-    "generatedAt": "2026-09-02T16:13:49+00:00",
+    "generatedAt": "2026-09-04T18:13:43+00:00",
     "generatorMode": "public_source_collection_with_manual_fallbacks",
     "sourceContract": {
       "splice": "Network /info endpoint: MainNet https://docs.global.canton.network.sync.global/info, TestNet https://docs.test.global.canton.network.sync.global/info, DevNet https://docs.dev.global.canton.network.sync.global/info. Cross-check against the same network's /index.html Docker image tag and Helm chart version.",
@@ -328,17 +328,17 @@
       "versionMapping": {
         "mainnet": {
           "branch": "",
-          "externalVersion": "1.5.1",
+          "externalVersion": "1.6.0",
           "folderPathRepo": ""
         },
         "testnet": {
           "branch": "",
-          "externalVersion": "1.5.1",
+          "externalVersion": "1.6.0",
           "folderPathRepo": ""
         },
         "devnet": {
           "branch": "",
-          "externalVersion": "1.5.1",
+          "externalVersion": "1.6.0",
           "folderPathRepo": ""
         }
       }

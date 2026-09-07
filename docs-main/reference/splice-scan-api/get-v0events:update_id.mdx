@@ -21,7 +21,7 @@ sidebarTitle: "/v0/events/:update_id"
 
   <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">OpenAPI</span>
 
-  <a class="x2mdx-ref-badge x2mdx-ref-badge--changed" href="#history-updated-0-6-10">Updated 0.6.10</a>
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--changed" href="#history-updated-0-8-0">Updated 0.8.0</a>
 
 </div>
 
@@ -886,7 +886,7 @@ The id of the unassigned contract
 
 <ResponseField name="update_id" type="string" required>
 
-The ID of the transaction update associated with this verdict.
+The ID of the transaction update associated with this verdict. Verdicts are deduplicated by update_id. Only the first verdict ingested for a given update_id is stored and returned, while a subsequent verdict with the same update_id is rejected. This can happen for example if a sequencer client retries a successful submission. In that case, the retry is rejected as a duplicate, and the events endpoint will only show the successful verdict but not the rejected duplicates.
 
 
 
@@ -1410,6 +1410,16 @@ internal server error
 ## History
 
 <div class="x2mdx-ref-history" aria-label="Reference history">
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-0-8-0">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">0.8.0</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">The GET /v0/events/&#123;update_id&#125; operation changed in this snapshot.</p>
+
+  </div>
 
   <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-0-6-10">
     <div class="x2mdx-ref-history-event-head">

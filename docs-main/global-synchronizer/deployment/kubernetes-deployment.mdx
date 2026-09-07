@@ -1156,6 +1156,16 @@ Each SV is required to configure their cluster ingress to allow traffic from the
 To keep the attack surface on your SV deployment and the Global Synchronizer small, please disallow ingress connections to all other services in your SV deployment. It should be assumed that opening up *any* additional port or service represents a security risk that needs to be carefully evaluated on a case-by-case basis.
 </Warning>
 
+### Restricting SV App Endpoint Exposure
+
+The SV app OpenAPI specification annotates its endpoints (`x-jvm-package: sv_public`) with an `x-external-audience` extension, which is one of:
+
+- `validators` - endpoints that validator operators need to reach.
+- `svs` - endpoints that only other SVs need to reach.
+- `none` - endpoints that do not need to be reachable from outside of the SV node's own deployment (for example, the CometBFT endpoints).
+
+SV operators can use this annotation to restrict the external exposure of their SV app: only the endpoints of a given audience need to be reachable from the corresponding networks. Endpoints with an audience of `none`, as well as endpoints without an `x-external-audience`, do not need to be exposed to external traffic at all.
+
 ### Rate-limiting Public Endpoints
 
 Because the `/registry` endpoints must be publicly accessible, you must explicitly configure your networking infrastructure to allow public traffic to these routes while rate-limiting them to prevent Denial of Service (DoS) attacks.

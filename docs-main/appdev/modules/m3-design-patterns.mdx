@@ -288,7 +288,7 @@ The consequences contain, next to some `fetch` actions, two `exercise` actions o
 
 Each of the two involved `TransferApproval` contracts is signed by a different `issuer`, which see the action on "their" contract. So the EUR_Bank sees the `TransferApproval_Transfer` action for the EUR `Asset` and the USD_Bank sees the `TransferApproval_Transfer` action for the USD `Asset`.
 
-Some Daml ledgers, like the script runner and the Sandbox, work on the principle of "data minimization", meaning nothing more than the above information is distributed. That is, the "projection" of the overall transaction that gets distributed to EUR_Bank in step 4 (transaction submission) of [Daml's execution model](#damls-execution-model) would consist only of the `TransferApproval_Transfer` and its consequences.
+Some Daml ledgers, like the script runner and the Sandbox, work on the principle of "data minimization", meaning nothing more than the above information is distributed. That is, the "projection" of the overall transaction that gets distributed to EUR_Bank in step 4 (transaction submission) of [Daml's execution model](#daml’s-execution-model) would consist only of the `TransferApproval_Transfer` and its consequences.
 
 Other implementations, in particular those on public blockchains, may have weaker privacy constraints.
 

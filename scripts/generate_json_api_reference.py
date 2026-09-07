@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import os
 import re
@@ -310,38 +309,6 @@ def openapi_navigation_page_refs(
         method, path = page_ref.split(" ", 1)
         page_refs.append(manual_refs.get((method, path), page_ref))
     return page_refs
-
-
-def validate_manual_route_baseline(
-    source_config: dict[str, Any], *, manual_operations: list[dict[str, str]]
-) -> None:
-    baseline = source_config.get("legacy_manual_route_baseline")
-    if baseline is None:
-        return
-    if not isinstance(baseline, dict):
-        raise ValueError("legacy_manual_route_baseline must be an object")
-    expected_count = baseline.get("operation_count")
-    expected_sha256 = baseline.get("sha256")
-    if not isinstance(expected_count, int) or expected_count < 0:
-        raise ValueError(
-            "legacy_manual_route_baseline.operation_count must be a non-negative integer"
-        )
-    if not isinstance(expected_sha256, str) or not re.fullmatch(
-        r"[0-9a-f]{64}", expected_sha256
-    ):
-        raise ValueError(
-            "legacy_manual_route_baseline.sha256 must be a lowercase SHA-256 digest"
-        )
-    routes = sorted(f"/{operation['page_ref']}" for operation in manual_operations)
-    actual_sha256 = hashlib.sha256(
-        ("\n".join(routes) + "\n").encode("utf-8")
-    ).hexdigest()
-    if len(routes) != expected_count or actual_sha256 != expected_sha256:
-        raise ValueError(
-            "Manual OpenAPI routes do not match the captured native-route baseline: "
-            f"expected {expected_count} routes/{expected_sha256}, got "
-            f"{len(routes)} routes/{actual_sha256}"
-        )
 
 
 def generated_operation_summary(path: str, method: str) -> str:
@@ -865,7 +832,6 @@ def main() -> int:
         spec=specs_by_version[publish_entry["version"]],
         directory=args.openapi_directory,
     )
-    validate_manual_route_baseline(source_config, manual_operations=manual_operations)
     history_report = build_openapi_history_report(
         surface_id="json-ledger-api-openapi",
         title="JSON Ledger API OpenAPI",

@@ -19,7 +19,7 @@
     {
       "version": "3.5",
       "source": "Canton release bundle JSON Ledger API specifications",
-      "revision": "3.5.15",
+      "revision": "3.5.16",
       "path": null
     }
   ],
@@ -790,6 +790,33 @@
           ]
         }
       ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2TrafficAccountsAccount-id",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2trafficaccounts:account-id",
+      "location": "json-ledger-api: GET /v2/traffic/accounts/{account-id}",
+      "first_seen": "3.5",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.5",
+        "location": "json-ledger-api#paths./v2/traffic/accounts/{account-id}.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
       "lifecycle_state": null,
       "lifecycle_transitions": [],
       "remove_as_of": null,
@@ -2380,6 +2407,33 @@
         "source": "Canton release bundle JSON Ledger API specifications",
         "observed_in_version": "3.5",
         "location": "json-ledger-api#paths./v2/state/active-contracts-page.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2TrafficAccounts",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2trafficaccounts",
+      "location": "json-ledger-api: POST /v2/traffic/accounts",
+      "first_seen": "3.5",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.5",
+        "location": "json-ledger-api#paths./v2/traffic/accounts.post",
         "detail": null
       },
       "observed_removal": null,

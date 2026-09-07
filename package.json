@@ -14,6 +14,8 @@
     "generate:daml-script-reference": "python3 scripts/generate_daml_script_reference.py",
     "generate:splice-token-standard-v2-reference": "python3 scripts/generate_splice_token_standard_v2_reference.py",
     "generate:canton-protobuf-history": "python3 scripts/generate_canton_protobuf_history.py",
+    "generate:canton-error-codes-reference": "python3 scripts/generate_canton_error_codes_reference.py",
+    "generate:canton-release-protocol-versions": "python3 scripts/generate_canton_release_protocol_versions.py",
     "generate:wallet-gateway-openrpc-reference": "python3 scripts/generate_wallet_gateway_openrpc_reference.py",
     "generate:splice-mintlify-openapi": "python3 scripts/generate_splice_mintlify_openapi.py",
     "generate:canton-console-reference": "python3 scripts/generate_canton_console_reference.py",

@@ -219,7 +219,7 @@ data-dependencies:
 
 Note the use of `data-dependencies` instead of the previously covered `dependencies` field, the latter is reserved for `daml-prim`, `daml-stdlib`, and the optional testing library daml-script. Once added to the `daml.yaml`, modules from the dependency .dar can be imported from the modules of this package. In the event of collision between module names, either with this package or other dependencies, see module-prefixes.
 
-In addition to using DARs already on your local file system, you can also depend on DARs available from a remote OCI repository while building your Daml project -- see the [Remote Dars](/appdev/modules/m5-environment-c#onfiguration#remote-dars) section for further guidance and examples.
+In addition to using DARs already on your local file system, you can also depend on DARs available from a remote OCI repository while building your Daml project. See the [Remote Dars](/appdev/modules/m5-environment-configuration#remote-dars) section for further guidance and examples.
 
 When depending on .dar files from packages listed in the `multi-package.yaml`, calling `dpm build` and `dpm build --all` will build the relevant packages in the correct order for you.
 

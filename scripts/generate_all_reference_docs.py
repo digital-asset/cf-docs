@@ -116,6 +116,16 @@ SCRIPT_JOBS = [
         nav_slices=(),
         target_ids=(),
     ),
+    ScriptJob(
+        script_path=REPO_ROOT / "scripts" / "generate_canton_error_codes_reference.py",
+        nav_slices=(),
+        target_ids=(),
+    ),
+    ScriptJob(
+        script_path=REPO_ROOT / "scripts" / "generate_canton_release_protocol_versions.py",
+        nav_slices=(),
+        target_ids=(),
+    ),
 ]
 
 

@@ -13,7 +13,21 @@ Three roles appear in most Canton applications.
 
 **App User** -- A party that interacts with the application's contracts. An App User may connect through the App Provider's validator (if the provider hosts the user's party) or through the user's own validator. In either case, the user's party needs to be allocated on a validator that participates in the relevant synchronizer.
 
-**End User** -- A person who interacts with the application through a browser, mobile app, or wallet UI. End Users typically do not manage validators or think about ledger mechanics. They authenticate through the frontend, and the backend handles ledger operations on their behalf.
+**End User** -- A person who interacts with the application through a browser, mobile app, or wallet UI. End Users typically do not manage validators or think about ledger mechanics. They authenticate through the frontend, and the backend handles ledger operations on their behalf. For retail applications the App User and the End User are usually the same entity; the distinction matters mainly for enterprise applications, where an employee (End User) acts in the name of an organization (App User).
+
+## Parties
+
+{/* COPIED_START source="docs-website:docs/manual/build/3.5/overview/key_concepts.rst" hash="1a4135e4" */}
+
+{/* DIVERGENCE: only the "Daml parties" section of the source is reproduced here. The source's "App providers, app users, and end-users" and "Frontends, backends, and Daml models" sections duplicate this page's Roles and Architecture Layers sections, and its "Canton Network infrastructure" section duplicates the Validators/Synchronizers definitions in /appdev/modules/m2-network-architecture; those are intentionally not copied. The retail-vs-enterprise sentence in the End User paragraph above is also adapted from the source's app-user section. */}
+
+Access to Canton ledger data is managed at the granularity of **Daml parties**, which are best viewed as identifiers for cryptographic keys that remain stable even when keys are rolled.
+
+Daml parties are **hosted** on Validator Nodes, which store their data and validate transactions affecting that data. Validator Nodes broadcast information about which Daml parties they host via the Synchronizer Nodes to which they are connected.
+
+App providers and app users are assumed to have at least one Daml party under their control, which represents them towards other app users of Canton Network applications. They may operate the Validator Node hosting their Daml party themselves, or they may host their party on a third-party validator node that they trust with data confidentiality and transaction validation.
+
+{/* COPIED_END */}
 
 ## Architecture Layers
 
