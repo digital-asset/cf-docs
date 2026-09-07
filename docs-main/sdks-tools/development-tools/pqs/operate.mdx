@@ -33,7 +33,7 @@ PQS application mostly runs as a long-running process, but also includes several
 
 Consult *Configuration options* how to configure each command.
 
-PQS pipeline is crash friendly and restarts automatically. See [Ledger streaming & recovery](#ledger-streaming-recovery) for more
+PQS pipeline is crash friendly and restarts automatically. See [Ledger streaming & recovery](#ledger-streaming-%26-recovery) for more
 details on how PQS recovers from a crash.
 
 ### Getting help
@@ -77,7 +77,7 @@ Run 'scribe COMMAND --help[-verbose]' for more information on a command.
 
 ### History slicing
 
-As described in [Ledger streaming & recovery](#ledger-streaming-recovery) you can use PQS with `--pipeline-ledger-start` and
+As described in [Ledger streaming & recovery](#ledger-streaming-%26-recovery) you can use PQS with `--pipeline-ledger-start` and
 `--pipeline-ledger-stop` to ask for the slice of the history you want. There are some constraints on start and stop
 offsets which cause PQS to fail-fast if they are violated.
 

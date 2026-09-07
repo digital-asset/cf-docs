@@ -48,7 +48,7 @@ Look into logs for activity indicators:
 
 - ledger [keep-alives](#there-is-a-suspicion-that-pqs-is-stalled) are present
 
-- watermark advances in the presence of expected ledger traffic, see also [here](#don-t-see-expected-templates-in-pqs) and [here](#no-data-for-a-recently-onboarded-party)
+- watermark advances in the presence of expected ledger traffic, see also [here](#don%E2%80%99t-see-expected-templates-in-pqs) and [here](#no-data-for-a-recently-onboarded-party)
 
 - retry loop indicates [recoverable errors](/sdks-tools/development-tools/pqs/operate#retries) (both upstream and downstream), examine message for
   indication of underlying cause
@@ -58,15 +58,15 @@ Look into logs for activity indicators:
 Look into [metrics](#which-metrics-are-available-how-to-integrate-them) for detailed breakdown of PQS
 internals:
 
-- correlate [transactions](#throughput-transactions-and-events)
-  (`pipeline_events_total{type="transaction"}`) and [watermark](#throughput-watermark-history)
+- correlate [transactions](#throughput-%3E-transactions-and-events)
+  (`pipeline_events_total{type="transaction"}`) and [watermark](#throughput-%3E-watermark-history)
   (`watermark_ix`) throughput metrics to identify if any slowdowns are present in the PQS pipeline
 
 - get an idea of PQS pipeline introduced latency - see
-  [here](#latency-total-transaction-handling-latency)
+  [here](#latency-%3E-total-transaction-handling-latency)
 
 - get an idea of contract churn (which correlates with write activity of PQS) by template - see
-  [here](#contracts-churn)
+  [here](#contracts-%3E-churn)
 
 Look into database to get familiar with Daml model footprint:
 
@@ -75,7 +75,7 @@ Look into database to get familiar with Daml model footprint:
 
 Look into database statistics for resource utilisation
 
-- get an idea of I/O split - [disk vs index](#statistics-on-disk-vs-index-i-o), cache sizing
+- get an idea of I/O split - [disk vs index](#statistics-on-disk-vs-index-i%2Fo), cache sizing
   ([tables](#table-data-in-cache-per-table)
   and [indexes](#index-data-in-cache-per-table))
 
@@ -155,7 +155,7 @@ You should at least see this line repeated every 40 seconds, even if there is no
 ```
 
 If you expect data to flow, then check your filter configuration so that it’s not too restrictive (see
-[Don’t see expected templates in PQS](#don-t-see-expected-templates-in-pqs)).
+[Don’t see expected templates in PQS](#don%E2%80%99t-see-expected-templates-in-pqs)).
 
 If all else fails, get your hands on a thread dump (for example, through [diagnostics](/sdks-tools/development-tools/pqs/operate#diagnostics)) and
 analyse it for any deadlocks.
@@ -250,7 +250,7 @@ the active PQS pipeline.
 If a new party was onboarded without stopping the PQS pipeline, it is best to either:
 
 - purge the PQS database and re-ingest the data either from `Genesis` or from `Latest`
-  (see [Ledger streaming & recovery](/sdks-tools/development-tools/pqs/operate#ledger-streaming-recovery)), or
+  (see [Ledger streaming & recovery](/sdks-tools/development-tools/pqs/operate#ledger-streaming-%26-recovery)), or
 
 - perform a reset from a particular offset (before the offset of the first event with the new party involved) by
   following the [instructions](/sdks-tools/development-tools/pqs/operate#resetting)
@@ -269,7 +269,7 @@ other factors). Please, refer to these 2 sections for additional insights:
 
 - [History slicing](/sdks-tools/development-tools/pqs/operate#history-slicing)
 
-- [Ledger streaming & recovery](/sdks-tools/development-tools/pqs/operate#ledger-streaming-recovery)
+- [Ledger streaming & recovery](/sdks-tools/development-tools/pqs/operate#ledger-streaming-%26-recovery)
 
 In most likelihood, under normal conditions, PQS should be launched with the following arguments, unless there is a
 strong reason to modify them:
