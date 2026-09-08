@@ -92,7 +92,7 @@ Additional parameters describing your own setup as opposed to the connection to 
 
 </Tab>
 
-<Tab title="TestNet (0.7.4)">
+<Tab title="TestNet (0.7.5)">
 
 1)  A linux/MacOS machine with the following:
 
@@ -116,10 +116,10 @@ Features: alt-svc AsynchDNS brotli GSS-API HSTS HTTP2 HTTPS-proxy IDN IPv6 Kerbe
 jq-1.7.1
 ```
 2)  Your machine should either be connected to a VPN that is whitelisted on the network (contact your sponsor SV to obtain access), or have a static egress IP address. In the latter case, please provide that IP address to your sponsor SV to add it to the firewall rules.
-3)  Please download the release artifacts containing the docker-compose files, from here: <a href="https://github.com/digital-asset/decentralized-canton-sync/releases/download/v0.7.4/0.7.4_splice-node.tar.gz">Download Bundle (TestNet 0.7.4)</a>, and extract the bundle:
+3)  Please download the release artifacts containing the docker-compose files, from here: <a href="https://github.com/digital-asset/decentralized-canton-sync/releases/download/v0.7.5/0.7.5_splice-node.tar.gz">Download Bundle (TestNet 0.7.5)</a>, and extract the bundle:
 
 ```bash
-tar xzvf 0.7.4_splice-node.tar.gz
+tar xzvf 0.7.5_splice-node.tar.gz
 ```
 
 <Warning>
@@ -274,14 +274,14 @@ Note that the validator may be stopped with the command `./stop.sh` and restarte
 
 </Tab>
 
-<Tab title="TestNet (0.7.4)">
+<Tab title="TestNet (0.7.5)">
 
 1)  Change to the `docker-compose` directory inside the extracted bundle:
 
 ```bash
 cd splice-node/docker-compose/validator
 ```
-2)  Export the current version to an environment variable: export IMAGE_TAG=0.7.4
+2)  Export the current version to an environment variable: export IMAGE_TAG=0.7.5
 3)  Run the following command to start the validator node, and wait for it to become ready (could take a few minutes):
 
 > ```bash

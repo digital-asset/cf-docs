@@ -1,6 +1,6 @@
 {
   "_generated": {
-    "generatedAt": "2026-09-07T22:10:47+00:00",
+    "generatedAt": "2026-09-08T00:30:29+00:00",
     "generatorMode": "public_source_collection_with_manual_fallbacks",
     "sourceContract": {
       "splice": "Network /info endpoint: MainNet https://docs.global.canton.network.sync.global/info, TestNet https://docs.test.global.canton.network.sync.global/info, DevNet https://docs.dev.global.canton.network.sync.global/info. Cross-check against the same network's /index.html Docker image tag and Helm chart version.",
@@ -25,8 +25,8 @@
       "testnet": {
         "infoUrl": "https://docs.test.global.canton.network.sync.global/info",
         "indexUrl": "https://docs.test.global.canton.network.sync.global/index.html",
-        "cantonSourcesUrl": "https://github.com/canton-network/splice/blob/release-line-0.7.4/nix/canton-sources.json",
-        "darVersionsUrl": "https://github.com/canton-network/splice/blob/release-line-0.7.4/daml/dars.lock"
+        "cantonSourcesUrl": "https://github.com/canton-network/splice/blob/release-line-0.7.5/nix/canton-sources.json",
+        "darVersionsUrl": "https://github.com/canton-network/splice/blob/release-line-0.7.5/daml/dars.lock"
       },
       "devnet": {
         "infoUrl": "https://docs.dev.global.canton.network.sync.global/info",
@@ -104,7 +104,7 @@
             "version": "0.1.28"
           }
         ],
-        "releaseUrl": "https://github.com/canton-network/splice/releases/tag/0.7.4"
+        "releaseUrl": "https://github.com/canton-network/splice/releases/tag/0.7.5"
       },
       "endpoint": "scan.sv-1.test.global.canton.network.sync.global",
       "substitutions": {
@@ -115,19 +115,19 @@
         "gsf_scan_url": "https://scan.sv-1.test.global.canton.network.sync.global",
         "generic_scan_url": "https://scan.sv-1.test.global.canton.network.YOUR_SV_SPONSOR",
         "gsf_sequencer_url": "https://sequencer-MIGRATION_ID.sv-1.test.global.canton.network.sync.global",
-        "version": "0.7.4",
-        "version_literal": "0.7.4",
-        "chart_version_literal": "0.7.4",
-        "chart_version_set": "export CHART_VERSION=0.7.4",
-        "image_tag_set": "export IMAGE_TAG=0.7.4",
-        "image_tag_set_plain": "export IMAGE_TAG=0.7.4",
+        "version": "0.7.5",
+        "version_literal": "0.7.5",
+        "chart_version_literal": "0.7.5",
+        "chart_version_set": "export CHART_VERSION=0.7.5",
+        "image_tag_set": "export IMAGE_TAG=0.7.5",
+        "image_tag_set_plain": "export IMAGE_TAG=0.7.5",
         "bundle_download_link": {
           "label": "Download Bundle",
-          "href": "https://github.com/digital-asset/decentralized-canton-sync/releases/download/v0.7.4/0.7.4_splice-node.tar.gz"
+          "href": "https://github.com/digital-asset/decentralized-canton-sync/releases/download/v0.7.5/0.7.5_splice-node.tar.gz"
         },
         "openapi_download_link": {
           "label": "Download OpenAPI specs",
-          "href": "https://github.com/digital-asset/decentralized-canton-sync/releases/download/v0.7.4/0.7.4_openapi.tar.gz"
+          "href": "https://github.com/digital-asset/decentralized-canton-sync/releases/download/v0.7.5/0.7.5_openapi.tar.gz"
         },
         "helm_repo_prefix": "oci://ghcr.io/digital-asset/decentralized-canton-sync/helm",
         "docker_repo_prefix": "ghcr.io/digital-asset/decentralized-canton-sync/docker"
@@ -193,7 +193,7 @@
         },
         "testnet": {
           "branch": "main",
-          "externalVersion": "0.7.4",
+          "externalVersion": "0.7.5",
           "folderPathRepo": "splice-wallet-kernel"
         },
         "devnet": {
@@ -212,8 +212,8 @@
           "folderPathRepo": "nix/canton-sources.json"
         },
         "testnet": {
-          "branch": "release-line-0.7.4",
-          "externalVersion": "3.5.14",
+          "branch": "release-line-0.7.5",
+          "externalVersion": "3.5.15",
           "folderPathRepo": "nix/canton-sources.json"
         },
         "devnet": {
