@@ -258,6 +258,7 @@
               "appdev/deep-dives/composition-multi-party",
               "appdev/deep-dives/decentralization",
               "appdev/deep-dives/multi-hosting",
+              "appdev/deep-dives/multi-synchronizer-best-practices",
               {
                 "group": "External Signing",
                 "pages": [
