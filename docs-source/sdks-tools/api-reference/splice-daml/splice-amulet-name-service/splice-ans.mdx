@@ -1,0 +1,655 @@
+---
+title: "Splice.Ans"
+description: "Documentation for Splice.Ans"
+---
+
+{/* COPIED_START source="splice:daml/splice-amulet-name-service/docs/Splice-Ans.rst" tag="0.6.4" hash="d9f9bd5b" */}
+
+## Templates
+
+<div id="type-splice-ans-ansentry-10233">
+
+**template** AnsEntry
+
+</div>
+
+> A ans entry that needs to be renewed continuously. Renewal recreates this contract with an updated `expiresAt` field.
+>
+> Signatory: user, dso
+>
+> | Field       | Type                                                                                                                | Description |
+> |-------------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> | user        | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> | dso         | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> | name        | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        |             |
+> | url         | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        |             |
+> | description | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        |             |
+> | expiresAt   | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)   |             |
+>
+> - <div id="type-splice-ans-ansentryexpire-47228">
+>
+>   **Choice** AnsEntry_Expire
+>
+>   </div>
+>
+>   Controller: actor
+>
+>   Returns: AnsEntry_ExpireResult
+>
+>   | Field | Type                                                                                                                | Description |
+>   |-------|---------------------------------------------------------------------------------------------------------------------|-------------|
+>   | actor | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>
+> - <div id="type-splice-ans-ansentryrenew-67717">
+>
+>   **Choice** AnsEntry_Renew
+>
+>   </div>
+>
+>   Controller: user, dso
+>
+>   Returns: AnsEntry_RenewResult
+>
+>   | Field     | Type                                                                                                                   | Description |
+>   |-----------|------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | extension | [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) |             |
+>
+> - **Choice** Archive
+>
+>   Controller: user, dso
+>
+>   Returns: ()
+>
+>   (no fields)
+
+<div id="type-splice-ans-ansentrycontext-23879">
+
+**template** AnsEntryContext
+
+</div>
+
+> Signatory: dso, user
+>
+> | Field       | Type                                                                                                                                              | Description                                                                                                              |
+> |-------------|---------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+> | dso         | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                               |                                                                                                                          |
+> | user        | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                               |                                                                                                                          |
+> | name        | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)                                      |                                                                                                                          |
+> | url         | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)                                      |                                                                                                                          |
+> | description | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)                                      |                                                                                                                          |
+> | reference   | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionRequest | Reference to the corresponding subscription, note that the contract may already be archived. This is just a tracking id. |
+>
+> - <div id="type-splice-ans-ansentrycontextcollectentryrenewalpayment-76943">
+>
+>   **Choice** AnsEntryContext_CollectEntryRenewalPayment
+>
+>   </div>
+>
+>   Controller: dso
+>
+>   Returns: AnsEntryContext_CollectEntryRenewalPaymentResult
+>
+>   | Field           | Type                                                                                                                                              | Description                 |
+>   |-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------|
+>   | paymentCid      | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionPayment |                             |
+>   | entryCid        | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntry            | The currently active entry. |
+>   | transferContext | AppTransferContext                                                                                                                                |                             |
+>   | ansRulesCid     | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsRules            |                             |
+>
+> - <div id="type-splice-ans-ansentrycontextcollectinitialentrypayment-71811">
+>
+>   **Choice** AnsEntryContext_CollectInitialEntryPayment
+>
+>   </div>
+>
+>   Controller: dso
+>
+>   Returns: AnsEntryContext_CollectInitialEntryPaymentResult
+>
+>   | Field           | Type                                                                                                                                                     | Description |
+>   |-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | paymentCid      | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionInitialPayment |             |
+>   | transferContext | AppTransferContext                                                                                                                                       |             |
+>   | ansRulesCid     | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsRules                   |             |
+>
+> - <div id="type-splice-ans-ansentrycontextrejectentryinitialpayment-22257">
+>
+>   **Choice** AnsEntryContext_RejectEntryInitialPayment
+>
+>   </div>
+>
+>   Controller: dso
+>
+>   Returns: AnsEntryContext_RejectEntryInitialPaymentResult
+>
+>   | Field           | Type                                                                                                                                                     | Description |
+>   |-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | paymentCid      | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionInitialPayment |             |
+>   | transferContext | AppTransferContext                                                                                                                                       |             |
+>   | ansRulesCid     | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsRules                   |             |
+>
+> - <div id="type-splice-ans-ansentrycontextterminate-64657">
+>
+>   **Choice** AnsEntryContext_Terminate
+>
+>   </div>
+>
+>   Controller: actor
+>
+>   Returns: AnsEntryContext_TerminateResult
+>
+>   | Field                     | Type                                                                                                                                                 | Description |
+>   |---------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | actor                     | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                  |             |
+>   | terminatedSubscriptionCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription |             |
+>
+> - **Choice** Archive
+>
+>   Controller: dso, user
+>
+>   Returns: ()
+>
+>   (no fields)
+
+<div id="type-splice-ans-ansrules-7552">
+
+**template** AnsRules
+
+</div>
+
+> The rules governing how users can pay to use the Amulet Name service.
+>
+> Signatory: dso
+>
+> | Field  | Type                                                                                                                | Description |
+> |--------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> | dso    | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> | config | AnsRulesConfig                                                                                                      |             |
+>
+> - <div id="type-splice-ans-ansrulescollectentryrenewalpayment-11710">
+>
+>   **Choice** AnsRules_CollectEntryRenewalPayment
+>
+>   </div>
+>
+>   Controller: dso, user
+>
+>   Returns: AnsRules_CollectEntryRenewalPaymentResult
+>
+>   | Field           | Type                                                                                                                                              | Description                 |
+>   |-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------|
+>   | user            | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                               |                             |
+>   | entryContext    | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntryContext     |                             |
+>   | paymentCid      | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionPayment |                             |
+>   | entryCid        | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntry            | The currently active entry. |
+>   | transferContext | AppTransferContext                                                                                                                                |                             |
+>
+> - <div id="type-splice-ans-ansrulescollectinitialentrypayment-44970">
+>
+>   **Choice** AnsRules_CollectInitialEntryPayment
+>
+>   </div>
+>
+>   Controller: dso, user
+>
+>   Returns: AnsRules_CollectInitialEntryPaymentResult
+>
+>   | Field           | Type                                                                                                                                                     | Description |
+>   |-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | user            | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                      |             |
+>   | entryContext    | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntryContext            |             |
+>   | paymentCid      | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionInitialPayment |             |
+>   | transferContext | AppTransferContext                                                                                                                                       |             |
+>
+> - <div id="type-splice-ans-ansrulesrejectentryinitialpayment-30886">
+>
+>   **Choice** AnsRules_RejectEntryInitialPayment
+>
+>   </div>
+>
+>   Controller: dso
+>
+>   Returns: AnsRules_RejectEntryInitialPaymentResult
+>
+>   | Field           | Type                                                                                                                                                     | Description |
+>   |-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | paymentCid      | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionInitialPayment |             |
+>   | transferContext | AppTransferContext                                                                                                                                       |             |
+>
+> - <div id="type-splice-ans-ansrulesrequestentry-90125">
+>
+>   **Choice** AnsRules_RequestEntry
+>
+>   </div>
+>
+>   Controller: user
+>
+>   Returns: AnsRules_RequestEntryResult
+>
+>   | Field       | Type                                                                                                                | Description |
+>   |-------------|---------------------------------------------------------------------------------------------------------------------|-------------|
+>   | name        | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        |             |
+>   | url         | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        |             |
+>   | description | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        |             |
+>   | user        | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+
+## Data Types
+
+<div id="type-splice-ans-ansentrycontextcollectentryrenewalpaymentresult-69826">
+
+**data** AnsEntryContext_CollectEntryRenewalPaymentResult
+
+</div>
+
+> <div id="constr-splice-ans-ansentrycontextcollectentryrenewalpaymentresult-18109">
+>
+> AnsEntryContext_CollectEntryRenewalPaymentResult
+>
+> </div>
+>
+> > | Field                | Type                                                                                                                                                | Description |
+> > |----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | entryCid             | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntry              |             |
+> > | subscriptionStateCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState |             |
+>
+> **instance** GetField "entryCid" AnsEntryContext_CollectEntryRenewalPaymentResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntry)
+>
+> **instance** GetField "subscriptionStateCid" AnsEntryContext_CollectEntryRenewalPaymentResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState)
+>
+> **instance** SetField "entryCid" AnsEntryContext_CollectEntryRenewalPaymentResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntry)
+>
+> **instance** SetField "subscriptionStateCid" AnsEntryContext_CollectEntryRenewalPaymentResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AnsEntryContext AnsEntryContext_CollectEntryRenewalPayment AnsEntryContext_CollectEntryRenewalPaymentResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AnsEntryContext AnsEntryContext_CollectEntryRenewalPayment AnsEntryContext_CollectEntryRenewalPaymentResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AnsEntryContext AnsEntryContext_CollectEntryRenewalPayment AnsEntryContext_CollectEntryRenewalPaymentResult
+
+<div id="type-splice-ans-ansentrycontextcollectinitialentrypaymentresult-28518">
+
+**data** AnsEntryContext_CollectInitialEntryPaymentResult
+
+</div>
+
+> <div id="constr-splice-ans-ansentrycontextcollectinitialentrypaymentresult-16577">
+>
+> AnsEntryContext_CollectInitialEntryPaymentResult
+>
+> </div>
+>
+> > | Field                | Type                                                                                                                                                | Description |
+> > |----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | entryCid             | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntry              |             |
+> > | subscriptionStateCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState |             |
+>
+> **instance** GetField "entryCid" AnsEntryContext_CollectInitialEntryPaymentResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntry)
+>
+> **instance** GetField "subscriptionStateCid" AnsEntryContext_CollectInitialEntryPaymentResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState)
+>
+> **instance** SetField "entryCid" AnsEntryContext_CollectInitialEntryPaymentResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntry)
+>
+> **instance** SetField "subscriptionStateCid" AnsEntryContext_CollectInitialEntryPaymentResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AnsEntryContext AnsEntryContext_CollectInitialEntryPayment AnsEntryContext_CollectInitialEntryPaymentResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AnsEntryContext AnsEntryContext_CollectInitialEntryPayment AnsEntryContext_CollectInitialEntryPaymentResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AnsEntryContext AnsEntryContext_CollectInitialEntryPayment AnsEntryContext_CollectInitialEntryPaymentResult
+
+<div id="type-splice-ans-ansentrycontextrejectentryinitialpaymentresult-4316">
+
+**data** AnsEntryContext_RejectEntryInitialPaymentResult
+
+</div>
+
+> <div id="constr-splice-ans-ansentrycontextrejectentryinitialpaymentresult-49933">
+>
+> AnsEntryContext_RejectEntryInitialPaymentResult
+>
+> </div>
+>
+> > | Field     | Type                                                                                                                                                       | Description |
+> > |-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | amuletSum | AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet) |             |
+>
+> **instance** GetField "amuletSum" AnsEntryContext_RejectEntryInitialPaymentResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** SetField "amuletSum" AnsEntryContext_RejectEntryInitialPaymentResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AnsEntryContext AnsEntryContext_RejectEntryInitialPayment AnsEntryContext_RejectEntryInitialPaymentResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AnsEntryContext AnsEntryContext_RejectEntryInitialPayment AnsEntryContext_RejectEntryInitialPaymentResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AnsEntryContext AnsEntryContext_RejectEntryInitialPayment AnsEntryContext_RejectEntryInitialPaymentResult
+
+<div id="type-splice-ans-ansentrycontextterminateresult-94524">
+
+**data** AnsEntryContext_TerminateResult
+
+</div>
+
+> <div id="constr-splice-ans-ansentrycontextterminateresult-84145">
+>
+> AnsEntryContext_TerminateResult
+>
+> </div>
+>
+> > (no fields)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AnsEntryContext AnsEntryContext_Terminate AnsEntryContext_TerminateResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AnsEntryContext AnsEntryContext_Terminate AnsEntryContext_TerminateResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AnsEntryContext AnsEntryContext_Terminate AnsEntryContext_TerminateResult
+
+<div id="type-splice-ans-ansentryexpireresult-89925">
+
+**data** AnsEntry_ExpireResult
+
+</div>
+
+> <div id="constr-splice-ans-ansentryexpireresult-16032">
+>
+> AnsEntry_ExpireResult
+>
+> </div>
+>
+> > (no fields)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AnsEntry AnsEntry_Expire AnsEntry_ExpireResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AnsEntry AnsEntry_Expire AnsEntry_ExpireResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AnsEntry AnsEntry_Expire AnsEntry_ExpireResult
+
+<div id="type-splice-ans-ansentryrenewresult-81012">
+
+**data** AnsEntry_RenewResult
+
+</div>
+
+> <div id="constr-splice-ans-ansentryrenewresult-69331">
+>
+> AnsEntry_RenewResult
+>
+> </div>
+>
+> > | Field    | Type                                                                                                                                   | Description |
+> > |----------|----------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | entryCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntry |             |
+>
+> **instance** GetField "entryCid" AnsEntry_RenewResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntry)
+>
+> **instance** SetField "entryCid" AnsEntry_RenewResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntry)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AnsEntry AnsEntry_Renew AnsEntry_RenewResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AnsEntry AnsEntry_Renew AnsEntry_RenewResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AnsEntry AnsEntry_Renew AnsEntry_RenewResult
+
+<div id="type-splice-ans-ansrulesconfig-16984">
+
+**data** AnsRulesConfig
+
+</div>
+
+> <div id="constr-splice-ans-ansrulesconfig-70959">
+>
+> AnsRulesConfig
+>
+> </div>
+>
+> > | Field             | Type                                                                                                                   | Description |
+> > |-------------------|------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | renewalDuration   | [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) |             |
+> > | entryLifetime     | [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) |             |
+> > | entryFee          | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)     |             |
+> > | descriptionPrefix | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)           |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) AnsRulesConfig
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) AnsRulesConfig
+>
+> **instance** GetField "config" AnsRules AnsRulesConfig
+>
+> **instance** GetField "descriptionPrefix" AnsRulesConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** GetField "entryFee" AnsRulesConfig [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "entryLifetime" AnsRulesConfig [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)
+>
+> **instance** GetField "renewalDuration" AnsRulesConfig [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)
+>
+> **instance** SetField "config" AnsRules AnsRulesConfig
+>
+> **instance** SetField "descriptionPrefix" AnsRulesConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "entryFee" AnsRulesConfig [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "entryLifetime" AnsRulesConfig [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)
+>
+> **instance** SetField "renewalDuration" AnsRulesConfig [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)
+
+<div id="type-splice-ans-ansrulescollectentryrenewalpaymentresult-39091">
+
+**data** AnsRules_CollectEntryRenewalPaymentResult
+
+</div>
+
+> <div id="constr-splice-ans-ansrulescollectentryrenewalpaymentresult-73922">
+>
+> AnsRules_CollectEntryRenewalPaymentResult
+>
+> </div>
+>
+> > | Field                | Type                                                                                                                                                | Description |
+> > |----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | entryCid             | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntry              |             |
+> > | subscriptionStateCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState |             |
+>
+> **instance** GetField "entryCid" AnsRules_CollectEntryRenewalPaymentResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntry)
+>
+> **instance** GetField "subscriptionStateCid" AnsRules_CollectEntryRenewalPaymentResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState)
+>
+> **instance** SetField "entryCid" AnsRules_CollectEntryRenewalPaymentResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntry)
+>
+> **instance** SetField "subscriptionStateCid" AnsRules_CollectEntryRenewalPaymentResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AnsRules AnsRules_CollectEntryRenewalPayment AnsRules_CollectEntryRenewalPaymentResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AnsRules AnsRules_CollectEntryRenewalPayment AnsRules_CollectEntryRenewalPaymentResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AnsRules AnsRules_CollectEntryRenewalPayment AnsRules_CollectEntryRenewalPaymentResult
+
+<div id="type-splice-ans-ansrulescollectinitialentrypaymentresult-64239">
+
+**data** AnsRules_CollectInitialEntryPaymentResult
+
+</div>
+
+> <div id="constr-splice-ans-ansrulescollectinitialentrypaymentresult-27238">
+>
+> AnsRules_CollectInitialEntryPaymentResult
+>
+> </div>
+>
+> > | Field                | Type                                                                                                                                                | Description |
+> > |----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | entryCid             | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntry              |             |
+> > | subscriptionStateCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState |             |
+>
+> **instance** GetField "entryCid" AnsRules_CollectInitialEntryPaymentResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntry)
+>
+> **instance** GetField "subscriptionStateCid" AnsRules_CollectInitialEntryPaymentResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState)
+>
+> **instance** SetField "entryCid" AnsRules_CollectInitialEntryPaymentResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntry)
+>
+> **instance** SetField "subscriptionStateCid" AnsRules_CollectInitialEntryPaymentResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AnsRules AnsRules_CollectInitialEntryPayment AnsRules_CollectInitialEntryPaymentResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AnsRules AnsRules_CollectInitialEntryPayment AnsRules_CollectInitialEntryPaymentResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AnsRules AnsRules_CollectInitialEntryPayment AnsRules_CollectInitialEntryPaymentResult
+
+<div id="type-splice-ans-ansrulesrejectentryinitialpaymentresult-67395">
+
+**data** AnsRules_RejectEntryInitialPaymentResult
+
+</div>
+
+> <div id="constr-splice-ans-ansrulesrejectentryinitialpaymentresult-46056">
+>
+> AnsRules_RejectEntryInitialPaymentResult
+>
+> </div>
+>
+> > | Field     | Type                                                                                                                                                       | Description |
+> > |-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | amuletSum | AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet) |             |
+>
+> **instance** GetField "amuletSum" AnsRules_RejectEntryInitialPaymentResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** SetField "amuletSum" AnsRules_RejectEntryInitialPaymentResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AnsRules AnsRules_RejectEntryInitialPayment AnsRules_RejectEntryInitialPaymentResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AnsRules AnsRules_RejectEntryInitialPayment AnsRules_RejectEntryInitialPaymentResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AnsRules AnsRules_RejectEntryInitialPayment AnsRules_RejectEntryInitialPaymentResult
+
+<div id="type-splice-ans-ansrulesrequestentryresult-71096">
+
+**data** AnsRules_RequestEntryResult
+
+</div>
+
+> <div id="constr-splice-ans-ansrulesrequestentryresult-91097">
+>
+> AnsRules_RequestEntryResult
+>
+> </div>
+>
+> > | Field      | Type                                                                                                                                              | Description |
+> > |------------|---------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | entryCid   | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntryContext     |             |
+> > | requestCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionRequest |             |
+>
+> **instance** GetField "entryCid" AnsRules_RequestEntryResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntryContext)
+>
+> **instance** GetField "requestCid" AnsRules_RequestEntryResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionRequest)
+>
+> **instance** SetField "entryCid" AnsRules_RequestEntryResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntryContext)
+>
+> **instance** SetField "requestCid" AnsRules_RequestEntryResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionRequest)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AnsRules AnsRules_RequestEntry AnsRules_RequestEntryResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AnsRules AnsRules_RequestEntry AnsRules_RequestEntryResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AnsRules AnsRules_RequestEntry AnsRules_RequestEntryResult
+
+<div id="type-splice-ans-expectedentrycontext-86972">
+
+**data** ExpectedEntryContext
+
+</div>
+
+> <div id="constr-splice-ans-expectedentrycontext-22467">
+>
+> ExpectedEntryContext
+>
+> </div>
+>
+> > | Field     | Type                                                                                                                                              | Description |
+> > |-----------|---------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | dso       | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                               |             |
+> > | user      | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                               |             |
+> > | reference | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionRequest |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) ExpectedEntryContext
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) ExpectedEntryContext
+>
+> **instance** GetField "dso" ExpectedEntryContext [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "reference" ExpectedEntryContext ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionRequest)
+>
+> **instance** GetField "user" ExpectedEntryContext [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "dso" ExpectedEntryContext [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "reference" ExpectedEntryContext ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionRequest)
+>
+> **instance** SetField "user" ExpectedEntryContext [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+
+<div id="type-splice-ans-expectedpayment-99084">
+
+**data** ExpectedPayment
+
+</div>
+
+> <div id="constr-splice-ans-expectedpayment-84341">
+>
+> ExpectedPayment
+>
+> </div>
+>
+> > | Field  | Type                                                                                                                | Description |
+> > |--------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> > | dso    | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> > | sender | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) ExpectedPayment
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) ExpectedPayment
+>
+> **instance** GetField "dso" ExpectedPayment [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "sender" ExpectedPayment [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "dso" ExpectedPayment [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "sender" ExpectedPayment [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+
+## Functions
+
+<div id="function-splice-ans-fetchandvalidateinitialpayment-51068">
+
+fetchAndValidateInitialPayment
+: [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionInitialPayment -\> ExpectedPayment -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) SubscriptionInitialPayment
+
+</div>
+
+<div id="function-splice-ans-fetchandvalidatepayment-2827">
+
+fetchAndValidatePayment
+: [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionPayment -\> ExpectedPayment -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) SubscriptionPayment
+
+</div>
+
+<div id="function-splice-ans-fetchandvalidateentrycontext-91041">
+
+fetchAndValidateEntryContext
+: [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AnsEntryContext -\> ExpectedEntryContext -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) AnsEntryContext
+
+</div>
+
+<div id="function-splice-ans-validansconfig-37443">
+
+validAnsConfig
+: AnsRulesConfig -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+</div>
+
+{/* COPIED_END */}

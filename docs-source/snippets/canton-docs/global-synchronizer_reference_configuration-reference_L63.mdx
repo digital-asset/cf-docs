@@ -1,0 +1,19 @@
+```yaml
+# Scan endpoint for BFT reads
+scanAddress: "TRUSTED_SCAN_URL"
+
+# Wallet admin user(s) -- full IAM user ID, e.g. auth0|43b68e1e4978b000cefba352
+validatorWalletUsers:
+  - "OPERATOR_WALLET_USER_ID"
+
+# Authentication
+auth:
+  audience: "OIDC_AUTHORITY_VALIDATOR_AUDIENCE"
+  jwksUrl: "https://OIDC_AUTHORITY_URL/.well-known/jwks.json"
+
+# Contact point visible to other operators (Slack handle or email)
+contactPoint: "YOUR_CONTACT_POINT"
+
+# Wallet HTTP server and automations
+enableWallet: true
+```

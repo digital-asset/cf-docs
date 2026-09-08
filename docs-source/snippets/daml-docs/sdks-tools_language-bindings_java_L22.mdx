@@ -1,0 +1,16 @@
+```haskell
+template License
+  with
+    provider : Party
+    user : Party
+    description : Text
+    expiresAt : Time
+  where
+    signatory provider
+    observer user
+
+    choice Renew : ContractId License
+      with newExpiry : Time
+      controller user
+      do create this with expiresAt = newExpiry
+```

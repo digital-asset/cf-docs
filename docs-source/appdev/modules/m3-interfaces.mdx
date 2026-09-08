@@ -1,0 +1,22 @@
+---
+title: "Interfaces"
+description: "Define and implement Daml interfaces for polymorphic contract behavior and cross-template interoperability"
+---
+
+# Interfaces
+
+In Daml, an interface defines an abstract type together with a behavior specified by its view type, method signatures, and choices. For a template to conform to an interface, there must be a corresponding `interface instance` definition where all the methods of the interface (including the special `view` method) are implemented. This lets other developers write applications in terms of the interface instead of the concrete template, so contracts built on different templates can interoperate as long as they implement the same interface.
+
+To use interfaces, your Daml project must target Daml-LF version `1.15` or higher (the current default), and if using Canton, the synchronizer's protocol version must be `4` or higher.
+
+For the full syntax — interface declarations, view types, interface choices, `interface instance` clauses, required interfaces, and the `toInterface`/`fromInterface` family of functions — see [Reference: Interfaces](/appdev/reference/daml-language-reference#reference-interfaces) in the Daml Language Reference.
+
+## Interfaces on Canton Network
+
+Interfaces are central to interoperability across the Canton Network. Two Canton Improvement Proposals (CIPs) define standard interfaces that app developers should be aware of:
+
+- [CIP-0056 — Token Standard](https://github.com/canton-foundation/cips/blob/main/cip-0056/cip-0056.md): Defines a standard interface for fungible tokens on Canton Network. If your application issues or transfers tokens, implementing this interface ensures compatibility with wallets and other applications in the ecosystem.
+
+- [CIP-0103 — dApp Standard](https://github.com/mjuchli-da/cips/blob/cip-dapp-standard/cip-0103/cip-0103.md): Defines standard interfaces for decentralized applications. This CIP is particularly relevant for developers coming from Ethereum, as it maps familiar ERC-style patterns to Daml interfaces.
+
+When building applications on Canton Network, implementing these standard interfaces lets your contracts participate in the broader ecosystem without requiring custom integration with each counterparty.

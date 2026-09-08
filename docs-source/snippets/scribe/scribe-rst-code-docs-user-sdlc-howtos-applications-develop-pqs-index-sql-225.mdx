@@ -1,0 +1,9 @@
+```sql
+   call create_index_for_contract(
+     'token_open_wallet_qty_idx',
+     'register:DA.Register:TokenOpen',
+     '((payload->''wallet''->>''quantity'')::decimal)',
+     'btree'
+   );
+
+```

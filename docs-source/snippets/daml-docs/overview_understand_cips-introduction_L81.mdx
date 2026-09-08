@@ -1,0 +1,15 @@
+```haskell
+-- Implement CIP-0056 holding interface
+template MyToken
+  with
+    issuer : Party
+    holder : Party
+    amount : Decimal
+  where
+    signatory issuer
+    observer holder
+
+    -- Standard interface implementation
+    interface instance Holding.I for MyToken where
+      view = Holding.View with ...
+```

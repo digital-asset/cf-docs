@@ -1,0 +1,72 @@
+```scala
+@ participant1.parties.hosted()
+    res5: Seq[ListPartiesResult] = Vector(
+      ListPartiesResult(
+        partyResult = participant1::12201ff69b1d...,
+        participants = Vector(
+          ParticipantSynchronizers(
+            participant = PAR::participant1::12201ff69b1d...,
+            synchronizers = Vector(
+              SynchronizerPermission(synchronizerId = da::122032922613..., permission = Submission)
+            )
+          )
+        )
+      ),
+      ListPartiesResult(
+        partyResult = Alice::12201ff69b1d...,
+        participants = Vector(
+          ParticipantSynchronizers(
+            participant = PAR::participant1::12201ff69b1d...,
+            synchronizers = Vector(
+              SynchronizerPermission(synchronizerId = da::122032922613..., permission = Submission)
+            )
+          )
+        )
+      )
+    )
+```
+
+```scala
+@ participant1.parties.hosted("Alice")
+    res6: Seq[ListPartiesResult] = Vector(
+      ListPartiesResult(
+        partyResult = Alice::12201ff69b1d...,
+        participants = Vector(
+          ParticipantSynchronizers(
+            participant = PAR::participant1::12201ff69b1d...,
+            synchronizers = Vector(
+              SynchronizerPermission(synchronizerId = da::122032922613..., permission = Submission)
+            )
+          )
+        )
+      )
+    )
+```
+
+```scala
+@ participant1.parties.list()
+    res7: Seq[ListPartiesResult] = Vector(
+      ListPartiesResult(
+        partyResult = participant1::12201ff69b1d...,
+        participants = Vector(
+          ParticipantSynchronizers(
+            participant = PAR::participant1::12201ff69b1d...,
+            synchronizers = Vector(
+              SynchronizerPermission(synchronizerId = da::122032922613..., permission = Submission)
+            )
+          )
+        )
+      ),
+      ListPartiesResult(
+        partyResult = Alice::12201ff69b1d...,
+        participants = Vector(
+          ParticipantSynchronizers(
+            participant = PAR::participant1::12201ff69b1d...,
+            synchronizers = Vector(
+              SynchronizerPermission(synchronizerId = da::122032922613..., permission = Submission)
+            )
+          )
+        )
+      )
+    )
+```

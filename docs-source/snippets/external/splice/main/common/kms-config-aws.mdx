@@ -1,0 +1,14 @@
+import AwsKmsValues from '/snippets/external/splice/main/splice-literal-full-apps-app-src-pack-examples-sv-helm-kms-participant-aws-values.mdx';
+
+The mock configuration below for AWS KMS is included in `splice-node/examples/sv-helm/kms-participant-aws-values.yaml`:
+
+<AwsKmsValues />
+
+Please refer to the [Canton documentation](/global-synchronizer/production-operations/kms-operations#configure-a-amazon-web-services-aws-kms) for a list of supported configuration options and their meaning, as well as for instructions on configuring authentication to the KMS. Note again that Splice participants support the External Key Storage mode of KMS usage, so that (per the [relevant Canton docs](/global-synchronizer/production-operations/key-management)) the authentication credentials you supply must correspond to an entity with the following IAM permissions:
+
+- `kms:CreateKey`
+- `kms:TagResource`
+- `kms:Decrypt`
+- `kms:Sign`
+- `kms:DescribeKey`
+- `kms:GetPublicKey`

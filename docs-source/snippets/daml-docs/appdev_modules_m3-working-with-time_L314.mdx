@@ -1,0 +1,10 @@
+```daml
+choice Transfer
+      : ContractId SimpleIou
+      with
+        newOwner : Party
+      controller owner
+      do
+        assertMsg "newOwner cannot be equal to owner." (owner /= newOwner)
+        create this with owner = newOwner
+```

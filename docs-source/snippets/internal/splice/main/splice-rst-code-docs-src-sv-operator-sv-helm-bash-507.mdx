@@ -1,0 +1,14 @@
+```bash
+kubectl create secret generic sequencer-pg-secret \
+    --from-literal=postgresPassword=${POSTGRES_PASSWORD_SEQUENCER} \
+    -n sv
+kubectl create secret generic mediator-pg-secret \
+    --from-literal=postgresPassword=${POSTGRES_PASSWORD_MEDIATOR} \
+    -n sv
+kubectl create secret generic participant-pg-secret \
+    --from-literal=postgresPassword=${POSTGRES_PASSWORD_PARTICIPANT} \
+    -n sv
+kubectl create secret generic apps-pg-secret \
+    --from-literal=postgresPassword=${POSTGRES_PASSWORD_APPS} \
+    -n sv
+```

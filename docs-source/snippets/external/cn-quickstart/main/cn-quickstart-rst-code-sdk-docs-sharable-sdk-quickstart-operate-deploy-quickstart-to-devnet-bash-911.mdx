@@ -1,0 +1,7 @@
+```bash
+   cd cn-quickstart/quickstart/docker/modules/devnet
+   docker compose --env-file compose.env -f compose.yaml --profile devnet down -v
+   docker compose --env-file compose.env -f compose.yaml --profile devnet build --no-cache splice-onboarding
+   docker compose --env-file compose.env -f compose.yaml --profile devnet up -d
+
+```

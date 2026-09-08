@@ -1,0 +1,933 @@
+---
+title: "ListRegisteredSynchronizers"
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--operation"></div>
+
+
+<div className="x2mdx-ref-operation-shell">
+<div className="x2mdx-ref-operation-main">
+
+
+<div class="x2mdx-ref-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+
+
+  <span>Participant Administration</span>
+
+
+  <span class="x2mdx-ref-breadcrumb-separator">›</span>
+
+
+
+  <a href="../../../overview">Protobuf</a>
+
+
+  <span class="x2mdx-ref-breadcrumb-separator">›</span>
+
+
+
+  <a href="../../../packages/com-digitalasset-canton-admin-participant-v30">com.digitalasset.canton.admin.participant.v30</a>
+
+
+  <span class="x2mdx-ref-breadcrumb-separator">›</span>
+
+
+
+  <span>ListRegisteredSynchronizers</span>
+
+
+
+</div>
+
+
+<div class="x2mdx-ref-hero">
+
+  <p class="x2mdx-ref-eyebrow">com.digitalasset.canton.admin.participant.v30</p>
+
+
+  <h1 class="x2mdx-ref-title">ListRegisteredSynchronizers</h1>
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">gRPC</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--changed" href="#history-updated-3-5-1">Updated 3.5.1</a>
+
+</div>
+
+
+</div>
+
+<div class="x2mdx-ref-operation-bar">
+
+  <span class="x2mdx-ref-operation-method x2mdx-ref-operation-method--rpc">RPC</span>
+
+  <code>/com.digitalasset.canton.admin.participant.v30.SynchronizerConnectivityService/ListRegisteredSynchronizers</code>
+</div>
+
+
+## Protocol Details
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Protocol</dt>
+    <dd>gRPC</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Service</dt>
+    <dd>SynchronizerConnectivityService</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>RPC</dt>
+    <dd>ListRegisteredSynchronizers</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Client stream</dt>
+    <dd>No</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Server stream</dt>
+    <dd>No</dd>
+  </div>
+
+</dl>
+
+
+## Inputs
+
+
+
+<div class="x2mdx-ref-panel">
+  <div class="x2mdx-ref-panel-head">
+    <h3>ListRegisteredSynchronizersRequest</h3>
+
+  </div>
+
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Message</dt>
+    <dd>com.digitalasset.canton.admin.participant.v30.ListRegisteredSynchronizersRequest</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Client stream</dt>
+    <dd>No</dd>
+  </div>
+
+</dl>
+
+
+
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">all_statuses</code>
+      <span class="x2mdx-ref-type-badge">bool</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+## Outputs
+
+
+
+<div class="x2mdx-ref-panel">
+  <div class="x2mdx-ref-panel-head">
+    <h3>ListRegisteredSynchronizersResponse</h3>
+
+  </div>
+
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Message</dt>
+    <dd>com.digitalasset.canton.admin.participant.v30.ListRegisteredSynchronizersResponse</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Server stream</dt>
+    <dd>No</dd>
+  </div>
+
+</dl>
+
+
+
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">results</code>
+      <span class="x2mdx-ref-type-badge">repeated Result</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+## Related Schemas
+
+<AccordionGroup>
+
+<Accordion title="com.digitalasset.canton.admin.participant.v30.ListRegisteredSynchronizersRequest">
+<div class="x2mdx-ref-schema" id="schema-com-digitalasset-canton-admin-participant-v30-listregisteredsynchronizersrequest">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">all_statuses</code>
+      <span class="x2mdx-ref-type-badge">bool</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.digitalasset.canton.admin.participant.v30.ListRegisteredSynchronizersResponse">
+<div class="x2mdx-ref-schema" id="schema-com-digitalasset-canton-admin-participant-v30-listregisteredsynchronizersresponse">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">results</code>
+      <span class="x2mdx-ref-type-badge">repeated Result</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.digitalasset.canton.admin.participant.v30.ListRegisteredSynchronizersResponse.Status">
+<div class="x2mdx-ref-schema" id="schema-com-digitalasset-canton-admin-participant-v30-listregisteredsynchronizersresponse-status">
+
+
+
+  <ul class="x2mdx-ref-enum-list">
+
+    <li><code>STATUS_UNSPECIFIED</code></li>
+
+    <li><code>STATUS_ACTIVE</code></li>
+
+    <li><code>STATUS_HARD_MIGRATING_SOURCE</code></li>
+
+    <li><code>STATUS_HARD_MIGRATING_TARGET</code></li>
+
+    <li><code>STATUS_LSU_SOURCE</code></li>
+
+    <li><code>STATUS_LSU_TARGET</code></li>
+
+    <li><code>STATUS_INACTIVE</code></li>
+
+  </ul>
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.digitalasset.canton.admin.participant.v30.ListRegisteredSynchronizersResponse.Result">
+<div class="x2mdx-ref-schema" id="schema-com-digitalasset-canton-admin-participant-v30-listregisteredsynchronizersresponse-result">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">config</code>
+      <span class="x2mdx-ref-type-badge">SynchronizerConnectionConfig</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">connected</code>
+      <span class="x2mdx-ref-type-badge">bool</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">physical_synchronizer_id</code>
+      <span class="x2mdx-ref-type-badge">string</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">status</code>
+      <span class="x2mdx-ref-type-badge">Status</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">synchronizer_predecessor</code>
+      <span class="x2mdx-ref-type-badge">SynchronizerPredecessor</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.digitalasset.canton.admin.participant.v30.SynchronizerConnectionConfig">
+<div class="x2mdx-ref-schema" id="schema-com-digitalasset-canton-admin-participant-v30-synchronizerconnectionconfig">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">synchronizer_alias</code>
+      <span class="x2mdx-ref-type-badge">string</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">sequencer_connections</code>
+      <span class="x2mdx-ref-type-badge">SequencerConnections</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">manual_connect</code>
+      <span class="x2mdx-ref-type-badge">bool</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">physical_synchronizer_id</code>
+      <span class="x2mdx-ref-type-badge">string</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">priority</code>
+      <span class="x2mdx-ref-type-badge">int32</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">initial_retry_delay</code>
+      <span class="x2mdx-ref-type-badge">Duration</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">max_retry_delay</code>
+      <span class="x2mdx-ref-type-badge">Duration</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">time_tracker</code>
+      <span class="x2mdx-ref-type-badge">SynchronizerTimeTrackerConfig</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">initialize_from_trusted_synchronizer</code>
+      <span class="x2mdx-ref-type-badge">bool</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.digitalasset.canton.admin.sequencer.v30.SequencerConnections">
+<div class="x2mdx-ref-schema" id="schema-com-digitalasset-canton-admin-sequencer-v30-sequencerconnections">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">sequencer_connections</code>
+      <span class="x2mdx-ref-type-badge">repeated SequencerConnection</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">sequencer_trust_threshold</code>
+      <span class="x2mdx-ref-type-badge">uint32</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">submission_request_amplification</code>
+      <span class="x2mdx-ref-type-badge">SubmissionRequestAmplification</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">sequencer_liveness_margin</code>
+      <span class="x2mdx-ref-type-badge">uint32</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">sequencer_connection_pool_delays</code>
+      <span class="x2mdx-ref-type-badge">SequencerConnectionPoolDelays</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.digitalasset.canton.admin.sequencer.v30.SequencerConnection">
+<div class="x2mdx-ref-schema" id="schema-com-digitalasset-canton-admin-sequencer-v30-sequencerconnection">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">grpc</code>
+      <span class="x2mdx-ref-type-badge">Grpc</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">alias</code>
+      <span class="x2mdx-ref-type-badge">string</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">sequencer_id</code>
+      <span class="x2mdx-ref-type-badge">string</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.digitalasset.canton.admin.sequencer.v30.SequencerConnection.Grpc">
+<div class="x2mdx-ref-schema" id="schema-com-digitalasset-canton-admin-sequencer-v30-sequencerconnection-grpc">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">connections</code>
+      <span class="x2mdx-ref-type-badge">repeated string</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">transport_security</code>
+      <span class="x2mdx-ref-type-badge">bool</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">custom_trust_certificates</code>
+      <span class="x2mdx-ref-type-badge">bytes</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.digitalasset.canton.admin.sequencer.v30.SubmissionRequestAmplification">
+<div class="x2mdx-ref-schema" id="schema-com-digitalasset-canton-admin-sequencer-v30-submissionrequestamplification">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">factor</code>
+      <span class="x2mdx-ref-type-badge">uint32</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">patience</code>
+      <span class="x2mdx-ref-type-badge">Duration</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">confirmation_response_factor</code>
+      <span class="x2mdx-ref-type-badge">uint32</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">confirmation_response_patience</code>
+      <span class="x2mdx-ref-type-badge">Duration</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.digitalasset.canton.admin.sequencer.v30.SequencerConnectionPoolDelays">
+<div class="x2mdx-ref-schema" id="schema-com-digitalasset-canton-admin-sequencer-v30-sequencerconnectionpooldelays">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">min_restart_delay</code>
+      <span class="x2mdx-ref-type-badge">Duration</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">max_restart_delay</code>
+      <span class="x2mdx-ref-type-badge">Duration</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">subscription_request_delay</code>
+      <span class="x2mdx-ref-type-badge">Duration</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">warn_validation_delay</code>
+      <span class="x2mdx-ref-type-badge">Duration</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.digitalasset.canton.admin.time.v30.SynchronizerTimeTrackerConfig">
+<div class="x2mdx-ref-schema" id="schema-com-digitalasset-canton-admin-time-v30-synchronizertimetrackerconfig">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">observation_latency</code>
+      <span class="x2mdx-ref-type-badge">Duration</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">patience_duration</code>
+      <span class="x2mdx-ref-type-badge">Duration</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">min_observation_duration</code>
+      <span class="x2mdx-ref-type-badge">Duration</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">time_proof_request</code>
+      <span class="x2mdx-ref-type-badge">TimeProofRequestConfig</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.digitalasset.canton.admin.time.v30.TimeProofRequestConfig">
+<div class="x2mdx-ref-schema" id="schema-com-digitalasset-canton-admin-time-v30-timeproofrequestconfig">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">initial_retry_delay</code>
+      <span class="x2mdx-ref-type-badge">Duration</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">max_retry_delay</code>
+      <span class="x2mdx-ref-type-badge">Duration</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">max_sequencing_delay</code>
+      <span class="x2mdx-ref-type-badge">Duration</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.digitalasset.canton.admin.topology.v30.SynchronizerPredecessor">
+<div class="x2mdx-ref-schema" id="schema-com-digitalasset-canton-admin-topology-v30-synchronizerpredecessor">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">predecessor_physical_id</code>
+      <span class="x2mdx-ref-type-badge">string</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">upgrade_time</code>
+      <span class="x2mdx-ref-type-badge">Timestamp</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">is_late_upgrade</code>
+      <span class="x2mdx-ref-type-badge">bool</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+</AccordionGroup>
+
+
+## History
+
+<div class="x2mdx-ref-history" aria-label="Reference history">
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-3-5-1">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">3.5.1</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">file updated</p>
+
+  </div>
+
+</div>
+
+
+</div>
+
+<div className="x2mdx-ref-right-rail" role="complementary" aria-label="Examples and responses">
+
+  <div className="x2mdx-ref-rail-panel">
+  <div className="x2mdx-ref-rail-code">
+<div className="x2mdx-ref-rail-head">
+  <span className="x2mdx-ref-rail-heading">grpcurl</span>
+
+</div>
+
+```bash grpcurl
+# Add -plaintext if the server is not using TLS.
+grpcurl \
+  -d @ \
+  <HOST:PORT> \
+  com.digitalasset.canton.admin.participant.v30.SynchronizerConnectivityService/ListRegisteredSynchronizers <<'EOF'
+{
+  "allStatuses": true
+}
+EOF
+```
+
+</div>
+  </div>
+
+  <div className="x2mdx-ref-rail-panel">
+  <div className="x2mdx-ref-rail-code x2mdx-ref-rail-code--response">
+<div className="x2mdx-ref-rail-head">
+  <span className="x2mdx-ref-rail-heading">OK</span>
+
+  <span className="x2mdx-ref-response-label">application/json</span>
+
+</div>
+
+```json OK
+{
+  "results": [
+    {
+      "config": {
+        "synchronizerAlias": "string",
+        "sequencerConnections": {
+          "sequencerConnections": [
+            {}
+          ],
+          "sequencerTrustThreshold": 0,
+          "submissionRequestAmplification": {},
+          "sequencerLivenessMargin": 0,
+          "sequencerConnectionPoolDelays": {}
+        },
+        "manualConnect": true,
+        "physicalSynchronizerId": "string",
+        "priority": 0,
+        "initialRetryDelay": "string",
+        "maxRetryDelay": "string",
+        "timeTracker": {
+          "observationLatency": "string",
+          "patienceDuration": "string",
+          "minObservationDuration": "string",
+          "timeProofRequest": {}
+        }
+      },
+      "connected": true,
+      "physicalSynchronizerId": "string",
+      "status": "STATUS_UNSPECIFIED",
+      "synchronizerPredecessor": {
+        "predecessorPhysicalId": "string",
+        "upgradeTime": "string",
+        "isLateUpgrade": true
+      }
+    }
+  ]
+}
+```
+
+</div>
+  </div>
+
+</div>
+
+</div>

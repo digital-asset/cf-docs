@@ -1,0 +1,7 @@
+```haskell
+sumArrs : [Int] -> [Int] -> [Int]
+sumArrs arr1 arr2 =
+  let l = min (length arr1) (length arr2)
+      sumAtI i = (arr1 !! i) + (arr2 !! i)
+   in foldl (\state i -> (sumAtI i) :: state) [] [1..(l-1)]
+```

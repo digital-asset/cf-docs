@@ -1,0 +1,7 @@
+```sql
+-- Dry run: inspect scope of the proposed reset
+select * from validate_reset_offset('<offset>');
+
+-- Destructive: execute the reset
+select * from reset_to_offset('<offset>');
+```

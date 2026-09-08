@@ -1,0 +1,7 @@
+```sql
+SELECT contract_id, template_fqn, created_effective_at
+FROM creates()
+WHERE witnesses @> ARRAY['Alice::1234...']
+ORDER BY created_effective_at DESC
+LIMIT 50;
+```

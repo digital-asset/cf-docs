@@ -1,0 +1,106 @@
+---
+title: "Reward Sharing"
+description: "How app providers share traffic-based app rewards with beneficiaries"
+---
+
+## Overview
+
+When [traffic-based app rewards](/global-synchronizer/splice-fundamentals/traffic-based-app-rewards)
+are enabled, featured app providers receive `Splice.Amulet.RewardCouponV2`
+contracts for each round in which their application was attributed traffic burn above the app reward threshold. Reward
+sharing allows the provider to distribute (part of) the minting allowance of these coupons to other
+parties (beneficiaries) before minting, using the `assignBeneficiaries` API
+provided by the `splice-api-reward-assignment-v1` interface package.
+
+<Note>
+API reference docs for `splice-api-reward-assignment-v1` are [forthcoming](https://github.com/canton-network/cf-docs/issues/838).
+</Note>
+
+Validator nodes have built-in support for automating this kind of reward sharing, which can be configured by the validator operator as part of the validator node configuration.
+
+External parties must have an active
+[minting delegation](/global-synchronizer/splice-fundamentals/rewards-minting)
+to participate in reward sharing.
+
+## Configuration
+
+Reward sharing is configured in the validator node's configuration file under
+`canton.validator-apps.validator_backend.reward-sharing-config-by-party`. Each
+entry maps a provider party ID to a `RewardSharingConfig`:
+
+```hocon
+canton.validator-apps.validator_backend {
+  reward-sharing-config-by-party = {
+    # 30% -> charlie, 20% -> dave, remaining 50% stays with alice
+    "alice::1220abc...def" = {
+      # Minimum remaining coupon TTL before sharing is triggered (default: 30h).
+      # With the default 36h coupon TTL, 25h means sharing fires ~11h after creation.
+      min-ttl-after-sharing = 25h
+      beneficiaries = [
+        # percentage: fraction of reward in (0.0, 1.0]; provider keeps the remainder
+        { beneficiary = "charlie::1220111...222", percentage = 0.3 },
+        { beneficiary = "dave::1220333...444", percentage = 0.2 },
+      ]
+    }
+
+    # External party bob sends 100% of rewards to a treasury party
+    "bob::1220bbb...ccc" = {
+      min-ttl-after-sharing = 25h
+      # Max coupons to share per trigger run (default: 100)
+      batch-size = 50
+      beneficiaries = [
+        { beneficiary = "treasury::1220eee...fff", percentage = 1.0 },
+      ]
+    }
+  }
+}
+```
+
+## Batched Sharing
+
+The automation batches sharing to reduce traffic costs. Rather than sharing
+each `Splice.Amulet.RewardCouponV2` individually as it arrives, the
+automation waits until any coupon's remaining TTL drops below
+`min-ttl-after-sharing`, then shares all accumulated coupons in one
+transaction.
+
+For example, with the default `Splice.Amulet.RewardCouponV2` TTL of 36
+hours (configured via `RewardConfig.rewardCouponTimeToLive`) and
+`min-ttl-after-sharing` set to 30 hours, sharing triggers approximately 6
+hours after the first coupon is created.
+
+The `batch-size` property (default: 100) limits the maximum number of coupons
+processed per trigger run. If more coupons have accumulated than the batch
+size, the automation processes them across multiple runs.
+
+When sharing a batch, each beneficiary receives the same number of coupons
+as the number of input coupons being shared. Each coupon created for a
+beneficiary tracks the round number from the original coupon, allowing
+beneficiaries to identify which round a reward originated from.
+
+## Minting After Sharing
+
+Beneficiaries mint their assigned coupons using the same mechanisms as any
+other `Splice.Amulet.RewardCouponV2` — either via the wallet app automation
+for local parties, or via a
+[minting delegation](/global-synchronizer/splice-fundamentals/rewards-minting)
+for external parties. See
+[Minting](/global-synchronizer/splice-fundamentals/traffic-based-app-rewards#minting)
+for details.
+
+## Limitations
+
+- **No re-sharing**: beneficiaries who receive shared rewards cannot use the
+  `assignBeneficiaries` API to further share them. Only the original provider
+  can assign beneficiaries.
+- **Same expiry**: shared coupons retain the same expiry as the original
+  `Splice.Amulet.RewardCouponV2`. With the default 36-hour TTL, the
+  `min-ttl-after-sharing` value must leave sufficient time for beneficiaries
+  to mint their coupons before expiry.
+- **Maximum 20 beneficiaries** per `Splice.Amulet.RewardCouponV2`.
+
+## Further Reading
+
+- [Traffic-Based App Rewards](/global-synchronizer/splice-fundamentals/traffic-based-app-rewards) — how traffic-based rewards are computed
+- [Minting Delegations](/global-synchronizer/splice-fundamentals/rewards-minting) — delegating minting authority for external parties
+- [App Rewards](/appdev/app-rewards) — overview of the app rewards system including featured app status

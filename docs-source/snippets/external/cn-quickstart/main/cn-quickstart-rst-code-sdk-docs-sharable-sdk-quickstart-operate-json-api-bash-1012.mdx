@@ -1,0 +1,83 @@
+```bash
+   #!/bin/bash
+   # Complete LocalNet Setup Script
+   
+   
+   # 1. Get Admin Tokens (for querying users)
+   USER_ADMIN_TOKEN=$(curl -fsS "http://keycloak.localhost:8082/realms/AppUser/protocol/openid-connect/token" \
+     -H 'Content-Type: application/x-www-form-urlencoded' \
+     -d 'client_id=app-user-validator' \
+     -d 'client_secret=6m12QyyGl81d9nABWQXMycZdXho6ejEX' \
+     -d 'grant_type=client_credentials' \
+     -d 'scope=openid' | jq -r .access_token)
+   
+   
+   PROVIDER_ADMIN_TOKEN=$(curl -fsS "http://keycloak.localhost:8082/realms/AppProvider/protocol/openid-connect/token" \
+     -H 'Content-Type: application/x-www-form-urlencoded' \
+     -d 'client_id=app-provider-validator' \
+     -d 'client_secret=AL8648b9SfdTFImq7FV56Vd0KHifHBuC' \
+     -d 'grant_type=client_credentials' \
+     -d 'scope=openid' | jq -r .access_token)
+   
+   
+   # 2. Discover User IDs and Party IDs
+   APP_USER_USER_ID=$(curl -s "http://localhost:2975/v2/users" \
+     -H "Authorization: Bearer $USER_ADMIN_TOKEN" | \
+     jq -r '.users[] | select(.metadata.annotations.username == "app-user") | .id')
+   
+   
+   APP_USER_PARTY=$(curl -s "http://localhost:2975/v2/users/$APP_USER_USER_ID" \
+     -H "Authorization: Bearer $USER_ADMIN_TOKEN" | jq -r '.user.primaryParty')
+   
+   
+   APP_PROVIDER_USER_ID=$(curl -s "http://localhost:3975/v2/users" \
+     -H "Authorization: Bearer $PROVIDER_ADMIN_TOKEN" | \
+     jq -r '.users[] | select(.metadata.annotations.username == "app-provider") | .id')
+   
+   
+   APP_PROVIDER_PARTY=$(curl -s "http://localhost:3975/v2/users/$APP_PROVIDER_USER_ID" \
+     -H "Authorization: Bearer $PROVIDER_ADMIN_TOKEN" | jq -r '.user.primaryParty')
+   
+   
+   # 3. Get User Tokens (for party operations)
+   USER_TOKEN=$(curl -f -s -S "http://keycloak.localhost:8082/realms/AppUser/protocol/openid-connect/token" \
+     -H 'Content-Type: application/x-www-form-urlencoded' \
+     -d 'client_id=app-user-unsafe' \
+     -d 'username=app-user' \
+     -d 'password=abc123' \
+     -d 'grant_type=password' \
+     -d 'scope=openid' | jq -r .access_token)
+   
+   
+   PROVIDER_TOKEN=$(curl -f -s -S "http://keycloak.localhost:8082/realms/AppProvider/protocol/openid-connect/token" \
+     -H 'Content-Type: application/x-www-form-urlencoded' \
+     -d 'client_id=app-provider-unsafe' \
+     -d 'username=app-provider' \
+     -d 'password=abc123' \
+     -d 'grant_type=password' \
+     -d 'scope=openid' | jq -r .access_token)
+   
+   
+   # 4. Get Package ID
+   PACKAGE_ID=$(dpm damlc inspect-dar daml/licensing/.daml/dist/quickstart-licensing-0.0.1.dar | \
+     grep "quickstart-licensing-0.0.1-" | grep -v "dalf" | tail -1 | awk '{print $2}' | tr -d '"')
+   
+   
+   # 5. Display all variables
+   echo "=== Setup Complete ==="
+   echo "APP_USER_USER_ID: $APP_USER_USER_ID"
+   echo "APP_USER_PARTY: $APP_USER_PARTY"
+   echo "APP_PROVIDER_USER_ID: $APP_PROVIDER_USER_ID"
+   echo "APP_PROVIDER_PARTY: $APP_PROVIDER_PARTY"
+   echo "PACKAGE_ID: $PACKAGE_ID"
+   echo ""
+   echo "Tokens set (first 50 chars):"
+   echo "USER_TOKEN: ${USER_TOKEN:0:50}..."
+   echo "PROVIDER_TOKEN: ${PROVIDER_TOKEN:0:50}..."
+   
+   
+   # Check if the user exists on the participant
+   curl "http://localhost:2975/v2/users/92a520cb-2f09-4e55-b465-d178c6cfe5e4" \
+     -H "Authorization: Bearer $USER_ADMIN_TOKEN"
+
+```

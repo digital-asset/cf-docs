@@ -1,0 +1,17 @@
+```scala
+@ val proposals = participant2.topology.party_to_participant_mappings.list_hosting_proposals(synchronizerId, participant2.id)
+    proposals : Seq[com.digitalasset.canton.admin.api.client.data.topology.ListMultiHostingProposal] = Vector(
+      ListMultiHostingProposal(
+        txHash = SHA-256:f77e8ccd88df...,
+        party = Alice::12201ff69b1d...,
+        permission = Confirmation$,
+        others = PAR::participant1::12201ff69b1d... -> Confirmation$,
+        threshold = 1
+      )
+    )
+```
+
+```scala
+@ proposals.map { p => participant2.topology.transactions.authorize(synchronizerId, p.txHash); p.txHash}
+    res3: Seq[TopologyTransaction.TxHash] = Vector(TxHash(hash = SHA-256:f77e8ccd88df...))
+```

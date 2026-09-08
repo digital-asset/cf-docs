@@ -1,0 +1,13 @@
+```haskell
+template CoinIssueAgreement
+  with
+    issuer: Party
+    owner: Party
+  where
+    signatory issuer, owner
+
+    nonconsuming choice Issue : ContractId Coin
+      with amount: Decimal
+      controller issuer
+      do create Coin with issuer; owner; amount; delegates = []
+```

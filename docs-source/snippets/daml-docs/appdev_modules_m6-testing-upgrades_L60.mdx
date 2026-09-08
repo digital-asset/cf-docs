@@ -1,0 +1,18 @@
+```haskell
+testV1ContractWithV2Code : Script ()
+testV1ContractWithV2Code = do
+  issuer <- allocateParty "Issuer"
+  holder <- allocateParty "Holder"
+
+  -- Create with v1 fields only
+  cid <- submit issuer do
+    createCmd License with
+      info = LicenseInfo with
+        holder; issuer
+        product = "Widget"
+        expiryDate = None  -- v2 field, set to None
+
+  -- Fetch and verify v2 fields default correctly
+  Some license <- queryContractId issuer cid
+  assertMsg "expiryDate should be None" (license.info.expiryDate == None)
+```

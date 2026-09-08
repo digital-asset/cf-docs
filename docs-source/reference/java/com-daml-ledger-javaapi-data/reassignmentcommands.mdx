@@ -1,0 +1,79 @@
+---
+title: "ReassignmentCommands"
+description: "This class can be used to build a valid submission. It provides create(String, String, String, UnassignCommand) for initial creation and methods to set optional parameters e.g withWorkflowId(String), withSubmissionId(String) etc. Usage: var submission = ReassignmentCommands.create(userId, commandId, synchronizerId, unassingnCommand) .withWorkflowId(workflowId) .with..."
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--collection"></div>
+
+
+<p class="x2mdx-ref-back"><a href="./index">Back to package</a></p>
+
+<div class="x2mdx-ref-hero">
+
+  <p class="x2mdx-ref-eyebrow">com.daml.ledger.javaapi.data</p>
+
+
+  <h1 class="x2mdx-ref-title">ReassignmentCommands</h1>
+
+
+  <p class="x2mdx-ref-summary">This class can be used to build a valid submission. It provides create(String, String, String, UnassignCommand) for initial creation and methods to set optional parameters e.g withWorkflowId(String), withSubmissionId(String) etc. Usage: var submission = ReassignmentCommands.create(userId, commandId, synchronizerId, unassingnCommand) .withWorkflowId(workflowId) .with...</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Java</span>
+
+</div>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Package</dt>
+    <dd>com.daml.ledger.javaapi.data</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Upstream docs</dt>
+    <dd><a href="https://javadoc.io/doc/com.daml/bindings-java/3.5.15/com/daml/ledger/javaapi/data/ReassignmentCommands.html">Open Javadoc</a></dd>
+  </div>
+
+</dl>
+
+</div>
+
+
+## Signature
+
+
+```java
+public final class ReassignmentCommands extends Object
+```
+
+
+
+
+
+
+
+## Members
+
+
+| Member | Lifecycle | Upstream docs |
+| --- | --- | --- |
+| `ReassignmentCommands(Optional<String>, String, String, String, List<ReassignmentCommand>, Optional<String>)` | - | [Open](<https://javadoc.io/doc/com.daml/bindings-java/3.5.15/com/daml/ledger/javaapi/data/ReassignmentCommands.html#%3Cinit%3E%28java.util.Optional,java.lang.String,java.lang.String,java.lang.String,java.util.List,java.util.Optional%29>) |
+| `create(String, String, String, AssignCommand)` | - | [Open](<https://javadoc.io/doc/com.daml/bindings-java/3.5.15/com/daml/ledger/javaapi/data/ReassignmentCommands.html#create%28java.lang.String,java.lang.String,java.lang.String,com.daml.ledger.javaapi.data.AssignCommand%29>) |
+| `create(String, String, String, UnassignCommand)` | - | [Open](<https://javadoc.io/doc/com.daml/bindings-java/3.5.15/com/daml/ledger/javaapi/data/ReassignmentCommands.html#create%28java.lang.String,java.lang.String,java.lang.String,com.daml.ledger.javaapi.data.UnassignCommand%29>) |
+| `equals(Object)` | - | [Open](<https://javadoc.io/doc/com.daml/bindings-java/3.5.15/com/daml/ledger/javaapi/data/ReassignmentCommands.html#equals%28java.lang.Object%29>) |
+| `fromProto(ReassignmentCommandOuterClass.ReassignmentCommands)` | - | [Open](<https://javadoc.io/doc/com.daml/bindings-java/3.5.15/com/daml/ledger/javaapi/data/ReassignmentCommands.html#fromProto%28com.daml.ledger.api.v2.ReassignmentCommandOuterClass.ReassignmentCommands%29>) |
+| `getCommandId()` | - | [Open](<https://javadoc.io/doc/com.daml/bindings-java/3.5.15/com/daml/ledger/javaapi/data/ReassignmentCommands.html#getCommandId%28%29>) |
+| `getCommands()` | - | [Open](<https://javadoc.io/doc/com.daml/bindings-java/3.5.15/com/daml/ledger/javaapi/data/ReassignmentCommands.html#getCommands%28%29>) |
+| `getSubmissionId()` | - | [Open](<https://javadoc.io/doc/com.daml/bindings-java/3.5.15/com/daml/ledger/javaapi/data/ReassignmentCommands.html#getSubmissionId%28%29>) |
+| `getSubmitter()` | - | [Open](<https://javadoc.io/doc/com.daml/bindings-java/3.5.15/com/daml/ledger/javaapi/data/ReassignmentCommands.html#getSubmitter%28%29>) |
+| `getUserId()` | - | [Open](<https://javadoc.io/doc/com.daml/bindings-java/3.5.15/com/daml/ledger/javaapi/data/ReassignmentCommands.html#getUserId%28%29>) |
+| `getWorkflowId()` | - | [Open](<https://javadoc.io/doc/com.daml/bindings-java/3.5.15/com/daml/ledger/javaapi/data/ReassignmentCommands.html#getWorkflowId%28%29>) |
+| `hashCode()` | - | [Open](<https://javadoc.io/doc/com.daml/bindings-java/3.5.15/com/daml/ledger/javaapi/data/ReassignmentCommands.html#hashCode%28%29>) |
+| `toProto()` | - | [Open](<https://javadoc.io/doc/com.daml/bindings-java/3.5.15/com/daml/ledger/javaapi/data/ReassignmentCommands.html#toProto%28%29>) |
+| `toString()` | - | [Open](<https://javadoc.io/doc/com.daml/bindings-java/3.5.15/com/daml/ledger/javaapi/data/ReassignmentCommands.html#toString%28%29>) |
+| `withSubmissionId(String)` | - | [Open](<https://javadoc.io/doc/com.daml/bindings-java/3.5.15/com/daml/ledger/javaapi/data/ReassignmentCommands.html#withSubmissionId%28java.lang.String%29>) |
+| `withWorkflowId(String)` | - | [Open](<https://javadoc.io/doc/com.daml/bindings-java/3.5.15/com/daml/ledger/javaapi/data/ReassignmentCommands.html#withWorkflowId%28java.lang.String%29>) |

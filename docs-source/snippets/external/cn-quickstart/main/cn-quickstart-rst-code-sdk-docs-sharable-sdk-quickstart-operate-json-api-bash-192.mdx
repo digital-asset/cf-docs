@@ -1,0 +1,7 @@
+```bash
+   DSO_PARTY=$(curl -s "http://localhost:2975/v2/parties" \
+     -H "Authorization: Bearer $USER_ADMIN_TOKEN" | \
+     jq -r '.partyDetails[] | select(.party | startswith("DSO::")) | .party')
+   echo "DSO Party: $DSO_PARTY"
+
+```

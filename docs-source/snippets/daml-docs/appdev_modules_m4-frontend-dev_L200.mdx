@@ -1,0 +1,43 @@
+```typescript
+export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+    const [user, setUser] = useState<AuthenticatedUser | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    const fetchUser = useCallback(async () => {
+        setLoading(true);
+        try {
+            const client: Client = await api.getClient();
+            const response = await client.getAuthenticatedUser();
+            setUser(response.data);
+        } catch (error) {
+            if ((error as any)?.response?.status === 401) {
+                setUser(null);
+            } else {
+                toast.displayError('Error fetching user');
+            }
+        } finally {
+            setLoading(false);
+        }
+    }, [setUser, setLoading, toast]);
+
+    const logout = useCallback(async () => {
+        const response = await fetch('/api/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-XSRF-TOKEN': getCsrfToken(),
+            },
+        });
+        if (response.ok) {
+            clearUser();
+            navigate('/');
+        }
+    }, [clearUser, toast, navigate]);
+
+    return (
+        <UserContext.Provider value={{ user, loading, fetchUser, clearUser, logout }}>
+            {children}
+        </UserContext.Provider>
+    );
+};
+```

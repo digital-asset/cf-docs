@@ -1,0 +1,6 @@
+```sql
+   select *
+   from active('register:DA.Register:IssuerApproval')
+   where payload->'issue'->>'issuer' = 'foo';
+
+```

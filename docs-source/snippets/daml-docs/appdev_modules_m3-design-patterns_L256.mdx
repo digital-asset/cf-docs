@@ -1,0 +1,21 @@
+```haskell
+test_issuance = do
+  setupResult@(alice, bob, bank, aha, ahb) <- setupRoles
+
+  assetCid <- submit bank do
+    exerciseCmd aha Issue_Asset
+      with
+        symbol = "USD"
+        quantity = 100.0
+
+  Some asset <- queryContractId bank assetCid
+  assert (asset == Asset with
+      issuer = bank
+      owner = alice
+      symbol = "USD"
+      quantity = 100.0
+      observers = []
+        )
+
+  return (setupResult, assetCid)
+```

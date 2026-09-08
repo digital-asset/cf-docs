@@ -1,0 +1,33 @@
+```scala
+@ val initialSnapshot = sequencer2.topology.transactions.export_topology_snapshotV2(store = sequencer2TempStore)
+    initialSnapshot : com.google.protobuf.ByteString = <ByteString@7ee1c9a9 size=6338 contents="\310\002\n\303\002\n\f\b\240\361\216\322\006\020\320\346\232\276\001\032\244\002\n\237\002\n\215\001\n\210\001\b\001\020\001\032\201\001\n\177\nD1220c...">
+```
+
+```scala
+@ val synchronizerParams = StaticSynchronizerParameters.tryReadFromFile("tmp/synchronizer-bootstrapping-files/params.proto")
+    synchronizerParams : StaticSynchronizerParameters = StaticSynchronizerParameters(
+      required signing specs = RequiredSigningSpecs(
+        algorithms = Set(Ed25519, EC-DSA-SHA256, EC-DSA-SHA384),
+        keys = Set(EC-Secp256k1, EC-P384, EC-Curve25519, EC-P256)
+      ),
+      required encryption specs = RequiredEncryptionSpecs(
+        algorithms = Set(ECIES_HMAC256_AES128-CBC, RSA-OAEP-SHA256),
+        keys = Set(EC-P256, RSA-2048)
+      ),
+      required symmetric key schemes = AES128-GCM,
+      required hash algorithms = SHA-256,
+      required crypto key formats = Set(
+        Raw,
+        DER-encoded X.509 SubjectPublicKeyInfo,
+        DER-encoded PKCS #8 PrivateKeyInfo
+      ),
+      topology change delay = 0.25s,
+      protocol version = 35,
+      serial = 0
+    )
+```
+
+```scala
+@ sequencer2.setup.assign_from_genesis_stateV2(initialSnapshot, synchronizerParams)
+    res36: com.digitalasset.canton.synchronizer.sequencer.admin.grpc.InitializeSequencerResponse = InitializeSequencerResponse(replicated = true)
+```

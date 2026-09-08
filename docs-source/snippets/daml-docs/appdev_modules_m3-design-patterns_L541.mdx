@@ -1,0 +1,37 @@
+```haskell
+template LockableCoin
+  with
+    owner: Party
+    issuer: Party
+    amount: Decimal
+    locker: Party
+  where
+    signatory issuer, owner
+    observer locker
+
+    ensure amount > 0.0
+
+    -- Transfer can only happen if not locked
+    choice Transfer : ContractId TransferProposal
+      with newOwner: Party
+      controller owner
+      do
+        assert (locker == owner)
+        create TransferProposal with coin=this; newOwner
+
+    -- Lock by bringing a locker on board
+    choice Lock : ContractId LockableCoin
+      with newLocker: Party
+      controller owner
+      do
+        assert (newLocker /= owner)
+        create this with locker = newLocker
+
+    -- Unlock restores owner control
+    choice Unlock
+      : ContractId LockableCoin
+      controller locker
+      do
+        assert (locker /= owner)
+        create this with locker = owner
+```

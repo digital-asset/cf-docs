@@ -1,0 +1,294 @@
+---
+title: "Splice.Api.Token.MetadataV1"
+description: "Documentation for Splice.Api.Token.MetadataV1"
+---
+
+{/* COPIED_START source="splice:token-standard/splice-api-token-metadata-v1/docs/Splice-Api-Token-MetadataV1.rst" hash="621f860b" */}
+
+Types and interfaces for retrieving metadata about tokens.
+
+## Interfaces
+
+<div id="type-splice-api-token-metadatav1-anycontract-39598">
+
+**interface** AnyContract
+
+</div>
+
+> Interface used to represent arbitrary contracts. Note that this is not expected to be implemented by any template, so it should only be used in the form `ContractId AnyContract` and through `coerceContractId` but not through any of the interface functions like `fetchFromInterface` that check whether the template actually implements the interface.
+>
+> **viewtype** AnyContractView
+>
+> - **Choice** Archive
+>
+>   Controller: Signatories of implementing template
+>
+>   Returns: ()
+>
+>   (no fields)
+
+## Data Types
+
+<div id="type-splice-api-token-metadatav1-anycontractid-4875">
+
+**type** AnyContractId
+= ContractId AnyContract
+
+A reference to some contract id. Use `coerceContractId` to convert from and to this type.
+
+</div>
+
+<div id="type-splice-api-token-metadatav1-anycontractview-55353">
+
+**data** AnyContractView
+
+</div>
+
+> Not used. See the `AnyContract` interface for more information.
+>
+> <div id="constr-splice-api-token-metadatav1-anycontractview-50558">
+>
+> AnyContractView
+>
+> </div>
+>
+> > (no fields)
+>
+> **instance** HasFromAnyView AnyContract AnyContractView
+>
+> **instance** HasInterfaceView AnyContract AnyContractView
+
+<div id="type-splice-api-token-metadatav1-anyvalue-34700">
+
+**data** AnyValue
+
+</div>
+
+> A generic representation of serializable Daml values.
+>
+> Used to pass arbitrary data across interface boundaries. For example to pass data from an an app backend to an interface choice implementation.
+>
+> <div id="constr-splice-api-token-metadatav1-avtext-20580">
+>
+> AV_Text Text
+>
+> </div>
+>
+> <div id="constr-splice-api-token-metadatav1-avint-52425">
+>
+> AV_Int Int
+>
+> </div>
+>
+> <div id="constr-splice-api-token-metadatav1-avdecimal-71267">
+>
+> AV_Decimal Decimal
+>
+> </div>
+>
+> <div id="constr-splice-api-token-metadatav1-avbool-76457">
+>
+> AV_Bool Bool
+>
+> </div>
+>
+> <div id="constr-splice-api-token-metadatav1-avdate-46205">
+>
+> AV_Date Date
+>
+> </div>
+>
+> <div id="constr-splice-api-token-metadatav1-avtime-30398">
+>
+> AV_Time Time
+>
+> </div>
+>
+> <div id="constr-splice-api-token-metadatav1-avreltime-31008">
+>
+> AV_RelTime RelTime
+>
+> </div>
+>
+> <div id="constr-splice-api-token-metadatav1-avparty-78344">
+>
+> AV_Party Party
+>
+> </div>
+>
+> <div id="constr-splice-api-token-metadatav1-avcontractid-3242">
+>
+> AV_ContractId AnyContractId
+>
+> </div>
+>
+> <div id="constr-splice-api-token-metadatav1-avlist-50505">
+>
+> AV_List \[AnyValue\]
+>
+> </div>
+>
+> <div id="constr-splice-api-token-metadatav1-avmap-39932">
+>
+> AV_Map (TextMap AnyValue)
+>
+> </div>
+>
+> **instance** Eq AnyValue
+>
+> **instance** Show AnyValue
+>
+> **instance** GetField "values" ChoiceContext (TextMap AnyValue)
+>
+> **instance** SetField "values" ChoiceContext (TextMap AnyValue)
+
+<div id="type-splice-api-token-metadatav1-choicecontext-5566">
+
+**data** ChoiceContext
+
+</div>
+
+> A type for passing extra data from an app's backends to the choices of that app exercised in commands submitted by app users.
+>
+> <div id="constr-splice-api-token-metadatav1-choicecontext-36049">
+>
+> ChoiceContext
+>
+> </div>
+>
+> > | Field  | Type                                                                                                 | Description                                                                                                                                    |
+> > |--------|------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+> > | values | TextMap AnyValue | The values passed in by the app backend to the choice. The keys are considered internal to the app and should not be read by third-party code. |
+>
+> **instance** Eq ChoiceContext
+>
+> **instance** Show ChoiceContext
+>
+> **instance** GetField "context" ExtraArgs ChoiceContext
+>
+> **instance** GetField "values" ChoiceContext (TextMap AnyValue)
+>
+> **instance** SetField "context" ExtraArgs ChoiceContext
+>
+> **instance** SetField "values" ChoiceContext (TextMap AnyValue)
+
+<div id="type-splice-api-token-metadatav1-choiceexecutionmetadata-98464">
+
+**data** ChoiceExecutionMetadata
+
+</div>
+
+> A generic result for choices that do not need to return specific data.
+>
+> <div id="constr-splice-api-token-metadatav1-choiceexecutionmetadata-73543">
+>
+> ChoiceExecutionMetadata
+>
+> </div>
+>
+> > | Field | Type     | Description                                                                                  |
+> > |-------|----------|----------------------------------------------------------------------------------------------|
+> > | meta  | Metadata | Additional metadata specific to the result of exercising the choice, used for extensibility. |
+>
+> **instance** Eq ChoiceExecutionMetadata
+>
+> **instance** Show ChoiceExecutionMetadata
+>
+> **instance** GetField "meta" ChoiceExecutionMetadata Metadata
+>
+> **instance** SetField "meta" ChoiceExecutionMetadata Metadata
+
+<div id="type-splice-api-token-metadatav1-extraargs-90869">
+
+**data** ExtraArgs
+
+</div>
+
+> A common type for passing both the choice context and the metadata to a choice.
+>
+> <div id="constr-splice-api-token-metadatav1-extraargs-16750">
+>
+> ExtraArgs
+>
+> </div>
+>
+> > | Field   | Type          | Description                                                                                                                                                                                                                                                                                      |
+> > |---------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+> > | context | ChoiceContext | Extra arguments to be passed to the implementation of an interface choice. These are provided via an off-ledger API by the app implementing the interface.                                                                                                                                       |
+> > | meta    | Metadata      | Additional metadata to pass in. In contrast to the `extraArgs`, these are provided by the caller of the choice. The expectation is that the meaning of metadata fields will be agreed on in later standards, or on a case-by-case basis between the caller and the implementer of the interface. |
+>
+> **instance** Eq ExtraArgs
+>
+> **instance** Show ExtraArgs
+>
+> **instance** GetField "context" ExtraArgs ChoiceContext
+>
+> **instance** GetField "meta" ExtraArgs Metadata
+>
+> **instance** SetField "context" ExtraArgs ChoiceContext
+>
+> **instance** SetField "meta" ExtraArgs Metadata
+
+<div id="type-splice-api-token-metadatav1-metadata-21206">
+
+**data** Metadata
+
+</div>
+
+> Machine-readable metadata intended for communicating additional information using well-known keys between systems. This is mainly used to allow for the post-hoc expansion of the information associated with contracts and choice arguments and results.
+>
+> Modeled after by k8s support for annotations: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/([https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)\\](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)\).
+>
+> Implementors SHOULD follow the same conventions for allocating keys as used by k8s; i.e., they SHOULD be prefixed using the DNS name of the app defining the key.
+>
+> Implementors SHOULD keep metadata small, as on-ledger data is costly.
+>
+> <div id="constr-splice-api-token-metadatav1-metadata-84299">
+>
+> Metadata
+>
+> </div>
+>
+> > | Field  | Type                                                                                                                                                                         | Description                          |
+> > |--------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
+> > | values | TextMap Text | Key-value pairs of metadata entries. |
+>
+> **instance** Eq Metadata
+>
+> **instance** Ord Metadata
+>
+> **instance** Show Metadata
+>
+> **instance** GetField "meta" ChoiceExecutionMetadata Metadata
+>
+> **instance** GetField "meta" ExtraArgs Metadata
+>
+> **instance** GetField "values" Metadata (TextMap Text)
+>
+> **instance** SetField "meta" ChoiceExecutionMetadata Metadata
+>
+> **instance** SetField "meta" ExtraArgs Metadata
+>
+> **instance** SetField "values" Metadata (TextMap Text)
+
+## Functions
+
+<div id="function-splice-api-token-metadatav1-emptychoicecontext-1208">
+
+emptyChoiceContext
+: ChoiceContext
+
+Empty choice context.
+
+</div>
+
+<div id="function-splice-api-token-metadatav1-emptymetadata-88176">
+
+emptyMetadata
+: Metadata
+
+Empty metadata.
+
+</div>
+
+{/* COPIED_END */}

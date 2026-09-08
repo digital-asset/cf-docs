@@ -1,0 +1,11 @@
+```haskell
+template AuditableTransaction
+  with
+    executor : Party
+    counterparty : Party
+    auditor : Party
+    details : Text
+  where
+    signatory executor, counterparty
+    observer auditor  -- auditor can see but not act
+```

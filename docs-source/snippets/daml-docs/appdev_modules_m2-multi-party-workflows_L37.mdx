@@ -1,0 +1,35 @@
+```haskell
+-- Step 1: Alice creates a proposal
+template TradeProposal
+  with
+    proposer : Party
+    counterparty : Party
+    asset : Text
+    price : Decimal
+  where
+    signatory proposer
+    observer counterparty  -- Counterparty can see the proposal
+
+    choice Accept : ContractId Trade
+      controller counterparty  -- Only counterparty can accept
+      do
+        create Trade with
+          buyer = counterparty
+          seller = proposer
+          asset
+          price
+
+    choice Withdraw : ()
+      controller proposer  -- Proposer can cancel
+      do pure ()
+
+-- Step 2: Acceptance creates the multi-party contract
+template Trade
+  with
+    buyer : Party
+    seller : Party
+    asset : Text
+    price : Decimal
+  where
+    signatory buyer, seller  -- Both must have agreed
+```

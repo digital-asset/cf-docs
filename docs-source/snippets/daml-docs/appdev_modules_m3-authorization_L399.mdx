@@ -1,0 +1,14 @@
+```haskell
+nt1 <- submit alice do
+    createCmd NonTransitive with
+      partyA = alice
+      partyB = bob
+  nt2 <- submit alice do
+    createCmd NonTransitive with
+      partyA = alice
+      partyB = bob
+
+  submitMustFail bob do
+    exerciseCmd nt1 TryB with
+      other = nt2
+```

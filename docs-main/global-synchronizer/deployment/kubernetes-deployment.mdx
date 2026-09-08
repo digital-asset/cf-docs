@@ -34,7 +34,7 @@ This section describes deploying a Super Validator (SV) node in kubernetes using
 
 ## Requirements
 
-{/* NETWORKVARS_START source="/snippets/networkvars/global-synchronizer/deployment/kubernetes-deployment-1.mdx" */}
+{/* NETWORKVARS_START source="/global-synchronizer/deployment/kubernetes-deployment.mdx" */}
 <Tabs>
 
 <Tab title="DevNet (0.7.5)">
@@ -351,7 +351,7 @@ Every SV node also deploys a CometBFT node. This node must be configured to join
 
 ### Generating your CometBFT node keys
 
-{/* NETWORKVARS_START source="/snippets/networkvars/global-synchronizer/deployment/kubernetes-deployment-2.mdx" */}
+{/* NETWORKVARS_START source="/global-synchronizer/deployment/kubernetes-deployment.mdx" */}
 <Tabs>
 
 <Tab title="DevNet (0.7.5)">
@@ -505,7 +505,7 @@ All apps support reading the Postgres password from a Kubernetes secret. Current
 
 ### Postgres in the Cluster
 
-{/* NETWORKVARS_START source="/snippets/networkvars/global-synchronizer/deployment/kubernetes-deployment-3.mdx" */}
+{/* NETWORKVARS_START source="/global-synchronizer/deployment/kubernetes-deployment.mdx" */}
 <Tabs>
 
 <Tab title="DevNet (0.7.5)">
@@ -576,7 +576,7 @@ To remove it, set `enableReloader: false` in your Helm values file.
 
 ### Configuring the Helm Charts
 
-{/* NETWORKVARS_START source="/snippets/networkvars/global-synchronizer/deployment/kubernetes-deployment-4.mdx" */}
+{/* NETWORKVARS_START source="/global-synchronizer/deployment/kubernetes-deployment.mdx" */}
 <Tabs>
 
 <Tab title="DevNet (0.7.5)">
@@ -938,7 +938,7 @@ These environment variables will be used below.
 
 ### Installing the Helm Charts
 
-{/* NETWORKVARS_START source="/snippets/networkvars/global-synchronizer/deployment/kubernetes-deployment-5.mdx" */}
+{/* NETWORKVARS_START source="/global-synchronizer/deployment/kubernetes-deployment.mdx" */}
 <Tabs>
 
 <Tab title="DevNet (0.7.5)">
@@ -1202,7 +1202,7 @@ In order to install the reference charts, the following must be satisfied in you
 
 ### Installation Instructions
 
-{/* NETWORKVARS_START source="/snippets/networkvars/global-synchronizer/deployment/kubernetes-deployment-6.mdx" */}
+{/* NETWORKVARS_START source="/global-synchronizer/deployment/kubernetes-deployment.mdx" */}
 <Tabs>
 
 <Tab title="DevNet (0.7.5)">

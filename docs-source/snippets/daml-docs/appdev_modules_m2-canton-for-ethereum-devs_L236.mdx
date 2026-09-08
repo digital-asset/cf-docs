@@ -1,0 +1,16 @@
+```haskell
+-- Daml: Native multi-party agreement
+template Agreement
+  with
+    partyA : Party
+    partyB : Party
+    terms : Text
+  where
+    signatory partyA, partyB  -- Both must agree to create
+    
+    choice Execute : ()
+      controller partyA, partyB  -- Both must agree to execute
+      do
+        -- ... execute action
+        return ()
+```

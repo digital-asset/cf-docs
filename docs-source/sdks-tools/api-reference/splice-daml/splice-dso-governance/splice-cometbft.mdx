@@ -1,0 +1,246 @@
+---
+title: "Splice.CometBft"
+description: "Documentation for Splice.CometBft"
+---
+
+{/* COPIED_START source="splice:daml/splice-dso-governance/docs/Splice-CometBft.rst" tag="0.6.4" hash="5c393ed3" */}
+
+## Data Types
+
+<div id="type-splice-cometbft-cometbftconfig-79018">
+
+**data** CometBftConfig
+
+</div>
+
+> Config for all CometBFT nodes and keys under the control of a single SV node operator.
+>
+> <div id="constr-splice-cometbft-cometbftconfig-91607">
+>
+> CometBftConfig
+>
+> </div>
+>
+> > | Field          | Type                                                                                                                                                                                                                                            | Description                                          |
+> > |----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------|
+> > | nodes          | [Map](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-map-90052) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) CometBftNodeConfig | A map from CometBft node-ids to their configuration. |
+> > | governanceKeys | \[GovernanceKeyConfig\]                                                                                                                                                                                                                         |                                                      |
+> > | sequencingKeys | \[SequencingKeyConfig\]                                                                                                                                                                                                                         |                                                      |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) CometBftConfig
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) CometBftConfig
+>
+> **instance** GetField "cometBft" SynchronizerNodeConfig CometBftConfig
+>
+> **instance** GetField "governanceKeys" CometBftConfig \[GovernanceKeyConfig\]
+>
+> **instance** GetField "nodes" CometBftConfig ([Map](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-map-90052) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) CometBftNodeConfig)
+>
+> **instance** GetField "sequencingKeys" CometBftConfig \[SequencingKeyConfig\]
+>
+> **instance** SetField "cometBft" SynchronizerNodeConfig CometBftConfig
+>
+> **instance** SetField "governanceKeys" CometBftConfig \[GovernanceKeyConfig\]
+>
+> **instance** SetField "nodes" CometBftConfig ([Map](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-map-90052) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) CometBftNodeConfig)
+>
+> **instance** SetField "sequencingKeys" CometBftConfig \[SequencingKeyConfig\]
+>
+> **instance** Patchable CometBftConfig
+
+<div id="type-splice-cometbft-cometbftconfiglimits-81004">
+
+**data** CometBftConfigLimits
+
+</div>
+
+> Limits on the configurations that SV node operators can choose for their CometBFT nodes and keys.
+>
+> <div id="constr-splice-cometbft-cometbftconfiglimits-44281">
+>
+> CometBftConfigLimits
+>
+> </div>
+>
+> > | Field                | Type                                                                                                       | Description |
+> > |----------------------|------------------------------------------------------------------------------------------------------------|-------------|
+> > | maxNumCometBftNodes  | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261) |             |
+> > | maxNumGovernanceKeys | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261) |             |
+> > | maxNumSequencingKeys | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261) |             |
+> > | maxNodeIdLength      | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261) |             |
+> > | maxPubKeyLength      | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261) |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) CometBftConfigLimits
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) CometBftConfigLimits
+>
+> **instance** GetField "cometBft" SynchronizerNodeConfigLimits CometBftConfigLimits
+>
+> **instance** GetField "maxNodeIdLength" CometBftConfigLimits [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** GetField "maxNumCometBftNodes" CometBftConfigLimits [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** GetField "maxNumGovernanceKeys" CometBftConfigLimits [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** GetField "maxNumSequencingKeys" CometBftConfigLimits [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** GetField "maxPubKeyLength" CometBftConfigLimits [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "cometBft" SynchronizerNodeConfigLimits CometBftConfigLimits
+>
+> **instance** SetField "maxNodeIdLength" CometBftConfigLimits [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "maxNumCometBftNodes" CometBftConfigLimits [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "maxNumGovernanceKeys" CometBftConfigLimits [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "maxNumSequencingKeys" CometBftConfigLimits [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "maxPubKeyLength" CometBftConfigLimits [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** Patchable CometBftConfigLimits
+
+<div id="type-splice-cometbft-cometbftnodeconfig-40106">
+
+**data** CometBftNodeConfig
+
+</div>
+
+> Config for a single CometBFT node.
+>
+> <div id="constr-splice-cometbft-cometbftnodeconfig-66571">
+>
+> CometBftNodeConfig
+>
+> </div>
+>
+> > | Field           | Type                                                                                                         | Description |
+> > |-----------------|--------------------------------------------------------------------------------------------------------------|-------------|
+> > | validatorPubKey | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) |             |
+> > | votingPower     | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)   |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) CometBftNodeConfig
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) CometBftNodeConfig
+>
+> **instance** GetField "nodes" CometBftConfig ([Map](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-map-90052) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) CometBftNodeConfig)
+>
+> **instance** GetField "validatorPubKey" CometBftNodeConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** GetField "votingPower" CometBftNodeConfig [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "nodes" CometBftConfig ([Map](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-map-90052) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) CometBftNodeConfig)
+>
+> **instance** SetField "validatorPubKey" CometBftNodeConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "votingPower" CometBftNodeConfig [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** Patchable CometBftNodeConfig
+
+<div id="type-splice-cometbft-governancekeyconfig-71820">
+
+**data** GovernanceKeyConfig
+
+</div>
+
+> Config for a key used by the SvApp to create CometBFT network governance transactions.
+>
+> <div id="constr-splice-cometbft-governancekeyconfig-53123">
+>
+> GovernanceKeyConfig
+>
+> </div>
+>
+> > | Field  | Type                                                                                                         | Description |
+> > |--------|--------------------------------------------------------------------------------------------------------------|-------------|
+> > | pubKey | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) GovernanceKeyConfig
+>
+> **instance** [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) GovernanceKeyConfig
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) GovernanceKeyConfig
+>
+> **instance** GetField "governanceKeys" CometBftConfig \[GovernanceKeyConfig\]
+>
+> **instance** GetField "pubKey" GovernanceKeyConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "governanceKeys" CometBftConfig \[GovernanceKeyConfig\]
+>
+> **instance** SetField "pubKey" GovernanceKeyConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** Patchable GovernanceKeyConfig
+
+<div id="type-splice-cometbft-sequencingkeyconfig-30402">
+
+**data** SequencingKeyConfig
+
+</div>
+
+> Config for a key used by the CometBFT Sequencer Driver to sequence messages via the CometBFT network.
+>
+> <div id="constr-splice-cometbft-sequencingkeyconfig-16921">
+>
+> SequencingKeyConfig
+>
+> </div>
+>
+> > | Field  | Type                                                                                                         | Description |
+> > |--------|--------------------------------------------------------------------------------------------------------------|-------------|
+> > | pubKey | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) SequencingKeyConfig
+>
+> **instance** [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) SequencingKeyConfig
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) SequencingKeyConfig
+>
+> **instance** GetField "pubKey" SequencingKeyConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** GetField "sequencingKeys" CometBftConfig \[SequencingKeyConfig\]
+>
+> **instance** SetField "pubKey" SequencingKeyConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "sequencingKeys" CometBftConfig \[SequencingKeyConfig\]
+>
+> **instance** Patchable SequencingKeyConfig
+
+## Functions
+
+<div id="function-splice-cometbft-emptycometbftconfig-94578">
+
+emptyCometBftConfig
+: CometBftConfig
+
+</div>
+
+<div id="function-splice-cometbft-defaultcometbftconfiglimits-24082">
+
+defaultCometBftConfigLimits
+: CometBftConfigLimits
+
+</div>
+
+<div id="function-splice-cometbft-validcometbftconfig-37027">
+
+validCometBftConfig
+: CometBftConfigLimits -\> CometBftConfig -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+</div>
+
+<div id="function-splice-cometbft-validcometbftnodeconfig-27003">
+
+validCometBftNodeConfig
+: CometBftConfigLimits -\> ([Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952), CometBftNodeConfig) -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+</div>
+
+<div id="function-splice-cometbft-totalvotingpower-81580">
+
+totalVotingPower
+: CometBftConfig -\> [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+
+</div>
+
+{/* COPIED_END */}

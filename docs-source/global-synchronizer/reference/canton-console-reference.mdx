@@ -1,0 +1,119 @@
+---
+title: "Canton Console Reference"
+description: "Reference for Canton console commands used by validators and SV operators on the Global Synchronizer"
+---
+
+import ExternalSpliceMainSpliceRstCodeDocsSrcDeploymentConsoleAccessParsedLiteral63 from "/snippets/internal/splice/main/splice-rst-code-docs-src-deployment-console-access-parsed-literal-63.mdx";
+
+
+import ExternalSpliceMainSpliceRstCodeDocsSrcDeploymentConsoleAccessParsedLiteral94 from "/snippets/internal/splice/main/splice-rst-code-docs-src-deployment-console-access-parsed-literal-94.mdx";
+
+import ExternalSpliceMainSpliceRstCodeDocsSrcDeploymentConsoleAccessNone104 from "/snippets/internal/splice/main/splice-rst-code-docs-src-deployment-console-access-none-104.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcDeploymentConsoleAccessNone136 from "/snippets/internal/splice/main/splice-rst-code-docs-src-deployment-console-access-none-136.mdx";
+
+import ExternalSpliceMainSpliceRstCodeDocsSrcDeploymentConsoleAccessNone40 from "/snippets/internal/splice/main/splice-rst-code-docs-src-deployment-console-access-none-40.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcDeploymentConsoleAccessBash166 from "/snippets/internal/splice/main/splice-rst-code-docs-src-deployment-console-access-bash-166.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcDeploymentConsoleAccessBash174 from "/snippets/internal/splice/main/splice-rst-code-docs-src-deployment-console-access-bash-174.mdx";
+
+import ExternalSpliceMainSpliceRstCodeDocsSrcDeploymentConsoleAccessNone71 from "/snippets/internal/splice/main/splice-rst-code-docs-src-deployment-console-access-none-71.mdx";
+
+{/* COPIED_START source="splice:docs/src/deployment/console_access.rst" hash="bccf3653" */}
+
+For more involved debugging and disaster recovery, direct access to the console of a Canton node (participant, sequencer, mediator) might be required. Steps to obtain such access:
+
+Requirements:
+
+- Direct access to the Canton node process
+- Canton binary
+
+Once you see the following banner for the console you have successfully gained access
+
+``` text
+_____            _
+/ ____|          | |
+| |     __ _ _ __ | |_ ___  _ __
+| |    / _` | '_ \| __/ _ \| '_ \
+| |___| (_| | | | | || (_) | | | |
+\_____\__,_|_| |_|\__\___/|_| |_|
+
+Welcome to Canton!
+```
+
+## Participant console
+
+1.  Obtain an authentication token as specified in [the Canton authentication docs](/global-synchronizer/reference/security-configuration#configure-api-authentication-and-authorization-with-jwt)
+
+2.  Ensure you can access the participant's ports 5001 and 5002
+
+3.  Add the configuration to a local file `console.conf`
+    <ExternalSpliceMainSpliceRstCodeDocsSrcDeploymentConsoleAccessNone40 />
+
+4.  Run the docker command
+
+<NetworkVariables>
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcDeploymentConsoleAccessParsedLiteral63 />
+
+</NetworkVariables>
+
+<Warning>
+If you run the participant using the docker compose setup the docker command must be run with the docker network used by the participant. Adjust the configuration to connect to the participant container:
+</Warning>
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcDeploymentConsoleAccessNone71 />
+
+Running docker with the default network (`splice-validator`):
+
+<NetworkVariables>
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcDeploymentConsoleAccessParsedLiteral94 />
+
+</NetworkVariables>
+
+## Sequencer console
+
+<NetworkVariables>
+
+1.  Ensure you can access the sequencer's ports 5008 and 5009
+
+2.  Add the configuration to a local file `console.conf`
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcDeploymentConsoleAccessNone104 />
+
+3.  Run the docker command
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcDeploymentConsoleAccessParsedLiteral63 />
+
+</NetworkVariables>
+
+## Mediator console
+
+<NetworkVariables>
+
+1.  Ensure you can access the mediator's port 5007
+
+2.  Add the configuration to a local file `console.conf`
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcDeploymentConsoleAccessNone136 />
+
+3.  Run the docker command
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcDeploymentConsoleAccessParsedLiteral63 />
+
+</NetworkVariables>
+
+## Access in a K8s cluster
+
+In a K8s cluster you can use a debug pod to access the console directly from the cluster.
+
+First you can create a pod running the right canton version using:
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcDeploymentConsoleAccessBash166 />
+
+where `POD_NAME` is the name of the participant/sequencer/mediator pod.
+
+Once you are inside the running pod you can install a text editor and create the config file `console.conf` that is described above.
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcDeploymentConsoleAccessBash174 />
+
+{/* COPIED_END */}

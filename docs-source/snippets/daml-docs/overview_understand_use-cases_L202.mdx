@@ -1,0 +1,27 @@
+```haskell
+-- Shipping details: visible to logistics provider
+template ShipmentTracking
+  with
+    shipper : Party
+    receiver : Party
+    logisticsProvider : Party
+    goods : GoodsDescription
+    trackingId : Text
+  where
+    signatory shipper, receiver
+    observer logisticsProvider
+    -- Logistics provider sees goods and routing, not financial terms
+
+-- Financing terms: visible to financier
+template ShipmentFinancing
+  with
+    shipper : Party
+    receiver : Party
+    financier : Party
+    terms : FinancingTerms
+    shipmentRef : Text  -- Reference to link related contracts
+  where
+    signatory shipper, receiver
+    observer financier
+    -- Financier sees payment terms, not goods details or other legs' pricing
+```

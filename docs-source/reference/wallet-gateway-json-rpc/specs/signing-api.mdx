@@ -1,0 +1,401 @@
+---
+title: "Signing API"
+description: "An OpenRPC specification for the Signing API which allows the Wallet Gateway to interact with a Wallet Providers."
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--collection"></div>
+
+
+<p class="x2mdx-ref-back"><a href="/reference/wallet-gateway-json-rpc/overview">Back to overview</a></p>
+
+<div class="x2mdx-ref-hero">
+
+  <p class="x2mdx-ref-eyebrow">OpenRPC Spec</p>
+
+
+  <h1 class="x2mdx-ref-title">Signing API</h1>
+
+
+  <p class="x2mdx-ref-summary">An OpenRPC specification for the Signing API which allows the Wallet Gateway to interact with a Wallet Providers.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--added" href="#history-added-1-4-0">Added 1.4.0</a>
+
+</div>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Latest source path</dt>
+    <dd>api-specs/openrpc-signing-api.json</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Publish version</dt>
+    <dd>1.9.0</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>OpenRPC version</dt>
+    <dd>1.2.6</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Spec info.version</dt>
+    <dd>0.1.0</dd>
+  </div>
+
+</dl>
+
+</div>
+
+
+## Methods
+
+
+Method pages are the primary reference surface. This spec page stays focused on grouping and discovery.
+
+
+
+<div class="x2mdx-ref-card-grid">
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/signing-api/createkey">createKey</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+</div>
+
+    </div>
+
+    <p class="x2mdx-ref-card-summary">Create a new key at the Wallet Provider.</p>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>1</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>oneOf</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/signing-api/getconfiguration">getConfiguration</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+</div>
+
+    </div>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>0</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>object</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/signing-api/getkeys">getKeys</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+</div>
+
+    </div>
+
+    <p class="x2mdx-ref-card-summary">Get a list of public keys availabile for signing.</p>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>0</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>oneOf</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/signing-api/gettransaction">getTransaction</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+</div>
+
+    </div>
+
+    <p class="x2mdx-ref-card-summary">Get the status of a single transaction by its ID.</p>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>1</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>oneOf</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/signing-api/gettransactions">getTransactions</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+</div>
+
+    </div>
+
+    <p class="x2mdx-ref-card-summary">Get the status of multiple transactions, filtering by txIds or publicKeys. Either publicKeys or txIds must be provided.</p>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>1</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>oneOf</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/signing-api/setconfiguration">setConfiguration</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+</div>
+
+    </div>
+
+    <p class="x2mdx-ref-card-summary">Set configuration parameters for the Wallet Provider. The paramaters will change depending on the Wallet Provider implementation</p>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>1</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>object</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/signing-api/signmessage">signMessage</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--added">Added 1.4.0</span>
+
+</div>
+
+    </div>
+
+    <p class="x2mdx-ref-card-summary">Signs an arbitrary UTF-8 message with the wallet&#x27;s private key (Ed25519). The message bytes are signed as-is; callers are expected to embed any application-level domai...</p>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>1</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>oneOf</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/signing-api/signtransaction">signTransaction</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+</div>
+
+    </div>
+
+    <p class="x2mdx-ref-card-summary">Uses the Wallet Provider to sign a transaction. This will likely be an asynchronous operation.</p>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>1</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>oneOf</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/signing-api/subscribetransactions">subscribeTransactions</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+</div>
+
+    </div>
+
+    <p class="x2mdx-ref-card-summary">Subscribe to updates for specific transactions. The server will emit updates when the status of the specified transactions have changed. On initial subscription, the s...</p>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>1</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>object</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+</div>
+
+
+
+
+
+
+## History
+
+<div class="x2mdx-ref-history" aria-label="Reference history">
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--introduced" id="history-added-1-4-0">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Added</span>
+      <code class="x2mdx-ref-history-event-version">1.4.0</code>
+    </div>
+
+  </div>
+
+</div>

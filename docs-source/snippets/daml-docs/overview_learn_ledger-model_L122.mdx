@@ -1,0 +1,14 @@
+```haskell
+template Proposal
+  with
+    proposer : Party
+    accepter : Party
+  where
+    signatory proposer
+    observer accepter
+
+    choice Accept : ContractId Agreement
+      controller accepter  -- Only accepter can exercise
+      do
+        create Agreement with party1 = proposer, party2 = accepter
+```

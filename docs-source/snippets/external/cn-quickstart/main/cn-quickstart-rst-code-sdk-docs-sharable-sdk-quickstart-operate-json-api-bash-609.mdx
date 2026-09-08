@@ -1,0 +1,34 @@
+```bash
+   JSON_PAYLOAD=$(cat <<EOF
+   {
+     "commands": [{
+       "ExerciseCommand": {
+         "templateId": "$PACKAGE_ID:Licensing.AppInstall:AppInstall",
+         "contractId": "$APP_INSTALL_CID",
+         "choice": "AppInstall_CreateLicense",
+         "choiceArgument": {
+           "params": {
+             "meta": {"values": {}}
+           }
+         }
+       }
+     }],
+     "workflowId": "create-license",
+     "applicationId": "app-provider-app",
+     "commandId": "license-$(date +%s%N)",
+     "actAs": ["$APP_PROVIDER_PARTY"],
+     "readAs": [],
+     "submissionId": "create-license",
+     "disclosedContracts": [],
+     "domainId": "",
+     "packageIdSelectionPreference": []
+   }
+   EOF
+   )
+   
+   curl -X POST "http://localhost:3975/v2/commands/submit-and-wait" \
+     -H "Authorization: Bearer $PROVIDER_TOKEN" \
+     -H "Content-Type: application/json" \
+     -d "$JSON_PAYLOAD"
+
+```

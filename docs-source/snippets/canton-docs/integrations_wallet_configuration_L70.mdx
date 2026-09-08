@@ -1,0 +1,60 @@
+```typescript
+import {
+  WalletSDKImpl,
+  LedgerController,
+  ValidatorController,
+  TokenStandardController,
+  AuthTokenProvider,
+} from "@canton-network/wallet-sdk";
+
+const myLedgerFactory = (
+  userId: string,
+  authTokenProvider: AuthTokenProvider
+) => {
+  return new LedgerController(
+    userId,
+    new URL("https://json-api.validator.YOUR_HOSTNAME"),
+    undefined,
+    false,
+    authTokenProvider
+  );
+};
+
+const myValidatorFactory = (
+  userId: string,
+  authTokenProvider: AuthTokenProvider
+) => {
+  return new ValidatorController(
+    userId,
+    new URL("https://wallet.validator.YOUR_HOSTNAME"),
+    authTokenProvider
+  );
+};
+
+const myTokenStandardFactory = (
+  userId: string,
+  authTokenProvider: AuthTokenProvider
+) => {
+  return new TokenStandardController(
+    userId,
+    new URL("https://json-api.validator.YOUR_HOSTNAME"),
+    new URL("https://wallet.validator.YOUR_HOSTNAME"),
+    undefined,
+    authTokenProvider
+  );
+};
+
+const sdk = new WalletSDKImpl().configure({
+  logger: console,
+  authFactory: myAuthFactory, // your OIDC auth implementation
+  ledgerFactory: myLedgerFactory,
+  validatorFactory: myValidatorFactory,
+  tokenStandardFactory: myTokenStandardFactory,
+});
+
+await sdk.connect();
+await sdk.connectAdmin();
+await sdk.connectTopology(
+  new URL("https://scan.sv.YOUR_HOSTNAME")
+);
+```

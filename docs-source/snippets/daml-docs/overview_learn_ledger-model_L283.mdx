@@ -1,0 +1,8 @@
+```haskell
+-- Atomic swap: both transfers happen or neither does
+choice ExecuteSwap : ()
+  controller buyer
+  do
+    exercise assetId Transfer with newOwner = buyer
+    exercise paymentId Transfer with newOwner = seller
+```

@@ -1,0 +1,12 @@
+```text
+   devnet ~ % docker compose --env-file compose.env --profile devnet up -d postgres-keycloak keycloak nginx-keycloak postgres-pqs pqs-app-provider backend-service
+   [+] Running 7/7
+    ✔ Container postgres-pqs          Healthy                  27.5s 
+    ✔ Container postgres-keycloak     Healthy                  6.2s 
+    ✔ Container keycloak              Healthy                  26.7s 
+    ✔ Container nginx-keycloak        Started                  26.7s 
+    ✔ Container splice-onboarding     Healthy                  41.3s 
+    ✔ Container pqs-app-provider      Started                  27.3s 
+    ✔ Container backend-service       Started                  41.4s 
+
+```

@@ -1,0 +1,258 @@
+{
+  "surface_id": "splice-token-standard-v2-daml",
+  "title": "Splice Token Standard v2 Daml",
+  "format": "daml_json",
+  "configured_scope": "Published Token Standard v2 Daml modules from stable canton-network/splice release tags",
+  "history_mode": "snapshots",
+  "publish_version": "0.8.0",
+  "comparison_versions": [
+    "0.6.11",
+    "0.6.12",
+    "0.6.13",
+    "0.6.14",
+    "0.7.0",
+    "0.7.1",
+    "0.7.2",
+    "0.7.3",
+    "0.7.4",
+    "0.7.5",
+    "0.8.0"
+  ],
+  "source_artifacts": [
+    {
+      "version": "0.6.11",
+      "source": "https://github.com/canton-network/splice/tree/fd93f86ac42ce3a08985dcd0baae530b4f235f60/daml/dars",
+      "revision": "fd93f86ac42ce3a08985dcd0baae530b4f235f60",
+      "path": "daml/dars/splice-api-token-*-v2-1.0.0.dar"
+    },
+    {
+      "version": "0.6.12",
+      "source": "https://github.com/canton-network/splice/tree/17fd29aad170e8f20074aa64624c4506177ea7bd/daml/dars",
+      "revision": "17fd29aad170e8f20074aa64624c4506177ea7bd",
+      "path": "daml/dars/splice-api-token-*-v2-1.0.0.dar"
+    },
+    {
+      "version": "0.6.13",
+      "source": "https://github.com/canton-network/splice/tree/52ccdd6841f3eda11fe86313e8cdf9540efedfb7/daml/dars",
+      "revision": "52ccdd6841f3eda11fe86313e8cdf9540efedfb7",
+      "path": "daml/dars/splice-api-token-*-v2-1.0.0.dar"
+    },
+    {
+      "version": "0.6.14",
+      "source": "https://github.com/canton-network/splice/tree/398919a5b13479877fd61587003ba7a4ba00091b/daml/dars",
+      "revision": "398919a5b13479877fd61587003ba7a4ba00091b",
+      "path": "daml/dars/splice-api-token-*-v2-1.0.0.dar"
+    },
+    {
+      "version": "0.7.0",
+      "source": "https://github.com/canton-network/splice/tree/a9076eb91f87a9bd9315d2f9e122d6350bdc9d4c/daml/dars",
+      "revision": "a9076eb91f87a9bd9315d2f9e122d6350bdc9d4c",
+      "path": "daml/dars/splice-api-token-*-v2-1.0.0.dar"
+    },
+    {
+      "version": "0.7.1",
+      "source": "https://github.com/canton-network/splice/tree/c95e1ef5c939cef13cc344d7678f9d2ce2474c6a/daml/dars",
+      "revision": "c95e1ef5c939cef13cc344d7678f9d2ce2474c6a",
+      "path": "daml/dars/splice-api-token-*-v2-1.0.0.dar"
+    },
+    {
+      "version": "0.7.2",
+      "source": "https://github.com/canton-network/splice/tree/b1c3896fb9420d8de48537211a5c7046359c6d4e/daml/dars",
+      "revision": "b1c3896fb9420d8de48537211a5c7046359c6d4e",
+      "path": "daml/dars/splice-api-token-*-v2-1.0.0.dar"
+    },
+    {
+      "version": "0.7.3",
+      "source": "https://github.com/canton-network/splice/tree/0dd6b9263510007e831bcc3ca3a44a41aa862a75/daml/dars",
+      "revision": "0dd6b9263510007e831bcc3ca3a44a41aa862a75",
+      "path": "daml/dars/splice-api-token-*-v2-1.0.0.dar"
+    },
+    {
+      "version": "0.7.4",
+      "source": "https://github.com/canton-network/splice/tree/e5c3661e7257a024b9f964617fa3f02dcf56d332/daml/dars",
+      "revision": "e5c3661e7257a024b9f964617fa3f02dcf56d332",
+      "path": "daml/dars/splice-api-token-*-v2-1.0.0.dar"
+    },
+    {
+      "version": "0.7.5",
+      "source": "https://github.com/canton-network/splice/tree/858a7347aaeb958657b76b0957186102b74e3bd6/daml/dars",
+      "revision": "858a7347aaeb958657b76b0957186102b74e3bd6",
+      "path": "daml/dars/splice-api-token-*-v2-1.0.0.dar"
+    },
+    {
+      "version": "0.8.0",
+      "source": "https://github.com/canton-network/splice/tree/9330dba9e31b8893bec09ece2f5dbb496fcf17b5/daml/dars",
+      "revision": "9330dba9e31b8893bec09ece2f5dbb496fcf17b5",
+      "path": "daml/dars/splice-api-token-*-v2-1.0.0.dar"
+    }
+  ],
+  "version_policy": "latest_selected_release",
+  "items": [
+    {
+      "id": "Splice.Api.Token.AllocationInstructionV2",
+      "kind": "daml_module",
+      "route": "/sdks-tools/api-reference/splice-daml/splice-api-token-allocation-instruction-v2/splice-api-token-allocationinstructionv2",
+      "location": "Splice.Api.Token.AllocationInstructionV2",
+      "first_seen": "0.6.11",
+      "last_seen": "0.8.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton Network Token Standard v2 DARs from stable canton-network/splice releases [0.6.11]",
+        "observed_in_version": "0.6.11",
+        "location": "Splice.Api.Token.AllocationInstructionV2",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "Splice.Api.Token.AllocationRequestV2",
+      "kind": "daml_module",
+      "route": "/sdks-tools/api-reference/splice-daml/splice-api-token-allocation-request-v2/splice-api-token-allocationrequestv2",
+      "location": "Splice.Api.Token.AllocationRequestV2",
+      "first_seen": "0.6.11",
+      "last_seen": "0.8.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton Network Token Standard v2 DARs from stable canton-network/splice releases [0.6.11]",
+        "observed_in_version": "0.6.11",
+        "location": "Splice.Api.Token.AllocationRequestV2",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "Splice.Api.Token.AllocationV2",
+      "kind": "daml_module",
+      "route": "/sdks-tools/api-reference/splice-daml/splice-api-token-allocation-v2/splice-api-token-allocationv2",
+      "location": "Splice.Api.Token.AllocationV2",
+      "first_seen": "0.6.11",
+      "last_seen": "0.8.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton Network Token Standard v2 DARs from stable canton-network/splice releases [0.6.11]",
+        "observed_in_version": "0.6.11",
+        "location": "Splice.Api.Token.AllocationV2",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "Splice.Api.Token.HoldingV2",
+      "kind": "daml_module",
+      "route": "/sdks-tools/api-reference/splice-daml/splice-api-token-holding-v2/splice-api-token-holdingv2",
+      "location": "Splice.Api.Token.HoldingV2",
+      "first_seen": "0.6.11",
+      "last_seen": "0.8.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton Network Token Standard v2 DARs from stable canton-network/splice releases [0.6.11]",
+        "observed_in_version": "0.6.11",
+        "location": "Splice.Api.Token.HoldingV2",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "Splice.Api.Token.TransferEventsV2",
+      "kind": "daml_module",
+      "route": "/sdks-tools/api-reference/splice-daml/splice-api-token-transfer-events-v2/splice-api-token-transfereventsv2",
+      "location": "Splice.Api.Token.TransferEventsV2",
+      "first_seen": "0.6.11",
+      "last_seen": "0.8.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton Network Token Standard v2 DARs from stable canton-network/splice releases [0.6.11]",
+        "observed_in_version": "0.6.11",
+        "location": "Splice.Api.Token.TransferEventsV2",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "Splice.Api.Token.TransferInstructionV2",
+      "kind": "daml_module",
+      "route": "/sdks-tools/api-reference/splice-daml/splice-api-token-transfer-instruction-v2/splice-api-token-transferinstructionv2",
+      "location": "Splice.Api.Token.TransferInstructionV2",
+      "first_seen": "0.6.11",
+      "last_seen": "0.8.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton Network Token Standard v2 DARs from stable canton-network/splice releases [0.6.11]",
+        "observed_in_version": "0.6.11",
+        "location": "Splice.Api.Token.TransferInstructionV2",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    }
+  ],
+  "limitations": [
+    "Daml docs JSON snapshots establish module additions, normalized module updates, authored module deprecations, and removals.",
+    "Entity declarations remain anchored within their current package module page; this report uses the reader page boundary as its item boundary."
+  ]
+}

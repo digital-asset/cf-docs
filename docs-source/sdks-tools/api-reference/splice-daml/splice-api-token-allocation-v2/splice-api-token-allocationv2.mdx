@@ -1,0 +1,1080 @@
+---
+title: "Splice.Api.Token.AllocationV2"
+description: "Reference documentation for Daml module Splice.Api.Token.AllocationV2."
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--collection"></div>
+
+<span id="module-splice-api-token-allocationv2-67287"></span>
+
+
+
+<div class="x2mdx-ref-hero">
+
+  <p class="x2mdx-ref-eyebrow">Daml module</p>
+
+
+  <h1 class="x2mdx-ref-title">Splice.Api.Token.AllocationV2</h1>
+
+
+  <p class="x2mdx-ref-summary">This module defines V2 of the Allocation interface and supporting types.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Daml</span>
+
+</div>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Module</dt>
+    <dd>Splice.Api.Token.AllocationV2</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Latest release</dt>
+    <dd>0.8.0</dd>
+  </div>
+
+</dl>
+
+</div>
+
+
+
+
+
+## Interfaces
+
+
+<span id="type-splice-api-token-allocationv2-allocation-27217"></span>
+
+### Interface `Allocation`
+
+A contract representing the approval of the authorizer to send or receive
+the net amount of assets of the transfer legs as part of a settlement where
+the executors and instrument admin check that every transfer leg has a matching
+authorization from the otherside.
+
+View Type: [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318)
+
+Choices:
+
+<span id="type-splice-api-token-allocationv2-allocationcancel-98587"></span>
+
+#### Choice `Allocation_Cancel`
+
+Cancel the allocation to release the funds and invalidate the approval
+to execute the settlement.
+
+Typically called by
+  - the executors once it is clear that the settlement will not be executed
+  - the admin to cancel an expired allocation
+
+The choice is nonconsuming to support alternative consumption patterns,
+e.g., by calling the consuming V1.Allocation_Cancel choice for
+transaction parsing compatibility.
+
+IMPORTANT: implementations MUST ensure that the allocation is consumed by
+the body of this choice.
+
+Controllers: `actors`
+
+Returns: [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+
+Arguments:
+
+<ResponseField name="actors" type="[Party]">
+Set of parties executing the cancellation.
+
+Implementations MUST check these parties to avoid unauthorized cancellation.
+
+By default, they SHOULD require them to be equal to the allocation `executors`.
+</ResponseField>
+
+<ResponseField name="extraArgs" type="ExtraArgs">
+Additional context required in order to exercise the choice.
+</ResponseField>
+
+<span id="type-splice-api-token-allocationv2-allocationsettle-31244"></span>
+
+#### Choice `Allocation_Settle`
+
+Settle the allocation by moving the net amount of the transfer legs.
+
+If a settlement deadline is set, implementations MUST NOT allow calling
+this choice after the settlement deadline has passed.
+
+The choice is nonconsuming to support alternative consumption patterns,
+e.g., by calling the consuming V1.Allocation_ExecuteTransfer choice for
+transaction parsing compatibility.
+
+IMPORTANT: implementations MUST ensure that the allocation is consumed by
+the body of this choice.
+
+Controllers: `actors`
+
+Returns: [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+
+Arguments:
+
+<ResponseField name="actors" type="[Party]">
+Set of parties executing the settlement.
+
+Implementations MUST check these parties to avoid unauthorized settlement execution.
+
+By default, they SHOULD require them to be equal to the allocation
+
+`admin` and the `executors`, so that they can jointly guarantee
+
+atomic settlement.
+
+This authorization is typically provided as part of the
+
+`SettlementFactory_SettleBatch` choice, which should be used by the
+
+`executors` to settle V2 allocations.
+</ResponseField>
+
+<ResponseField name="extraTransferLegSides" type="[TransferLegSide]">
+Extra transfer leg sides to settle as part of settlement.
+
+They MUST NOT be set unless iterated settlement was enabled by the
+
+allocation's authorizer.
+</ResponseField>
+
+<ResponseField name="nextIterationFunding" type="Optional (TextMap Decimal)">
+The funds to reserve for the next settlement iteration, if there is any.
+
+This MUST NOT be set unless iterated settlement was enabled by the
+
+allocation's authorizer.
+
+Setting this to `None` indicates that no further settlement
+
+iterations will be executed after this one.
+</ResponseField>
+
+<ResponseField name="extraArgs" type="ExtraArgs">
+Additional context required in order to exercise the choice.
+</ResponseField>
+
+<span id="type-splice-api-token-allocationv2-allocationwithdraw-18681"></span>
+
+#### Choice `Allocation_Withdraw`
+
+Allow the authorizer to withdraw the allocation to release the funds
+and invalidate the approval to execute the settlement. This can for
+example be used by the authorizer to undo a mistakenly created
+allocation.
+
+For committed allocations (i.e., `committed` set to `True`), this
+choice can only be exercised once the settlement deadline has passed.
+
+The choice is nonconsuming to support alternative consumption patterns,
+e.g., by calling the consuming V1.Allocation_Withdraw choice for
+transaction parsing compatibility.
+
+IMPORTANT: implementations MUST ensure that the allocation is consumed by
+the body of this choice.
+
+Controllers: `actors`
+
+Returns: [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+
+Arguments:
+
+<ResponseField name="actors" type="[Party]">
+Set of parties executing the withdrawal.
+
+Implementations MUST check these parties to avoid unauthorized withdrawal.
+
+By default they SHOULD allow the account parties of the authorizer to
+
+withdraw the allocation.
+</ResponseField>
+
+<ResponseField name="extraArgs" type="ExtraArgs">
+Additional context required in order to exercise the choice.
+</ResponseField>
+
+#### Choice `Archive`
+
+Controllers: `Signatories of implementing template`
+
+Returns: ()
+
+Methods:
+
+#### Method `allocation_cancelExtraObservers`
+
+Type: [`Allocation_Cancel`](#type-splice-api-token-allocationv2-allocationcancel-98587) -> [`Party`]
+
+#### Method `allocation_cancelImpl`
+
+Type: `ContractId` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) -> [`Allocation_Cancel`](#type-splice-api-token-allocationv2-allocationcancel-98587) -> `Update` [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+
+#### Method `allocation_settleExtraObservers`
+
+Type: [`Allocation_Settle`](#type-splice-api-token-allocationv2-allocationsettle-31244) -> [`Party`]
+
+#### Method `allocation_settleImpl`
+
+Type: `ContractId` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) -> [`Allocation_Settle`](#type-splice-api-token-allocationv2-allocationsettle-31244) -> `Update` [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+
+#### Method `allocation_withdrawExtraObservers`
+
+Type: [`Allocation_Withdraw`](#type-splice-api-token-allocationv2-allocationwithdraw-18681) -> [`Party`]
+
+#### Method `allocation_withdrawImpl`
+
+Type: `ContractId` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) -> [`Allocation_Withdraw`](#type-splice-api-token-allocationv2-allocationwithdraw-18681) -> `Update` [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+
+
+<span id="type-splice-api-token-allocationv2-settlementfactory-64321"></span>
+
+### Interface `SettlementFactory`
+
+A settlement factory enables the net settlement of a batch of allocations
+for the same instrument admin.
+
+View Type: [`SettlementFactoryView`](#type-splice-api-token-allocationv2-settlementfactoryview-93858)
+
+Choices:
+
+#### Choice `Archive`
+
+Controllers: `Signatories of implementing template`
+
+Returns: ()
+
+<span id="type-splice-api-token-allocationv2-settlementfactorypublicfetch-69193"></span>
+
+#### Choice `SettlementFactory_PublicFetch`
+
+Controllers: `actors`
+
+Returns: [`SettlementFactoryView`](#type-splice-api-token-allocationv2-settlementfactoryview-93858)
+
+Arguments:
+
+<ResponseField name="actors" type="[Party]">
+Set of parties executing the fetch.
+</ResponseField>
+
+<span id="type-splice-api-token-allocationv2-settlementfactorysettlebatch-65399"></span>
+
+#### Choice `SettlementFactory_SettleBatch`
+
+Settle a batch of allocations for instruments with the same instrument admin.
+
+The choice is structured in this form for efficiency and privacy. It
+enables the instrument admin to only perform net debits and credits for
+each account across all transfers being settled; and restrict visibility of
+each credit or debit to executors, admin, and affected account parties only.
+
+Controllers: `actors`
+
+Returns: [`SettlementFactory_SettleBatchResult`](#type-splice-api-token-allocationv2-settlementfactorysettlebatchresult-32414)
+
+Arguments:
+
+<ResponseField name="settlement" type="SettlementInfo">
+The settlement for which the allocations are settled.
+</ResponseField>
+
+<ResponseField name="transferLegs" type="[TransferLeg]">
+The transfers that are to be executed as part of the settlement.
+
+There MUST be at least one transfer leg. All transfer legs MUST have the
+
+same instrument admin as the one of the factory.
+</ResponseField>
+
+<ResponseField name="allocations" type="[FinalizedAllocation]">
+Allocations to settle.
+
+They serve as proof that all transfers executed as part of settlement
+
+were authorized by both sender and receiver.
+
+The implementation of this choice determines the validation performed
+
+by the instrument admin when settling an allocation created by an
+
+instrument holder.
+</ResponseField>
+
+<ResponseField name="actors" type="[Party]">
+Allows setting non-default controllers for settling the batch, which
+
+can be used for implementation specific authorization patterns.
+
+Set of parties executing the settlement.
+
+Implementations MUST check this value to avoid unauthorized settlement execution.
+
+By default they SHOULD check that they are equal to
+
+`settlement.executors` to provide maximal compatibility with apps.
+</ResponseField>
+
+<ResponseField name="extraArgs" type="ExtraArgs">
+Additional choice arguments.
+</ResponseField>
+
+Methods:
+
+#### Method `settlementFactory_publicFetchImpl`
+
+Type: `ContractId` [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) -> [`SettlementFactory_PublicFetch`](#type-splice-api-token-allocationv2-settlementfactorypublicfetch-69193) -> `Update` [`SettlementFactoryView`](#type-splice-api-token-allocationv2-settlementfactoryview-93858)
+
+#### Method `settlementFactory_settleBatchExtraObservers`
+
+Type: [`SettlementFactory_SettleBatch`](#type-splice-api-token-allocationv2-settlementfactorysettlebatch-65399) -> [`Party`]
+
+#### Method `settlementFactory_settleBatchImpl`
+
+Type: `ContractId` [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) -> [`SettlementFactory_SettleBatch`](#type-splice-api-token-allocationv2-settlementfactorysettlebatch-65399) -> `Update` [`SettlementFactory_SettleBatchResult`](#type-splice-api-token-allocationv2-settlementfactorysettlebatchresult-32414)
+
+
+
+## Data Types
+
+
+<span id="type-splice-api-token-allocationv2-allocationaction-86361"></span>
+
+### `data AllocationAction`
+
+Actions available on an allocation.
+
+Constructors:
+
+<span id="constr-splice-api-token-allocationv2-aasettle-5287"></span>
+- `AA_Settle`
+<span id="constr-splice-api-token-allocationv2-aacancel-35556"></span>
+- `AA_Cancel`
+<span id="constr-splice-api-token-allocationv2-aawithdraw-9366"></span>
+- `AA_Withdraw`
+<span id="constr-splice-api-token-allocationv2-aacustom-71963"></span>
+- `AA_Custom`
+
+<ResponseField name="id" type="Text">
+Identifier of the action. Namespaced analogously to metadata keys.
+</ResponseField>
+
+Used to represent registry-specific actions on allocations.
+
+Instances:
+
+- instance `Eq` [`AllocationAction`](#type-splice-api-token-allocationv2-allocationaction-86361)
+- instance `Ord` [`AllocationAction`](#type-splice-api-token-allocationv2-allocationaction-86361)
+- instance `Show` [`AllocationAction`](#type-splice-api-token-allocationv2-allocationaction-86361)
+- instance `GetField` `availableActions` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) (`Map` [`AllocationAction`](#type-splice-api-token-allocationv2-allocationaction-86361) [[`Party`]])
+- instance `GetField` `id` [`AllocationAction`](#type-splice-api-token-allocationv2-allocationaction-86361) `Text`
+- instance `SetField` `availableActions` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) (`Map` [`AllocationAction`](#type-splice-api-token-allocationv2-allocationaction-86361) [[`Party`]])
+- instance `SetField` `id` [`AllocationAction`](#type-splice-api-token-allocationv2-allocationaction-86361) `Text`
+
+
+<span id="type-splice-api-token-allocationv2-allocationresult-19648"></span>
+
+### `data AllocationResult`
+
+The result of a choice on an allocation.
+
+Constructors:
+
+<span id="constr-splice-api-token-allocationv2-allocationresult-77853"></span>
+- `AllocationResult`
+
+<ResponseField name="output" type="AllocationResult_Output">
+The output of the action.
+</ResponseField>
+
+<ResponseField name="authorizerHoldingCids" type="TextMap [ContractId Holding]">
+New holdings created for the authorizer as part of the settlement
+
+keyed by their `instrumentId.id`.
+</ResponseField>
+
+<ResponseField name="meta" type="Metadata">
+Additional metadata specific to the settlement, used for extensibility.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+- instance `Show` [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+- instance `HasMethod` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) `allocation_cancelImpl` (`ContractId` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) -> [`Allocation_Cancel`](#type-splice-api-token-allocationv2-allocationcancel-98587) -> `Update` [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648))
+- instance `HasMethod` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) `allocation_settleImpl` (`ContractId` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) -> [`Allocation_Settle`](#type-splice-api-token-allocationv2-allocationsettle-31244) -> `Update` [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648))
+- instance `HasMethod` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) `allocation_withdrawImpl` (`ContractId` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) -> [`Allocation_Withdraw`](#type-splice-api-token-allocationv2-allocationwithdraw-18681) -> `Update` [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648))
+- instance `GetField` `allocationSettleResults` [`SettlementFactory_SettleBatchResult`](#type-splice-api-token-allocationv2-settlementfactorysettlebatchresult-32414) [[`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)]
+- instance `GetField` `authorizerHoldingCids` [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648) (`TextMap` [`ContractId` `Holding`])
+- instance `GetField` `meta` [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648) `Metadata`
+- instance `GetField` `output` [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648) [`AllocationResult_Output`](#type-splice-api-token-allocationv2-allocationresultoutput-24769)
+- instance `SetField` `allocationSettleResults` [`SettlementFactory_SettleBatchResult`](#type-splice-api-token-allocationv2-settlementfactorysettlebatchresult-32414) [[`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)]
+- instance `SetField` `authorizerHoldingCids` [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648) (`TextMap` [`ContractId` `Holding`])
+- instance `SetField` `meta` [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648) `Metadata`
+- instance `SetField` `output` [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648) [`AllocationResult_Output`](#type-splice-api-token-allocationv2-allocationresultoutput-24769)
+- instance `HasExercise` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) [`Allocation_Cancel`](#type-splice-api-token-allocationv2-allocationcancel-98587) [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+- instance `HasExercise` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) [`Allocation_Settle`](#type-splice-api-token-allocationv2-allocationsettle-31244) [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+- instance `HasExercise` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) [`Allocation_Withdraw`](#type-splice-api-token-allocationv2-allocationwithdraw-18681) [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+- instance `HasExerciseGuarded` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) [`Allocation_Cancel`](#type-splice-api-token-allocationv2-allocationcancel-98587) [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+- instance `HasExerciseGuarded` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) [`Allocation_Settle`](#type-splice-api-token-allocationv2-allocationsettle-31244) [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+- instance `HasExerciseGuarded` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) [`Allocation_Withdraw`](#type-splice-api-token-allocationv2-allocationwithdraw-18681) [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+- instance `HasFromAnyChoice` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) [`Allocation_Cancel`](#type-splice-api-token-allocationv2-allocationcancel-98587) [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+- instance `HasFromAnyChoice` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) [`Allocation_Settle`](#type-splice-api-token-allocationv2-allocationsettle-31244) [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+- instance `HasFromAnyChoice` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) [`Allocation_Withdraw`](#type-splice-api-token-allocationv2-allocationwithdraw-18681) [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+- instance `HasToAnyChoice` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) [`Allocation_Cancel`](#type-splice-api-token-allocationv2-allocationcancel-98587) [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+- instance `HasToAnyChoice` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) [`Allocation_Settle`](#type-splice-api-token-allocationv2-allocationsettle-31244) [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+- instance `HasToAnyChoice` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) [`Allocation_Withdraw`](#type-splice-api-token-allocationv2-allocationwithdraw-18681) [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+
+
+<span id="type-splice-api-token-allocationv2-allocationresultoutput-24769"></span>
+
+### `data AllocationResult_Output`
+
+The output of changing the state of an allocation.
+
+Constructors:
+
+<span id="constr-splice-api-token-allocationv2-allocationresultpending-27625"></span>
+- `AllocationResult_Pending`
+
+<ResponseField name="allocationCid" type="ContractId Allocation">
+Contract id of the allocation representing the pending state.
+</ResponseField>
+
+Use this result to communicate that the allocation is pending further steps.
+<span id="constr-splice-api-token-allocationv2-allocationresultsettled-8699"></span>
+- `AllocationResult_Settled`
+
+<ResponseField name="nextIterationAllocationCid" type="Optional (ContractId Allocation)">
+The new allocation created for the next settlement iteration, if any.
+</ResponseField>
+
+The result of settling an allocation by exercising the `Allocation_Settle` choice.
+<span id="constr-splice-api-token-allocationv2-allocationresultcancelled-57867"></span>
+- `AllocationResult_Cancelled`
+
+The result of the `Allocation_Cancel` choice  when fully authorized.
+<span id="constr-splice-api-token-allocationv2-allocationresultwithdrawn-92018"></span>
+- `AllocationResult_Withdrawn`
+
+The result of the `Allocation_Withdraw` choice when fully authorized.
+
+Instances:
+
+- instance `Eq` [`AllocationResult_Output`](#type-splice-api-token-allocationv2-allocationresultoutput-24769)
+- instance `Show` [`AllocationResult_Output`](#type-splice-api-token-allocationv2-allocationresultoutput-24769)
+- instance `GetField` `allocationCid` [`AllocationResult_Output`](#type-splice-api-token-allocationv2-allocationresultoutput-24769) (`ContractId` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217))
+- instance `GetField` `nextIterationAllocationCid` [`AllocationResult_Output`](#type-splice-api-token-allocationv2-allocationresultoutput-24769) (`Optional` (`ContractId` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217)))
+- instance `GetField` `output` [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648) [`AllocationResult_Output`](#type-splice-api-token-allocationv2-allocationresultoutput-24769)
+- instance `SetField` `allocationCid` [`AllocationResult_Output`](#type-splice-api-token-allocationv2-allocationresultoutput-24769) (`ContractId` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217))
+- instance `SetField` `nextIterationAllocationCid` [`AllocationResult_Output`](#type-splice-api-token-allocationv2-allocationresultoutput-24769) (`Optional` (`ContractId` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217)))
+- instance `SetField` `output` [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648) [`AllocationResult_Output`](#type-splice-api-token-allocationv2-allocationresultoutput-24769)
+
+
+<span id="type-splice-api-token-allocationv2-allocationspecification-21899"></span>
+
+### `data AllocationSpecification`
+
+An approval by the authorizer to receive or send assets as part of
+settlement.
+
+Constructors:
+
+<span id="constr-splice-api-token-allocationv2-allocationspecification-98616"></span>
+- `AllocationSpecification`
+
+<ResponseField name="admin" type="Party">
+The asset admin of the instruments that are transferred as part of
+
+the settlement.
+</ResponseField>
+
+<ResponseField name="authorizer" type="Account">
+The account authorizing the transfers as part of the settlement.
+</ResponseField>
+
+<ResponseField name="transferLegSides" type="[TransferLegSide]">
+The sides of transfer legs authorized by this allocation.
+</ResponseField>
+
+<ResponseField name="settlementDeadline" type="Optional Time">
+The executors' and authorizer's agreed time-to-live for the allocation.
+
+After this time, if set, the allocation can no longer be settled, and
+
+the authorizer can withdraw the allocation to release the funds.
+</ResponseField>
+
+<ResponseField name="nextIterationFunding" type="Optional (TextMap Decimal)">
+Amounts reserved for funding the next settlement iteration.
+
+Amounts are keyed by instrument id and MUST be positive.
+
+Setting this to `None` indicates that iterated settlement is disabled,
+
+and the allocation can only be settled once with exactly its specified
+
+transfer legs. Setting this to an empty map indicates that iterated settlement
+
+is enabled, but that no funding for the next iteration is reserved by
+
+the authorizer. This can be used when the authorizer expects incoming
+
+transfers in the next iteration, and thus does not need to reserve any funding.
+</ResponseField>
+
+<ResponseField name="committed" type="Bool">
+Whether the authorizer commits to the allocation until either
+
+- the executors settle allocation,
+
+- the executors cancel the allocation,
+
+- the settlement deadline passed, or
+
+- the admin expires the allocation.
+
+If set to `True`, then the authorizer cannot withdraw the allocation
+
+until the settlement deadline. Use committed allocations for cases
+
+where the executors need a guarantee that the allocation will be
+
+available until settlement.
+</ResponseField>
+
+<ResponseField name="meta" type="Metadata">
+Additional metadata for the allocation specification, which can be used
+
+to store information about an allocation used in iterated settlement.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899)
+- instance `Show` [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899)
+- instance `GetField` `admin` [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899) `Party`
+- instance `GetField` `allocation` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899)
+- instance `GetField` `authorizer` [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899) `Account`
+- instance `GetField` `committed` [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899) `Bool`
+- instance `GetField` `meta` [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899) `Metadata`
+- instance `GetField` `nextIterationFunding` [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899) (`Optional` (`TextMap` `Decimal`))
+- instance `GetField` `settlementDeadline` [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899) (`Optional` `Time`)
+- instance `GetField` `transferLegSides` [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899) [[`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020)]
+- instance `SetField` `admin` [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899) `Party`
+- instance `SetField` `allocation` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899)
+- instance `SetField` `authorizer` [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899) `Account`
+- instance `SetField` `committed` [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899) `Bool`
+- instance `SetField` `meta` [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899) `Metadata`
+- instance `SetField` `nextIterationFunding` [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899) (`Optional` (`TextMap` `Decimal`))
+- instance `SetField` `settlementDeadline` [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899) (`Optional` `Time`)
+- instance `SetField` `transferLegSides` [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899) [[`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020)]
+
+
+<span id="type-splice-api-token-allocationv2-allocationview-63318"></span>
+
+### `data AllocationView`
+
+View of a contract representing a ready-to-settle allocation.
+
+Constructors:
+
+<span id="constr-splice-api-token-allocationv2-allocationview-85195"></span>
+- `AllocationView`
+
+<ResponseField name="originalAllocationCid" type="Optional (ContractId Allocation)">
+The contract id of the original allocation contract, which is `None`
+
+for the original allocation contract itself.
+
+This SHOULD be used by wallets to correlate the same allocation across
+
+updates to its state. It should not be used to correlate different allocations
+
+for the same settlement. That can be done using the `allocation.settlement` field.
+</ResponseField>
+
+<ResponseField name="settlement" type="SettlementInfo">
+The settlement for which this allocation is made.
+</ResponseField>
+
+<ResponseField name="allocation" type="AllocationSpecification">
+The specification of the allocation.
+</ResponseField>
+
+<ResponseField name="holdingCids" type="[ContractId Holding]">
+The holdings that are backing this allocation.
+
+Provided so that wallets can correlate the allocation with the
+
+holdings.
+
+MAY be empty for registries that do not represent their holdings on-ledger.
+</ResponseField>
+
+<ResponseField name="createdAt" type="Time">
+The time when the allocation was originally created.
+</ResponseField>
+
+<ResponseField name="numIterations" type="Int">
+The number of settlement iterations that have been executed for this allocation so far.
+</ResponseField>
+
+<ResponseField name="expiresAt" type="Optional Time">
+The time at which the allocation expires if inactive.
+
+Registries MAY expire the allocation and return the locked funds to the
+
+authorizer after this time. Thereby recovering storage resources and
+
+protecting themselves from denial-of-service attacks.
+
+Registries SHOULD avoid unnecessary refreshes by
+
+- making the expiry time as close to the settlement deadline as possible
+
+- bumping expiry on every settlement iteration.
+</ResponseField>
+
+<ResponseField name="availableActions" type="Map AllocationAction [[Party]]">
+What actions are available to which groups of parties. The list of lists
+
+is interpreted as a set of sets and represents a disjunction of
+
+conjunctions of parties, i.e., each inner list represents a group of
+
+parties that can act jointly to execute the action.
+
+This field can be used to inform wallet users whether they can take an action or not;
+
+and which other parties they might be waiting on to take their action.
+
+Supports multiple parties for actions that require joint authorization. Executing them
+
+will require appropriate, registry-specific delegation contracts to be in place.
+</ResponseField>
+
+<ResponseField name="meta" type="Metadata">
+Additional metadata specific to the allocation, used for extensibility.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318)
+- instance `Show` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318)
+- instance `HasFromAnyView` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318)
+- instance `HasInterfaceView` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318)
+- instance `GetField` `allocation` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899)
+- instance `GetField` `availableActions` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) (`Map` [`AllocationAction`](#type-splice-api-token-allocationv2-allocationaction-86361) [[`Party`]])
+- instance `GetField` `createdAt` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) `Time`
+- instance `GetField` `expiresAt` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) (`Optional` `Time`)
+- instance `GetField` `holdingCids` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) [`ContractId` `Holding`]
+- instance `GetField` `meta` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) `Metadata`
+- instance `GetField` `numIterations` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) `Int`
+- instance `GetField` `originalAllocationCid` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) (`Optional` (`ContractId` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217)))
+- instance `GetField` `settlement` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) [`SettlementInfo`](#type-splice-api-token-allocationv2-settlementinfo-44234)
+- instance `SetField` `allocation` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899)
+- instance `SetField` `availableActions` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) (`Map` [`AllocationAction`](#type-splice-api-token-allocationv2-allocationaction-86361) [[`Party`]])
+- instance `SetField` `createdAt` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) `Time`
+- instance `SetField` `expiresAt` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) (`Optional` `Time`)
+- instance `SetField` `holdingCids` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) [`ContractId` `Holding`]
+- instance `SetField` `meta` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) `Metadata`
+- instance `SetField` `numIterations` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) `Int`
+- instance `SetField` `originalAllocationCid` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) (`Optional` (`ContractId` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217)))
+- instance `SetField` `settlement` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) [`SettlementInfo`](#type-splice-api-token-allocationv2-settlementinfo-44234)
+
+
+<span id="type-splice-api-token-allocationv2-finalizedallocation-95818"></span>
+
+### `data FinalizedAllocation`
+
+An allocation finalized by the executors for settlement.
+
+Constructors:
+
+<span id="constr-splice-api-token-allocationv2-finalizedallocation-93793"></span>
+- `FinalizedAllocation`
+
+<ResponseField name="allocationCid" type="ContractId Allocation">
+The allocation to settle.
+</ResponseField>
+
+<ResponseField name="extraTransferLegSides" type="[TransferLegSide]">
+The extra transfer leg sides to authorize as part of this allocation
+
+in this settlement iteration.
+
+They MUST be empty unless iterated settlement was enabled by the allocation's authorizer.
+</ResponseField>
+
+<ResponseField name="nextIterationFunding" type="Optional (TextMap Decimal)">
+The funding to reserve for the next settlement iteration.
+
+This MUST NOT be set unless iterated settlement was enabled by the allocation's authorizer.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`FinalizedAllocation`](#type-splice-api-token-allocationv2-finalizedallocation-95818)
+- instance `Show` [`FinalizedAllocation`](#type-splice-api-token-allocationv2-finalizedallocation-95818)
+- instance `GetField` `allocationCid` [`FinalizedAllocation`](#type-splice-api-token-allocationv2-finalizedallocation-95818) (`ContractId` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217))
+- instance `GetField` `allocations` [`SettlementFactory_SettleBatch`](#type-splice-api-token-allocationv2-settlementfactorysettlebatch-65399) [[`FinalizedAllocation`](#type-splice-api-token-allocationv2-finalizedallocation-95818)]
+- instance `GetField` `extraTransferLegSides` [`FinalizedAllocation`](#type-splice-api-token-allocationv2-finalizedallocation-95818) [[`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020)]
+- instance `GetField` `nextIterationFunding` [`FinalizedAllocation`](#type-splice-api-token-allocationv2-finalizedallocation-95818) (`Optional` (`TextMap` `Decimal`))
+- instance `SetField` `allocationCid` [`FinalizedAllocation`](#type-splice-api-token-allocationv2-finalizedallocation-95818) (`ContractId` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217))
+- instance `SetField` `allocations` [`SettlementFactory_SettleBatch`](#type-splice-api-token-allocationv2-settlementfactorysettlebatch-65399) [[`FinalizedAllocation`](#type-splice-api-token-allocationv2-finalizedallocation-95818)]
+- instance `SetField` `extraTransferLegSides` [`FinalizedAllocation`](#type-splice-api-token-allocationv2-finalizedallocation-95818) [[`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020)]
+- instance `SetField` `nextIterationFunding` [`FinalizedAllocation`](#type-splice-api-token-allocationv2-finalizedallocation-95818) (`Optional` (`TextMap` `Decimal`))
+
+
+<span id="type-splice-api-token-allocationv2-settlementfactoryview-93858"></span>
+
+### `data SettlementFactoryView`
+
+View for `SettlementFactory`.
+
+Constructors:
+
+<span id="constr-splice-api-token-allocationv2-settlementfactoryview-47925"></span>
+- `SettlementFactoryView`
+
+<ResponseField name="admin" type="Party">
+The party representing the registry app that administers the instruments
+
+for which this settlement factory can be used.
+</ResponseField>
+
+<ResponseField name="meta" type="Metadata">
+Additional metadata specific to the settlement factory, used for extensibility.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`SettlementFactoryView`](#type-splice-api-token-allocationv2-settlementfactoryview-93858)
+- instance `Show` [`SettlementFactoryView`](#type-splice-api-token-allocationv2-settlementfactoryview-93858)
+- instance `HasMethod` [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) `settlementFactory_publicFetchImpl` (`ContractId` [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) -> [`SettlementFactory_PublicFetch`](#type-splice-api-token-allocationv2-settlementfactorypublicfetch-69193) -> `Update` [`SettlementFactoryView`](#type-splice-api-token-allocationv2-settlementfactoryview-93858))
+- instance `HasFromAnyView` [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) [`SettlementFactoryView`](#type-splice-api-token-allocationv2-settlementfactoryview-93858)
+- instance `HasInterfaceView` [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) [`SettlementFactoryView`](#type-splice-api-token-allocationv2-settlementfactoryview-93858)
+- instance `GetField` `admin` [`SettlementFactoryView`](#type-splice-api-token-allocationv2-settlementfactoryview-93858) `Party`
+- instance `GetField` `meta` [`SettlementFactoryView`](#type-splice-api-token-allocationv2-settlementfactoryview-93858) `Metadata`
+- instance `SetField` `admin` [`SettlementFactoryView`](#type-splice-api-token-allocationv2-settlementfactoryview-93858) `Party`
+- instance `SetField` `meta` [`SettlementFactoryView`](#type-splice-api-token-allocationv2-settlementfactoryview-93858) `Metadata`
+- instance `HasExercise` [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) [`SettlementFactory_PublicFetch`](#type-splice-api-token-allocationv2-settlementfactorypublicfetch-69193) [`SettlementFactoryView`](#type-splice-api-token-allocationv2-settlementfactoryview-93858)
+- instance `HasExerciseGuarded` [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) [`SettlementFactory_PublicFetch`](#type-splice-api-token-allocationv2-settlementfactorypublicfetch-69193) [`SettlementFactoryView`](#type-splice-api-token-allocationv2-settlementfactoryview-93858)
+- instance `HasFromAnyChoice` [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) [`SettlementFactory_PublicFetch`](#type-splice-api-token-allocationv2-settlementfactorypublicfetch-69193) [`SettlementFactoryView`](#type-splice-api-token-allocationv2-settlementfactoryview-93858)
+- instance `HasToAnyChoice` [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) [`SettlementFactory_PublicFetch`](#type-splice-api-token-allocationv2-settlementfactorypublicfetch-69193) [`SettlementFactoryView`](#type-splice-api-token-allocationv2-settlementfactoryview-93858)
+
+
+<span id="type-splice-api-token-allocationv2-settlementfactorysettlebatchresult-32414"></span>
+
+### `data SettlementFactory_SettleBatchResult`
+
+Result of settling a batch of allocations.
+
+Constructors:
+
+<span id="constr-splice-api-token-allocationv2-settlementfactorysettlebatchresult-16337"></span>
+- `SettlementFactory_SettleBatchResult`
+
+<ResponseField name="allocationSettleResults" type="[AllocationResult]">
+The result of settling each allocation in the batch.
+
+In the same order as the `allocations` in the choice arguments.
+</ResponseField>
+
+<ResponseField name="meta" type="Metadata">
+Additional metadata specific to the batch settlement, used for extensibility.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`SettlementFactory_SettleBatchResult`](#type-splice-api-token-allocationv2-settlementfactorysettlebatchresult-32414)
+- instance `Show` [`SettlementFactory_SettleBatchResult`](#type-splice-api-token-allocationv2-settlementfactorysettlebatchresult-32414)
+- instance `HasMethod` [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) `settlementFactory_settleBatchImpl` (`ContractId` [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) -> [`SettlementFactory_SettleBatch`](#type-splice-api-token-allocationv2-settlementfactorysettlebatch-65399) -> `Update` [`SettlementFactory_SettleBatchResult`](#type-splice-api-token-allocationv2-settlementfactorysettlebatchresult-32414))
+- instance `GetField` `allocationSettleResults` [`SettlementFactory_SettleBatchResult`](#type-splice-api-token-allocationv2-settlementfactorysettlebatchresult-32414) [[`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)]
+- instance `GetField` `meta` [`SettlementFactory_SettleBatchResult`](#type-splice-api-token-allocationv2-settlementfactorysettlebatchresult-32414) `Metadata`
+- instance `SetField` `allocationSettleResults` [`SettlementFactory_SettleBatchResult`](#type-splice-api-token-allocationv2-settlementfactorysettlebatchresult-32414) [[`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)]
+- instance `SetField` `meta` [`SettlementFactory_SettleBatchResult`](#type-splice-api-token-allocationv2-settlementfactorysettlebatchresult-32414) `Metadata`
+- instance `HasExercise` [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) [`SettlementFactory_SettleBatch`](#type-splice-api-token-allocationv2-settlementfactorysettlebatch-65399) [`SettlementFactory_SettleBatchResult`](#type-splice-api-token-allocationv2-settlementfactorysettlebatchresult-32414)
+- instance `HasExerciseGuarded` [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) [`SettlementFactory_SettleBatch`](#type-splice-api-token-allocationv2-settlementfactorysettlebatch-65399) [`SettlementFactory_SettleBatchResult`](#type-splice-api-token-allocationv2-settlementfactorysettlebatchresult-32414)
+- instance `HasFromAnyChoice` [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) [`SettlementFactory_SettleBatch`](#type-splice-api-token-allocationv2-settlementfactorysettlebatch-65399) [`SettlementFactory_SettleBatchResult`](#type-splice-api-token-allocationv2-settlementfactorysettlebatchresult-32414)
+- instance `HasToAnyChoice` [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) [`SettlementFactory_SettleBatch`](#type-splice-api-token-allocationv2-settlementfactorysettlebatch-65399) [`SettlementFactory_SettleBatchResult`](#type-splice-api-token-allocationv2-settlementfactorysettlebatchresult-32414)
+
+
+<span id="type-splice-api-token-allocationv2-settlementinfo-44234"></span>
+
+### `data SettlementInfo`
+
+An unambiguous reference to a settlement, which can be used by wallets to
+correlate allocations to the same settlement.
+
+The `executors` MUST ensure that the triple of `(id, cid, meta)` is unique
+across settlements.
+
+Constructors:
+
+<span id="constr-splice-api-token-allocationv2-settlementinfo-44883"></span>
+- `SettlementInfo`
+
+<ResponseField name="executors" type="[Party]">
+The parties that are responsible for executing the settlement and
+
+guarantee atomic settlement across asset admins.
+</ResponseField>
+
+<ResponseField name="id" type="Text">
+Textual identifier of the settlement.
+</ResponseField>
+
+<ResponseField name="cid" type="Optional AnyContractId">
+Optional contract-id based identifier of the settlement.
+
+This field is there for technical reasons, as contract-ids cannot be
+
+converted to text from within Daml, which is due to their full textual
+
+representation being only known after transactions have been prepared.
+</ResponseField>
+
+<ResponseField name="meta" type="Metadata">
+Additional metadata to identify the settlement, used for extensibility.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`SettlementInfo`](#type-splice-api-token-allocationv2-settlementinfo-44234)
+- instance `Show` [`SettlementInfo`](#type-splice-api-token-allocationv2-settlementinfo-44234)
+- instance `GetField` `cid` [`SettlementInfo`](#type-splice-api-token-allocationv2-settlementinfo-44234) (`Optional` `AnyContractId`)
+- instance `GetField` `executors` [`SettlementInfo`](#type-splice-api-token-allocationv2-settlementinfo-44234) [`Party`]
+- instance `GetField` `id` [`SettlementInfo`](#type-splice-api-token-allocationv2-settlementinfo-44234) `Text`
+- instance `GetField` `meta` [`SettlementInfo`](#type-splice-api-token-allocationv2-settlementinfo-44234) `Metadata`
+- instance `GetField` `settlement` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) [`SettlementInfo`](#type-splice-api-token-allocationv2-settlementinfo-44234)
+- instance `GetField` `settlement` [`SettlementFactory_SettleBatch`](#type-splice-api-token-allocationv2-settlementfactorysettlebatch-65399) [`SettlementInfo`](#type-splice-api-token-allocationv2-settlementinfo-44234)
+- instance `SetField` `cid` [`SettlementInfo`](#type-splice-api-token-allocationv2-settlementinfo-44234) (`Optional` `AnyContractId`)
+- instance `SetField` `executors` [`SettlementInfo`](#type-splice-api-token-allocationv2-settlementinfo-44234) [`Party`]
+- instance `SetField` `id` [`SettlementInfo`](#type-splice-api-token-allocationv2-settlementinfo-44234) `Text`
+- instance `SetField` `meta` [`SettlementInfo`](#type-splice-api-token-allocationv2-settlementinfo-44234) `Metadata`
+- instance `SetField` `settlement` [`AllocationView`](#type-splice-api-token-allocationv2-allocationview-63318) [`SettlementInfo`](#type-splice-api-token-allocationv2-settlementinfo-44234)
+- instance `SetField` `settlement` [`SettlementFactory_SettleBatch`](#type-splice-api-token-allocationv2-settlementfactorysettlebatch-65399) [`SettlementInfo`](#type-splice-api-token-allocationv2-settlementinfo-44234)
+
+
+<span id="type-splice-api-token-allocationv2-transferleg-34001"></span>
+
+### `data TransferLeg`
+
+A specification of a transfer of holdings between two parties for the
+purpose of a settlement, which often requires the atomic execution of multiple legs.
+
+Constructors:
+
+<span id="constr-splice-api-token-allocationv2-transferleg-77514"></span>
+- `TransferLeg`
+
+<ResponseField name="transferLegId" type="Text">
+An identifier for the transfer leg.
+</ResponseField>
+
+<ResponseField name="sender" type="Account">
+The sender of the transfer.
+</ResponseField>
+
+<ResponseField name="receiver" type="Account">
+The receiver of the transfer.
+</ResponseField>
+
+<ResponseField name="amount" type="Decimal">
+The amount to transfer.
+</ResponseField>
+
+<ResponseField name="instrumentId" type="Text">
+The instrument identifier used by the instrument admin.
+</ResponseField>
+
+<ResponseField name="meta" type="Metadata">
+Additional metadata about the transfer leg, used for extensibility.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`TransferLeg`](#type-splice-api-token-allocationv2-transferleg-34001)
+- instance `Ord` [`TransferLeg`](#type-splice-api-token-allocationv2-transferleg-34001)
+- instance `Show` [`TransferLeg`](#type-splice-api-token-allocationv2-transferleg-34001)
+- instance `GetField` `amount` [`TransferLeg`](#type-splice-api-token-allocationv2-transferleg-34001) `Decimal`
+- instance `GetField` `instrumentId` [`TransferLeg`](#type-splice-api-token-allocationv2-transferleg-34001) `Text`
+- instance `GetField` `meta` [`TransferLeg`](#type-splice-api-token-allocationv2-transferleg-34001) `Metadata`
+- instance `GetField` `receiver` [`TransferLeg`](#type-splice-api-token-allocationv2-transferleg-34001) `Account`
+- instance `GetField` `sender` [`TransferLeg`](#type-splice-api-token-allocationv2-transferleg-34001) `Account`
+- instance `GetField` `transferLegId` [`TransferLeg`](#type-splice-api-token-allocationv2-transferleg-34001) `Text`
+- instance `GetField` `transferLegs` [`SettlementFactory_SettleBatch`](#type-splice-api-token-allocationv2-settlementfactorysettlebatch-65399) [[`TransferLeg`](#type-splice-api-token-allocationv2-transferleg-34001)]
+- instance `SetField` `amount` [`TransferLeg`](#type-splice-api-token-allocationv2-transferleg-34001) `Decimal`
+- instance `SetField` `instrumentId` [`TransferLeg`](#type-splice-api-token-allocationv2-transferleg-34001) `Text`
+- instance `SetField` `meta` [`TransferLeg`](#type-splice-api-token-allocationv2-transferleg-34001) `Metadata`
+- instance `SetField` `receiver` [`TransferLeg`](#type-splice-api-token-allocationv2-transferleg-34001) `Account`
+- instance `SetField` `sender` [`TransferLeg`](#type-splice-api-token-allocationv2-transferleg-34001) `Account`
+- instance `SetField` `transferLegId` [`TransferLeg`](#type-splice-api-token-allocationv2-transferleg-34001) `Text`
+- instance `SetField` `transferLegs` [`SettlementFactory_SettleBatch`](#type-splice-api-token-allocationv2-settlementfactorysettlebatch-65399) [[`TransferLeg`](#type-splice-api-token-allocationv2-transferleg-34001)]
+
+
+<span id="type-splice-api-token-allocationv2-transferlegside-31020"></span>
+
+### `data TransferLegSide`
+
+A side of a transfer leg, which is what allocations authorize.
+
+Constructors:
+
+<span id="constr-splice-api-token-allocationv2-transferlegside-92643"></span>
+- `TransferLegSide`
+
+<ResponseField name="transferLegId" type="Text">
+An identifier for the transfer leg.
+</ResponseField>
+
+<ResponseField name="side" type="TransferSide">
+The side of the transfer that this leg refers to.
+</ResponseField>
+
+<ResponseField name="otherside" type="Account">
+The account on the other side of the transfer leg; i.e., the sender
+
+in case of `side == ReceiverSide`, and the receiver in case of
+
+`side == SenderSide`.
+</ResponseField>
+
+<ResponseField name="amount" type="Decimal">
+The amount being transferred.
+</ResponseField>
+
+<ResponseField name="instrumentId" type="Text">
+The instrument identifier used by the instrument admin.
+</ResponseField>
+
+<ResponseField name="meta" type="Metadata">
+Additional metadata about the transfer leg, used for extensibility.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020)
+- instance `Ord` [`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020)
+- instance `Show` [`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020)
+- instance `GetField` `amount` [`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020) `Decimal`
+- instance `GetField` `extraTransferLegSides` [`Allocation_Settle`](#type-splice-api-token-allocationv2-allocationsettle-31244) [[`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020)]
+- instance `GetField` `extraTransferLegSides` [`FinalizedAllocation`](#type-splice-api-token-allocationv2-finalizedallocation-95818) [[`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020)]
+- instance `GetField` `instrumentId` [`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020) `Text`
+- instance `GetField` `meta` [`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020) `Metadata`
+- instance `GetField` `otherside` [`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020) `Account`
+- instance `GetField` `side` [`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020) [`TransferSide`](#type-splice-api-token-allocationv2-transferside-67513)
+- instance `GetField` `transferLegId` [`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020) `Text`
+- instance `GetField` `transferLegSides` [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899) [[`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020)]
+- instance `SetField` `amount` [`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020) `Decimal`
+- instance `SetField` `extraTransferLegSides` [`Allocation_Settle`](#type-splice-api-token-allocationv2-allocationsettle-31244) [[`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020)]
+- instance `SetField` `extraTransferLegSides` [`FinalizedAllocation`](#type-splice-api-token-allocationv2-finalizedallocation-95818) [[`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020)]
+- instance `SetField` `instrumentId` [`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020) `Text`
+- instance `SetField` `meta` [`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020) `Metadata`
+- instance `SetField` `otherside` [`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020) `Account`
+- instance `SetField` `side` [`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020) [`TransferSide`](#type-splice-api-token-allocationv2-transferside-67513)
+- instance `SetField` `transferLegId` [`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020) `Text`
+- instance `SetField` `transferLegSides` [`AllocationSpecification`](#type-splice-api-token-allocationv2-allocationspecification-21899) [[`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020)]
+
+
+<span id="type-splice-api-token-allocationv2-transferside-67513"></span>
+
+### `data TransferSide`
+
+A side of a transfer.
+
+Constructors:
+
+<span id="constr-splice-api-token-allocationv2-senderside-82048"></span>
+- `SenderSide`
+
+The outbound side of a transfer, i.e., the sending of assets.
+<span id="constr-splice-api-token-allocationv2-receiverside-26774"></span>
+- `ReceiverSide`
+
+The inbound direction, i.e., the receipt of assets.
+
+Instances:
+
+- instance `Eq` [`TransferSide`](#type-splice-api-token-allocationv2-transferside-67513)
+- instance `Ord` [`TransferSide`](#type-splice-api-token-allocationv2-transferside-67513)
+- instance `Show` [`TransferSide`](#type-splice-api-token-allocationv2-transferside-67513)
+- instance `GetField` `side` [`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020) [`TransferSide`](#type-splice-api-token-allocationv2-transferside-67513)
+- instance `SetField` `side` [`TransferLegSide`](#type-splice-api-token-allocationv2-transferlegside-31020) [`TransferSide`](#type-splice-api-token-allocationv2-transferside-67513)
+
+
+
+## Functions
+
+
+<span id="function-splice-api-token-allocationv2-allocationsettleimpl-86098"></span>
+
+### `allocation_settleImpl`
+
+`allocation_settleImpl` : [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) -> `ContractId` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) -> [`Allocation_Settle`](#type-splice-api-token-allocationv2-allocationsettle-31244) -> `Update` [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+
+
+<span id="function-splice-api-token-allocationv2-allocationcancelimpl-4149"></span>
+
+### `allocation_cancelImpl`
+
+`allocation_cancelImpl` : [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) -> `ContractId` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) -> [`Allocation_Cancel`](#type-splice-api-token-allocationv2-allocationcancel-98587) -> `Update` [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+
+
+<span id="function-splice-api-token-allocationv2-allocationwithdrawimpl-22975"></span>
+
+### `allocation_withdrawImpl`
+
+`allocation_withdrawImpl` : [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) -> `ContractId` [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) -> [`Allocation_Withdraw`](#type-splice-api-token-allocationv2-allocationwithdraw-18681) -> `Update` [`AllocationResult`](#type-splice-api-token-allocationv2-allocationresult-19648)
+
+
+<span id="function-splice-api-token-allocationv2-allocationsettleextraobservers-63249"></span>
+
+### `allocation_settleExtraObservers`
+
+`allocation_settleExtraObservers` : [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) -> [`Allocation_Settle`](#type-splice-api-token-allocationv2-allocationsettle-31244) -> [`Party`]
+
+
+<span id="function-splice-api-token-allocationv2-allocationcancelextraobservers-5502"></span>
+
+### `allocation_cancelExtraObservers`
+
+`allocation_cancelExtraObservers` : [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) -> [`Allocation_Cancel`](#type-splice-api-token-allocationv2-allocationcancel-98587) -> [`Party`]
+
+
+<span id="function-splice-api-token-allocationv2-allocationwithdrawextraobservers-84364"></span>
+
+### `allocation_withdrawExtraObservers`
+
+`allocation_withdrawExtraObservers` : [`Allocation`](#type-splice-api-token-allocationv2-allocation-27217) -> [`Allocation_Withdraw`](#type-splice-api-token-allocationv2-allocationwithdraw-18681) -> [`Party`]
+
+
+<span id="function-splice-api-token-allocationv2-settlementfactorypublicfetchimpl-1547"></span>
+
+### `settlementFactory_publicFetchImpl`
+
+`settlementFactory_publicFetchImpl` : [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) -> `ContractId` [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) -> [`SettlementFactory_PublicFetch`](#type-splice-api-token-allocationv2-settlementfactorypublicfetch-69193) -> `Update` [`SettlementFactoryView`](#type-splice-api-token-allocationv2-settlementfactoryview-93858)
+
+
+<span id="function-splice-api-token-allocationv2-settlementfactorysettlebatchimpl-63577"></span>
+
+### `settlementFactory_settleBatchImpl`
+
+`settlementFactory_settleBatchImpl` : [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) -> `ContractId` [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) -> [`SettlementFactory_SettleBatch`](#type-splice-api-token-allocationv2-settlementfactorysettlebatch-65399) -> `Update` [`SettlementFactory_SettleBatchResult`](#type-splice-api-token-allocationv2-settlementfactorysettlebatchresult-32414)
+
+
+<span id="function-splice-api-token-allocationv2-settlementfactorysettlebatchextraobservers-38682"></span>
+
+### `settlementFactory_settleBatchExtraObservers`
+
+`settlementFactory_settleBatchExtraObservers` : [`SettlementFactory`](#type-splice-api-token-allocationv2-settlementfactory-64321) -> [`SettlementFactory_SettleBatch`](#type-splice-api-token-allocationv2-settlementfactorysettlebatch-65399) -> [`Party`]

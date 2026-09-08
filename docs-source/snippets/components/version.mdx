@@ -1,0 +1,93 @@
+export const VersionOption = ({ children }) => <>{children}</>;
+
+export const Version = ({ children, title, description, defaultLabel, networkData = {} }) => {
+  const networkOrder = ['mainnet', 'testnet', 'devnet'];
+  const networksForVersion = (version) => {
+    return networkOrder.filter((networkKey) => networkData[networkKey]?.versions?.splice === version);
+  };
+  const labelForVersion = (version) => {
+    const networks = networksForVersion(version);
+    if (networks.length === 1) {
+      const networkKey = networks[0];
+      return `${networkData[networkKey]?.name ?? networkKey} (${version})`;
+    }
+    return `CN ${version}`;
+  };
+  const labelWithVersion = (label, version) => {
+    return version ? `${label} (${version})` : label;
+  };
+  const optionLabel = (option) => option.props.label
+    ? labelWithVersion(option.props.label, option.props.version)
+    : labelForVersion(option.props.version);
+  const renderOption = (option) => {
+    if (option.props.code) {
+      return (
+        <pre>
+          <code>{option.props.code}</code>
+        </pre>
+      );
+    }
+
+    return option;
+  };
+  const options = React.Children.toArray(children).filter((child) => child?.props?.label || child?.props?.version);
+  const tabOptions = options.flatMap((option) => {
+    if (option.props.label) {
+      return [{ label: optionLabel(option), option }];
+    }
+
+    const networks = networksForVersion(option.props.version);
+    if (!networks.length) {
+      return [{ label: optionLabel(option), option }];
+    }
+
+    return networks.map((networkKey) => ({
+      label: labelWithVersion(networkData[networkKey]?.name ?? networkKey, option.props.version),
+      option,
+    }));
+  });
+  const defaultIndex = Math.max(
+    0,
+    tabOptions.findIndex((tab) => tab.label === defaultLabel),
+  );
+  const [activeIndex, setActiveIndex] = React.useState(defaultIndex);
+  const activeOption = tabOptions[activeIndex]?.option ?? tabOptions[0]?.option;
+
+  if (!tabOptions.length) {
+    return null;
+  }
+
+  return (
+    <div data-component="version" className="my-6 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-950">
+      {(title || description) && (
+        <div className="border-b border-gray-200 px-4 py-3 dark:border-gray-800">
+          {title && <div className="text-sm font-semibold text-gray-950 dark:text-gray-100">{title}</div>}
+          {description && <div className="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-400">{description}</div>}
+        </div>
+      )}
+      <div role="tablist" className="flex gap-1 border-b border-gray-200 bg-gray-50 p-1 dark:border-gray-800 dark:bg-gray-900">
+        {tabOptions.map(({ label }, index) => {
+          const isActive = index === activeIndex;
+          const buttonClass = isActive
+            ? 'rounded-md bg-white text-gray-950 shadow-sm dark:bg-gray-800 dark:text-gray-100'
+            : 'rounded-md text-gray-600 hover:bg-white/80 hover:text-gray-950 dark:text-gray-400 dark:hover:bg-gray-800/70 dark:hover:text-gray-100';
+          return (
+            <button
+              key={`${label}-${index}`}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              onClick={() => setActiveIndex(index)}
+              className={`min-h-9 px-3 text-sm font-medium transition-colors ${buttonClass}`}
+            >
+              {label}
+            </button>
+          );
+        })}
+      </div>
+      <div role="tabpanel" className="px-4 py-4 text-sm leading-6 text-gray-800 dark:text-gray-200">
+        {renderOption(activeOption)}
+      </div>
+    </div>
+  );
+};

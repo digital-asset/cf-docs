@@ -1,0 +1,9 @@
+```haskell
+choice Complete : ()
+  controller party
+  do
+    -- bind the ledger effective time to the tchoose variable using getTime
+    tchoose <- getTime
+    -- assert that tchoose is no earlier than the begin time
+    assert (begin <= tchoose && tchoose < addRelTime begin period)
+```

@@ -1,0 +1,88 @@
+---
+title: "DA.Internal.Interface.AnyView"
+description: "Reference documentation for Daml module DA.Internal.Interface.AnyView."
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--collection"></div>
+
+<span id="module-da-internal-interface-anyview-80474"></span>
+
+
+
+<div class="x2mdx-ref-hero">
+
+  <p class="x2mdx-ref-eyebrow">Daml module</p>
+
+
+  <h1 class="x2mdx-ref-title">DA.Internal.Interface.AnyView</h1>
+
+
+  <p class="x2mdx-ref-summary">-</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Daml</span>
+
+</div>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Module</dt>
+    <dd>DA.Internal.Interface.AnyView</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Latest release</dt>
+    <dd>3.5.7</dd>
+  </div>
+
+</dl>
+
+</div>
+
+
+
+
+
+## Typeclasses
+
+
+<span id="class-da-internal-interface-anyview-hasfromanyview-30108"></span>
+
+### `class HasFromAnyView i v`
+
+
+
+## Functions
+
+
+<span id="function-da-internal-interface-anyview-fromanyview-10400"></span>
+
+### `fromAnyView`
+
+`fromAnyView` : ([`HasTemplateTypeRep`](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastemplatetyperep-24134) `i`, [`HasFromAnyView`](#class-da-internal-interface-anyview-hasfromanyview-30108) `i` `v`) => [`AnyView`](/appdev/reference/daml-standard-library/da-internal-interface-anyview-types#type-da-internal-interface-anyview-types-anyview-16883) -> [`Optional`](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) `v`
+
+
+
+## Orphan Typeclass Instances
+
+
+- instance [`Eq`](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) [`InterfaceTypeRep`](/appdev/reference/daml-standard-library/da-internal-interface-anyview-types#type-da-internal-interface-anyview-types-interfacetyperep-5047)
+
+
+- instance [`Ord`](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) [`InterfaceTypeRep`](/appdev/reference/daml-standard-library/da-internal-interface-anyview-types#type-da-internal-interface-anyview-types-interfacetyperep-5047)
+
+
+- instance [`GetField`](/appdev/reference/daml-standard-library/da-record#class-da-internal-record-getfield-53979) `getAnyView` [`AnyView`](/appdev/reference/daml-standard-library/da-internal-interface-anyview-types#type-da-internal-interface-anyview-types-anyview-16883) `Any`
+
+
+- instance [`SetField`](/appdev/reference/daml-standard-library/da-record#class-da-internal-record-setfield-4311) `getAnyView` [`AnyView`](/appdev/reference/daml-standard-library/da-internal-interface-anyview-types#type-da-internal-interface-anyview-types-anyview-16883) `Any`
+
+
+- instance [`GetField`](/appdev/reference/daml-standard-library/da-record#class-da-internal-record-getfield-53979) `getAnyViewInterfaceTypeRep` [`AnyView`](/appdev/reference/daml-standard-library/da-internal-interface-anyview-types#type-da-internal-interface-anyview-types-anyview-16883) [`InterfaceTypeRep`](/appdev/reference/daml-standard-library/da-internal-interface-anyview-types#type-da-internal-interface-anyview-types-interfacetyperep-5047)
+
+
+- instance [`SetField`](/appdev/reference/daml-standard-library/da-record#class-da-internal-record-setfield-4311) `getAnyViewInterfaceTypeRep` [`AnyView`](/appdev/reference/daml-standard-library/da-internal-interface-anyview-types#type-da-internal-interface-anyview-types-anyview-16883) [`InterfaceTypeRep`](/appdev/reference/daml-standard-library/da-internal-interface-anyview-types#type-da-internal-interface-anyview-types-interfacetyperep-5047)

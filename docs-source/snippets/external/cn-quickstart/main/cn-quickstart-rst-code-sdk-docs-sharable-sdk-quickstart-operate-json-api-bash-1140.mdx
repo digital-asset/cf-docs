@@ -1,0 +1,10 @@
+```bash
+   # 1. Get admin token for the participant
+   USER_ADMIN_TOKEN=$(curl -fsS "http://keycloak.localhost:8082/realms/AppUser/protocol/openid-connect/token" \
+     -H 'Content-Type: application/x-www-form-urlencoded' \
+     -d 'client_id=app-user-validator' \
+     -d 'client_secret=6m12QyyGl81d9nABWQXMycZdXho6ejEX' \
+     -d 'grant_type=client_credentials' \
+     -d 'scope=openid' | jq -r .access_token)
+
+```

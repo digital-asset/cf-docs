@@ -1,0 +1,2461 @@
+{
+  "surface_id": "wallet-gateway-openrpc",
+  "title": "Wallet Gateway",
+  "format": "openrpc",
+  "configured_scope": "Wallet Gateway OpenRPC methods",
+  "history_mode": "snapshots",
+  "publish_version": "1.9.0",
+  "comparison_versions": [
+    "0.24.0",
+    "0.25.0",
+    "0.26.0",
+    "0.27.0",
+    "1.1.0",
+    "1.2.0",
+    "1.2.1",
+    "1.3.0",
+    "1.4.0",
+    "1.5.0",
+    "1.6.0",
+    "1.7.0",
+    "1.8.0",
+    "1.8.1",
+    "1.9.0"
+  ],
+  "source_artifacts": [
+    {
+      "version": "0.24.0",
+      "source": "api-specs/openrpc-dapp-api.json",
+      "revision": "0.24.0",
+      "path": "api-specs/openrpc-dapp-api.json"
+    },
+    {
+      "version": "0.24.0",
+      "source": "api-specs/openrpc-dapp-remote-api.json",
+      "revision": "0.24.0",
+      "path": "api-specs/openrpc-dapp-remote-api.json"
+    },
+    {
+      "version": "0.24.0",
+      "source": "api-specs/openrpc-signing-api.json",
+      "revision": "0.24.0",
+      "path": "api-specs/openrpc-signing-api.json"
+    },
+    {
+      "version": "0.24.0",
+      "source": "api-specs/openrpc-user-api.json",
+      "revision": "0.24.0",
+      "path": "api-specs/openrpc-user-api.json"
+    },
+    {
+      "version": "0.25.0",
+      "source": "api-specs/openrpc-dapp-api.json",
+      "revision": "0.25.0",
+      "path": "api-specs/openrpc-dapp-api.json"
+    },
+    {
+      "version": "0.25.0",
+      "source": "api-specs/openrpc-dapp-remote-api.json",
+      "revision": "0.25.0",
+      "path": "api-specs/openrpc-dapp-remote-api.json"
+    },
+    {
+      "version": "0.25.0",
+      "source": "api-specs/openrpc-signing-api.json",
+      "revision": "0.25.0",
+      "path": "api-specs/openrpc-signing-api.json"
+    },
+    {
+      "version": "0.25.0",
+      "source": "api-specs/openrpc-user-api.json",
+      "revision": "0.25.0",
+      "path": "api-specs/openrpc-user-api.json"
+    },
+    {
+      "version": "0.26.0",
+      "source": "api-specs/openrpc-dapp-api.json",
+      "revision": "0.26.0",
+      "path": "api-specs/openrpc-dapp-api.json"
+    },
+    {
+      "version": "0.26.0",
+      "source": "api-specs/openrpc-dapp-remote-api.json",
+      "revision": "0.26.0",
+      "path": "api-specs/openrpc-dapp-remote-api.json"
+    },
+    {
+      "version": "0.26.0",
+      "source": "api-specs/openrpc-signing-api.json",
+      "revision": "0.26.0",
+      "path": "api-specs/openrpc-signing-api.json"
+    },
+    {
+      "version": "0.26.0",
+      "source": "api-specs/openrpc-user-api.json",
+      "revision": "0.26.0",
+      "path": "api-specs/openrpc-user-api.json"
+    },
+    {
+      "version": "0.27.0",
+      "source": "api-specs/openrpc-dapp-api.json",
+      "revision": "0.27.0",
+      "path": "api-specs/openrpc-dapp-api.json"
+    },
+    {
+      "version": "0.27.0",
+      "source": "api-specs/openrpc-dapp-remote-api.json",
+      "revision": "0.27.0",
+      "path": "api-specs/openrpc-dapp-remote-api.json"
+    },
+    {
+      "version": "0.27.0",
+      "source": "api-specs/openrpc-signing-api.json",
+      "revision": "0.27.0",
+      "path": "api-specs/openrpc-signing-api.json"
+    },
+    {
+      "version": "0.27.0",
+      "source": "api-specs/openrpc-user-api.json",
+      "revision": "0.27.0",
+      "path": "api-specs/openrpc-user-api.json"
+    },
+    {
+      "version": "1.1.0",
+      "source": "api-specs/openrpc-dapp-api.json",
+      "revision": "1.1.0",
+      "path": "api-specs/openrpc-dapp-api.json"
+    },
+    {
+      "version": "1.1.0",
+      "source": "api-specs/openrpc-dapp-remote-api.json",
+      "revision": "1.1.0",
+      "path": "api-specs/openrpc-dapp-remote-api.json"
+    },
+    {
+      "version": "1.1.0",
+      "source": "api-specs/openrpc-signing-api.json",
+      "revision": "1.1.0",
+      "path": "api-specs/openrpc-signing-api.json"
+    },
+    {
+      "version": "1.1.0",
+      "source": "api-specs/openrpc-user-api.json",
+      "revision": "1.1.0",
+      "path": "api-specs/openrpc-user-api.json"
+    },
+    {
+      "version": "1.2.0",
+      "source": "api-specs/openrpc-dapp-api.json",
+      "revision": "1.2.0",
+      "path": "api-specs/openrpc-dapp-api.json"
+    },
+    {
+      "version": "1.2.0",
+      "source": "api-specs/openrpc-dapp-remote-api.json",
+      "revision": "1.2.0",
+      "path": "api-specs/openrpc-dapp-remote-api.json"
+    },
+    {
+      "version": "1.2.0",
+      "source": "api-specs/openrpc-signing-api.json",
+      "revision": "1.2.0",
+      "path": "api-specs/openrpc-signing-api.json"
+    },
+    {
+      "version": "1.2.0",
+      "source": "api-specs/openrpc-user-api.json",
+      "revision": "1.2.0",
+      "path": "api-specs/openrpc-user-api.json"
+    },
+    {
+      "version": "1.2.1",
+      "source": "api-specs/openrpc-dapp-api.json",
+      "revision": "1.2.1",
+      "path": "api-specs/openrpc-dapp-api.json"
+    },
+    {
+      "version": "1.2.1",
+      "source": "api-specs/openrpc-dapp-remote-api.json",
+      "revision": "1.2.1",
+      "path": "api-specs/openrpc-dapp-remote-api.json"
+    },
+    {
+      "version": "1.2.1",
+      "source": "api-specs/openrpc-signing-api.json",
+      "revision": "1.2.1",
+      "path": "api-specs/openrpc-signing-api.json"
+    },
+    {
+      "version": "1.2.1",
+      "source": "api-specs/openrpc-user-api.json",
+      "revision": "1.2.1",
+      "path": "api-specs/openrpc-user-api.json"
+    },
+    {
+      "version": "1.3.0",
+      "source": "api-specs/openrpc-dapp-api.json",
+      "revision": "1.3.0",
+      "path": "api-specs/openrpc-dapp-api.json"
+    },
+    {
+      "version": "1.3.0",
+      "source": "api-specs/openrpc-dapp-remote-api.json",
+      "revision": "1.3.0",
+      "path": "api-specs/openrpc-dapp-remote-api.json"
+    },
+    {
+      "version": "1.3.0",
+      "source": "api-specs/openrpc-signing-api.json",
+      "revision": "1.3.0",
+      "path": "api-specs/openrpc-signing-api.json"
+    },
+    {
+      "version": "1.3.0",
+      "source": "api-specs/openrpc-user-api.json",
+      "revision": "1.3.0",
+      "path": "api-specs/openrpc-user-api.json"
+    },
+    {
+      "version": "1.4.0",
+      "source": "api-specs/openrpc-dapp-api.json",
+      "revision": "1.4.0",
+      "path": "api-specs/openrpc-dapp-api.json"
+    },
+    {
+      "version": "1.4.0",
+      "source": "api-specs/openrpc-dapp-remote-api.json",
+      "revision": "1.4.0",
+      "path": "api-specs/openrpc-dapp-remote-api.json"
+    },
+    {
+      "version": "1.4.0",
+      "source": "api-specs/openrpc-signing-api.json",
+      "revision": "1.4.0",
+      "path": "api-specs/openrpc-signing-api.json"
+    },
+    {
+      "version": "1.4.0",
+      "source": "api-specs/openrpc-user-api.json",
+      "revision": "1.4.0",
+      "path": "api-specs/openrpc-user-api.json"
+    },
+    {
+      "version": "1.5.0",
+      "source": "api-specs/openrpc-dapp-api.json",
+      "revision": "1.5.0",
+      "path": "api-specs/openrpc-dapp-api.json"
+    },
+    {
+      "version": "1.5.0",
+      "source": "api-specs/openrpc-dapp-remote-api.json",
+      "revision": "1.5.0",
+      "path": "api-specs/openrpc-dapp-remote-api.json"
+    },
+    {
+      "version": "1.5.0",
+      "source": "api-specs/openrpc-signing-api.json",
+      "revision": "1.5.0",
+      "path": "api-specs/openrpc-signing-api.json"
+    },
+    {
+      "version": "1.5.0",
+      "source": "api-specs/openrpc-user-api.json",
+      "revision": "1.5.0",
+      "path": "api-specs/openrpc-user-api.json"
+    },
+    {
+      "version": "1.6.0",
+      "source": "api-specs/openrpc-dapp-api.json",
+      "revision": "1.6.0",
+      "path": "api-specs/openrpc-dapp-api.json"
+    },
+    {
+      "version": "1.6.0",
+      "source": "api-specs/openrpc-dapp-remote-api.json",
+      "revision": "1.6.0",
+      "path": "api-specs/openrpc-dapp-remote-api.json"
+    },
+    {
+      "version": "1.6.0",
+      "source": "api-specs/openrpc-signing-api.json",
+      "revision": "1.6.0",
+      "path": "api-specs/openrpc-signing-api.json"
+    },
+    {
+      "version": "1.6.0",
+      "source": "api-specs/openrpc-user-api.json",
+      "revision": "1.6.0",
+      "path": "api-specs/openrpc-user-api.json"
+    },
+    {
+      "version": "1.7.0",
+      "source": "api-specs/openrpc-dapp-api.json",
+      "revision": "1.7.0",
+      "path": "api-specs/openrpc-dapp-api.json"
+    },
+    {
+      "version": "1.7.0",
+      "source": "api-specs/openrpc-dapp-remote-api.json",
+      "revision": "1.7.0",
+      "path": "api-specs/openrpc-dapp-remote-api.json"
+    },
+    {
+      "version": "1.7.0",
+      "source": "api-specs/openrpc-signing-api.json",
+      "revision": "1.7.0",
+      "path": "api-specs/openrpc-signing-api.json"
+    },
+    {
+      "version": "1.7.0",
+      "source": "api-specs/openrpc-user-api.json",
+      "revision": "1.7.0",
+      "path": "api-specs/openrpc-user-api.json"
+    },
+    {
+      "version": "1.8.0",
+      "source": "api-specs/openrpc-dapp-api.json",
+      "revision": "1.8.0",
+      "path": "api-specs/openrpc-dapp-api.json"
+    },
+    {
+      "version": "1.8.0",
+      "source": "api-specs/openrpc-dapp-remote-api.json",
+      "revision": "1.8.0",
+      "path": "api-specs/openrpc-dapp-remote-api.json"
+    },
+    {
+      "version": "1.8.0",
+      "source": "api-specs/openrpc-signing-api.json",
+      "revision": "1.8.0",
+      "path": "api-specs/openrpc-signing-api.json"
+    },
+    {
+      "version": "1.8.0",
+      "source": "api-specs/openrpc-user-api.json",
+      "revision": "1.8.0",
+      "path": "api-specs/openrpc-user-api.json"
+    },
+    {
+      "version": "1.8.1",
+      "source": "api-specs/openrpc-dapp-api.json",
+      "revision": "1.8.1",
+      "path": "api-specs/openrpc-dapp-api.json"
+    },
+    {
+      "version": "1.8.1",
+      "source": "api-specs/openrpc-dapp-remote-api.json",
+      "revision": "1.8.1",
+      "path": "api-specs/openrpc-dapp-remote-api.json"
+    },
+    {
+      "version": "1.8.1",
+      "source": "api-specs/openrpc-signing-api.json",
+      "revision": "1.8.1",
+      "path": "api-specs/openrpc-signing-api.json"
+    },
+    {
+      "version": "1.8.1",
+      "source": "api-specs/openrpc-user-api.json",
+      "revision": "1.8.1",
+      "path": "api-specs/openrpc-user-api.json"
+    },
+    {
+      "version": "1.9.0",
+      "source": "api-specs/openrpc-dapp-api.json",
+      "revision": "1.9.0",
+      "path": "api-specs/openrpc-dapp-api.json"
+    },
+    {
+      "version": "1.9.0",
+      "source": "api-specs/openrpc-dapp-remote-api.json",
+      "revision": "1.9.0",
+      "path": "api-specs/openrpc-dapp-remote-api.json"
+    },
+    {
+      "version": "1.9.0",
+      "source": "api-specs/openrpc-signing-api.json",
+      "revision": "1.9.0",
+      "path": "api-specs/openrpc-signing-api.json"
+    },
+    {
+      "version": "1.9.0",
+      "source": "api-specs/openrpc-user-api.json",
+      "revision": "1.9.0",
+      "path": "api-specs/openrpc-user-api.json"
+    }
+  ],
+  "version_policy": "configured_publish_version",
+  "items": [
+    {
+      "id": "dapp-api#accountsChanged",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-api/accountschanged",
+      "location": "dapp-api accountsChanged",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-api accountsChanged",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-api#connect",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-api/connect",
+      "location": "dapp-api connect",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-api connect",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-api#disconnect",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-api/disconnect",
+      "location": "dapp-api disconnect",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-api disconnect",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-api#getActiveNetwork",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-api/getactivenetwork",
+      "location": "dapp-api getActiveNetwork",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-api getActiveNetwork",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-api#getPrimaryAccount",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-api/getprimaryaccount",
+      "location": "dapp-api getPrimaryAccount",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-api getPrimaryAccount",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-api#isConnected",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-api/isconnected",
+      "location": "dapp-api isConnected",
+      "first_seen": "0.26.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-api.json",
+        "observed_in_version": "0.26.0",
+        "location": "dapp-api isConnected",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-api#ledgerApi",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-api/ledgerapi",
+      "location": "dapp-api ledgerApi",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-api ledgerApi",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-api#listAccounts",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-api/listaccounts",
+      "location": "dapp-api listAccounts",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-api listAccounts",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-api#messageSignature",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-api/messagesignature",
+      "location": "dapp-api messageSignature",
+      "first_seen": "1.4.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-api.json",
+        "observed_in_version": "1.4.0",
+        "location": "dapp-api messageSignature",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-api#prepareExecute",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-api/prepareexecute",
+      "location": "dapp-api prepareExecute",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-api prepareExecute",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "1.4.0",
+      "changes": [
+        {
+          "version": "1.4.0",
+          "summary": "The method was updated in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "api-specs/openrpc-dapp-api.json",
+              "observed_in_version": "1.4.0",
+              "location": "dapp-api prepareExecute",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-api#prepareExecuteAndWait",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-api/prepareexecuteandwait",
+      "location": "dapp-api prepareExecuteAndWait",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-api prepareExecuteAndWait",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "1.4.0",
+      "changes": [
+        {
+          "version": "1.4.0",
+          "summary": "The method was updated in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "api-specs/openrpc-dapp-api.json",
+              "observed_in_version": "1.4.0",
+              "location": "dapp-api prepareExecuteAndWait",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-api#signMessage",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-api/signmessage",
+      "location": "dapp-api signMessage",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-api signMessage",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-api#status",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-api/status",
+      "location": "dapp-api status",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-api status",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-api#txChanged",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-api/txchanged",
+      "location": "dapp-api txChanged",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-api txChanged",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-remote-api#accountsChanged",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-remote-api/accountschanged",
+      "location": "dapp-remote-api accountsChanged",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-remote-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-remote-api accountsChanged",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-remote-api#connect",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-remote-api/connect",
+      "location": "dapp-remote-api connect",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-remote-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-remote-api connect",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-remote-api#connected",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-remote-api/connected",
+      "location": "dapp-remote-api connected",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-remote-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-remote-api connected",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-remote-api#disconnect",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-remote-api/disconnect",
+      "location": "dapp-remote-api disconnect",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-remote-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-remote-api disconnect",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-remote-api#getActiveNetwork",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-remote-api/getactivenetwork",
+      "location": "dapp-remote-api getActiveNetwork",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-remote-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-remote-api getActiveNetwork",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-remote-api#getPrimaryAccount",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-remote-api/getprimaryaccount",
+      "location": "dapp-remote-api getPrimaryAccount",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-remote-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-remote-api getPrimaryAccount",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-remote-api#isConnected",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-remote-api/isconnected",
+      "location": "dapp-remote-api isConnected",
+      "first_seen": "0.26.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-remote-api.json",
+        "observed_in_version": "0.26.0",
+        "location": "dapp-remote-api isConnected",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-remote-api#ledgerApi",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-remote-api/ledgerapi",
+      "location": "dapp-remote-api ledgerApi",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-remote-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-remote-api ledgerApi",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-remote-api#listAccounts",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-remote-api/listaccounts",
+      "location": "dapp-remote-api listAccounts",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-remote-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-remote-api listAccounts",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-remote-api#messageSignature",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-remote-api/messagesignature",
+      "location": "dapp-remote-api messageSignature",
+      "first_seen": "1.4.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-remote-api.json",
+        "observed_in_version": "1.4.0",
+        "location": "dapp-remote-api messageSignature",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-remote-api#onStatusChanged",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-remote-api/onstatuschanged",
+      "location": "dapp-remote-api onStatusChanged",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-remote-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-remote-api onStatusChanged",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-remote-api#prepareExecute",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-remote-api/prepareexecute",
+      "location": "dapp-remote-api prepareExecute",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-remote-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-remote-api prepareExecute",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "1.4.0",
+      "changes": [
+        {
+          "version": "1.4.0",
+          "summary": "The method was updated in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "api-specs/openrpc-dapp-remote-api.json",
+              "observed_in_version": "1.4.0",
+              "location": "dapp-remote-api prepareExecute",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-remote-api#signMessage",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-remote-api/signmessage",
+      "location": "dapp-remote-api signMessage",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-remote-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-remote-api signMessage",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "1.4.0",
+      "changes": [
+        {
+          "version": "1.4.0",
+          "summary": "description updated; result updated (schema ref, required fields)",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "api-specs/openrpc-dapp-remote-api.json",
+              "observed_in_version": "1.4.0",
+              "location": "dapp-remote-api signMessage",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-remote-api#status",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-remote-api/status",
+      "location": "dapp-remote-api status",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-remote-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-remote-api status",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "dapp-remote-api#txChanged",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/dapp-remote-api/txchanged",
+      "location": "dapp-remote-api txChanged",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-dapp-remote-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "dapp-remote-api txChanged",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "signing-api#createKey",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/signing-api/createkey",
+      "location": "signing-api createKey",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-signing-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "signing-api createKey",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "signing-api#getConfiguration",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/signing-api/getconfiguration",
+      "location": "signing-api getConfiguration",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-signing-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "signing-api getConfiguration",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "signing-api#getKeys",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/signing-api/getkeys",
+      "location": "signing-api getKeys",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-signing-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "signing-api getKeys",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "signing-api#getTransaction",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/signing-api/gettransaction",
+      "location": "signing-api getTransaction",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-signing-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "signing-api getTransaction",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "signing-api#getTransactions",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/signing-api/gettransactions",
+      "location": "signing-api getTransactions",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-signing-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "signing-api getTransactions",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "signing-api#setConfiguration",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/signing-api/setconfiguration",
+      "location": "signing-api setConfiguration",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-signing-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "signing-api setConfiguration",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "signing-api#signMessage",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/signing-api/signmessage",
+      "location": "signing-api signMessage",
+      "first_seen": "1.4.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-signing-api.json",
+        "observed_in_version": "1.4.0",
+        "location": "signing-api signMessage",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "signing-api#signTransaction",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/signing-api/signtransaction",
+      "location": "signing-api signTransaction",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-signing-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "signing-api signTransaction",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "signing-api#subscribeTransactions",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/signing-api/subscribetransactions",
+      "location": "signing-api subscribeTransactions",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-signing-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "signing-api subscribeTransactions",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#addIdp",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/addidp",
+      "location": "user-api addIdp",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api addIdp",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#addNetwork",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/addnetwork",
+      "location": "user-api addNetwork",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api addNetwork",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#addSession",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/addsession",
+      "location": "user-api addSession",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api addSession",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "1.7.0",
+      "changes": [
+        {
+          "version": "1.7.0",
+          "summary": "params updated: `params`",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "api-specs/openrpc-user-api.json",
+              "observed_in_version": "1.7.0",
+              "location": "user-api addSession",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#allocatePartyForWallet",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/allocatepartyforwallet",
+      "location": "user-api allocatePartyForWallet",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api allocatePartyForWallet",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#createWallet",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/createwallet",
+      "location": "user-api createWallet",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api createWallet",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#deleteMessageToSign",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/deletemessagetosign",
+      "location": "user-api deleteMessageToSign",
+      "first_seen": "1.4.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "1.4.0",
+        "location": "user-api deleteMessageToSign",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#deleteTransaction",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/deletetransaction",
+      "location": "user-api deleteTransaction",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api deleteTransaction",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "0.27.0",
+      "changes": [
+        {
+          "version": "0.27.0",
+          "summary": "params updated: `params`",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "api-specs/openrpc-user-api.json",
+              "observed_in_version": "0.27.0",
+              "location": "user-api deleteTransaction",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#execute",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/execute",
+      "location": "user-api execute",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api execute",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "0.27.0",
+      "changes": [
+        {
+          "version": "0.27.0",
+          "summary": "params updated: `params`",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "api-specs/openrpc-user-api.json",
+              "observed_in_version": "0.27.0",
+              "location": "user-api execute",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#generateApiKey",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/generateapikey",
+      "location": "user-api generateApiKey",
+      "first_seen": "1.5.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "1.5.0",
+        "location": "user-api generateApiKey",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#getMessageToSign",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/getmessagetosign",
+      "location": "user-api getMessageToSign",
+      "first_seen": "1.4.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "1.4.0",
+        "location": "user-api getMessageToSign",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#getNetwork",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/getnetwork",
+      "location": "user-api getNetwork",
+      "first_seen": "1.4.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "1.4.0",
+        "location": "user-api getNetwork",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#getTransaction",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/gettransaction",
+      "location": "user-api getTransaction",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api getTransaction",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "0.27.0",
+      "changes": [
+        {
+          "version": "0.27.0",
+          "summary": "params updated: `params`; result updated (required fields)",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "api-specs/openrpc-user-api.json",
+              "observed_in_version": "0.27.0",
+              "location": "user-api getTransaction",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#getUser",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/getuser",
+      "location": "user-api getUser",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api getUser",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#isWalletSyncNeeded",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/iswalletsyncneeded",
+      "location": "user-api isWalletSyncNeeded",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api isWalletSyncNeeded",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#listApiKeys",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/listapikeys",
+      "location": "user-api listApiKeys",
+      "first_seen": "1.5.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "1.5.0",
+        "location": "user-api listApiKeys",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#listIdps",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/listidps",
+      "location": "user-api listIdps",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api listIdps",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#listMessagesToSign",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/listmessagestosign",
+      "location": "user-api listMessagesToSign",
+      "first_seen": "1.4.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "1.4.0",
+        "location": "user-api listMessagesToSign",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#listNetworks",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/listnetworks",
+      "location": "user-api listNetworks",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api listNetworks",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "1.4.0",
+      "changes": [
+        {
+          "version": "1.4.0",
+          "summary": "description updated",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "api-specs/openrpc-user-api.json",
+              "observed_in_version": "1.4.0",
+              "location": "user-api listNetworks",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#listSessions",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/listsessions",
+      "location": "user-api listSessions",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api listSessions",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#listSigningProviderVaults",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/listsigningprovidervaults",
+      "location": "user-api listSigningProviderVaults",
+      "first_seen": "1.5.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "1.5.0",
+        "location": "user-api listSigningProviderVaults",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#listTransactions",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/listtransactions",
+      "location": "user-api listTransactions",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api listTransactions",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "1.7.0",
+      "changes": [
+        {
+          "version": "0.27.0",
+          "summary": "The method was updated in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "api-specs/openrpc-user-api.json",
+              "observed_in_version": "0.27.0",
+              "location": "user-api listTransactions",
+              "detail": null
+            }
+          ]
+        },
+        {
+          "version": "1.7.0",
+          "summary": "params added: `params`; result updated (required fields)",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "api-specs/openrpc-user-api.json",
+              "observed_in_version": "1.7.0",
+              "location": "user-api listTransactions",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#listWallets",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/listwallets",
+      "location": "user-api listWallets",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api listWallets",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#removeApiKey",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/removeapikey",
+      "location": "user-api removeApiKey",
+      "first_seen": "1.5.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "1.5.0",
+        "location": "user-api removeApiKey",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#removeIdp",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/removeidp",
+      "location": "user-api removeIdp",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api removeIdp",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#removeNetwork",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/removenetwork",
+      "location": "user-api removeNetwork",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api removeNetwork",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#removeSession",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/removesession",
+      "location": "user-api removeSession",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api removeSession",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#removeWallet",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/removewallet",
+      "location": "user-api removeWallet",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api removeWallet",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#selfSignedAccessToken",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/selfsignedaccesstoken",
+      "location": "user-api selfSignedAccessToken",
+      "first_seen": "1.4.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "1.4.0",
+        "location": "user-api selfSignedAccessToken",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#setPrimaryWallet",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/setprimarywallet",
+      "location": "user-api setPrimaryWallet",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api setPrimaryWallet",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#sign",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/sign",
+      "location": "user-api sign",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api sign",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "0.27.0",
+      "changes": [
+        {
+          "version": "0.26.0",
+          "summary": "params updated: `params`",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "api-specs/openrpc-user-api.json",
+              "observed_in_version": "0.26.0",
+              "location": "user-api sign",
+              "detail": null
+            }
+          ]
+        },
+        {
+          "version": "0.27.0",
+          "summary": "params updated: `params`",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "api-specs/openrpc-user-api.json",
+              "observed_in_version": "0.27.0",
+              "location": "user-api sign",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#signMessage",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/signmessage",
+      "location": "user-api signMessage",
+      "first_seen": "1.4.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "1.4.0",
+        "location": "user-api signMessage",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "user-api#syncWallets",
+      "kind": "openrpc_method",
+      "route": "/reference/wallet-gateway-json-rpc/operations/user-api/syncwallets",
+      "location": "user-api syncWallets",
+      "first_seen": "0.24.0",
+      "last_seen": "1.9.0",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "api-specs/openrpc-user-api.json",
+        "observed_in_version": "0.24.0",
+        "location": "user-api syncWallets",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    }
+  ],
+  "limitations": []
+}

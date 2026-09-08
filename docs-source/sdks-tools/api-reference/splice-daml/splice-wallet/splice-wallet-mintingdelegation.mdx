@@ -1,0 +1,293 @@
+---
+title: "Splice.Wallet.MintingDelegation"
+description: "Documentation for Splice.Wallet.MintingDelegation"
+---
+
+{/* COPIED_START source="splice:daml/splice-wallet/docs/Splice-Wallet-MintingDelegation.rst" tag="0.6.4" hash="cd95567c" */}
+
+## Templates
+
+<div id="type-splice-wallet-mintingdelegation-mintingdelegation-65428">
+
+**template** MintingDelegation
+
+</div>
+
+> The right allowing the delegate to mint rewards on behalf of the beneficiary.
+>
+> Signatory: beneficiary, delegate
+>
+> | Field            | Type                                                                                                                | Description                                                                                                                                                                                                        |
+> |------------------|---------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+> | beneficiary      | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | The party on whose behalf minting is performed.                                                                                                                                                                    |
+> | delegate         | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | The party authorized to perform minting operations.                                                                                                                                                                |
+> | dso              | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | Expected DSO party.                                                                                                                                                                                                |
+> | expiresAt        | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)   | The time after which this delegation is no longer valid.                                                                                                                                                           |
+> | amuletMergeLimit | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)          | The number of amulet contracts to keep after auto-merging; i.e., auto-merge contracts once there are strictly more than this number of contracts. This is a suggestion to the delegate and is not enforced in daml |
+>
+> - **Choice** Archive
+>
+>   Controller: beneficiary, delegate
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-wallet-mintingdelegation-mintingdelegationmint-91388">
+>
+>   **Choice** MintingDelegation_Mint
+>
+>   </div>
+>
+>   Controller: delegate
+>
+>   Returns: MintingDelegation_MintResult
+>
+>   | Field   | Type                   | Description                                                                                        |
+>   |---------|------------------------|----------------------------------------------------------------------------------------------------|
+>   | inputs  | \[TransferInput\]      | The inputs to the transfer, like the validator liveness activity records owned by the beneficiary. |
+>   | context | PaymentTransferContext | The transfer context including amulet rules.                                                       |
+>
+> - <div id="type-splice-wallet-mintingdelegation-mintingdelegationreject-13031">
+>
+>   **Choice** MintingDelegation_Reject
+>
+>   </div>
+>
+>   Controller: delegate
+>
+>   Returns: MintingDelegation_RejectResult
+>
+>   (no fields)
+>
+> - <div id="type-splice-wallet-mintingdelegation-mintingdelegationwithdraw-75826">
+>
+>   **Choice** MintingDelegation_Withdraw
+>
+>   </div>
+>
+>   Controller: beneficiary
+>
+>   Returns: MintingDelegation_WithdrawResult
+>
+>   (no fields)
+
+<div id="type-splice-wallet-mintingdelegation-mintingdelegationproposal-50922">
+
+**template** MintingDelegationProposal
+
+</div>
+
+> Proposal by the user to setup a minting delegation.
+>
+> Signatory: (DA.Internal.Record.getField @"beneficiary" delegation)
+>
+> | Field      | Type              | Description                               |
+> |------------|-------------------|-------------------------------------------|
+> | delegation | MintingDelegation | The delegation to be created if accepted. |
+>
+> - **Choice** Archive
+>
+>   Controller: (DA.Internal.Record.getField @"beneficiary" delegation)
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-wallet-mintingdelegation-mintingdelegationproposalaccept-24656">
+>
+>   **Choice** MintingDelegationProposal_Accept
+>
+>   </div>
+>
+>   Controller: (DA.Internal.Record.getField @"delegate" delegation)
+>
+>   Returns: MintingDelegationProposal_AcceptResult
+>
+>   | Field                 | Type                                                                                                                                                                                                                                                                             | Description                                                                                                               |
+>   |-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
+>   | existingDelegationCid | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) MintingDelegation) | Optional existing delegation to archive while creating the new one. Useful for changing the parameters of the delegation. |
+>
+> - <div id="type-splice-wallet-mintingdelegation-mintingdelegationproposalreject-13601">
+>
+>   **Choice** MintingDelegationProposal_Reject
+>
+>   </div>
+>
+>   Controller: (DA.Internal.Record.getField @"delegate" delegation)
+>
+>   Returns: MintingDelegationProposal_RejectResult
+>
+>   (no fields)
+>
+> - <div id="type-splice-wallet-mintingdelegation-mintingdelegationproposalwithdraw-3376">
+>
+>   **Choice** MintingDelegationProposal_Withdraw
+>
+>   </div>
+>
+>   Controller: (DA.Internal.Record.getField @"beneficiary" delegation)
+>
+>   Returns: MintingDelegationProposal_WithdrawResult
+>
+>   (no fields)
+
+## Data Types
+
+<div id="type-splice-wallet-mintingdelegation-mintingdelegationproposalacceptresult-95133">
+
+**data** MintingDelegationProposal_AcceptResult
+
+</div>
+
+> <div id="constr-splice-wallet-mintingdelegation-mintingdelegationproposalacceptresult-35064">
+>
+> MintingDelegationProposal_AcceptResult
+>
+> </div>
+>
+> > | Field                | Type                                                                                                                                            | Description |
+> > |----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | mintingDelegationCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) MintingDelegation |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) MintingDelegationProposal_AcceptResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) MintingDelegationProposal_AcceptResult
+>
+> **instance** GetField "mintingDelegationCid" MintingDelegationProposal_AcceptResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) MintingDelegation)
+>
+> **instance** SetField "mintingDelegationCid" MintingDelegationProposal_AcceptResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) MintingDelegation)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) MintingDelegationProposal MintingDelegationProposal_Accept MintingDelegationProposal_AcceptResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) MintingDelegationProposal MintingDelegationProposal_Accept MintingDelegationProposal_AcceptResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) MintingDelegationProposal MintingDelegationProposal_Accept MintingDelegationProposal_AcceptResult
+
+<div id="type-splice-wallet-mintingdelegation-mintingdelegationproposalrejectresult-38748">
+
+**data** MintingDelegationProposal_RejectResult
+
+</div>
+
+> <div id="constr-splice-wallet-mintingdelegation-mintingdelegationproposalrejectresult-9461">
+>
+> MintingDelegationProposal_RejectResult
+>
+> </div>
+>
+> > (no fields)
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) MintingDelegationProposal_RejectResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) MintingDelegationProposal_RejectResult
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) MintingDelegationProposal MintingDelegationProposal_Reject MintingDelegationProposal_RejectResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) MintingDelegationProposal MintingDelegationProposal_Reject MintingDelegationProposal_RejectResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) MintingDelegationProposal MintingDelegationProposal_Reject MintingDelegationProposal_RejectResult
+
+<div id="type-splice-wallet-mintingdelegation-mintingdelegationproposalwithdrawresult-74809">
+
+**data** MintingDelegationProposal_WithdrawResult
+
+</div>
+
+> <div id="constr-splice-wallet-mintingdelegation-mintingdelegationproposalwithdrawresult-928">
+>
+> MintingDelegationProposal_WithdrawResult
+>
+> </div>
+>
+> > (no fields)
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) MintingDelegationProposal_WithdrawResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) MintingDelegationProposal_WithdrawResult
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) MintingDelegationProposal MintingDelegationProposal_Withdraw MintingDelegationProposal_WithdrawResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) MintingDelegationProposal MintingDelegationProposal_Withdraw MintingDelegationProposal_WithdrawResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) MintingDelegationProposal MintingDelegationProposal_Withdraw MintingDelegationProposal_WithdrawResult
+
+<div id="type-splice-wallet-mintingdelegation-mintingdelegationmintresult-4933">
+
+**data** MintingDelegation_MintResult
+
+</div>
+
+> <div id="constr-splice-wallet-mintingdelegation-mintingdelegationmintresult-18172">
+>
+> MintingDelegation_MintResult
+>
+> </div>
+>
+> > | Field          | Type           | Description |
+> > |----------------|----------------|-------------|
+> > | transferResult | TransferResult |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) MintingDelegation_MintResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) MintingDelegation_MintResult
+>
+> **instance** GetField "transferResult" MintingDelegation_MintResult TransferResult
+>
+> **instance** SetField "transferResult" MintingDelegation_MintResult TransferResult
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) MintingDelegation MintingDelegation_Mint MintingDelegation_MintResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) MintingDelegation MintingDelegation_Mint MintingDelegation_MintResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) MintingDelegation MintingDelegation_Mint MintingDelegation_MintResult
+
+<div id="type-splice-wallet-mintingdelegation-mintingdelegationrejectresult-12270">
+
+**data** MintingDelegation_RejectResult
+
+</div>
+
+> <div id="constr-splice-wallet-mintingdelegation-mintingdelegationrejectresult-24691">
+>
+> MintingDelegation_RejectResult
+>
+> </div>
+>
+> > (no fields)
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) MintingDelegation_RejectResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) MintingDelegation_RejectResult
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) MintingDelegation MintingDelegation_Reject MintingDelegation_RejectResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) MintingDelegation MintingDelegation_Reject MintingDelegation_RejectResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) MintingDelegation MintingDelegation_Reject MintingDelegation_RejectResult
+
+<div id="type-splice-wallet-mintingdelegation-mintingdelegationwithdrawresult-83199">
+
+**data** MintingDelegation_WithdrawResult
+
+</div>
+
+> <div id="constr-splice-wallet-mintingdelegation-mintingdelegationwithdrawresult-61082">
+>
+> MintingDelegation_WithdrawResult
+>
+> </div>
+>
+> > (no fields)
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) MintingDelegation_WithdrawResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) MintingDelegation_WithdrawResult
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) MintingDelegation MintingDelegation_Withdraw MintingDelegation_WithdrawResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) MintingDelegation MintingDelegation_Withdraw MintingDelegation_WithdrawResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) MintingDelegation MintingDelegation_Withdraw MintingDelegation_WithdrawResult
+
+{/* COPIED_END */}

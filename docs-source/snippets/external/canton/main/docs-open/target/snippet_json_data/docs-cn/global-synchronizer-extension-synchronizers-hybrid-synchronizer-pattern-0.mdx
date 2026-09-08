@@ -1,0 +1,8 @@
+```scala
+@ bootstrap.synchronizer(synchronizerName = "private-sync", sequencers = Seq(sequencer1), mediators = Seq(mediator1), synchronizerOwners = Seq(sequencer1), synchronizerThreshold = PositiveInt.one, staticSynchronizerParameters = StaticSynchronizerParameters.defaults(ProtocolVersion.forSynchronizer))
+    res1: PhysicalSynchronizerId = private-sync::122032922613...::35-0
+```
+
+```scala
+@ participant1.synchronizers.connect_local(sequencer1, "private-sync")
+```

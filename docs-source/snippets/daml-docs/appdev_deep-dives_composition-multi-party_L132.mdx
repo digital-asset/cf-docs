@@ -1,0 +1,11 @@
+```haskell
+interface Transferable where
+  viewtype TransferView
+  getOwner : Party
+  transfer : Party -> Update (ContractId Transferable)
+
+  choice TransferTo : ContractId Transferable
+    with newOwner : Party
+    controller getOwner this
+    do transfer this newOwner
+```

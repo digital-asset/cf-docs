@@ -1,0 +1,9 @@
+```scala
+@ participant1.ledger_api.parties.update(bobPartyId, modifier = _.copy(annotations = Map("foo" -> "bar")), identityProviderId = idpId)
+    res9: parties.PartyDetails = PartyDetails(
+      party = bob::12201ff69b1d...,
+      isLocal = true,
+      annotations = Map("foo" -> "bar"),
+      identityProviderId = "idp-id-10329379-46da-4c20-add4-daf9b6bed709"
+    )
+```

@@ -1,0 +1,153 @@
+---
+title: "Splice.Ans.AmuletConversionRateFeed"
+description: "Documentation for Splice.Ans.AmuletConversionRateFeed"
+---
+
+{/* COPIED_START source="splice:daml/splice-amulet-name-service/docs/Splice-Ans-AmuletConversionRateFeed.rst" tag="0.6.4" hash="463d54ac" */}
+
+Templates to communicate amulet conversion rates.
+
+This does not fit a narrow interpretation of "Amulet Name Service", but it fits very well if we widen the role of the ANS to serve as a store for public data of high-value to network participants. Evolving ANS in this direction is a long-standing plan.
+
+## Templates
+
+<div id="type-splice-ans-amuletconversionratefeed-amuletconversionratefeed-90528">
+
+**template** AmuletConversionRateFeed
+
+</div>
+
+> Amulet conversion rate feed published by a given 'publisher'. Publisher must only create one feed per publisher. The feed can only be updated every 0.5 tickDuration as the SVs also only change the price on round boundaries and this avoids unnecessary load.
+>
+> Signatory: publisher
+>
+> | Field                | Type                                                                                                                                                                                                                                             | Description                                                                 |
+> |----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+> | publisher            | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                              |                                                                             |
+> | dso                  | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                              |                                                                             |
+> | nextUpdateAfter      | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886) | The earliest time after which the publisher is allowed to update this feed. |
+> | amuletConversionRate | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                               | conversion rate in USD/Amulet                                               |
+>
+> - <div id="type-splice-ans-amuletconversionratefeed-amuletconversionratefeedarchiveasdso-84096">
+>
+>   **Choice** AmuletConversionRateFeed_ArchiveAsDso
+>
+>   </div>
+>
+>   Controller: dso
+>
+>   Returns: AmuletConversionRateFeed_ArchiveAsDsoResult
+>
+>   | Field  | Type                                                                                                         | Description |
+>   |--------|--------------------------------------------------------------------------------------------------------------|-------------|
+>   | reason | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) |             |
+>
+> - <div id="type-splice-ans-amuletconversionratefeed-amuletconversionratefeedupdate-913">
+>
+>   **Choice** AmuletConversionRateFeed_Update
+>
+>   </div>
+>
+>   Controller: publisher
+>
+>   Returns: AmuletConversionRateFeed_UpdateResult
+>
+>   | Field                | Type                                                                                                                                         | Description                                    |
+>   |----------------------|----------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|
+>   | amuletConversionRate | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                           |                                                |
+>   | amuletRulesCid       | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AmuletRules    |                                                |
+>   | markerContextO       | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) MarkerContext |                                                |
+>   | newNextUpdateAfter   | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)                            | Must be set to at least now + 0.5 tickDuration |
+>
+> - **Choice** Archive
+>
+>   Controller: publisher
+>
+>   Returns: ()
+>
+>   (no fields)
+
+## Orphan Typeclass Instances
+
+**instance** HasCheckedFetch FeaturedAppRightView ForOwner
+
+## Data Types
+
+<div id="type-splice-ans-amuletconversionratefeed-amuletconversionratefeedarchiveasdsoresult-71133">
+
+**data** AmuletConversionRateFeed_ArchiveAsDsoResult
+
+</div>
+
+> <div id="constr-splice-ans-amuletconversionratefeed-amuletconversionratefeedarchiveasdsoresult-72702">
+>
+> AmuletConversionRateFeed_ArchiveAsDsoResult
+>
+> </div>
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AmuletConversionRateFeed AmuletConversionRateFeed_ArchiveAsDso AmuletConversionRateFeed_ArchiveAsDsoResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AmuletConversionRateFeed AmuletConversionRateFeed_ArchiveAsDso AmuletConversionRateFeed_ArchiveAsDsoResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AmuletConversionRateFeed AmuletConversionRateFeed_ArchiveAsDso AmuletConversionRateFeed_ArchiveAsDsoResult
+
+<div id="type-splice-ans-amuletconversionratefeed-amuletconversionratefeedupdateresult-36312">
+
+**data** AmuletConversionRateFeed_UpdateResult
+
+</div>
+
+> <div id="constr-splice-ans-amuletconversionratefeed-amuletconversionratefeedupdateresult-68907">
+>
+> AmuletConversionRateFeed_UpdateResult
+>
+> </div>
+>
+> > | Field | Type                                                                                                                                                   | Description |
+> > |-------|--------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | cid   | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AmuletConversionRateFeed |             |
+>
+> **instance** GetField "cid" AmuletConversionRateFeed_UpdateResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AmuletConversionRateFeed)
+>
+> **instance** SetField "cid" AmuletConversionRateFeed_UpdateResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AmuletConversionRateFeed)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AmuletConversionRateFeed AmuletConversionRateFeed_Update AmuletConversionRateFeed_UpdateResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AmuletConversionRateFeed AmuletConversionRateFeed_Update AmuletConversionRateFeed_UpdateResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AmuletConversionRateFeed AmuletConversionRateFeed_Update AmuletConversionRateFeed_UpdateResult
+
+<div id="type-splice-ans-amuletconversionratefeed-markercontext-2172">
+
+**data** MarkerContext
+
+</div>
+
+> <div id="constr-splice-ans-amuletconversionratefeed-markercontext-1187">
+>
+> MarkerContext
+>
+> </div>
+>
+> > | Field               | Type                                                                                                                                           | Description |
+> > |---------------------|------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | featuredAppRightCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) FeaturedAppRight |             |
+> > | beneficiaries       | \[AppRewardBeneficiary\]                                                                                                                       |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) MarkerContext
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) MarkerContext
+>
+> **instance** GetField "beneficiaries" MarkerContext \[AppRewardBeneficiary\]
+>
+> **instance** GetField "featuredAppRightCid" MarkerContext ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) FeaturedAppRight)
+>
+> **instance** GetField "markerContextO" AmuletConversionRateFeed_Update ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) MarkerContext)
+>
+> **instance** SetField "beneficiaries" MarkerContext \[AppRewardBeneficiary\]
+>
+> **instance** SetField "featuredAppRightCid" MarkerContext ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) FeaturedAppRight)
+>
+> **instance** SetField "markerContextO" AmuletConversionRateFeed_Update ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) MarkerContext)
+
+{/* COPIED_END */}

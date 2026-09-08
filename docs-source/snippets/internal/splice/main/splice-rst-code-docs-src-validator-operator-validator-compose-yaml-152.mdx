@@ -1,0 +1,9 @@
+```yaml
+  services:
+    validator:
+      environment:
+        JAVA_TOOL_OPTIONS: >-
+          -Dhttps.proxyHost=your.proxy.host
+          -Dhttps.proxyPort=your_proxy_port
+          -Dhttp.nonProxyHosts=localhost|127.0.0.1|*.internal|10.*
+```

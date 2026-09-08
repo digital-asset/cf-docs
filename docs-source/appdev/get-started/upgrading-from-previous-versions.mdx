@@ -1,0 +1,30 @@
+---
+title: "Upgrading from Previous Versions"
+description: "Pointers to migration guides and component release notes for upgrading Canton Network applications"
+---
+
+Per-version migration steps live with the component release notes. Use the links below for the change you are migrating across.
+
+## Within Canton 3.x
+
+- **Splice and the Global Synchronizer** — [Release notes](/release-notes), [release history](/global-synchronizer/release-notes/release-history), [weekly patch releases](/global-synchronizer/release-notes/weekly-patch-releases)
+- **Wallet SDK** — [Wallet SDK release notes](/integrations/wallet/release-notes)
+- **Canton and Daml SDK** — [GitHub releases (digital-asset/daml)](https://github.com/digital-asset/daml/releases)
+
+## From Canton 2.x to 3.x
+
+Canton 3.x is a major release with backward-incompatible changes across the SDK, APIs, and runtime. The high-level shape of the migration:
+
+- **SDK tooling** — `daml` CLI is replaced by [`dpm`](/sdks-tools/cli-tools/dpm).
+- **Ledger API** — services have been restructured. Regenerate gRPC stubs from the 3.x protobuf definitions, or update to a 3.x client library.
+- **Package management** — the new [Smart Contract Upgrade (SCU)](/appdev/modules/m6-overview) mechanism replaces the previous upgrade model.
+- **Synchronizer terminology** — what was previously called a "domain" is now called a **synchronizer** throughout the APIs and documentation.
+- **Daml exceptions** — deprecated and being removed. Replace with preconditions, encoded return types, or workflow patterns.
+
+For a worked migration path, build against the [cn-quickstart](https://github.com/digital-asset/cn-quickstart) reference application and consult the version-specific release notes above.
+
+## Related
+
+- [Development Stack](/appdev/modules/m1-development-stack) — the 3.x technology stack
+- [Smart Contract Upgrades Overview](/appdev/modules/m6-overview) — SCU model
+- [Backend Development](/appdev/modules/m4-backend-dev) — 3.x Ledger API usage patterns

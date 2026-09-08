@@ -1,0 +1,8 @@
+```haskell
+proposeDvP2 <- submit alice $ do
+  createCmd ProposeSimpleDvP with
+      proposer = alice
+      counterparty = bob
+      allocated = newUsd
+      expected = eurAsset
+```

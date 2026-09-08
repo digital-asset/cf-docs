@@ -1,0 +1,70 @@
+---
+title: "App Rewards"
+description: "How applications earn Canton Coin rewards on the Canton Network through featured app activity and reward coupons"
+---
+
+The Canton Network incentivizes application providers through a reward system tied to network activity. Applications that generate value on the network can earn Canton Coin (CC) as rewards.
+
+The network is transitioning from on-ledger activity markers to
+[traffic-based app rewards](/global-synchronizer/splice-fundamentals/traffic-based-app-rewards)
+under [CIP-0104](https://github.com/global-synchronizer-foundation/cips/blob/main/cip-0104/cip-0104.md).
+Both mechanisms require your application to be [featured](#getting-featured).
+
+## Traffic-Based App Rewards (CIP-0104)
+
+With traffic-based app rewards enabled, featured app providers earn rewards
+automatically based on actual network traffic — no application code changes
+are required. Once traffic-based rewards are active, app providers may
+remove calls that create `FeaturedAppActivityMarker` contracts to save on
+traffic costs.
+
+Traffic-based rewards can be shared with beneficiaries before minting. See
+[Reward Sharing](/global-synchronizer/splice-fundamentals/reward-sharing)
+for details.
+
+For details on how traffic-based app rewards are computed, see
+[Traffic-Based App Rewards](/global-synchronizer/splice-fundamentals/traffic-based-app-rewards).
+
+## Getting Featured
+
+Only **featured applications** are eligible for app rewards — whether through traffic-based rewards or activity markers (see [CIP-0078](https://github.com/canton-foundation/cips/blob/main/cip-0078/cip-0078.md)).
+
+To get your application featured:
+
+1. Deploy your application on the Canton Network (DevNet, TestNet, or MainNet)
+2. Submit a request to the Canton Foundation through the [application process](https://canton.foundation/featured-app-request/)
+3. The tokenomics committee reviews the submission, evaluating the application's contribution to the network
+4. Upon approval, an SV governance vote registers your application as featured
+
+## Self-Featuring on DevNet
+
+On DevNet, you can register your application as self-featured for testing purposes. Log into the Wallet UI as the validator operator user and use the "Self-grant featured app rights" button in your Wallet UI to self-feature your party. This lets you verify that your reward-earning logic works correctly before going through the formal featuring process on TestNet or MainNet.
+
+Self-featuring on DevNet does not require CF approval. It is intended purely for development and integration testing of the reward flow.
+
+## Activity Markers (Legacy)
+
+Before CIP-0104, application rewards used on-ledger `FeaturedAppActivityMarker`
+contracts. This mechanism remains active during the transition period.
+
+The flow:
+
+1. Your application creates transactions on the Global Synchronizer (e.g., users exercise choices, create contracts)
+2. Your app's automation creates a `FeaturedAppActivityMarker` referencing that activity
+3. SV automation validates the marker and creates an `AppRewardCoupon`
+4. At the end of the reward round, the coupon is included in the CC minting calculation
+5. Your application provider party receives CC proportional to the activity
+
+## Minting Delegation
+
+If your application generates activity on behalf of external parties (e.g., end users interacting through your platform), you can delegate minting rights. Minting delegation allows a validator to mint rewards on behalf of another party, which is useful when your application's transaction-submitting validator differs from the party that should receive the reward.
+
+## Fee Structure
+
+Canton Network does not charge fees on CC transfers between parties. The only cost associated with network usage is traffic -- the transaction fee paid by the submitting validator. Application rewards are a separate mechanism that compensates app providers for generating network activity, independent of traffic costs.
+
+## Further Reading
+
+- [Canton Coin and Traffic](/appdev/modules/m4-canton-coin) -- How traffic credits and CC work for application developers
+- [Getting Your App Featured](/overview/understand/getting-app-featured) -- Promotional opportunities on Canton Network
+- [Canton Coin overview](/overview/understand/canton-coin) -- Tokenomics, validator rewards, and governance

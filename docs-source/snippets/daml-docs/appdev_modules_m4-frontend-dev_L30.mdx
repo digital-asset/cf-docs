@@ -1,0 +1,6 @@
+```typescript
+import type { Client, License } from '../openapi.d.ts';
+
+const client: Client = await api.getClient();
+const response = await client.listLicenses();  // typed as License[]
+```

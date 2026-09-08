@@ -1,0 +1,7 @@
+```sql
+-- Find all archived contracts of a given template, with timestamps
+SELECT contract_id, payload, created_at, archived_at
+FROM contracts('your-module:YourTemplate')
+WHERE archived_at IS NOT NULL
+ORDER BY archived_at DESC;
+```

@@ -1,0 +1,9 @@
+```daml
+optPow : Int -> Int -> Optional Int
+optPow base exponent
+ | exponent == 0 = Some 1
+ | exponent > 0 =
+   let Some result = optPow base (exponent - 1)
+   in Some (base * result)
+ | otherwise = None
+```

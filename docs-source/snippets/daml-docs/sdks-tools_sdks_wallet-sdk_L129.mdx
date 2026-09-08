@@ -1,0 +1,10 @@
+```typescript
+await sdk.connect()
+await sdk.tokenStandard!.setTransferFactoryRegistryUrl(
+    localNetStaticConfig.LOCALNET_REGISTRY_API_URL
+)
+await sdk.setPartyId(myParty)
+
+// Pass false to exclude locked holdings (those in pending 2-step transfers)
+const utxos = await sdk.tokenStandard?.listHoldingUtxos(false)
+```

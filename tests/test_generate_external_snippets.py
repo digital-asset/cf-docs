@@ -57,7 +57,7 @@ def test_validate_inputs_reports_missing_helper(
     assert "generateOutputDocs.js" in str(error.value)
 
 
-def test_copy_output_targets_docs_main_snippets(
+def test_copy_output_targets_docs_source_snippets(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     source_dir = tmp_path / "splice"
@@ -76,7 +76,7 @@ def test_copy_output_targets_docs_main_snippets(
         dry_run=False,
     )
 
-    assert target == fake_root / "docs-main" / "snippets" / "external" / "splice" / "main"
+    assert target == fake_root / "docs-source" / "snippets" / "external" / "splice" / "main"
     assert (target / "example.mdx").read_text(encoding="utf-8") == "content"
     assert not (fake_root / "snippets").exists()
 

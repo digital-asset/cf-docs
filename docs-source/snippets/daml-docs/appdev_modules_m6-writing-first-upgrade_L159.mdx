@@ -1,0 +1,32 @@
+```haskell
+-- daml/v2/daml/UpgradeTest.daml
+module UpgradeTest where
+
+import Main
+import Daml.Script
+import DA.Date (Month(..), datetime)
+
+testUpgradePath : Script ()
+testUpgradePath = do
+  issuer <- allocateParty "Issuer"
+  holder <- allocateParty "Holder"
+
+  -- Create a contract with no expiryDate (simulating a v1 contract)
+  licenseCid <- submit issuer do
+    createCmd License with
+      info = LicenseInfo with
+        holder
+        issuer
+        product = "Widget Pro"
+        expiryDate = None
+
+  -- Exercise the new v2 Renew choice
+  newLicenseCid <- submit issuer do
+    exerciseCmd licenseCid Renew with
+      newExpiry = datetime 2026 Dec 31 0 0 0
+
+  -- Verify the renewed license has the expiry set
+  Some renewed <- queryContractId holder newLicenseCid
+  assertMsg "Should have expiry"
+    (renewed.info.expiryDate == Some (datetime 2026 Dec 31 0 0 0))
+```

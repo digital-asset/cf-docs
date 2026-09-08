@@ -1,0 +1,10 @@
+```scala
+@ utils.retry_until_true(timeout = 2.minutes, maxWaitPeriod = 1.minutes) {
+      val flagStatus = target.parties
+        .clear_party_onboarding_flag(alice, synchronizerId, targetLedgerEnd)
+      flagStatus match {
+       case FlagSet(_) => false
+       case FlagNotSet => true
+      }
+    }
+```

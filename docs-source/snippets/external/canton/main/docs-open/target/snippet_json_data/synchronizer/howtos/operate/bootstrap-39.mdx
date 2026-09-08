@@ -1,0 +1,13 @@
+```scala
+@ seq1DND.writeToFile("tmp/synchronizer-bootstrapping-files/decentralized-namespace.proto")
+```
+
+```scala
+@ val synchronizerId = SynchronizerId(UniqueIdentifier.tryCreate("mySynchronizer", seq1DND.mapping.namespace.toProtoPrimitive))
+    synchronizerId : SynchronizerId = mySynchronizer::12209266a807...
+```
+
+```scala
+@ val physicalSynchronizerId = PhysicalSynchronizerId(synchronizerId, synchronizerParameters.toInternal)
+    physicalSynchronizerId : PhysicalSynchronizerId = mySynchronizer::12209266a807...::35-0
+```

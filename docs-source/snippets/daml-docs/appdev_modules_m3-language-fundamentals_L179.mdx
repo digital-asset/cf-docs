@@ -1,0 +1,11 @@
+```haskell
+issueAsset : Asset -> Script (ContractId Asset)
+issueAsset asset@(Asset with ..) = do
+  assetHolders <- queryFilter @AssetHolder issuer
+    (\ah -> (ah.issuer == issuer) && (ah.owner == owner))
+
+  case assetHolders of
+    (ahCid, _)::_ -> submit asset.issuer do
+      exerciseCmd ahCid Issue_Asset with ..
+    [] -> abort ("No AssetHolder found for " <> show asset)
+```

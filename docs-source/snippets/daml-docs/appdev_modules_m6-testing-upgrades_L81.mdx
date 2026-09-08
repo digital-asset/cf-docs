@@ -1,0 +1,23 @@
+```haskell
+testNewChoiceOnExistingContract : Script ()
+testNewChoiceOnExistingContract = do
+  issuer <- allocateParty "Issuer"
+  holder <- allocateParty "Holder"
+
+  cid <- submit issuer do
+    createCmd License with
+      info = LicenseInfo with
+        holder; issuer
+        product = "Widget"
+        expiryDate = None
+
+  -- Exercise the new v2 choice
+  newCid <- submit issuer do
+    exerciseCmd cid Renew with
+      newExpiry = datetime 2026 Dec 31 0 0 0
+
+  -- Verify result
+  Some renewed <- queryContractId issuer newCid
+  assertMsg "Should have expiry set"
+    (renewed.info.expiryDate == Some (datetime 2026 Dec 31 0 0 0))
+```

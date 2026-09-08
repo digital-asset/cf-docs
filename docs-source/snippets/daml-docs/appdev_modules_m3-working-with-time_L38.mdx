@@ -1,0 +1,8 @@
+```haskell
+choice Transfer : ContractId TransferProposal
+      with
+        newOwner: Party
+      controller owner
+      do create TransferProposal
+            with coin=this; newOwner
+```

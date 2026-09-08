@@ -1,0 +1,439 @@
+---
+title: "Migrating off PostgreSQL 14"
+description: "Move node databases off PostgreSQL 14 before its end-of-life: to an externally provisioned PostgreSQL on Kubernetes, or a newer major version on Docker Compose"
+---
+
+{/* Copyright (c) 2024 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. — SPDX-License-Identifier: Apache-2.0 */}
+
+PostgreSQL 14, the version all Splice deployment options ship today, reaches
+end-of-life on 2026-11-12.
+
+For Kubernetes deployments, the `splice-postgres` Helm chart is deprecated and
+will not be supported after that date. Published chart versions remain
+available, but receive no further updates. Nodes that use the chart as their
+database must move to a PostgreSQL instance provisioned outside of the Splice
+Helm charts before that date. A managed database service such as Amazon RDS,
+Google Cloud SQL, or Azure Database for PostgreSQL is recommended. A PostgreSQL
+server operated by your own database team follows the same procedure.
+
+Docker Compose deployments and LocalNet do not use the chart; they run the
+`postgres:14` image directly. For these, migrating means replacing the bundled
+instance with one running a supported major version. Bumping the image tag alone
+does not work: a newer PostgreSQL server refuses to start on a data directory
+initialized by an older major version, so the data moves with the same dump and
+restore procedure. Moving to an externally hosted PostgreSQL works the same way.
+
+This guide describes a one-time migration with planned downtime. All databases are
+copied from the chart-managed instance to the target instance with `pg_dump` and
+`pg_restore`, and the Splice applications are then configured to connect to the
+target. The procedure applies to validator and SV nodes alike; SV nodes repeat the
+copy and reconfiguration for each Postgres release they installed (typically
+`sequencer-pg`, `mediator-pg`, `participant-pg`, and `apps-pg`), while
+validator nodes typically have a single release named `postgres`.
+
+Use the section matching your deployment:
+
+- Kubernetes deployments with the Splice Helm charts: follow
+  [Migration procedure on Kubernetes](#migration-procedure-on-kubernetes).
+- Docker Compose validator deployments: follow [Docker Compose deployments](#docker-compose-deployments).
+- LocalNet development environments: follow [Docker Compose deployments](#docker-compose-deployments)
+  with the name substitutions from the [LocalNet notes](#localnet).
+
+The applications remain stopped for the entire copy. This guarantees that all
+databases are captured at the same consistent point, so the ordering constraints
+that apply to [live backups](/global-synchronizer/production-operations/validator-backups#backups-of-postgres-instances) do not apply here.
+
+Downtime scales with database size and is dominated by the participant database.
+On small nodes the copy completes in minutes; to estimate the downtime for a large
+node, run the dump and restore against a copy of the data ahead of the migration.
+
+## Preparing the target instance
+
+Provision the target PostgreSQL before the downtime window:
+
+- Use a PostgreSQL version supported by Splice, ideally in the same region and zone
+  as your cluster to keep latency low.
+- Create the `cnadmin` user, with the password stored in the Kubernetes secret
+  referenced by your values files (`postgres-secrets` in the default validator
+  setup). The user must have the `CREATEDB` privilege: the Splice application
+  charts run an init container that creates an application's database when it does
+  not exist yet.
+- Create a database named `cantonnet`. It stays empty, but the init containers
+  connect to it as their maintenance database.
+- Ensure the instance is reachable from the pods in your cluster.
+- Review the connection limit of the target. The chart ran with a very high
+  `max_connections` setting; managed services derive the limit from the instance
+  size. Size the instance so that the limit comfortably exceeds the combined pool
+  sizes of the applications connecting to it; as a reference point, a validator
+  node with default settings holds around 80 connections.
+
+Use the client tools of the **target** PostgreSQL major version for both dump and
+restore; `pg_dump` supports dumping from servers of older major versions.
+
+## Migration procedure on Kubernetes
+
+The commands below use the `validator` namespace and the default release and host
+name `postgres`. Adjust names, namespaces, and credentials for your deployment,
+and repeat the copy for each Postgres instance of an SV node. Set the connection
+parameters used by all following commands:
+
+```bash
+export POSTGRES_PASSWORD=...   # current password, as stored in postgres-secrets
+export TARGET_HOST=...         # hostname or IP of the target instance
+export TARGET_PASSWORD=...     # password of the cnadmin user on the target
+```
+
+The `kubectl run` commands below start plain client pods; if your cluster
+requires tolerations or service-mesh annotations for pods to run, add them with
+`--overrides`.
+
+1. **Enumerate the databases.** Every database on the chart-managed instance must be
+   copied. The database names are set by `persistence.databaseName` in each
+   application's values file; with default values a validator instance holds
+   `cantonnet` (maintenance), `cantonnet_validator`, and
+   `participant_<migration id>`, and the SV instances hold
+   `cantonnet_sequencer`, `cantonnet_mediator`, `cantonnet_sv`, and
+   `cantonnet_scan`. Cross-check your list against the instance, excluding only
+   the templates and the unused `postgres` default database:
+
+   ```bash
+   kubectl run pg-client --rm -i --restart=Never -n validator \
+     --image=postgres:17 --env=PGPASSWORD=${POSTGRES_PASSWORD} -- \
+     psql -h postgres -U cnadmin -d cantonnet -tA \
+     -c "SELECT datname FROM pg_database WHERE NOT datistemplate AND datname <> 'postgres'" \
+     | grep -vE '^$|^pod ' > dbs.txt
+   cat dbs.txt
+   ```
+
+   Every name in the output must be attributable to one of your values files.
+   Deployments that override `persistence.databaseName` show those names here
+   instead of the defaults. Databases left behind by earlier migration IDs show
+   up too; copy them unless you have deliberately retired them.
+
+2. **Stop the applications.** Scale every Splice application in the namespace down
+   to zero. The Postgres chart runs as a StatefulSet, so it keeps running:
+
+   ```bash
+   kubectl scale deployment --all --replicas=0 -n validator
+   kubectl get pods -n validator   # wait until only postgres pods remain
+   ```
+
+   Do not restart the applications until the copy has finished. Dumps taken
+   while the applications run are not consistent across databases, and an
+   application that starts against the target before the restore writes to the
+   empty databases and makes the restore fail.
+
+   Scaling with `--all` also stops deployments in the namespace that are not
+   part of the Splice Helm releases, such as monitoring agents. Step 6 does not
+   restore those; scale them back up yourself afterwards.
+
+3. **Create the databases on the target.** `cantonnet` is skipped: it already
+   exists on a target prepared as described above.
+
+   ```bash
+   while read -r db; do
+     [ "$db" = "cantonnet" ] && continue
+     kubectl run pg-client --rm -i --restart=Never -n validator \
+       --image=postgres:17 --env=PGPASSWORD=${TARGET_PASSWORD} -- \
+       psql -h ${TARGET_HOST} -U cnadmin -d cantonnet \
+       -c "CREATE DATABASE \"${db}\"" < /dev/null
+   done < dbs.txt
+   ```
+
+   The `< /dev/null` matters here and in the next step: an attached
+   `kubectl run` pod otherwise consumes the loop's input and silently skips
+   databases.
+
+4. **Copy each database.** Stream the dump directly into the target to avoid
+   intermediate storage:
+
+   ```bash
+   while read -r db; do
+     kubectl run pg-migrate --rm -i --restart=Never -n validator \
+       --image=postgres:17 \
+       --env=SOURCE_PGPASSWORD=${POSTGRES_PASSWORD} \
+       --env=TARGET_PGPASSWORD=${TARGET_PASSWORD} -- \
+       bash -c "PGPASSWORD=\$SOURCE_PGPASSWORD pg_dump -h postgres -U cnadmin -Fc '${db}' \
+         | PGPASSWORD=\$TARGET_PGPASSWORD pg_restore -h ${TARGET_HOST} -U cnadmin \
+             --no-owner --no-privileges --exit-on-error -d '${db}'" < /dev/null \
+       || { echo "copy failed: ${db}"; break; }
+   done < dbs.txt
+   ```
+
+   The `--no-owner --no-privileges` flags are required when the target user lacks
+   superuser rights, which is the case on all managed database services. To keep a
+   dump file as an additional safety artifact, write `pg_dump` output to a volume
+   first and run `pg_restore` from it; the flags stay the same.
+
+   The restore requires empty target databases. Errors such as ``schema
+   "debug" already exists`` mean the target database has been written to
+   already, either by an application that was started too early or by an
+   interrupted restore attempt. Drop and recreate that database on the target,
+   then repeat the copy for it:
+
+   ```bash
+   db=<affected database>
+   kubectl run pg-client --rm -i --restart=Never -n validator \
+     --image=postgres:17 --env=PGPASSWORD=${TARGET_PASSWORD} -- \
+     psql -h ${TARGET_HOST} -U cnadmin -d cantonnet \
+     -c "DROP DATABASE \"${db}\" WITH (FORCE)" \
+     -c "CREATE DATABASE \"${db}\""
+   ```
+
+5. **Point the applications at the target.** Update the password secret to the
+   target credentials:
+
+   ```bash
+   kubectl create secret generic postgres-secrets \
+     --from-literal=postgresPassword=${TARGET_PASSWORD} \
+     -n validator --dry-run=client -o yaml | kubectl apply -f -
+   ```
+
+   SV nodes update the secret belonging to the migrated instance instead
+   (for example `apps-pg-secret`, `sequencer-pg-secret`).
+
+   List the application releases with `helm list -n validator`; if the original
+   values files are not at hand, recover each release's current values with
+   `helm get values \<release\> -n validator`. The recovered values may show the
+host as a cluster-internal FQDN such as `postgres.validator.svc.cluster.local`;
+any host that resolves to the source instance qualifies for the change below.
+
+   In every values file that contains a `persistence` section referencing the old
+   instance, set the target connection:
+
+   ```yaml
+   persistence:
+     host: <target host or IP>
+     port: 5432
+   ```
+
+6. **Restart and verify.** Run `helm upgrade` for each application release with
+   the updated values files, in the same order as the original installation:
+
+   ```
+   helm upgrade participant oci://ghcr.io/digital-asset/decentralized-canton-sync/helm/splice-participant --version ${CHART_VERSION} -f participant-values.yaml -n validator --wait
+   helm upgrade validator oci://ghcr.io/digital-asset/decentralized-canton-sync/helm/splice-validator --version ${CHART_VERSION} -f validator-values.yaml -n validator --wait
+   ```
+
+   Use the release names from `helm list` and the chart version your node
+   already runs. This recreates the deployments and scales them back up. Then
+   verify:
+
+   - all pods reach the `Running` state and their readiness checks pass,
+   - the wallet UI shows the expected balances,
+   - a small transaction, for example a transfer, completes successfully,
+   - the applications are connected to the target and the old instance is idle:
+
+     ```bash
+     kubectl run pg-client --rm -i --restart=Never -n validator \
+       --image=postgres:17 --env=PGPASSWORD=${TARGET_PASSWORD} -- \
+       psql -h ${TARGET_HOST} -U cnadmin -d cantonnet \
+       -c "SHOW server_version" \
+       -c "SELECT datname, count(*) FROM pg_stat_activity WHERE datname <> 'cantonnet' GROUP BY 1"
+     ```
+
+     The application databases must show active connections here, and the same
+     query against the old instance must show none.
+
+7. **Decommission the chart.** Once the node has been verified, remove the old
+   instance and its storage:
+
+   ```bash
+   helm uninstall postgres -n validator
+   kubectl get pvc -n validator    # identify the postgres volume claims
+   kubectl delete pvc <postgres-pvc-name> -n validator
+   ```
+
+   Until this step the source instance is untouched, so a rollback only requires
+   reverting the secret and values changes and running `helm upgrade` again.
+
+## Docker Compose deployments
+
+Docker Compose deployments run PostgreSQL as the `postgres-splice` service using
+the official `postgres` image, pinned by `SPLICE_POSTGRES_VERSION` in `.env`.
+A major version upgrade of that image requires the same dump and restore procedure,
+because a PostgreSQL server does not start on a data directory initialized by an
+older major version. The commands below upgrade a validator node in place from
+PostgreSQL 14 to 17; connecting to an externally hosted PostgreSQL instead works
+the same way, with `SPLICE_DB_SERVER`, `SPLICE_DB_PORT`, `SPLICE_DB_USER`,
+and `SPLICE_DB_PASSWORD` in `.env` pointing at the external instance.
+
+Run all commands from the deployment directory (the one containing
+`compose.yaml` and `.env`), with the deployment variables loaded into the
+shell:
+
+```bash
+set -a; source .env; set +a
+```
+
+For LocalNet, read the [LocalNet notes](#localnet) below
+first: the names differ and there is no `.env` file to source.
+
+1. Stop all services, then start only Postgres again. Scoping the commands to the
+   compose project keeps unrelated containers on the host untouched:
+
+   ```bash
+   docker compose -p splice-validator stop
+   docker compose -p splice-validator start postgres-splice
+   docker ps --format '{{.Names}}'   # only the postgres container may remain
+   ```
+
+   Dumps taken while the applications run are not consistent across databases;
+   do not proceed until everything except Postgres is stopped.
+
+2. Dump every database, using the client tools of the target version:
+
+   ```bash
+   rm -rf dumps && mkdir dumps   # start from an empty dump directory
+   docker exec splice-validator-postgres-splice-1 \
+     psql -U cnadmin -d postgres -tA \
+     -c "SELECT datname FROM pg_database WHERE NOT datistemplate AND datname <> 'postgres'" > dumps/dblist.txt
+   cat dumps/dblist.txt
+   while read -r db; do
+     docker run --rm --network splice-validator_splice_validator -e PGPASSWORD=${SPLICE_DB_PASSWORD} \
+       -v "$PWD/dumps":/dumps postgres:17 \
+       pg_dump -h postgres-splice -U cnadmin -Fc -f "/dumps/${db}.dump" "${db}"
+   done < dumps/dblist.txt
+   ```
+
+3. Stop the Postgres container and set the old data volume aside. This keeps
+   the pre-migration data directory until the migration is verified, the same
+   way the Kubernetes procedure leaves the old instance installed until step 7:
+
+   ```bash
+   docker stop splice-validator-postgres-splice-1
+   docker rm splice-validator-postgres-splice-1
+   docker volume create splice-validator_postgres-splice-pg14
+   docker run --rm \
+     -v splice-validator_postgres-splice:/from:ro \
+     -v splice-validator_postgres-splice-pg14:/to \
+     alpine sh -c 'cp -a /from/. /to/'
+   docker volume rm splice-validator_postgres-splice
+   ```
+
+4. Set `SPLICE_POSTGRES_VERSION=17` in `.env` and start only the Postgres
+   service. Edit the value in the file rather than overriding it from the shell:
+   a later restart from a fresh shell would fall back to the old version, and the
+   server refuses to start on the migrated data directory. After editing, reload
+   the file (`set -a; source .env; set +a`) — the value sourced earlier is
+   still exported in your shell and takes precedence over the file. Confirm with
+   `echo $SPLICE_POSTGRES_VERSION` before continuing, and treat the version
+   check below as a gate: proceed only when it prints the new version.
+
+   ```bash
+   PARTICIPANT_DB_NAME=$(grep -m1 '^participant' dumps/dblist.txt) \
+     docker compose -f compose.yaml up -d postgres-splice
+   docker ps --filter name=postgres          # wait for "(healthy)"
+   docker exec splice-validator-postgres-splice-1 postgres --version
+   ```
+
+   `PARTICIPANT_DB_NAME` is normally injected by `start.sh` and must be
+   supplied here, or the entrypoint fails on an empty `CREATE DATABASE`
+   statement and the container restarts in a loop. Warnings about other unset
+   variables can be ignored; they belong to services that are not started.
+
+   If the container was started with the wrong version or without
+   `PARTICIPANT_DB_NAME`, the fresh volume has already been initialized and
+   must be removed again before retrying (``docker rm -f
+   splice-validator-postgres-splice-1 && docker volume rm
+   splice-validator_postgres-splice``). The volume set aside in step 3 is
+   unaffected.
+
+   The entrypoint initializes a fresh data directory and creates empty databases
+   for the `CREATE_DATABASE_*` variables in its environment. Create everything
+   from your list that does not exist yet, before restoring:
+
+   ```bash
+   while read -r db; do
+     docker exec splice-validator-postgres-splice-1 psql -U cnadmin -d postgres \
+       -c "CREATE DATABASE \"${db}\"" 2>/dev/null || true   # existing databases are skipped
+   done < dumps/dblist.txt
+   ```
+
+5. Restore every dump:
+
+   ```bash
+   while read -r db; do
+     docker run --rm --network splice-validator_splice_validator -e PGPASSWORD=${SPLICE_DB_PASSWORD} \
+       -v "$PWD/dumps":/dumps:ro postgres:17 \
+       pg_restore -h postgres-splice -U cnadmin \
+         --no-owner --no-privileges --exit-on-error -d "${db}" "/dumps/${db}.dump"
+   done < dumps/dblist.txt
+   ```
+
+   The restore requires empty target databases, exactly as in step 4 of the
+   Kubernetes procedure: if a database was written to by an early application
+   start or an interrupted restore, drop and recreate it, then restore it again.
+   A `could not translate host name` error means the Postgres service from
+   step 4 is not running.
+
+6. Start the deployment as usual, then verify as in step 6 of the Kubernetes
+   procedure. Once verified, delete the volume set aside in step 3 and the dump files.
+
+To roll back before the old volume is deleted, copy it back over the new volume
+(the reverse of step 3), revert `SPLICE_POSTGRES_VERSION` in `.env`, and start
+the deployment as usual. Your regular
+[backups](/global-synchronizer/production-operations/validator-backups) remain
+the safety net for everything beyond the migration window.
+
+### LocalNet
+
+LocalNet development environments follow the same steps with these name
+substitutions:
+
+| \ | Validator deployment | LocalNet |
+| --- | --- | --- |
+| Compose project (`-p`) | `splice-validator` | `localnet` |
+| Postgres container | `splice-validator-postgres-splice-1` | `postgres` |
+| Postgres service | `postgres-splice` | `postgres` |
+| Docker network | `splice-validator_splice_validator` | `localnet` |
+| Data volume | `splice-validator_postgres-splice` | `localnet_postgres` |
+| Database password | `SPLICE_DB_PASSWORD` in `.env` | `supersafe` (`DB_PASSWORD`) |
+| Postgres version setting | `SPLICE_POSTGRES_VERSION` in `.env` | `POSTGRES_VERSION` env var |
+
+LocalNet has no `.env` file; instead of sourcing one, export the password once
+so the commands above work verbatim:
+
+```bash
+export SPLICE_DB_PASSWORD=supersafe
+```
+
+Wherever the procedure invokes `docker compose` with `-f compose.yaml`, use
+the full invocation you start LocalNet with instead — the environment files
+supply required variables such as `PARTY_HINT`, and `POSTGRES_VERSION` comes
+from the shell:
+
+```bash
+export POSTGRES_VERSION=17
+docker compose --env-file $LOCALNET_DIR/compose.env \
+               --env-file $LOCALNET_DIR/env/common.env \
+               -f $LOCALNET_DIR/compose.yaml \
+               -f $LOCALNET_DIR/resource-constraints.yaml \
+               --profile sv --profile app-provider --profile app-user \
+               up -d postgres
+```
+
+LocalNet data is disposable, so tearing the environment down with `down -v` and
+starting fresh on the new version is usually simpler. An executable end-to-end
+version of the LocalNet migration, including verification, is maintained at
+`scripts/test-postgres-migration.py` in the Splice repository.
+
+## Notes for managed database services
+
+- Managed services do not grant superuser access. The ``--no-owner
+  --no-privileges` flags on `pg_restore`` are therefore mandatory, and the
+  restore must run as the same user that the applications use (`cnadmin`), so
+  that restored objects end up owned by it.
+- The Splice application schemas live in per-application schemas inside each
+  database (for example `participant` and `debug` in a participant database).
+  `pg_dump` includes them automatically; no schema-specific flags are needed.
+- Amazon RDS: create the instance with the `cnadmin` master user. Restoring with
+  `--exit-on-error` surfaces permission problems immediately.
+- Google Cloud SQL: create `cnadmin` through the Cloud SQL API or console so it
+  receives the `cloudsqlsuperuser` role, and connect either over private IP or
+  through the Cloud SQL Auth Proxy sidecar.
+- Verify that the instance's `max_connections` accommodates all applications
+  before the first restart; connection exhaustion appears as applications failing
+  readiness checks after the migration.
+
+{/* COPIED_END */}

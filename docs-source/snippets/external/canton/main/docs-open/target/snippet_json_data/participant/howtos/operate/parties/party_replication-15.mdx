@@ -1,0 +1,25 @@
+```scala
+        @ source.topology.party_to_participant_mappings
+            .propose_delta(
+              party = alice,
+              adds = Seq((target.id, ParticipantPermission.Observation)),
+              store = synchronizerId,
+              requiresPartyToBeOnboarded = true
+            )
+            res17: SignedTopologyTransaction[TopologyChangeOp, PartyToParticipant] = SignedTopologyTransaction(
+              TopologyTransaction(
+                PartyToParticipant(
+                  partyId = Alice::12201ff69b1d...,
+                  participants = Map(
+                    PAR::participant1::12201ff69b1d... -> Submission,
+                    PAR::participant2::1220a4d7463b... -> Observation(onboarding)
+                  )
+                ),
+                serial = 2,
+                operation = Replace,
+                hash = SHA-256:4fc27cf93b27...
+              ),
+              signatures = 12201ff69b1d...,
+              proposal
+            )
+```

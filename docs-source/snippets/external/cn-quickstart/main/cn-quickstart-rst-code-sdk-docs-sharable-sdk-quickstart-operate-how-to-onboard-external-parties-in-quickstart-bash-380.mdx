@@ -1,0 +1,5 @@
+```bash
+  PREPARED_TRANSACTION=$(cat prepare_response.json | jq .prepared_transaction)
+  TRANSACTION_HASH=$(cat prepare_response.json | jq -r .prepared_transaction_hash)
+
+```

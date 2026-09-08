@@ -1,0 +1,82 @@
+---
+title: "Splice.Testing.TokenStandard.RegistryApi"
+description: "Documentation for Splice.Testing.TokenStandard.RegistryApi"
+---
+
+{/* COPIED_START source="splice:token-standard/splice-token-standard-test/docs/Splice-Testing-TokenStandard-RegistryApi.rst" tag="0.6.4" hash="d9cca672" */}
+
+Support for using a token compliant registry API in tests.
+
+These simulate the OpenAPI endpoints that would be served by the backend of the registry implementation.
+
+## Typeclasses
+
+<div id="class-splice-testing-tokenstandard-registryapi-registryapi-36771">
+
+**class** RegistryApi app **where**
+
+</div>
+
+> Type-class for simulating calls to the off-ledger API of a registry.
+>
+> The function names match the names of the handlers defined in the OpenAPI specification.
+>
+> <div id="function-splice-testing-tokenstandard-registryapi-gettransferfactory-16733">
+>
+> getTransferFactory
+> : app -\> TransferFactory_Transfer -\> Script (EnrichedFactoryChoice TransferFactory TransferFactory_Transfer)
+>
+> </div>
+>
+> <div id="function-splice-testing-tokenstandard-registryapi-getallocationfactory-44546">
+>
+> getAllocationFactory
+> : app -\> AllocationFactory_Allocate -\> Script (EnrichedFactoryChoice AllocationFactory AllocationFactory_Allocate)
+>
+> </div>
+>
+> <div id="function-splice-testing-tokenstandard-registryapi-getallocationtransfercontext-86176">
+>
+> getAllocation_TransferContext
+> : app -\> [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Allocation -\> Metadata -\> Script OpenApiChoiceContext
+>
+> </div>
+>
+> <div id="function-splice-testing-tokenstandard-registryapi-getallocationwithdrawcontext-92853">
+>
+> getAllocation_WithdrawContext
+> : app -\> [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Allocation -\> Metadata -\> Script OpenApiChoiceContext
+>
+> </div>
+>
+> <div id="function-splice-testing-tokenstandard-registryapi-getallocationcancelcontext-26663">
+>
+> getAllocation_CancelContext
+> : app -\> [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Allocation -\> Metadata -\> Script OpenApiChoiceContext
+>
+> </div>
+>
+> <div id="function-splice-testing-tokenstandard-registryapi-gettransferinstructionacceptcontext-72301">
+>
+> getTransferInstruction_AcceptContext
+> : app -\> [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferInstruction -\> Metadata -\> Script OpenApiChoiceContext
+>
+> </div>
+>
+> <div id="function-splice-testing-tokenstandard-registryapi-gettransferinstructionrejectcontext-89866">
+>
+> getTransferInstruction_RejectContext
+> : app -\> [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferInstruction -\> Metadata -\> Script OpenApiChoiceContext
+>
+> </div>
+>
+> <div id="function-splice-testing-tokenstandard-registryapi-gettransferinstructionwithdrawcontext-233">
+>
+> getTransferInstruction_WithdrawContext
+> : app -\> [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferInstruction -\> Metadata -\> Script OpenApiChoiceContext
+>
+> </div>
+>
+> **instance** RegistryApi AmuletRegistry
+
+{/* COPIED_END */}

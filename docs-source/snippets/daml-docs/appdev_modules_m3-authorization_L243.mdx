@@ -1,0 +1,10 @@
+```haskell
+choice Mutual_Transfer
+      : ContractId Iou
+      with
+        newOwner : Party
+      controller owner, newOwner
+      do
+        create this with
+          owner = newOwner
+```

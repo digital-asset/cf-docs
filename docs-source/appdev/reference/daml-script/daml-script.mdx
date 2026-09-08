@@ -1,0 +1,2247 @@
+---
+title: "Daml.Script"
+description: "Reference documentation for Daml module Daml.Script."
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--collection"></div>
+
+<span id="module-daml-script-55737"></span>
+
+
+
+<div class="x2mdx-ref-hero">
+
+  <p class="x2mdx-ref-eyebrow">Daml module</p>
+
+
+  <h1 class="x2mdx-ref-title">Daml.Script</h1>
+
+
+  <p class="x2mdx-ref-summary">The Daml Script testing library.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Daml</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--changed" href="#history-updated-3-5-2">Updated 3.5.2</a>
+
+</div>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Module</dt>
+    <dd>Daml.Script</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Latest release</dt>
+    <dd>3.5.7</dd>
+  </div>
+
+</dl>
+
+</div>
+
+
+
+
+
+## Data Types
+
+
+<span id="type-daml-script-internal-questions-usermanagement-invaliduserid-35585"></span>
+
+### `data InvalidUserId`
+
+Thrown if text for a user identifier does not conform to the format restriction.
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-usermanagement-invaliduserid-47622"></span>
+- `InvalidUserId`
+
+<ResponseField name="m" type="Text" />
+
+Instances:
+
+- instance `Eq` [`InvalidUserId`](#type-daml-script-internal-questions-usermanagement-invaliduserid-35585)
+- instance `Show` [`InvalidUserId`](#type-daml-script-internal-questions-usermanagement-invaliduserid-35585)
+- instance `HasFromAnyException` [`InvalidUserId`](#type-daml-script-internal-questions-usermanagement-invaliduserid-35585)
+- instance `HasMessage` [`InvalidUserId`](#type-daml-script-internal-questions-usermanagement-invaliduserid-35585)
+- instance `HasThrow` [`InvalidUserId`](#type-daml-script-internal-questions-usermanagement-invaliduserid-35585)
+- instance `HasToAnyException` [`InvalidUserId`](#type-daml-script-internal-questions-usermanagement-invaliduserid-35585)
+- instance `GetField` `m` [`InvalidUserId`](#type-daml-script-internal-questions-usermanagement-invaliduserid-35585) `Text`
+- instance `GetField` `message` [`InvalidUserId`](#type-daml-script-internal-questions-usermanagement-invaliduserid-35585) `Text`
+- instance `SetField` `m` [`InvalidUserId`](#type-daml-script-internal-questions-usermanagement-invaliduserid-35585) `Text`
+
+
+<span id="type-daml-script-internal-questions-usermanagement-user-21930"></span>
+
+### `data User`
+
+User-info record for a user in the user management service.
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-usermanagement-user-51383"></span>
+- `User`
+
+<ResponseField name="userId" type="UserId" />
+
+<ResponseField name="primaryParty" type="Optional Party" />
+
+Instances:
+
+- instance `IsQuestion` `GetUser` (`Optional` [`User`](#type-daml-script-internal-questions-usermanagement-user-21930))
+- instance `IsQuestion` `ListAllUsers` [[`User`](#type-daml-script-internal-questions-usermanagement-user-21930)]
+- instance `Eq` [`User`](#type-daml-script-internal-questions-usermanagement-user-21930)
+- instance `Ord` [`User`](#type-daml-script-internal-questions-usermanagement-user-21930)
+- instance `Show` [`User`](#type-daml-script-internal-questions-usermanagement-user-21930)
+- instance `GetField` `primaryParty` [`User`](#type-daml-script-internal-questions-usermanagement-user-21930) (`Optional` `Party`)
+- instance `GetField` `user` `CreateUser` [`User`](#type-daml-script-internal-questions-usermanagement-user-21930)
+- instance `GetField` `userId` [`User`](#type-daml-script-internal-questions-usermanagement-user-21930) [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `SetField` `primaryParty` [`User`](#type-daml-script-internal-questions-usermanagement-user-21930) (`Optional` `Party`)
+- instance `SetField` `user` `CreateUser` [`User`](#type-daml-script-internal-questions-usermanagement-user-21930)
+- instance `SetField` `userId` [`User`](#type-daml-script-internal-questions-usermanagement-user-21930) [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+
+
+<span id="type-daml-script-internal-questions-usermanagement-useralreadyexists-98333"></span>
+
+### `data UserAlreadyExists`
+
+Thrown if a user to be created already exists.
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-usermanagement-useralreadyexists-40670"></span>
+- `UserAlreadyExists`
+
+<ResponseField name="userId" type="UserId" />
+
+Instances:
+
+- instance `Eq` [`UserAlreadyExists`](#type-daml-script-internal-questions-usermanagement-useralreadyexists-98333)
+- instance `Show` [`UserAlreadyExists`](#type-daml-script-internal-questions-usermanagement-useralreadyexists-98333)
+- instance `HasFromAnyException` [`UserAlreadyExists`](#type-daml-script-internal-questions-usermanagement-useralreadyexists-98333)
+- instance `HasMessage` [`UserAlreadyExists`](#type-daml-script-internal-questions-usermanagement-useralreadyexists-98333)
+- instance `HasThrow` [`UserAlreadyExists`](#type-daml-script-internal-questions-usermanagement-useralreadyexists-98333)
+- instance `HasToAnyException` [`UserAlreadyExists`](#type-daml-script-internal-questions-usermanagement-useralreadyexists-98333)
+- instance `GetField` `message` [`UserAlreadyExists`](#type-daml-script-internal-questions-usermanagement-useralreadyexists-98333) `Text`
+- instance `GetField` `userId` [`UserAlreadyExists`](#type-daml-script-internal-questions-usermanagement-useralreadyexists-98333) [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `SetField` `userId` [`UserAlreadyExists`](#type-daml-script-internal-questions-usermanagement-useralreadyexists-98333) [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+
+
+<span id="type-daml-script-internal-questions-usermanagement-userid-11123"></span>
+
+### `data UserId`
+
+Identifier for a user in the user management service.
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-usermanagement-userid-52094"></span>
+- `UserId Text`
+
+Instances:
+
+- instance `Eq` [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `Ord` [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `Show` [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `GetField` `userId` `DeleteUser` [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `GetField` `userId` `GetUser` [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `GetField` `userId` `GrantUserRights` [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `GetField` `userId` `ListUserRights` [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `GetField` `userId` `RevokeUserRights` [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `GetField` `userId` [`User`](#type-daml-script-internal-questions-usermanagement-user-21930) [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `GetField` `userId` [`UserAlreadyExists`](#type-daml-script-internal-questions-usermanagement-useralreadyexists-98333) [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `GetField` `userId` [`UserNotFound`](#type-daml-script-internal-questions-usermanagement-usernotfound-44479) [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `SetField` `userId` `DeleteUser` [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `SetField` `userId` `GetUser` [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `SetField` `userId` `GrantUserRights` [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `SetField` `userId` `ListUserRights` [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `SetField` `userId` `RevokeUserRights` [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `SetField` `userId` [`User`](#type-daml-script-internal-questions-usermanagement-user-21930) [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `SetField` `userId` [`UserAlreadyExists`](#type-daml-script-internal-questions-usermanagement-useralreadyexists-98333) [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `SetField` `userId` [`UserNotFound`](#type-daml-script-internal-questions-usermanagement-usernotfound-44479) [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+
+
+<span id="type-daml-script-internal-questions-usermanagement-usernotfound-44479"></span>
+
+### `data UserNotFound`
+
+Thrown if a user cannot be located for a given user identifier.
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-usermanagement-usernotfound-26338"></span>
+- `UserNotFound`
+
+<ResponseField name="userId" type="UserId" />
+
+Instances:
+
+- instance `Eq` [`UserNotFound`](#type-daml-script-internal-questions-usermanagement-usernotfound-44479)
+- instance `Show` [`UserNotFound`](#type-daml-script-internal-questions-usermanagement-usernotfound-44479)
+- instance `HasFromAnyException` [`UserNotFound`](#type-daml-script-internal-questions-usermanagement-usernotfound-44479)
+- instance `HasMessage` [`UserNotFound`](#type-daml-script-internal-questions-usermanagement-usernotfound-44479)
+- instance `HasThrow` [`UserNotFound`](#type-daml-script-internal-questions-usermanagement-usernotfound-44479)
+- instance `HasToAnyException` [`UserNotFound`](#type-daml-script-internal-questions-usermanagement-usernotfound-44479)
+- instance `GetField` `message` [`UserNotFound`](#type-daml-script-internal-questions-usermanagement-usernotfound-44479) `Text`
+- instance `GetField` `userId` [`UserNotFound`](#type-daml-script-internal-questions-usermanagement-usernotfound-44479) [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+- instance `SetField` `userId` [`UserNotFound`](#type-daml-script-internal-questions-usermanagement-usernotfound-44479) [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+
+
+<span id="type-daml-script-internal-questions-usermanagement-userright-13475"></span>
+
+### `data UserRight`
+
+The rights of a user.
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-usermanagement-participantadmin-36398"></span>
+- `ParticipantAdmin`
+<span id="constr-daml-script-internal-questions-usermanagement-canactas-78256"></span>
+- `CanActAs Party`
+<span id="constr-daml-script-internal-questions-usermanagement-canreadas-21035"></span>
+- `CanReadAs Party`
+<span id="constr-daml-script-internal-questions-usermanagement-canreadasanyparty-13813"></span>
+- `CanReadAsAnyParty`
+
+Instances:
+
+- instance `IsQuestion` `GrantUserRights` (`Optional` [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)])
+- instance `IsQuestion` `ListUserRights` (`Optional` [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)])
+- instance `IsQuestion` `RevokeUserRights` (`Optional` [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)])
+- instance `Eq` [`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)
+- instance `Show` [`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)
+- instance `GetField` `rights` `CreateUser` [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)]
+- instance `GetField` `rights` `GrantUserRights` [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)]
+- instance `GetField` `rights` `RevokeUserRights` [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)]
+- instance `SetField` `rights` `CreateUser` [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)]
+- instance `SetField` `rights` `GrantUserRights` [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)]
+- instance `SetField` `rights` `RevokeUserRights` [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)]
+
+
+<span id="type-daml-script-internal-questions-submit-concurrentsubmits-82688"></span>
+
+### `data ConcurrentSubmits a`
+
+Applicative that allows for multiple concurrent transaction submissions
+See `concurrently` for usage of this type.
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-submit-concurrentsubmits-49827"></span>
+- `ConcurrentSubmits`
+
+<ResponseField name="submits" type="[Submission]" />
+
+<ResponseField name="continue" type="[Either SubmitError ([CommandResult], TransactionTree)] -&gt; a" />
+
+Instances:
+
+- instance [`ScriptSubmit`](#class-daml-script-internal-questions-submit-scriptsubmit-55101) [`ConcurrentSubmits`](#type-daml-script-internal-questions-submit-concurrentsubmits-82688)
+- instance `Functor` [`ConcurrentSubmits`](#type-daml-script-internal-questions-submit-concurrentsubmits-82688)
+- instance `Applicative` [`ConcurrentSubmits`](#type-daml-script-internal-questions-submit-concurrentsubmits-82688)
+- instance `GetField` `continue` ([`ConcurrentSubmits`](#type-daml-script-internal-questions-submit-concurrentsubmits-82688) `a`) ([`Either` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) ([`CommandResult`], [`TransactionTree`](#type-daml-script-internal-questions-transactiontree-transactiontree-91781))] -> `a`)
+- instance `GetField` `submits` ([`ConcurrentSubmits`](#type-daml-script-internal-questions-submit-concurrentsubmits-82688) `a`) [`Submission`]
+- instance `SetField` `continue` ([`ConcurrentSubmits`](#type-daml-script-internal-questions-submit-concurrentsubmits-82688) `a`) ([`Either` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) ([`CommandResult`], [`TransactionTree`](#type-daml-script-internal-questions-transactiontree-transactiontree-91781))] -> `a`)
+- instance `SetField` `submits` ([`ConcurrentSubmits`](#type-daml-script-internal-questions-submit-concurrentsubmits-82688) `a`) [`Submission`]
+
+
+<span id="type-daml-script-internal-questions-submit-packageid-95921"></span>
+
+### `data PackageId`
+
+Package-id newtype for package preference
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-submit-packageid-38878"></span>
+- `PackageId Text`
+
+Instances:
+
+- instance `Eq` [`PackageId`](#type-daml-script-internal-questions-submit-packageid-95921)
+- instance `Show` [`PackageId`](#type-daml-script-internal-questions-submit-packageid-95921)
+- instance `GetField` `sPackagePreference` `Submission` (`Optional` [[`PackageId`](#type-daml-script-internal-questions-submit-packageid-95921)])
+- instance `GetField` `soPackagePreference` [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692) (`Optional` [[`PackageId`](#type-daml-script-internal-questions-submit-packageid-95921)])
+- instance `SetField` `sPackagePreference` `Submission` (`Optional` [[`PackageId`](#type-daml-script-internal-questions-submit-packageid-95921)])
+- instance `SetField` `soPackagePreference` [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692) (`Optional` [[`PackageId`](#type-daml-script-internal-questions-submit-packageid-95921)])
+
+
+<span id="type-daml-script-internal-questions-submit-submitoptions-56692"></span>
+
+### `data SubmitOptions`
+
+Options to detemine the stakeholders of a transaction, as well as disclosures.
+Intended to be specified using the `actAs`, `readAs` and `disclose` builders, combined using the Semigroup concat `(<>)` operator.
+```
+actAs alice <> readAs [alice, bob] <> disclose myContract
+```
+Note that actAs and readAs follows the same party derivation rules as `signatory`, see their docs for examples.
+All submissions must specify at least one `actAs` party, else a runtime error will be thrown.
+A minimum submission may look like
+```
+actAs alice `submit` createCmd MyContract with party = alice
+```
+For backwards compatibility, a single or set of parties can be provided in place of the `SubmitOptions` to
+`submit`, which will represent the `actAs` field.
+The above example could be reduced to
+```
+alice `submit` createCmd MyContract with party = alice
+```
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-submit-submitoptions-37975"></span>
+- `SubmitOptions`
+
+<ResponseField name="soActAs" type="[Party]" />
+
+<ResponseField name="soReadAs" type="[Party]" />
+
+<ResponseField name="soDisclosures" type="[Disclosure]" />
+
+<ResponseField name="soPackagePreference" type="Optional [PackageId]" />
+
+<ResponseField name="soPrefetchKeys" type="[AnyContractKey]" />
+
+Instances:
+
+- instance [`IsSubmitOptions`](#class-daml-script-internal-questions-submit-issubmitoptions-64211) [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692)
+- instance `Monoid` [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692)
+- instance `Semigroup` [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692)
+- instance `GetField` `soActAs` [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692) [`Party`]
+- instance `GetField` `soDisclosures` [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692) [[`Disclosure`](#type-daml-script-internal-questions-commands-disclosure-40298)]
+- instance `GetField` `soPackagePreference` [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692) (`Optional` [[`PackageId`](#type-daml-script-internal-questions-submit-packageid-95921)])
+- instance `GetField` `soPrefetchKeys` [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692) [[`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)]
+- instance `GetField` `soReadAs` [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692) [`Party`]
+- instance `SetField` `soActAs` [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692) [`Party`]
+- instance `SetField` `soDisclosures` [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692) [[`Disclosure`](#type-daml-script-internal-questions-commands-disclosure-40298)]
+- instance `SetField` `soPackagePreference` [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692) (`Optional` [[`PackageId`](#type-daml-script-internal-questions-submit-packageid-95921)])
+- instance `SetField` `soPrefetchKeys` [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692) [[`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)]
+- instance `SetField` `soReadAs` [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692) [`Party`]
+
+
+<span id="type-daml-script-internal-questions-submit-error-cryptoerrortype-71749"></span>
+
+### `data CryptoErrorType`
+
+Daml Crypto (Secp256k1) related submission errors
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-submit-error-malformedbyteencoding-79193"></span>
+- `MalformedByteEncoding`
+
+<ResponseField name="value" type="Text" />
+<span id="constr-daml-script-internal-questions-submit-error-malformedkey-58536"></span>
+- `MalformedKey`
+
+<ResponseField name="keyValue" type="Text" />
+<span id="constr-daml-script-internal-questions-submit-error-malformedsignature-13573"></span>
+- `MalformedSignature`
+
+<ResponseField name="signatureValue" type="Text" />
+
+Instances:
+
+- instance `Show` [`CryptoErrorType`](#type-daml-script-internal-questions-submit-error-cryptoerrortype-71749)
+- instance `GetField` `cryptoErrorType` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`CryptoErrorType`](#type-daml-script-internal-questions-submit-error-cryptoerrortype-71749)
+- instance `GetField` `keyValue` [`CryptoErrorType`](#type-daml-script-internal-questions-submit-error-cryptoerrortype-71749) `Text`
+- instance `GetField` `signatureValue` [`CryptoErrorType`](#type-daml-script-internal-questions-submit-error-cryptoerrortype-71749) `Text`
+- instance `GetField` `value` [`CryptoErrorType`](#type-daml-script-internal-questions-submit-error-cryptoerrortype-71749) `Text`
+- instance `SetField` `cryptoErrorType` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`CryptoErrorType`](#type-daml-script-internal-questions-submit-error-cryptoerrortype-71749)
+- instance `SetField` `keyValue` [`CryptoErrorType`](#type-daml-script-internal-questions-submit-error-cryptoerrortype-71749) `Text`
+- instance `SetField` `signatureValue` [`CryptoErrorType`](#type-daml-script-internal-questions-submit-error-cryptoerrortype-71749) `Text`
+- instance `SetField` `value` [`CryptoErrorType`](#type-daml-script-internal-questions-submit-error-cryptoerrortype-71749) `Text`
+
+
+<span id="type-daml-script-internal-questions-submit-error-submiterror-38284"></span>
+
+### `data SubmitError`
+
+Errors that can be thrown by a command submission via `trySubmit`
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-submit-error-contractnotfound-62819"></span>
+- `ContractNotFound`
+
+<ResponseField name="unknownContractIds" type="NonEmpty Text">
+Provided as text, as we do not know the template ID of a contract if the lookup fails
+</ResponseField>
+
+<ResponseField name="additionalDebuggingInfo" type="Optional ContractNotFoundAdditionalInfo">
+should always be None in Canton's case, see https://github.com/digital-asset/daml/issues/17154
+</ResponseField>
+
+Contract with given contract ID could not be found, and has never existed on this participant
+When run on Canton, there may be more than one contract ID, and additionalDebuggingInfo is always None
+On the other hand, when run on IDELedger, there is only ever one contract ID, and additionalDebuggingInfo is always Some
+<span id="constr-daml-script-internal-questions-submit-error-contractkeynotfound-79659"></span>
+- `ContractKeyNotFound`
+
+<ResponseField name="contractKey" type="AnyContractKey" />
+
+Contract with given contract key could not be found
+<span id="constr-daml-script-internal-questions-submit-error-unresolvedpackagename-661"></span>
+- `UnresolvedPackageName`
+
+<ResponseField name="packageName" type="Text" />
+
+No vetted package with given package name could be found
+<span id="constr-daml-script-internal-questions-submit-error-authorizationerror-69757"></span>
+- `AuthorizationError`
+
+<ResponseField name="authorizationErrorMessage" type="Text" />
+
+Generic authorization failure, included missing party authority, invalid signatories, etc.
+<span id="constr-daml-script-internal-questions-submit-error-contracthashingerror-75608"></span>
+- `ContractHashingError`
+
+<ResponseField name="contractId" type="AnyContractId" />
+
+<ResponseField name="dstTemplateId" type="TemplateTypeRep" />
+
+<ResponseField name="createArg" type="AnyTemplate" />
+
+<ResponseField name="errorMessage" type="Text" />
+
+Failed to hash a contract
+<span id="constr-daml-script-internal-questions-submit-error-disclosedcontractkeyhashingerror-69749"></span>
+- `DisclosedContractKeyHashingError`
+
+<ResponseField name="contractId" type="AnyContractId" />
+
+<ResponseField name="expectedKey" type="AnyContractKey" />
+
+<ResponseField name="givenKeyHash" type="Text" />
+
+Given disclosed contract key does not match the contract key of the contract on ledger.
+<span id="constr-daml-script-internal-questions-submit-error-duplicatecontractkey-60422"></span>
+- `DuplicateContractKey`
+
+<ResponseField name="duplicateContractKey" type="Optional AnyContractKey">
+Canton will often not provide this key, IDELedger will
+</ResponseField>
+
+Attempted to create a contract with a contract key that already exists
+<span id="constr-daml-script-internal-questions-submit-error-inconsistentcontractkey-74433"></span>
+- `InconsistentContractKey`
+
+<ResponseField name="contractKey" type="AnyContractKey" />
+
+Contract key lookup yielded different results
+<span id="constr-daml-script-internal-questions-submit-error-unhandledexception-86682"></span>
+- `UnhandledException`
+
+<ResponseField name="exc" type="Optional AnyException">
+Errors more complex than simple records cannot currently be encoded over the grpc status. Such errors will be missing here.
+</ResponseField>
+
+Unhandled user thrown exception
+<span id="constr-daml-script-internal-questions-submit-error-usererror-2902"></span>
+- `UserError`
+
+<ResponseField name="userErrorMessage" type="Text" />
+
+Transaction failure due to abort/assert calls pre-exceptions
+<span id="constr-daml-script-internal-questions-submit-error-templatepreconditionviolated-57506"></span>
+- `TemplatePreconditionViolated`
+
+Failure due to false result from `ensure`, strictly pre-exception.
+According to docs, not throwable with LF >= 1.14.
+On LF >= 1.14, a failed `ensure` will result in a `PreconditionFailed`
+exception wrapped in `UnhandledException`.
+<span id="constr-daml-script-internal-questions-submit-error-createemptycontractkeymaintainers-30280"></span>
+- `CreateEmptyContractKeyMaintainers`
+
+<ResponseField name="invalidTemplate" type="AnyTemplate" />
+
+Attempted to create a contract with empty contract key maintainers
+<span id="constr-daml-script-internal-questions-submit-error-fetchemptycontractkeymaintainers-19351"></span>
+- `FetchEmptyContractKeyMaintainers`
+
+<ResponseField name="failedTemplateKey" type="AnyContractKey" />
+
+Attempted to fetch a contract with empty contract key maintainers
+<span id="constr-daml-script-internal-questions-submit-error-wronglytypedcontract-14384"></span>
+- `WronglyTypedContract`
+
+<ResponseField name="contractId" type="AnyContractId">
+Any contract Id of the actual contract
+</ResponseField>
+
+<ResponseField name="expectedTemplateId" type="TemplateTypeRep" />
+
+<ResponseField name="actualTemplateId" type="TemplateTypeRep" />
+
+Attempted to exercise/fetch a contract with the wrong template type
+<span id="constr-daml-script-internal-questions-submit-error-contractdoesnotimplementinterface-89439"></span>
+- `ContractDoesNotImplementInterface`
+
+<ResponseField name="contractId" type="AnyContractId" />
+
+<ResponseField name="templateId" type="TemplateTypeRep" />
+
+<ResponseField name="interfaceId" type="TemplateTypeRep" />
+
+Attempted to use a contract as an interface that it does not implement
+<span id="constr-daml-script-internal-questions-submit-error-contractdoesnotimplementrequiringinterface-51672"></span>
+- `ContractDoesNotImplementRequiringInterface`
+
+<ResponseField name="contractId" type="AnyContractId" />
+
+<ResponseField name="templateId" type="TemplateTypeRep" />
+
+<ResponseField name="requiredInterfaceId" type="TemplateTypeRep" />
+
+<ResponseField name="requiringInterfaceId" type="TemplateTypeRep" />
+
+Attempted to use a contract as a required interface that it does not implement
+<span id="constr-daml-script-internal-questions-submit-error-noncomparablevalues-97474"></span>
+- `NonComparableValues`
+
+Attempted to compare values that are not comparable
+<span id="constr-daml-script-internal-questions-submit-error-contractidincontractkey-60542"></span>
+- `ContractIdInContractKey`
+
+(no fields)
+
+Illegal Contract ID found in Contract Key
+<span id="constr-daml-script-internal-questions-submit-error-contractidcomparability-98492"></span>
+- `ContractIdComparability`
+
+<ResponseField name="globalExistingContractId" type="Text">
+We do not know the template ID at time of comparison.
+</ResponseField>
+
+Attempted to compare incomparable contract IDs. You're doing something very wrong.
+Two contract IDs with the same prefix are incomparable if one of them is local and the other non-local
+or if one is relative and the other relative or absolute with a different suffix.
+<span id="constr-daml-script-internal-questions-submit-error-valuenesting-53471"></span>
+- `ValueNesting`
+
+<ResponseField name="limit" type="Int">
+Nesting limit that was exceeded
+</ResponseField>
+
+A value has been nested beyond a given depth limit
+<span id="constr-daml-script-internal-questions-submit-error-localverdictlockedcontracts-9414"></span>
+- `LocalVerdictLockedContracts`
+
+<ResponseField name="localVerdictLockedContracts" type="[AnyContractId]">
+Locked contract ids
+</ResponseField>
+
+The transaction refers to locked contracts which are in the process of being created, transferred, or
+archived by another transaction. If the other transaction fails, this transaction could be successfully retried.
+<span id="constr-daml-script-internal-questions-submit-error-localverdictlockedkeys-14824"></span>
+- `LocalVerdictLockedKeys`
+
+<ResponseField name="localVerdictLockedKeys" type="[AnyContractKey]">
+Locked contract keys
+</ResponseField>
+
+The transaction refers to locked keys which are in the process of being modified by another transaction.
+<span id="constr-daml-script-internal-questions-submit-error-upgradeerror-4562"></span>
+- `UpgradeError`
+
+<ResponseField name="errorType" type="UpgradeErrorType" />
+
+<ResponseField name="errorMessage" type="Text" />
+
+Upgrade exception
+<span id="constr-daml-script-internal-questions-submit-error-failurestatuserror-13880"></span>
+- `FailureStatusError`
+
+<ResponseField name="failureStatus" type="FailureStatus" />
+
+Exception resulting from call to `failWithStatus`
+<span id="constr-daml-script-internal-questions-submit-error-cryptoerror-24426"></span>
+- `CryptoError`
+
+<ResponseField name="cryptoErrorType" type="CryptoErrorType" />
+
+<ResponseField name="cryptoErrorMessage" type="Text" />
+
+Crypto exceptions
+<span id="constr-daml-script-internal-questions-submit-error-effectfulrollbackerror-45632"></span>
+- `EffectfulRollbackError`
+
+<ResponseField name="effectfulRollbackErrorMsg" type="Text" />
+
+Rollback exceptions
+<span id="constr-daml-script-internal-questions-submit-error-deverror-73533"></span>
+- `DevError`
+
+<ResponseField name="devErrorType" type="DevErrorType" />
+
+<ResponseField name="devErrorMessage" type="Text" />
+
+Development feature exceptions
+<span id="constr-daml-script-internal-questions-submit-error-unknownerror-23808"></span>
+- `UnknownError`
+
+<ResponseField name="unknownErrorMessage" type="Text" />
+
+Generic catch-all for missing errors.
+<span id="constr-daml-script-internal-questions-submit-error-truncatederror-47926"></span>
+- `TruncatedError`
+
+<ResponseField name="truncatedErrorType" type="Text">
+One of the constructor names of SubmitFailure except DevError, UnknownError, TruncatedError
+</ResponseField>
+
+<ResponseField name="truncatedErrorMessage" type="Text" />
+
+One of the above error types where the full exception body did not fit into the response, and was incomplete.
+
+Instances:
+
+- instance `IsQuestion` `Submit` [`Either` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) ([`CommandResult`], [`TransactionTree`](#type-daml-script-internal-questions-transactiontree-transactiontree-91781))]
+- instance `Show` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284)
+- instance `GetField` `actualTemplateId` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `TemplateTypeRep`
+- instance `GetField` `additionalDebuggingInfo` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) (`Optional` [`ContractNotFoundAdditionalInfo`](/appdev/reference/daml-script/daml-script-internal#type-daml-script-internal-questions-submit-error-contractnotfoundadditionalinfo-6199))
+- instance `GetField` `authorizationErrorMessage` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `GetField` `continue` ([`ConcurrentSubmits`](#type-daml-script-internal-questions-submit-concurrentsubmits-82688) `a`) ([`Either` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) ([`CommandResult`], [`TransactionTree`](#type-daml-script-internal-questions-transactiontree-transactiontree-91781))] -> `a`)
+- instance `GetField` `contractId` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)
+- instance `GetField` `contractKey` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+- instance `GetField` `createArg` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `AnyTemplate`
+- instance `GetField` `cryptoErrorMessage` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `GetField` `cryptoErrorType` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`CryptoErrorType`](#type-daml-script-internal-questions-submit-error-cryptoerrortype-71749)
+- instance `GetField` `devErrorMessage` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `GetField` `devErrorType` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `DevErrorType`
+- instance `GetField` `dstTemplateId` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `TemplateTypeRep`
+- instance `GetField` `duplicateContractKey` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) (`Optional` [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496))
+- instance `GetField` `effectfulRollbackErrorMsg` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `GetField` `errorMessage` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `GetField` `errorType` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779)
+- instance `GetField` `exc` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) (`Optional` `AnyException`)
+- instance `GetField` `expectedKey` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+- instance `GetField` `expectedTemplateId` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `TemplateTypeRep`
+- instance `GetField` `failedTemplateKey` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+- instance `GetField` `failureStatus` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `FailureStatus`
+- instance `GetField` `givenKeyHash` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `GetField` `globalExistingContractId` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `GetField` `interfaceId` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `TemplateTypeRep`
+- instance `GetField` `invalidTemplate` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `AnyTemplate`
+- instance `GetField` `limit` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Int`
+- instance `GetField` `localVerdictLockedContracts` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [[`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)]
+- instance `GetField` `localVerdictLockedKeys` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [[`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)]
+- instance `GetField` `packageName` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `GetField` `requiredInterfaceId` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `TemplateTypeRep`
+- instance `GetField` `requiringInterfaceId` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `TemplateTypeRep`
+- instance `GetField` `templateId` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `TemplateTypeRep`
+- instance `GetField` `truncatedErrorMessage` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `GetField` `truncatedErrorType` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `GetField` `unknownContractIds` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) (`NonEmpty` `Text`)
+- instance `GetField` `unknownErrorMessage` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `GetField` `userErrorMessage` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `SetField` `actualTemplateId` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `TemplateTypeRep`
+- instance `SetField` `additionalDebuggingInfo` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) (`Optional` [`ContractNotFoundAdditionalInfo`](/appdev/reference/daml-script/daml-script-internal#type-daml-script-internal-questions-submit-error-contractnotfoundadditionalinfo-6199))
+- instance `SetField` `authorizationErrorMessage` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `SetField` `continue` ([`ConcurrentSubmits`](#type-daml-script-internal-questions-submit-concurrentsubmits-82688) `a`) ([`Either` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) ([`CommandResult`], [`TransactionTree`](#type-daml-script-internal-questions-transactiontree-transactiontree-91781))] -> `a`)
+- instance `SetField` `contractId` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)
+- instance `SetField` `contractKey` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+- instance `SetField` `createArg` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `AnyTemplate`
+- instance `SetField` `cryptoErrorMessage` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `SetField` `cryptoErrorType` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`CryptoErrorType`](#type-daml-script-internal-questions-submit-error-cryptoerrortype-71749)
+- instance `SetField` `devErrorMessage` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `SetField` `devErrorType` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `DevErrorType`
+- instance `SetField` `dstTemplateId` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `TemplateTypeRep`
+- instance `SetField` `duplicateContractKey` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) (`Optional` [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496))
+- instance `SetField` `effectfulRollbackErrorMsg` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `SetField` `errorMessage` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `SetField` `errorType` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779)
+- instance `SetField` `exc` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) (`Optional` `AnyException`)
+- instance `SetField` `expectedKey` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+- instance `SetField` `expectedTemplateId` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `TemplateTypeRep`
+- instance `SetField` `failedTemplateKey` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+- instance `SetField` `failureStatus` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `FailureStatus`
+- instance `SetField` `givenKeyHash` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `SetField` `globalExistingContractId` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `SetField` `interfaceId` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `TemplateTypeRep`
+- instance `SetField` `invalidTemplate` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `AnyTemplate`
+- instance `SetField` `limit` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Int`
+- instance `SetField` `localVerdictLockedContracts` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [[`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)]
+- instance `SetField` `localVerdictLockedKeys` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [[`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)]
+- instance `SetField` `packageName` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `SetField` `requiredInterfaceId` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `TemplateTypeRep`
+- instance `SetField` `requiringInterfaceId` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `TemplateTypeRep`
+- instance `SetField` `templateId` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `TemplateTypeRep`
+- instance `SetField` `truncatedErrorMessage` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `SetField` `truncatedErrorType` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `SetField` `unknownContractIds` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) (`NonEmpty` `Text`)
+- instance `SetField` `unknownErrorMessage` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+- instance `SetField` `userErrorMessage` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `Text`
+
+
+<span id="type-daml-script-internal-questions-submit-error-upgradeerrortype-94779"></span>
+
+### `data UpgradeErrorType`
+
+SCU related submission errors
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-submit-error-validationfailed-35370"></span>
+- `ValidationFailed`
+
+<ResponseField name="coid" type="AnyContractId" />
+
+<ResponseField name="srcTemplateId" type="TemplateTypeRep" />
+
+<ResponseField name="dstTemplateId" type="TemplateTypeRep" />
+
+<ResponseField name="srcPackageName" type="Text" />
+
+<ResponseField name="dstPackageName" type="Text" />
+
+<ResponseField name="originalSignatories" type="[Party]" />
+
+<ResponseField name="originalObservers" type="[Party]" />
+
+<ResponseField name="originalKeyOpt" type="Optional (AnyContractKey, [Party])" />
+
+<ResponseField name="recomputedSignatories" type="[Party]" />
+
+<ResponseField name="recomputedObservers" type="[Party]" />
+
+<ResponseField name="recomputedKeyOpt" type="Optional (AnyContractKey, [Party])" />
+<span id="constr-daml-script-internal-questions-submit-error-translationfailed-4701"></span>
+- `TranslationFailed`
+
+<ResponseField name="mCoid" type="Optional AnyContractId" />
+
+<ResponseField name="srcTemplateId" type="TemplateTypeRep" />
+
+<ResponseField name="dstTemplateId" type="TemplateTypeRep" />
+
+<ResponseField name="createArg" type="AnyTemplate" />
+<span id="constr-daml-script-internal-questions-submit-error-authenticationfailed-3671"></span>
+- `AuthenticationFailed`
+
+<ResponseField name="coid" type="AnyContractId" />
+
+<ResponseField name="srcTemplateId" type="TemplateTypeRep" />
+
+<ResponseField name="dstTemplateId" type="TemplateTypeRep" />
+
+<ResponseField name="createArg" type="AnyTemplate" />
+
+Instances:
+
+- instance `Show` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779)
+- instance `GetField` `coid` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)
+- instance `GetField` `createArg` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) `AnyTemplate`
+- instance `GetField` `dstPackageName` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) `Text`
+- instance `GetField` `dstTemplateId` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) `TemplateTypeRep`
+- instance `GetField` `errorType` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779)
+- instance `GetField` `mCoid` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) (`Optional` [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399))
+- instance `GetField` `originalKeyOpt` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) (`Optional` ([`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496), [`Party`]))
+- instance `GetField` `originalObservers` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) [`Party`]
+- instance `GetField` `originalSignatories` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) [`Party`]
+- instance `GetField` `recomputedKeyOpt` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) (`Optional` ([`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496), [`Party`]))
+- instance `GetField` `recomputedObservers` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) [`Party`]
+- instance `GetField` `recomputedSignatories` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) [`Party`]
+- instance `GetField` `srcPackageName` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) `Text`
+- instance `GetField` `srcTemplateId` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) `TemplateTypeRep`
+- instance `SetField` `coid` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)
+- instance `SetField` `createArg` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) `AnyTemplate`
+- instance `SetField` `dstPackageName` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) `Text`
+- instance `SetField` `dstTemplateId` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) `TemplateTypeRep`
+- instance `SetField` `errorType` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779)
+- instance `SetField` `mCoid` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) (`Optional` [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399))
+- instance `SetField` `originalKeyOpt` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) (`Optional` ([`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496), [`Party`]))
+- instance `SetField` `originalObservers` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) [`Party`]
+- instance `SetField` `originalSignatories` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) [`Party`]
+- instance `SetField` `recomputedKeyOpt` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) (`Optional` ([`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496), [`Party`]))
+- instance `SetField` `recomputedObservers` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) [`Party`]
+- instance `SetField` `recomputedSignatories` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) [`Party`]
+- instance `SetField` `srcPackageName` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) `Text`
+- instance `SetField` `srcTemplateId` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) `TemplateTypeRep`
+
+
+<span id="type-daml-script-internal-questions-transactiontree-created-98301"></span>
+
+### `data Created`
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-transactiontree-created-79356"></span>
+- `Created`
+
+<ResponseField name="contractId" type="AnyContractId" />
+
+<ResponseField name="argument" type="AnyTemplate" />
+
+Instances:
+
+- instance `Show` [`Created`](#type-daml-script-internal-questions-transactiontree-created-98301)
+- instance `GetField` `argument` [`Created`](#type-daml-script-internal-questions-transactiontree-created-98301) `AnyTemplate`
+- instance `GetField` `contractId` [`Created`](#type-daml-script-internal-questions-transactiontree-created-98301) [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)
+- instance `SetField` `argument` [`Created`](#type-daml-script-internal-questions-transactiontree-created-98301) `AnyTemplate`
+- instance `SetField` `contractId` [`Created`](#type-daml-script-internal-questions-transactiontree-created-98301) [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)
+
+
+<span id="type-daml-script-internal-questions-transactiontree-createdindexpayload-52051"></span>
+
+### `data CreatedIndexPayload t`
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-transactiontree-createdindexpayload-17054"></span>
+- `CreatedIndexPayload`
+
+<ResponseField name="templateId" type="TemplateTypeRep" />
+
+<ResponseField name="offset" type="Int" />
+
+Instances:
+
+- instance `GetField` `offset` ([`CreatedIndexPayload`](#type-daml-script-internal-questions-transactiontree-createdindexpayload-52051) `t`) `Int`
+- instance `GetField` `templateId` ([`CreatedIndexPayload`](#type-daml-script-internal-questions-transactiontree-createdindexpayload-52051) `t`) `TemplateTypeRep`
+- instance `SetField` `offset` ([`CreatedIndexPayload`](#type-daml-script-internal-questions-transactiontree-createdindexpayload-52051) `t`) `Int`
+- instance `SetField` `templateId` ([`CreatedIndexPayload`](#type-daml-script-internal-questions-transactiontree-createdindexpayload-52051) `t`) `TemplateTypeRep`
+
+
+<span id="type-daml-script-internal-questions-transactiontree-exercised-22057"></span>
+
+### `data Exercised`
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-transactiontree-exercised-56388"></span>
+- `Exercised`
+
+<ResponseField name="contractId" type="AnyContractId" />
+
+<ResponseField name="choice" type="Text" />
+
+<ResponseField name="argument" type="AnyChoice" />
+
+<ResponseField name="childEvents" type="[TreeEvent]" />
+
+Instances:
+
+- instance `Show` [`Exercised`](#type-daml-script-internal-questions-transactiontree-exercised-22057)
+- instance `GetField` `argument` [`Exercised`](#type-daml-script-internal-questions-transactiontree-exercised-22057) `AnyChoice`
+- instance `GetField` `childEvents` [`Exercised`](#type-daml-script-internal-questions-transactiontree-exercised-22057) [[`TreeEvent`](#type-daml-script-internal-questions-transactiontree-treeevent-1267)]
+- instance `GetField` `choice` [`Exercised`](#type-daml-script-internal-questions-transactiontree-exercised-22057) `Text`
+- instance `GetField` `contractId` [`Exercised`](#type-daml-script-internal-questions-transactiontree-exercised-22057) [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)
+- instance `SetField` `argument` [`Exercised`](#type-daml-script-internal-questions-transactiontree-exercised-22057) `AnyChoice`
+- instance `SetField` `childEvents` [`Exercised`](#type-daml-script-internal-questions-transactiontree-exercised-22057) [[`TreeEvent`](#type-daml-script-internal-questions-transactiontree-treeevent-1267)]
+- instance `SetField` `choice` [`Exercised`](#type-daml-script-internal-questions-transactiontree-exercised-22057) `Text`
+- instance `SetField` `contractId` [`Exercised`](#type-daml-script-internal-questions-transactiontree-exercised-22057) [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)
+
+
+<span id="type-daml-script-internal-questions-transactiontree-exercisedindexpayload-19779"></span>
+
+### `data ExercisedIndexPayload t`
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-transactiontree-exercisedindexpayload-97386"></span>
+- `ExercisedIndexPayload`
+
+<ResponseField name="templateId" type="TemplateTypeRep" />
+
+<ResponseField name="choice" type="Text" />
+
+<ResponseField name="offset" type="Int" />
+
+<ResponseField name="child" type="TreeIndex t" />
+
+Instances:
+
+- instance `GetField` `child` ([`ExercisedIndexPayload`](#type-daml-script-internal-questions-transactiontree-exercisedindexpayload-19779) `t`) ([`TreeIndex`](#type-daml-script-internal-questions-transactiontree-treeindex-21327) `t`)
+- instance `GetField` `choice` ([`ExercisedIndexPayload`](#type-daml-script-internal-questions-transactiontree-exercisedindexpayload-19779) `t`) `Text`
+- instance `GetField` `offset` ([`ExercisedIndexPayload`](#type-daml-script-internal-questions-transactiontree-exercisedindexpayload-19779) `t`) `Int`
+- instance `GetField` `templateId` ([`ExercisedIndexPayload`](#type-daml-script-internal-questions-transactiontree-exercisedindexpayload-19779) `t`) `TemplateTypeRep`
+- instance `SetField` `child` ([`ExercisedIndexPayload`](#type-daml-script-internal-questions-transactiontree-exercisedindexpayload-19779) `t`) ([`TreeIndex`](#type-daml-script-internal-questions-transactiontree-treeindex-21327) `t`)
+- instance `SetField` `choice` ([`ExercisedIndexPayload`](#type-daml-script-internal-questions-transactiontree-exercisedindexpayload-19779) `t`) `Text`
+- instance `SetField` `offset` ([`ExercisedIndexPayload`](#type-daml-script-internal-questions-transactiontree-exercisedindexpayload-19779) `t`) `Int`
+- instance `SetField` `templateId` ([`ExercisedIndexPayload`](#type-daml-script-internal-questions-transactiontree-exercisedindexpayload-19779) `t`) `TemplateTypeRep`
+
+
+<span id="type-daml-script-internal-questions-transactiontree-transactiontree-91781"></span>
+
+### `data TransactionTree`
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-transactiontree-transactiontree-56296"></span>
+- `TransactionTree`
+
+<ResponseField name="rootEvents" type="[TreeEvent]" />
+
+Instances:
+
+- instance `IsQuestion` `Submit` [`Either` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) ([`CommandResult`], [`TransactionTree`](#type-daml-script-internal-questions-transactiontree-transactiontree-91781))]
+- instance `Show` [`TransactionTree`](#type-daml-script-internal-questions-transactiontree-transactiontree-91781)
+- instance `GetField` `continue` ([`ConcurrentSubmits`](#type-daml-script-internal-questions-submit-concurrentsubmits-82688) `a`) ([`Either` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) ([`CommandResult`], [`TransactionTree`](#type-daml-script-internal-questions-transactiontree-transactiontree-91781))] -> `a`)
+- instance `GetField` `rootEvents` [`TransactionTree`](#type-daml-script-internal-questions-transactiontree-transactiontree-91781) [[`TreeEvent`](#type-daml-script-internal-questions-transactiontree-treeevent-1267)]
+- instance `SetField` `continue` ([`ConcurrentSubmits`](#type-daml-script-internal-questions-submit-concurrentsubmits-82688) `a`) ([`Either` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) ([`CommandResult`], [`TransactionTree`](#type-daml-script-internal-questions-transactiontree-transactiontree-91781))] -> `a`)
+- instance `SetField` `rootEvents` [`TransactionTree`](#type-daml-script-internal-questions-transactiontree-transactiontree-91781) [[`TreeEvent`](#type-daml-script-internal-questions-transactiontree-treeevent-1267)]
+
+
+<span id="type-daml-script-internal-questions-transactiontree-treeevent-1267"></span>
+
+### `data TreeEvent`
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-transactiontree-createdevent-60119"></span>
+- `CreatedEvent Created`
+<span id="constr-daml-script-internal-questions-transactiontree-exercisedevent-2627"></span>
+- `ExercisedEvent Exercised`
+
+Instances:
+
+- instance `Show` [`TreeEvent`](#type-daml-script-internal-questions-transactiontree-treeevent-1267)
+- instance `GetField` `childEvents` [`Exercised`](#type-daml-script-internal-questions-transactiontree-exercised-22057) [[`TreeEvent`](#type-daml-script-internal-questions-transactiontree-treeevent-1267)]
+- instance `GetField` `rootEvents` [`TransactionTree`](#type-daml-script-internal-questions-transactiontree-transactiontree-91781) [[`TreeEvent`](#type-daml-script-internal-questions-transactiontree-treeevent-1267)]
+- instance `SetField` `childEvents` [`Exercised`](#type-daml-script-internal-questions-transactiontree-exercised-22057) [[`TreeEvent`](#type-daml-script-internal-questions-transactiontree-treeevent-1267)]
+- instance `SetField` `rootEvents` [`TransactionTree`](#type-daml-script-internal-questions-transactiontree-transactiontree-91781) [[`TreeEvent`](#type-daml-script-internal-questions-transactiontree-treeevent-1267)]
+
+
+<span id="type-daml-script-internal-questions-transactiontree-treeindex-21327"></span>
+
+### `data TreeIndex t`
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-transactiontree-createdindex-88223"></span>
+- `CreatedIndex (CreatedIndexPayload t)`
+<span id="constr-daml-script-internal-questions-transactiontree-exercisedindex-22399"></span>
+- `ExercisedIndex (ExercisedIndexPayload t)`
+
+Instances:
+
+- instance `GetField` `child` ([`ExercisedIndexPayload`](#type-daml-script-internal-questions-transactiontree-exercisedindexpayload-19779) `t`) ([`TreeIndex`](#type-daml-script-internal-questions-transactiontree-treeindex-21327) `t`)
+- instance `SetField` `child` ([`ExercisedIndexPayload`](#type-daml-script-internal-questions-transactiontree-exercisedindexpayload-19779) `t`) ([`TreeIndex`](#type-daml-script-internal-questions-transactiontree-treeindex-21327) `t`)
+
+
+<span id="type-daml-script-internal-questions-util-anycontractid-11399"></span>
+
+### `data AnyContractId`
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-util-anycontractid-12200"></span>
+- `AnyContractId`
+
+<ResponseField name="templateId" type="TemplateTypeRep" />
+
+<ResponseField name="contractId" type="ContractId ()" />
+
+Instances:
+
+- instance `Eq` [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)
+- instance `Show` [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)
+- instance `GetField` `additionalInfoCid` [`ContractNotFoundAdditionalInfo`](/appdev/reference/daml-script/daml-script-internal#type-daml-script-internal-questions-submit-error-contractnotfoundadditionalinfo-6199) [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)
+- instance `GetField` `coid` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)
+- instance `GetField` `contractId` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)
+- instance `GetField` `contractId` [`Created`](#type-daml-script-internal-questions-transactiontree-created-98301) [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)
+- instance `GetField` `contractId` [`Exercised`](#type-daml-script-internal-questions-transactiontree-exercised-22057) [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)
+- instance `GetField` `contractId` [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399) (`ContractId` ())
+- instance `GetField` `localVerdictLockedContracts` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [[`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)]
+- instance `GetField` `mCoid` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) (`Optional` [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399))
+- instance `GetField` `templateId` [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399) `TemplateTypeRep`
+- instance `SetField` `additionalInfoCid` [`ContractNotFoundAdditionalInfo`](/appdev/reference/daml-script/daml-script-internal#type-daml-script-internal-questions-submit-error-contractnotfoundadditionalinfo-6199) [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)
+- instance `SetField` `coid` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)
+- instance `SetField` `contractId` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)
+- instance `SetField` `contractId` [`Created`](#type-daml-script-internal-questions-transactiontree-created-98301) [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)
+- instance `SetField` `contractId` [`Exercised`](#type-daml-script-internal-questions-transactiontree-exercised-22057) [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)
+- instance `SetField` `contractId` [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399) (`ContractId` ())
+- instance `SetField` `localVerdictLockedContracts` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [[`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399)]
+- instance `SetField` `mCoid` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) (`Optional` [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399))
+- instance `SetField` `templateId` [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399) `TemplateTypeRep`
+
+
+<span id="type-daml-script-internal-questions-partymanagement-participantname-88190"></span>
+
+### `data ParticipantName`
+
+Participant name for multi-participant script runs to address a specific participant
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-partymanagement-participantname-13079"></span>
+- `ParticipantName`
+
+<ResponseField name="participantName" type="Text" />
+
+Instances:
+
+- instance `GetField` `participantName` [`ParticipantName`](#type-daml-script-internal-questions-partymanagement-participantname-88190) `Text`
+- instance `SetField` `participantName` [`ParticipantName`](#type-daml-script-internal-questions-partymanagement-participantname-88190) `Text`
+
+
+<span id="type-daml-script-internal-questions-partymanagement-partydetails-4369"></span>
+
+### `data PartyDetails`
+
+The party details returned by the party management service.
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-partymanagement-partydetails-1790"></span>
+- `PartyDetails`
+
+<ResponseField name="party" type="Party">
+Party id
+</ResponseField>
+
+<ResponseField name="isLocal" type="Bool">
+True if party is hosted by the backing participant.
+</ResponseField>
+
+Instances:
+
+- instance `IsQuestion` `ListKnownParties` [[`PartyDetails`](#type-daml-script-internal-questions-partymanagement-partydetails-4369)]
+- instance `Eq` [`PartyDetails`](#type-daml-script-internal-questions-partymanagement-partydetails-4369)
+- instance `Ord` [`PartyDetails`](#type-daml-script-internal-questions-partymanagement-partydetails-4369)
+- instance `Show` [`PartyDetails`](#type-daml-script-internal-questions-partymanagement-partydetails-4369)
+- instance `GetField` `isLocal` [`PartyDetails`](#type-daml-script-internal-questions-partymanagement-partydetails-4369) `Bool`
+- instance `GetField` `party` [`PartyDetails`](#type-daml-script-internal-questions-partymanagement-partydetails-4369) `Party`
+- instance `SetField` `isLocal` [`PartyDetails`](#type-daml-script-internal-questions-partymanagement-partydetails-4369) `Bool`
+- instance `SetField` `party` [`PartyDetails`](#type-daml-script-internal-questions-partymanagement-partydetails-4369) `Party`
+
+
+<span id="type-daml-script-internal-questions-partymanagement-partyidhint-14540"></span>
+
+### `data PartyIdHint`
+
+A hint to the backing participant what party id to allocate.
+Must be a valid PartyIdString (as described in @value.proto@).
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-partymanagement-partyidhint-11617"></span>
+- `PartyIdHint`
+
+<ResponseField name="partyIdHint" type="Text" />
+
+Instances:
+
+- instance `GetField` `partyIdHint` [`PartyIdHint`](#type-daml-script-internal-questions-partymanagement-partyidhint-14540) `Text`
+- instance `SetField` `partyIdHint` [`PartyIdHint`](#type-daml-script-internal-questions-partymanagement-partyidhint-14540) `Text`
+
+
+<span id="type-daml-script-internal-questions-crypto-text-privatekeyhex-82732"></span>
+
+### `type PrivateKeyHex`
+
+= `BytesHex`
+
+A DER formatted private key to be used for ECDSA message signing
+
+Instances:
+
+- instance `GetField` `privateKey` [`Secp256k1KeyPair`](#type-daml-script-internal-questions-crypto-text-secp256k1keypair-9395) [`PrivateKeyHex`](#type-daml-script-internal-questions-crypto-text-privatekeyhex-82732)
+- instance `SetField` `privateKey` [`Secp256k1KeyPair`](#type-daml-script-internal-questions-crypto-text-secp256k1keypair-9395) [`PrivateKeyHex`](#type-daml-script-internal-questions-crypto-text-privatekeyhex-82732)
+
+
+<span id="type-daml-script-internal-questions-crypto-text-secp256k1keypair-9395"></span>
+
+### `data Secp256k1KeyPair`
+
+Secp256k1 key pair generated by `secp256k1generatekeypair` for testing.
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-crypto-text-secp256k1keypair-60460"></span>
+- `Secp256k1KeyPair`
+
+<ResponseField name="privateKey" type="PrivateKeyHex" />
+
+<ResponseField name="publicKey" type="PublicKeyHex" />
+
+Instances:
+
+- instance `IsQuestion` `Secp256k1GenerateKeyPair` [`Secp256k1KeyPair`](#type-daml-script-internal-questions-crypto-text-secp256k1keypair-9395)
+- instance `GetField` `privateKey` [`Secp256k1KeyPair`](#type-daml-script-internal-questions-crypto-text-secp256k1keypair-9395) [`PrivateKeyHex`](#type-daml-script-internal-questions-crypto-text-privatekeyhex-82732)
+- instance `GetField` `publicKey` [`Secp256k1KeyPair`](#type-daml-script-internal-questions-crypto-text-secp256k1keypair-9395) `PublicKeyHex`
+- instance `SetField` `privateKey` [`Secp256k1KeyPair`](#type-daml-script-internal-questions-crypto-text-secp256k1keypair-9395) [`PrivateKeyHex`](#type-daml-script-internal-questions-crypto-text-privatekeyhex-82732)
+- instance `SetField` `publicKey` [`Secp256k1KeyPair`](#type-daml-script-internal-questions-crypto-text-secp256k1keypair-9395) `PublicKeyHex`
+
+
+<span id="type-daml-script-internal-questions-commands-anycontractkey-29496"></span>
+
+### `data AnyContractKey`
+
+Existential contract key type that can wrap an arbitrary contract key.
+
+Instances:
+
+- instance `Eq` [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+- instance `Ord` [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+- instance `GetField` `contractKey` `QueryNByKey` [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+- instance `GetField` `contractKey` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+- instance `GetField` `duplicateContractKey` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) (`Optional` [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496))
+- instance `GetField` `expectedKey` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+- instance `GetField` `failedTemplateKey` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+- instance `GetField` `getAnyContractKey` [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496) `LedgerValue`
+- instance `GetField` `getAnyContractKeyTemplateTypeRep` [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496) `TemplateTypeRep`
+- instance `GetField` `key` `QueryByKey` [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+- instance `GetField` `keyE` `Command` [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+- instance `GetField` `localVerdictLockedKeys` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [[`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)]
+- instance `GetField` `originalKeyOpt` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) (`Optional` ([`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496), [`Party`]))
+- instance `GetField` `recomputedKeyOpt` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) (`Optional` ([`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496), [`Party`]))
+- instance `GetField` `sPrefetchKeys` `Submission` [[`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)]
+- instance `GetField` `soPrefetchKeys` [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692) [[`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)]
+- instance `SetField` `contractKey` `QueryNByKey` [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+- instance `SetField` `contractKey` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+- instance `SetField` `duplicateContractKey` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) (`Optional` [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496))
+- instance `SetField` `expectedKey` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+- instance `SetField` `failedTemplateKey` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+- instance `SetField` `getAnyContractKey` [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496) `LedgerValue`
+- instance `SetField` `getAnyContractKeyTemplateTypeRep` [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496) `TemplateTypeRep`
+- instance `SetField` `key` `QueryByKey` [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+- instance `SetField` `keyE` `Command` [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+- instance `SetField` `localVerdictLockedKeys` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [[`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)]
+- instance `SetField` `originalKeyOpt` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) (`Optional` ([`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496), [`Party`]))
+- instance `SetField` `recomputedKeyOpt` [`UpgradeErrorType`](#type-daml-script-internal-questions-submit-error-upgradeerrortype-94779) (`Optional` ([`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496), [`Party`]))
+- instance `SetField` `sPrefetchKeys` `Submission` [[`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)]
+- instance `SetField` `soPrefetchKeys` [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692) [[`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)]
+
+
+<span id="type-daml-script-internal-questions-commands-commands-79301"></span>
+
+### `data Commands a`
+
+This is used to build up the commands sent as part of `submit`.
+If you enable the `ApplicativeDo` extension by adding
+`{-# LANGUAGE ApplicativeDo #-}` at the top of your file, you can
+use `do`-notation but the individual commands must not depend
+on each other and the last statement in a `do` block
+must be of the form ``return expr`` or ``pure expr``.
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-commands-commands-42332"></span>
+- `Commands`
+
+<ResponseField name="commands" type="[CommandWithMeta]" />
+
+<ResponseField name="continue" type="[CommandResult] -&gt; a" />
+
+Instances:
+
+- instance `Functor` [`Commands`](#type-daml-script-internal-questions-commands-commands-79301)
+- instance `Applicative` [`Commands`](#type-daml-script-internal-questions-commands-commands-79301)
+- instance `GetField` `commands` ([`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a`) [`CommandWithMeta`]
+- instance `GetField` `continue` ([`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a`) ([`CommandResult`] -> `a`)
+- instance `SetField` `commands` ([`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a`) [`CommandWithMeta`]
+- instance `SetField` `continue` ([`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a`) ([`CommandResult`] -> `a`)
+
+
+<span id="type-daml-script-internal-questions-commands-disclosure-40298"></span>
+
+### `data Disclosure`
+
+Contract disclosures which can be acquired via ``queryDisclosure``
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-commands-disclosure-14083"></span>
+- `Disclosure`
+
+<ResponseField name="templateId" type="TemplateTypeRep" />
+
+<ResponseField name="contractId" type="ContractId ()" />
+
+<ResponseField name="blob" type="Text" />
+
+Instances:
+
+- instance `Eq` [`Disclosure`](#type-daml-script-internal-questions-commands-disclosure-40298)
+- instance `Ord` [`Disclosure`](#type-daml-script-internal-questions-commands-disclosure-40298)
+- instance `GetField` `blob` [`Disclosure`](#type-daml-script-internal-questions-commands-disclosure-40298) `Text`
+- instance `GetField` `contractId` [`Disclosure`](#type-daml-script-internal-questions-commands-disclosure-40298) (`ContractId` ())
+- instance `GetField` `sDisclosures` `Submission` [[`Disclosure`](#type-daml-script-internal-questions-commands-disclosure-40298)]
+- instance `GetField` `soDisclosures` [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692) [[`Disclosure`](#type-daml-script-internal-questions-commands-disclosure-40298)]
+- instance `GetField` `templateId` [`Disclosure`](#type-daml-script-internal-questions-commands-disclosure-40298) `TemplateTypeRep`
+- instance `SetField` `blob` [`Disclosure`](#type-daml-script-internal-questions-commands-disclosure-40298) `Text`
+- instance `SetField` `contractId` [`Disclosure`](#type-daml-script-internal-questions-commands-disclosure-40298) (`ContractId` ())
+- instance `SetField` `sDisclosures` `Submission` [[`Disclosure`](#type-daml-script-internal-questions-commands-disclosure-40298)]
+- instance `SetField` `soDisclosures` [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692) [[`Disclosure`](#type-daml-script-internal-questions-commands-disclosure-40298)]
+- instance `SetField` `templateId` [`Disclosure`](#type-daml-script-internal-questions-commands-disclosure-40298) `TemplateTypeRep`
+
+
+<span id="type-daml-script-internal-lowlevel-script-4781"></span>
+
+### `data Script a`
+
+This is the type of A Daml script. `Script` is an instance of `Action`,
+so you can use `do` notation.
+
+Constructors:
+
+<span id="constr-daml-script-internal-lowlevel-script-73096"></span>
+- `Script`
+
+<ResponseField name="runScript" type="() -&gt; Free ScriptF (a, ())">
+HIDE
+
+We use an inlined StateT () to separate evaluation of
+
+something of type Script from execution and to ensure
+
+proper sequencing of evaluation. This is mainly so that `debug` does something
+
+slightly more sensible.
+</ResponseField>
+
+<ResponseField name="dummy" type="()">
+HIDE
+
+Dummy field to make sure damlc does not consider this an old-style
+
+typeclass.
+</ResponseField>
+
+Instances:
+
+- instance [`ScriptSubmit`](#class-daml-script-internal-questions-submit-scriptsubmit-55101) [`Script`](#type-daml-script-internal-lowlevel-script-4781)
+- instance `Functor` [`Script`](#type-daml-script-internal-lowlevel-script-4781)
+- instance `CanAssert` [`Script`](#type-daml-script-internal-lowlevel-script-4781)
+- instance `ActionCatch` [`Script`](#type-daml-script-internal-lowlevel-script-4781)
+- instance `ActionThrow` [`Script`](#type-daml-script-internal-lowlevel-script-4781)
+- instance `ActionFailWithStatus` [`Script`](#type-daml-script-internal-lowlevel-script-4781)
+- instance `CanAbort` [`Script`](#type-daml-script-internal-lowlevel-script-4781)
+- instance `HasTime` [`Script`](#type-daml-script-internal-lowlevel-script-4781)
+- instance `Action` [`Script`](#type-daml-script-internal-lowlevel-script-4781)
+- instance `ActionFail` [`Script`](#type-daml-script-internal-lowlevel-script-4781)
+- instance `Applicative` [`Script`](#type-daml-script-internal-lowlevel-script-4781)
+- instance `GetField` `dummy` ([`Script`](#type-daml-script-internal-lowlevel-script-4781) `a`) ()
+- instance `GetField` `runScript` ([`Script`](#type-daml-script-internal-lowlevel-script-4781) `a`) (() -> `Free` `ScriptF` (`a`, ()))
+- instance `SetField` `dummy` ([`Script`](#type-daml-script-internal-lowlevel-script-4781) `a`) ()
+- instance `SetField` `runScript` ([`Script`](#type-daml-script-internal-lowlevel-script-4781) `a`) (() -> `Free` `ScriptF` (`a`, ()))
+
+
+
+## Typeclasses
+
+
+<span id="class-daml-script-internal-questions-submit-issubmitoptions-64211"></span>
+
+### `class IsSubmitOptions options`
+
+Defines a type that can be transformed into a SubmitOptions
+
+Methods:
+
+- `toSubmitOptions` : `options` -> [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692)
+
+Instances:
+
+- instance [`IsSubmitOptions`](#class-daml-script-internal-questions-submit-issubmitoptions-64211) [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692)
+- instance [`IsSubmitOptions`](#class-daml-script-internal-questions-submit-issubmitoptions-64211) `Party`
+- instance [`IsSubmitOptions`](#class-daml-script-internal-questions-submit-issubmitoptions-64211) (`NonEmpty` `Party`)
+- instance [`IsSubmitOptions`](#class-daml-script-internal-questions-submit-issubmitoptions-64211) (`Set` `Party`)
+- instance [`IsSubmitOptions`](#class-daml-script-internal-questions-submit-issubmitoptions-64211) [`Party`]
+
+
+<span id="class-daml-script-internal-questions-submit-scriptsubmit-55101"></span>
+
+### `class Applicative script => ScriptSubmit script`
+
+Defines an applicative that can run transaction submissions. Usually this is simply `Script`.
+
+Methods:
+
+- `liftSubmission` : `HasCallStack` => [`ConcurrentSubmits`](#type-daml-script-internal-questions-submit-concurrentsubmits-82688) `a` -> `script` `a`
+
+Instances:
+
+- instance [`ScriptSubmit`](#class-daml-script-internal-questions-submit-scriptsubmit-55101) [`Script`](#type-daml-script-internal-lowlevel-script-4781)
+- instance [`ScriptSubmit`](#class-daml-script-internal-questions-submit-scriptsubmit-55101) [`ConcurrentSubmits`](#type-daml-script-internal-questions-submit-concurrentsubmits-82688)
+
+
+
+## Functions
+
+
+<span id="function-daml-script-internal-questions-usermanagement-useridtotext-75939"></span>
+
+### `userIdToText`
+
+`userIdToText` : [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123) -> `Text`
+
+Extract the name-text from a user identitifer.
+
+
+<span id="function-daml-script-internal-questions-usermanagement-validateuserid-51917"></span>
+
+### `validateUserId`
+
+`validateUserId` : `HasCallStack` => `Text` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123)
+
+Construct a user identifer from text. May throw InvalidUserId.
+
+
+<span id="function-daml-script-internal-questions-usermanagement-createuser-37948"></span>
+
+### `createUser`
+
+`createUser` : `HasCallStack` => [`User`](#type-daml-script-internal-questions-usermanagement-user-21930) -> [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)] -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) ()
+
+Create a user with the given rights. May throw UserAlreadyExists.
+
+
+<span id="function-daml-script-internal-questions-usermanagement-createuseron-3905"></span>
+
+### `createUserOn`
+
+`createUserOn` : `HasCallStack` => [`User`](#type-daml-script-internal-questions-usermanagement-user-21930) -> [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)] -> [`ParticipantName`](#type-daml-script-internal-questions-partymanagement-participantname-88190) -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) ()
+
+Create a user with the given rights on the given participant. May throw UserAlreadyExists.
+
+
+<span id="function-daml-script-internal-questions-usermanagement-getuser-5077"></span>
+
+### `getUser`
+
+`getUser` : `HasCallStack` => [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123) -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) [`User`](#type-daml-script-internal-questions-usermanagement-user-21930)
+
+Fetch a user record by user id. May throw UserNotFound.
+
+
+<span id="function-daml-script-internal-questions-usermanagement-getuseron-1968"></span>
+
+### `getUserOn`
+
+`getUserOn` : `HasCallStack` => [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123) -> [`ParticipantName`](#type-daml-script-internal-questions-partymanagement-participantname-88190) -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) [`User`](#type-daml-script-internal-questions-usermanagement-user-21930)
+
+Fetch a user record by user id from the given participant. May throw UserNotFound.
+
+
+<span id="function-daml-script-internal-questions-usermanagement-listallusers-63416"></span>
+
+### `listAllUsers`
+
+`listAllUsers` : [`Script`](#type-daml-script-internal-lowlevel-script-4781) [[`User`](#type-daml-script-internal-questions-usermanagement-user-21930)]
+
+List all users. This function may make multiple calls to underlying paginated ledger API.
+
+
+<span id="function-daml-script-internal-questions-usermanagement-listalluserson-20857"></span>
+
+### `listAllUsersOn`
+
+`listAllUsersOn` : [`ParticipantName`](#type-daml-script-internal-questions-partymanagement-participantname-88190) -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) [[`User`](#type-daml-script-internal-questions-usermanagement-user-21930)]
+
+List all users on the given participant. This function may make multiple calls to underlying paginated ledger API.
+
+
+<span id="function-daml-script-internal-questions-usermanagement-grantuserrights-87478"></span>
+
+### `grantUserRights`
+
+`grantUserRights` : `HasCallStack` => [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123) -> [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)] -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)]
+
+Grant rights to a user. Returns the rights that have been newly granted. May throw UserNotFound.
+
+
+<span id="function-daml-script-internal-questions-usermanagement-grantuserrightson-91259"></span>
+
+### `grantUserRightsOn`
+
+`grantUserRightsOn` : `HasCallStack` => [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123) -> [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)] -> [`ParticipantName`](#type-daml-script-internal-questions-partymanagement-participantname-88190) -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)]
+
+Grant rights to a user on the given participant. Returns the rights that have been newly granted. May throw UserNotFound.
+
+
+<span id="function-daml-script-internal-questions-usermanagement-revokeuserrights-85325"></span>
+
+### `revokeUserRights`
+
+`revokeUserRights` : `HasCallStack` => [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123) -> [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)] -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)]
+
+Revoke rights for a user. Returns the revoked rights. May throw UserNotFound.
+
+
+<span id="function-daml-script-internal-questions-usermanagement-revokeuserrightson-21608"></span>
+
+### `revokeUserRightsOn`
+
+`revokeUserRightsOn` : `HasCallStack` => [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123) -> [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)] -> [`ParticipantName`](#type-daml-script-internal-questions-partymanagement-participantname-88190) -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)]
+
+Revoke rights for a user on the given participant. Returns the revoked rights. May throw UserNotFound.
+
+
+<span id="function-daml-script-internal-questions-usermanagement-deleteuser-2585"></span>
+
+### `deleteUser`
+
+`deleteUser` : `HasCallStack` => [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123) -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) ()
+
+Delete a user. May throw UserNotFound.
+
+
+<span id="function-daml-script-internal-questions-usermanagement-deleteuseron-74248"></span>
+
+### `deleteUserOn`
+
+`deleteUserOn` : `HasCallStack` => [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123) -> [`ParticipantName`](#type-daml-script-internal-questions-partymanagement-participantname-88190) -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) ()
+
+Delete a user on the given participant. May throw UserNotFound.
+
+
+<span id="function-daml-script-internal-questions-usermanagement-listuserrights-50525"></span>
+
+### `listUserRights`
+
+`listUserRights` : `HasCallStack` => [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123) -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)]
+
+List the rights of a user. May throw UserNotFound.
+
+
+<span id="function-daml-script-internal-questions-usermanagement-listuserrightson-11796"></span>
+
+### `listUserRightsOn`
+
+`listUserRightsOn` : `HasCallStack` => [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123) -> [`ParticipantName`](#type-daml-script-internal-questions-partymanagement-participantname-88190) -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) [[`UserRight`](#type-daml-script-internal-questions-usermanagement-userright-13475)]
+
+List the rights of a user on the given participant. May throw UserNotFound.
+
+
+<span id="function-daml-script-internal-questions-usermanagement-submituser-29476"></span>
+
+### `submitUser`
+
+`submitUser` : `HasCallStack` => [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123) -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) `a`
+
+Submit the commands with the actAs and readAs claims granted to a user. May throw UserNotFound.
+
+
+<span id="function-daml-script-internal-questions-usermanagement-submituseron-39337"></span>
+
+### `submitUserOn`
+
+`submitUserOn` : `HasCallStack` => [`UserId`](#type-daml-script-internal-questions-usermanagement-userid-11123) -> [`ParticipantName`](#type-daml-script-internal-questions-partymanagement-participantname-88190) -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) `a`
+
+Submit the commands with the actAs and readAs claims granted to the user on the given participant. May throw UserNotFound.
+
+
+<span id="function-daml-script-internal-questions-time-settime-32330"></span>
+
+### `setTime`
+
+`setTime` : `HasCallStack` => `Time` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) ()
+
+Set the time via the time service.
+
+This is only supported in Daml Studio and `dpm test` as well as
+when running over the gRPC API against a ledger in static time mode.
+
+Note that the ledger time service does not support going backwards in time.
+However, you can go back in time in Daml Studio.
+
+
+<span id="function-daml-script-internal-questions-time-sleep-58882"></span>
+
+### `sleep`
+
+`sleep` : `HasCallStack` => `RelTime` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) ()
+
+Sleep for the given duration.
+
+This is primarily useful in tests
+where you repeatedly call `query` until a certain state is reached.
+
+Note that this will sleep for the same duration in both wall clock and static time mode.
+
+
+<span id="function-daml-script-internal-questions-time-passtime-50024"></span>
+
+### `passTime`
+
+`passTime` : `RelTime` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) ()
+
+Advance ledger time by the given interval.
+
+This is only supported in Daml Studio and `dpm test` as well as
+when running over the gRPC API against a ledger in static time mode.
+Note that this is not an atomic operation over the
+gRPC API so no other clients should try to change time while this is
+running.
+
+Note that the ledger time service does not support going backwards in time.
+However, you can go back in time in Daml Studio.
+
+
+<span id="function-daml-script-internal-questions-submit-actas-76494"></span>
+
+### `actAs`
+
+`actAs` : `IsParties` `parties` => `parties` -> [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692)
+
+Builds a SubmitOptions with given actAs parties.
+Any given submission must include at least one actAs party.
+Note that the parties type is constrainted by `IsParties`, allowing for specifying parties as any of the following:
+```
+Party
+[Party]
+NonEmpty Party
+Set Party
+Optional Party
+```
+
+
+<span id="function-daml-script-internal-questions-submit-readas-67481"></span>
+
+### `readAs`
+
+`readAs` : `IsParties` `parties` => `parties` -> [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692)
+
+Builds a SubmitOptions with given readAs parties.
+A given submission may omit any readAs parties and still be valid.
+Note that the parties type is constrainted by `IsParties`, allowing for specifying parties as any of the following:
+```
+Party
+[Party]
+NonEmpty Party
+Set Party
+Optional Party
+```
+
+
+<span id="function-daml-script-internal-questions-submit-disclosemany-53386"></span>
+
+### `discloseMany`
+
+`discloseMany` : [[`Disclosure`](#type-daml-script-internal-questions-commands-disclosure-40298)] -> [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692)
+
+Provides many Explicit Disclosures to the transaction.
+
+
+<span id="function-daml-script-internal-questions-submit-disclose-59895"></span>
+
+### `disclose`
+
+`disclose` : [`Disclosure`](#type-daml-script-internal-questions-commands-disclosure-40298) -> [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692)
+
+Provides an Explicit Disclosure to the transaction.
+
+
+<span id="function-daml-script-internal-questions-submit-packagepreference-25445"></span>
+
+### `packagePreference`
+
+`packagePreference` : [[`PackageId`](#type-daml-script-internal-questions-submit-packageid-95921)] -> [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692)
+
+Provide a package id selection preference for upgrades for a submission
+
+
+<span id="function-daml-script-internal-questions-submit-prefetchkeys-84998"></span>
+
+### `prefetchKeys`
+
+`prefetchKeys` : [[`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)] -> [`SubmitOptions`](#type-daml-script-internal-questions-submit-submitoptions-56692)
+
+Provide a list of contract keys to prefetch for a submission
+
+
+<span id="function-daml-script-internal-questions-submit-concurrently-75077"></span>
+
+### `concurrently`
+
+`concurrently` : `HasCallStack` => [`ConcurrentSubmits`](#type-daml-script-internal-questions-submit-concurrentsubmits-82688) `a` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) `a`
+
+Allows for concurrent submission of transactions, using an applicative, similar to Commands.
+Concurrently takes a computation in `ConcurrentSubmits`, which supports all the existing `submit` functions
+that `Script` supports. It however does not implement `Action`, and thus does not support true binding and computation interdependence
+NOTE: The submission order of transactions within `concurrently` is deterministic, this function is not intended to test contention.
+It is only intended to allow faster submission of many unrelated transactions, by not waiting for completion for each transaction before
+sending the next.
+Example:
+```
+exerciseResult <- concurrently $ do
+  alice `submit` createCmd ...
+  res <- alice `submit` exerciseCmd ...
+  bob `submit` createCmd ...
+  pure res
+```
+
+
+<span id="function-daml-script-internal-questions-submit-submitresultandtree-13546"></span>
+
+### `submitResultAndTree`
+
+`submitResultAndTree` : (`HasCallStack`, [`ScriptSubmit`](#class-daml-script-internal-questions-submit-scriptsubmit-55101) `script`, [`IsSubmitOptions`](#class-daml-script-internal-questions-submit-issubmitoptions-64211) `options`) => `options` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a` -> `script` (`a`, [`TransactionTree`](#type-daml-script-internal-questions-transactiontree-transactiontree-91781))
+
+Equivalent to `submit` but returns the result and the full transaction tree.
+
+
+<span id="function-daml-script-internal-questions-submit-trysubmitresultandtree-33682"></span>
+
+### `trySubmitResultAndTree`
+
+`trySubmitResultAndTree` : (`HasCallStack`, [`ScriptSubmit`](#class-daml-script-internal-questions-submit-scriptsubmit-55101) `script`, [`IsSubmitOptions`](#class-daml-script-internal-questions-submit-issubmitoptions-64211) `options`) => `options` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a` -> `script` (`Either` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) (`a`, [`TransactionTree`](#type-daml-script-internal-questions-transactiontree-transactiontree-91781)))
+
+Equivalent to `trySubmit` but returns the result and the full transaction tree.
+
+
+<span id="function-daml-script-internal-questions-submit-submitwitherror-52958"></span>
+
+### `submitWithError`
+
+`submitWithError` : (`HasCallStack`, [`ScriptSubmit`](#class-daml-script-internal-questions-submit-scriptsubmit-55101) `script`, [`IsSubmitOptions`](#class-daml-script-internal-questions-submit-issubmitoptions-64211) `options`) => `options` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a` -> `script` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284)
+
+Equivalent to `submitMustFail` but returns the error thrown.
+
+
+<span id="function-daml-script-internal-questions-submit-submit-5889"></span>
+
+### `submit`
+
+`submit` : (`HasCallStack`, [`ScriptSubmit`](#class-daml-script-internal-questions-submit-scriptsubmit-55101) `script`, [`IsSubmitOptions`](#class-daml-script-internal-questions-submit-issubmitoptions-64211) `options`) => `options` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a` -> `script` `a`
+
+`submit p cmds` submits the commands `cmds` as a single transaction
+from party `p` and returns the value returned by `cmds`.
+The `options` field can either be any "Parties" like type (See `IsParties`) or `SubmitOptions`
+which allows for finer control over parameters of the submission.
+
+If the transaction fails, `submit` also fails.
+
+
+<span id="function-daml-script-internal-questions-submit-submitwithoptions-56152"></span>
+
+### `submitWithOptions`
+
+`submitWithOptions` : (`HasCallStack`, [`ScriptSubmit`](#class-daml-script-internal-questions-submit-scriptsubmit-55101) `script`, [`IsSubmitOptions`](#class-daml-script-internal-questions-submit-issubmitoptions-64211) `options`) => `options` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a` -> `script` `a`
+
+
+<span id="function-daml-script-internal-questions-submit-submittree-5925"></span>
+
+### `submitTree`
+
+`submitTree` : (`HasCallStack`, [`ScriptSubmit`](#class-daml-script-internal-questions-submit-scriptsubmit-55101) `script`, [`IsSubmitOptions`](#class-daml-script-internal-questions-submit-issubmitoptions-64211) `options`) => `options` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a` -> `script` [`TransactionTree`](#type-daml-script-internal-questions-transactiontree-transactiontree-91781)
+
+Equivalent to `submit` but returns the full transaction tree.
+
+
+<span id="function-daml-script-internal-questions-submit-trysubmit-23693"></span>
+
+### `trySubmit`
+
+`trySubmit` : (`HasCallStack`, [`ScriptSubmit`](#class-daml-script-internal-questions-submit-scriptsubmit-55101) `script`, [`IsSubmitOptions`](#class-daml-script-internal-questions-submit-issubmitoptions-64211) `options`) => `options` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a` -> `script` (`Either` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `a`)
+
+Submit a transaction and recieve back either the result, or a `SubmitError`.
+In the majority of failures, this will not crash at runtime.
+
+
+<span id="function-daml-script-internal-questions-submit-trysubmittree-68085"></span>
+
+### `trySubmitTree`
+
+`trySubmitTree` : (`HasCallStack`, [`ScriptSubmit`](#class-daml-script-internal-questions-submit-scriptsubmit-55101) `script`, [`IsSubmitOptions`](#class-daml-script-internal-questions-submit-issubmitoptions-64211) `options`) => `options` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a` -> `script` (`Either` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) [`TransactionTree`](#type-daml-script-internal-questions-transactiontree-transactiontree-91781))
+
+Equivalent to `trySubmit` but returns the full transaction tree.
+
+
+<span id="function-daml-script-internal-questions-submit-submitmustfail-63662"></span>
+
+### `submitMustFail`
+
+`submitMustFail` : (`HasCallStack`, [`ScriptSubmit`](#class-daml-script-internal-questions-submit-scriptsubmit-55101) `script`, [`IsSubmitOptions`](#class-daml-script-internal-questions-submit-issubmitoptions-64211) `options`) => `options` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a` -> `script` ()
+
+`submitMustFail p cmds` submits the commands `cmds` as a single transaction
+from party `p`.
+See submitWithOptions for details on the `options` field
+
+It only succeeds if the submitting the transaction fails.
+
+
+<span id="function-daml-script-internal-questions-submit-submitmustfailwithoptions-20017"></span>
+
+### `submitMustFailWithOptions`
+
+`submitMustFailWithOptions` : (`HasCallStack`, [`ScriptSubmit`](#class-daml-script-internal-questions-submit-scriptsubmit-55101) `script`, [`IsSubmitOptions`](#class-daml-script-internal-questions-submit-issubmitoptions-64211) `options`) => `options` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a` -> `script` ()
+
+
+<span id="function-daml-script-internal-questions-submit-submitmulti-45107"></span>
+
+### `submitMulti`
+
+`submitMulti` : (`HasCallStack`, [`ScriptSubmit`](#class-daml-script-internal-questions-submit-scriptsubmit-55101) `script`) => [`Party`] -> [`Party`] -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a` -> `script` `a`
+
+`submitMulti actAs readAs cmds` submits `cmds` as a single transaction
+authorized by `actAs`. Fetched contracts must be visible to at least
+one party in the union of actAs and readAs.
+
+Note: This behaviour can be achieved using `submit (actAs actors <> readAs readers) cmds`
+and is only provided for backwards compatibility.
+
+
+<span id="function-daml-script-internal-questions-submit-submitmultimustfail-77808"></span>
+
+### `submitMultiMustFail`
+
+`submitMultiMustFail` : (`HasCallStack`, [`ScriptSubmit`](#class-daml-script-internal-questions-submit-scriptsubmit-55101) `script`) => [`Party`] -> [`Party`] -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a` -> `script` ()
+
+`submitMultiMustFail actAs readAs cmds` behaves like `submitMulti actAs readAs cmds`
+but fails when `submitMulti` succeeds and the other way around.
+
+Note: This behaviour can be achieved using `submitMustFail (actAs actors <> readAs readers) cmds`
+and is only provided for backwards compatibility.
+
+
+<span id="function-daml-script-internal-questions-submit-submittreemulti-4879"></span>
+
+### `submitTreeMulti`
+
+`submitTreeMulti` : (`HasCallStack`, [`ScriptSubmit`](#class-daml-script-internal-questions-submit-scriptsubmit-55101) `script`) => [`Party`] -> [`Party`] -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a` -> `script` [`TransactionTree`](#type-daml-script-internal-questions-transactiontree-transactiontree-91781)
+
+Equivalent to `submitMulti` but returns the full transaction tree.
+
+Note: This behaviour can be achieved using `submitTree (actAs actors <> readAs readers) cmds`
+and is only provided for backwards compatibility.
+
+
+<span id="function-daml-script-internal-questions-submit-trysubmitmulti-31939"></span>
+
+### `trySubmitMulti`
+
+`trySubmitMulti` : (`HasCallStack`, [`ScriptSubmit`](#class-daml-script-internal-questions-submit-scriptsubmit-55101) `script`) => [`Party`] -> [`Party`] -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a` -> `script` (`Either` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `a`)
+
+Alternate version of `trySubmit` that allows specifying the actAs and readAs parties.
+
+Note: This behaviour can be achieved using `trySubmit (actAs actors <> readAs readers) cmds`
+and is only provided for backwards compatibility.
+
+
+<span id="function-daml-script-internal-questions-submit-trysubmitconcurrently-11443"></span>
+
+### `trySubmitConcurrently`
+
+`trySubmitConcurrently` : `HasCallStack` => `Party` -> [[`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a`] -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) [`Either` [`SubmitError`](#type-daml-script-internal-questions-submit-error-submiterror-38284) `a`]
+
+
+<span id="function-daml-script-internal-questions-submit-submitwithdisclosures-50120"></span>
+
+### `submitWithDisclosures`
+
+`submitWithDisclosures` : `HasCallStack` => `Party` -> [[`Disclosure`](#type-daml-script-internal-questions-commands-disclosure-40298)] -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) `a`
+
+
+<span id="function-daml-script-internal-questions-submit-submitwithdisclosuresmustfail-28475"></span>
+
+### `submitWithDisclosuresMustFail`
+
+`submitWithDisclosuresMustFail` : `HasCallStack` => `Party` -> [[`Disclosure`](#type-daml-script-internal-questions-commands-disclosure-40298)] -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `a` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) ()
+
+
+<span id="function-daml-script-internal-questions-transactiontree-fromtree-1340"></span>
+
+### `fromTree`
+
+`fromTree` : `Template` `t` => [`TransactionTree`](#type-daml-script-internal-questions-transactiontree-transactiontree-91781) -> [`TreeIndex`](#type-daml-script-internal-questions-transactiontree-treeindex-21327) `t` -> `ContractId` `t`
+
+Finds the contract id of an event within a tree given a tree index
+Tree indices are created using the `created(N)` and `exercised(N)` builders
+which allow building "paths" within a transaction to a create node
+For example, `exercisedN @MyTemplate1 "MyChoice" 2 $ createdN @MyTemplate2 1`
+would find the `ContractId MyTemplate2` of the second (0 index) create event under
+the 3rd exercise event of `MyChoice` from `MyTemplate1`
+
+
+<span id="function-daml-script-internal-questions-transactiontree-created-56097"></span>
+
+### `created`
+
+`created` : `HasTemplateTypeRep` `t` => [`TreeIndex`](#type-daml-script-internal-questions-transactiontree-treeindex-21327) `t`
+
+Index for the first create event of a given template
+e.g. `created @MyTemplate`
+
+
+<span id="function-daml-script-internal-questions-transactiontree-createdn-71930"></span>
+
+### `createdN`
+
+`createdN` : `HasTemplateTypeRep` `t` => `Int` -> [`TreeIndex`](#type-daml-script-internal-questions-transactiontree-treeindex-21327) `t`
+
+Index for the Nth create event of a given template
+e.g. `createdN 2 @MyTemplate`
+`created = createdN 0`
+
+
+<span id="function-daml-script-internal-questions-transactiontree-exercised-13349"></span>
+
+### `exercised`
+
+`exercised` : `HasTemplateTypeRep` `t` => `Text` -> [`TreeIndex`](#type-daml-script-internal-questions-transactiontree-treeindex-21327) `t'` -> [`TreeIndex`](#type-daml-script-internal-questions-transactiontree-treeindex-21327) `t'`
+
+Index for the first exercise of a given choice on a given template
+e.g. `exercised @MyTemplate "MyChoice"`
+
+
+<span id="function-daml-script-internal-questions-transactiontree-exercisedn-70910"></span>
+
+### `exercisedN`
+
+`exercisedN` : `HasTemplateTypeRep` `t` => `Text` -> `Int` -> [`TreeIndex`](#type-daml-script-internal-questions-transactiontree-treeindex-21327) `t'` -> [`TreeIndex`](#type-daml-script-internal-questions-transactiontree-treeindex-21327) `t'`
+
+Index for the Nth exercise of a given choice on a given template
+e.g. `exercisedN @MyTemplate "MyChoice" 2`
+`exercised c = exercisedN c 0`
+
+
+<span id="function-daml-script-internal-questions-util-fromanycontractid-11435"></span>
+
+### `fromAnyContractId`
+
+`fromAnyContractId` : `Template` `t` => [`AnyContractId`](#type-daml-script-internal-questions-util-anycontractid-11399) -> `Optional` (`ContractId` `t`)
+
+
+<span id="function-daml-script-internal-questions-query-query-55941"></span>
+
+### `query`
+
+`query` : (`Template` `t`, `HasEnsure` `t`, `IsParties` `p`) => `p` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) [(`ContractId` `t`, `t`)]
+
+Query the set of active contracts of the template
+that are visible to the given party.
+
+
+<span id="function-daml-script-internal-questions-query-queryfilter-99157"></span>
+
+### `queryFilter`
+
+`queryFilter` : (`Template` `c`, `HasEnsure` `c`, `IsParties` `p`) => `p` -> (`c` -> `Bool`) -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) [(`ContractId` `c`, `c`)]
+
+Query the set of active contracts of the template
+that are visible to the given party and match the given predicate.
+
+
+<span id="function-daml-script-internal-questions-query-querycontractid-24166"></span>
+
+### `queryContractId`
+
+`queryContractId` : (`Template` `t`, `HasEnsure` `t`, `IsParties` `p`, `HasCallStack`) => `p` -> `ContractId` `t` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) (`Optional` `t`)
+
+Query for the contract with the given contract id.
+
+Returns `None` if there is no active contract the party is a stakeholder on.
+
+WARNING: Over the gRPC backend this performs a linear search over all contracts of
+the same type, so only use this if the number of active contracts is small.
+
+This is semantically equivalent to calling `query`
+and filtering on the client side.
+
+
+<span id="function-daml-script-internal-questions-query-querydisclosure-12000"></span>
+
+### `queryDisclosure`
+
+`queryDisclosure` : (`Template` `t`, `IsParties` `p`, `HasCallStack`) => `p` -> `ContractId` `t` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) (`Optional` [`Disclosure`](#type-daml-script-internal-questions-commands-disclosure-40298))
+
+Queries a Disclosure for a given ContractId. Same performance caveats apply as to `queryContractId`.
+
+
+<span id="function-daml-script-internal-questions-query-queryinterface-52085"></span>
+
+### `queryInterface`
+
+`queryInterface` : (`Template` `i`, `HasInterfaceView` `i` `v`, `IsParties` `p`) => `p` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) [(`ContractId` `i`, `Optional` `v`)]
+
+Query the set of active contract views for an interface
+that are visible to the given party.
+If the view function fails for a given contract id, The `Optional v` will be `None`.
+
+
+<span id="function-daml-script-internal-questions-query-queryinterfacecontractid-18438"></span>
+
+### `queryInterfaceContractId`
+
+`queryInterfaceContractId` : (`Template` `i`, `HasInterfaceView` `i` `v`, `IsParties` `p`, `HasCallStack`) => `p` -> `ContractId` `i` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) (`Optional` `v`)
+
+Query for the contract view with the given contract id.
+
+Returns `None` if there is no active contract the party is a stakeholder on.
+
+Returns `None` if the view function fails for the given contract id.
+
+WARNING: Over the gRPC backend this performs a linear search over all contracts of
+the same type, so only use this if the number of active contracts is small.
+
+This is semantically equivalent to calling `queryInterface`
+and filtering on the client side.
+
+
+<span id="function-daml-script-internal-questions-query-querybykey-184"></span>
+
+### `queryByKey`
+
+`queryByKey` : (`HasCallStack`, `TemplateKey` `t` `k`, `IsParties` `p`) => `p` -> `k` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) (`Optional` (`ContractId` `t`, `t`))
+
+Returns `None` if there is no active contract with the given key that
+the party is a stakeholder on.
+
+WARNING: Over the gRPC backend this performs a linear search over all contracts of
+the same type, so only use this if the number of active contracts is small.
+
+This is semantically equivalent to calling `query`
+and filtering on the client side.
+
+
+<span id="function-daml-script-internal-questions-query-querynbykey-54281"></span>
+
+### `queryNByKey`
+
+`queryNByKey` : (`HasCallStack`, `TemplateKey` `t` `k`, `IsParties` `p`) => `p` -> `Int` -> `k` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) [(`ContractId` `t`, `t`)]
+
+Returns N contracts matching a key, returns empty list if the key is inactive
+Only available in LF 2.3+
+
+WARNING: Over the gRPC backend this performs a linear search over all contracts of
+the same type, so only use this if the number of active contracts is small.
+
+This is semantically equivalent to calling `query`
+and filtering on the client side.
+
+
+<span id="function-daml-script-internal-questions-query-queryallbykey-81262"></span>
+
+### `queryAllByKey`
+
+`queryAllByKey` : (`HasCallStack`, `TemplateKey` `t` `k`, `IsParties` `p`) => `p` -> `k` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) [(`ContractId` `t`, `t`)]
+
+Returns all contracts matching a key, returns empty list if the key is inactive
+Only available in LF 2.3+
+
+WARNING: Over the gRPC backend this performs a linear search over all contracts of
+the same type, so only use this if the number of active contracts is small.
+
+This is semantically equivalent to calling `query`
+and filtering on the client side.
+
+
+<span id="function-daml-script-internal-questions-partymanagement-allocateparty-4749"></span>
+
+### `allocateParty`
+
+`allocateParty` : `HasCallStack` => `Text` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) `Party`
+
+Allocate a party with the given display name
+using the party management service.
+
+
+<span id="function-daml-script-internal-questions-partymanagement-allocatepartywithhint-96426"></span>
+
+### `allocatePartyWithHint`
+
+`allocatePartyWithHint` : `HasCallStack` => `Text` -> [`PartyIdHint`](#type-daml-script-internal-questions-partymanagement-partyidhint-14540) -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) `Party`
+
+
+<span id="function-daml-script-internal-questions-partymanagement-allocatepartybyhint-55067"></span>
+
+### `allocatePartyByHint`
+
+`allocatePartyByHint` : `HasCallStack` => [`PartyIdHint`](#type-daml-script-internal-questions-partymanagement-partyidhint-14540) -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) `Party`
+
+Allocate a party with the given id hint
+using the party management service.
+
+
+<span id="function-daml-script-internal-questions-partymanagement-allocatepartyon-59020"></span>
+
+### `allocatePartyOn`
+
+`allocatePartyOn` : `Text` -> [`ParticipantName`](#type-daml-script-internal-questions-partymanagement-participantname-88190) -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) `Party`
+
+Allocate a party with the given display name
+on the specified participant using the party management service.
+
+
+<span id="function-daml-script-internal-questions-partymanagement-allocatepartywithhinton-11859"></span>
+
+### `allocatePartyWithHintOn`
+
+`allocatePartyWithHintOn` : `Text` -> [`PartyIdHint`](#type-daml-script-internal-questions-partymanagement-partyidhint-14540) -> [`ParticipantName`](#type-daml-script-internal-questions-partymanagement-participantname-88190) -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) `Party`
+
+
+<span id="function-daml-script-internal-questions-partymanagement-allocatepartybyhinton-5218"></span>
+
+### `allocatePartyByHintOn`
+
+`allocatePartyByHintOn` : [`PartyIdHint`](#type-daml-script-internal-questions-partymanagement-partyidhint-14540) -> [`ParticipantName`](#type-daml-script-internal-questions-partymanagement-participantname-88190) -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) `Party`
+
+Allocate a party with the given id hint
+on the specified participant using the party management service.
+
+
+<span id="function-daml-script-internal-questions-partymanagement-listknownparties-55540"></span>
+
+### `listKnownParties`
+
+`listKnownParties` : `HasCallStack` => [`Script`](#type-daml-script-internal-lowlevel-script-4781) [[`PartyDetails`](#type-daml-script-internal-questions-partymanagement-partydetails-4369)]
+
+List the parties known to the default participant.
+
+
+<span id="function-daml-script-internal-questions-partymanagement-listknownpartieson-55333"></span>
+
+### `listKnownPartiesOn`
+
+`listKnownPartiesOn` : `HasCallStack` => [`ParticipantName`](#type-daml-script-internal-questions-partymanagement-participantname-88190) -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) [[`PartyDetails`](#type-daml-script-internal-questions-partymanagement-partydetails-4369)]
+
+List the parties known to the given participant.
+
+
+<span id="function-daml-script-internal-questions-exceptions-trytoeither-58773"></span>
+
+### `tryToEither`
+
+`tryToEither` : (() -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) `t`) -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) (`Either` `AnyException` `t`)
+
+Named version of the `try catch` behaviour of Daml-Script.
+Note that this is no more powerful than `try catch` in daml-script, and will not catch exceptions in submissions.
+(Use `trySubmit` for this)
+Input computation is deferred to catch pure exceptions
+
+
+<span id="function-daml-script-internal-questions-exceptions-tryfailurestatus-576"></span>
+
+### `tryFailureStatus`
+
+`tryFailureStatus` : [`Script`](#type-daml-script-internal-lowlevel-script-4781) `a` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) (`Either` `FailureStatus` `a`)
+
+Runs a script for a result. If it fails either by Daml Exceptions or `failWithStatus`, returns the
+`FailureStatus` that a Canton Ledger would return.
+
+
+<span id="function-daml-script-internal-questions-crypto-text-secp256k1signwithecdsaonly-99207"></span>
+
+### `secp256k1signWithEcdsaOnly`
+
+`secp256k1signWithEcdsaOnly` : `HasCallStack` => [`PrivateKeyHex`](#type-daml-script-internal-questions-crypto-text-privatekeyhex-82732) -> `BytesHex` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) `BytesHex`
+
+Using a DER formatted private key (encoded as a hex string) use Secp256k1 to sign a hex encoded string message.
+
+Note that this implementation uses a random source with a fixed PRNG and seed, ensuring it behaves deterministically during testing.
+
+For example, CCTP attestation services may be mocked in daml-script code.
+
+
+<span id="function-daml-script-internal-questions-crypto-text-secp256k1sign-72886"></span>
+
+### `secp256k1sign`
+
+`secp256k1sign` : `HasCallStack` => [`PrivateKeyHex`](#type-daml-script-internal-questions-crypto-text-privatekeyhex-82732) -> `BytesHex` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) `BytesHex`
+
+Using a DER formatted private key (encoded as a hex string) use Secp256k1 to sign a SHA256 digest of a hex encoded string message.
+
+Note that this implementation uses a random source with a fixed PRNG and seed, ensuring it behaves deterministically during testing.
+
+For example, CCTP attestation services may be mocked in daml-script code.
+
+
+<span id="function-daml-script-internal-questions-crypto-text-secp256k1generatekeypair-90200"></span>
+
+### `secp256k1generatekeypair`
+
+`secp256k1generatekeypair` : `HasCallStack` => [`Script`](#type-daml-script-internal-lowlevel-script-4781) [`Secp256k1KeyPair`](#type-daml-script-internal-questions-crypto-text-secp256k1keypair-9395)
+
+Generate DER formatted Secp256k1 public/private key pairs.
+
+
+<span id="function-daml-script-internal-questions-commands-toanycontractkey-91361"></span>
+
+### `toAnyContractKey`
+
+`toAnyContractKey` : (`HasTemplateTypeRep` `t`, `TemplateKey` `t` `k`) => `k` -> [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496)
+
+Wrap a contract key in `AnyContractKey`.
+
+You must pass the template type `t` using an explicit type application.
+For example `toAnyContractKey @Proposal k`.
+
+
+<span id="function-daml-script-internal-questions-commands-fromanycontractkey-42688"></span>
+
+### `fromAnyContractKey`
+
+`fromAnyContractKey` : (`HasTemplateTypeRep` `t`, `TemplateKey` `t` `k`) => [`AnyContractKey`](#type-daml-script-internal-questions-commands-anycontractkey-29496) -> `Optional` `k`
+
+Extract the underlying key from `AnyContractKey` if the template and
+choice types match, or return `None`.
+
+You must pass the template type `t` using an explicit type application.
+For example `fromAnyContractKey @Proposal k`.
+
+
+<span id="function-daml-script-internal-questions-commands-createcmd-46830"></span>
+
+### `createCmd`
+
+`createCmd` : (`Template` `t`, `HasEnsure` `t`) => `t` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) (`ContractId` `t`)
+
+Create a contract of the given template.
+
+
+<span id="function-daml-script-internal-questions-commands-exercisecmd-7438"></span>
+
+### `exerciseCmd`
+
+`exerciseCmd` : `Choice` `t` `c` `r` => `ContractId` `t` -> `c` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `r`
+
+Exercise a choice on the given contract.
+
+
+<span id="function-daml-script-internal-questions-commands-exercisebykeycmd-80697"></span>
+
+### `exerciseByKeyCmd`
+
+`exerciseByKeyCmd` : (`TemplateKey` `t` `k`, `Choice` `t` `c` `r`) => `k` -> `c` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `r`
+
+Exercise a choice on the contract with the given key.
+
+
+<span id="function-daml-script-internal-questions-commands-createandexercisewithcidcmd-21289"></span>
+
+### `createAndExerciseWithCidCmd`
+
+`createAndExerciseWithCidCmd` : (`Template` `t`, `Choice` `t` `c` `r`, `HasEnsure` `t`) => `t` -> `c` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) (`ContractId` `t`, `r`)
+
+Create a contract and exercise a choice on it in the same transaction, returns the created ContractId, and the choice result.
+
+
+<span id="function-daml-script-internal-questions-commands-createandexercisecmd-8600"></span>
+
+### `createAndExerciseCmd`
+
+`createAndExerciseCmd` : (`Template` `t`, `Choice` `t` `c` `r`, `HasEnsure` `t`) => `t` -> `c` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `r`
+
+Create a contract and exercise a choice on it in the same transaction, returns only the choice result.
+
+
+<span id="function-daml-script-internal-questions-commands-createexactcmd-86998"></span>
+
+### `createExactCmd`
+
+`createExactCmd` : (`Template` `t`, `HasEnsure` `t`) => `t` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) (`ContractId` `t`)
+
+Create a contract of the given template, using the exact package ID of the template given - upgrades are disabled.
+
+
+<span id="function-daml-script-internal-questions-commands-exerciseexactcmd-18398"></span>
+
+### `exerciseExactCmd`
+
+`exerciseExactCmd` : `Choice` `t` `c` `r` => `ContractId` `t` -> `c` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `r`
+
+Exercise a choice on the given contract, using the exact package ID of the template given - upgrades are disabled.
+
+
+<span id="function-daml-script-internal-questions-commands-exercisebykeyexactcmd-4555"></span>
+
+### `exerciseByKeyExactCmd`
+
+`exerciseByKeyExactCmd` : (`TemplateKey` `t` `k`, `Choice` `t` `c` `r`) => `k` -> `c` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `r`
+
+Exercise a choice on the contract with the given key, using the exact package ID of the template given - upgrades are disabled.
+
+
+<span id="function-daml-script-internal-questions-commands-createandexercisewithcidexactcmd-15363"></span>
+
+### `createAndExerciseWithCidExactCmd`
+
+`createAndExerciseWithCidExactCmd` : (`Template` `t`, `Choice` `t` `c` `r`, `HasEnsure` `t`) => `t` -> `c` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) (`ContractId` `t`, `r`)
+
+Create a contract and exercise a choice on it in the same transaction, returns the created ContractId, and the choice result.
+Uses the exact package ID of the template given - upgrades are disabled.
+
+
+<span id="function-daml-script-internal-questions-commands-createandexerciseexactcmd-54956"></span>
+
+### `createAndExerciseExactCmd`
+
+`createAndExerciseExactCmd` : (`Template` `t`, `Choice` `t` `c` `r`, `HasEnsure` `t`) => `t` -> `c` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) `r`
+
+Create a contract and exercise a choice on it in the same transaction, returns only the choice result.
+
+
+<span id="function-daml-script-internal-questions-commands-archivecmd-47203"></span>
+
+### `archiveCmd`
+
+`archiveCmd` : `Choice` `t` `Archive` () => `ContractId` `t` -> [`Commands`](#type-daml-script-internal-questions-commands-commands-79301) ()
+
+Archive the given contract.
+
+`archiveCmd cid` is equivalent to `exerciseCmd cid Archive`.
+
+
+<span id="function-daml-script-internal-lowlevel-script-65113"></span>
+
+### `script`
+
+`script` : [`Script`](#type-daml-script-internal-lowlevel-script-4781) `a` -> [`Script`](#type-daml-script-internal-lowlevel-script-4781) `a`
+
+Convenience helper to declare you are writing a Script.
+
+This is only useful for readability and to improve type inference.
+Any expression of type `Script a` is a valid script regardless of whether
+it is implemented using `script` or not.
+
+
+
+
+## History
+
+<div class="x2mdx-ref-history" aria-label="Reference history">
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-3-5-2">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">3.5.2</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">Module declarations or documentation updated.</p>
+
+  </div>
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-3-5-1">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">3.5.1</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">Module declarations or documentation updated.</p>
+
+  </div>
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-3-4-11">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">3.4.11</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">Module declarations or documentation updated.</p>
+
+  </div>
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-3-4-10">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">3.4.10</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">Module declarations or documentation updated.</p>
+
+  </div>
+
+</div>

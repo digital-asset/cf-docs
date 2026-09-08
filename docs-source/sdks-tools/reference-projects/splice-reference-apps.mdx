@@ -1,0 +1,96 @@
+---
+title: "Splice Reference Apps"
+description: "Reference applications from the Splice repository for building Canton Network infrastructure and applications."
+---
+
+The [Splice repository](https://github.com/canton-network/splice) contains the reference applications that power the Global Synchronizer infrastructure. These applications handle validator operations, network scanning, wallet management, and super validator coordination. They serve as both production infrastructure and reference implementations for developers building on Canton Network.
+
+## Repository Overview
+
+Splice is hosted under Hyperledger Labs:
+
+```
+https://github.com/canton-network/splice
+```
+
+The repository contains the core applications that make up the Canton Network infrastructure layer. While you do not need to modify Splice to build applications on Canton, understanding its components helps you work with the APIs and services your application interacts with.
+
+## Included Applications
+
+### SV App (Super Validator App)
+
+The SV App runs on super validator nodes and manages the decentralized synchronizer operations. It handles:
+
+- Governance voting and proposal management
+- Synchronizer parameter updates
+- Canton Coin issuance and reward distribution
+- Network-wide configuration
+
+As an application developer, you interact with the SV App indirectly through the Global Synchronizer. Super validator operators use this app directly.
+
+### Scan App
+
+The Scan App provides a read-only view of the Canton Network's public state. It exposes APIs for:
+
+- Network topology and validator information
+- Canton Coin supply and distribution data
+- Governance proposal status
+- Synchronizer health metrics
+
+Your application can query the Scan API to display network information or verify the state of network-wide operations.
+
+### Validator App
+
+The Validator App manages the operational aspects of running a validator on Canton Network. It covers:
+
+- Validator onboarding and registration
+- Traffic management and Canton Coin purchases
+- Synchronizer connection management
+- Operational health monitoring
+
+Validator operators use this app to manage their nodes. Application developers who also operate validators interact with it for node administration.
+
+### Wallet
+
+The Splice Wallet handles Canton Coin (CC) operations:
+
+- CC balance management
+- Transfer initiation and acceptance
+- Payment request processing
+- Traffic purchase workflows
+
+Applications that handle payments integrate with the Wallet through its APIs. The [cn-quickstart](https://github.com/digital-asset/cn-quickstart) licensing example demonstrates this integration -- the `LicenseRenewalRequest` template implements the Splice `AllocationRequest` interface, which the Wallet detects and processes as a payment.
+
+## Using Splice as Reference
+
+### Understanding APIs
+
+The Splice apps expose REST APIs that your application may need to call. Study the source code to understand:
+
+- Request/response formats for Scan API queries
+- Authentication patterns for Validator API calls
+- Wallet API endpoints for payment workflows
+
+### Architecture Patterns
+
+Splice demonstrates patterns that are applicable to any Canton application:
+
+- How to subscribe to and process ledger transaction streams
+- How to manage multi-party workflows across validators
+- How to handle Canton Coin payments within application logic
+- How to structure a service that reads from PQS and writes through the Ledger API
+
+### LocalNet Integration
+
+When you run LocalNet through cn-quickstart, you are running a local instance of the Splice infrastructure. The SV App, Scan App, Validator App, and Wallet all run as Docker containers. This gives you a realistic environment to test your application's interactions with these services.
+
+## Wallet SDK
+
+A separate repository, [wallet-gateway](https://github.com/canton-network/wallet-gateway), hosts the **Wallet SDK** that provides the core wallet logic used by the Splice Wallet. If you are building a custom wallet integration, the Wallet SDK provides lower-level access to CC operations.
+
+## Related Pages
+
+- [cn-quickstart](/sdks-tools/reference-projects/cn-quickstart) -- Full-stack example application that runs on Splice infrastructure
+- [Canton Coin](/overview/understand/canton-coin) -- Overview of Canton Coin and its role in the network
+- [Global Synchronizer](/overview/understand/global-synchronizer) -- How the synchronizer infrastructure works
+- [Integrations](/integrations/overview) -- Wallet and exchange integration patterns

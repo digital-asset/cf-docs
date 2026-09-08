@@ -1,0 +1,89 @@
+---
+title: "0.19.0"
+description: "Wallet SDK 0.19.0 release notes."
+---
+
+{/* GENERATED_RELEASE_NOTES target="wallet-sdk" format="split-release" version="0.19.0" source="158b3ff4c316ba7a5d6c89a6099a5303b76d4f77" */}
+
+# 0.19.0
+
+**Released on December 29th, 2025**
+
+- **Important!: LedgerController constructor has changed to named parameters**
+
+*the `LedgerController` constructor has been refactored from positional parameters to a named parameter object. This is a breaking change
+if you construct `LedgerController` directly. The new signature also accepts an optional custom `fetch` implementation which is useful
+for routing requests through an intermediary such as the wallet gateway.*
+
+```javascript
+// previous constructor
+const ledger = new LedgerController(
+    userId,
+    new URL('http://127.0.0.1:5001'),
+    token
+)
+
+// new constructor with named params
+const ledger = new LedgerController({
+    userId,
+    baseUrl: new URL('http://127.0.0.1:5001'),
+    token,
+    // optional: provide a custom fetch to route requests through a proxy
+    fetch: myCustomFetch,
+})
+```
+
+- get created contract by update id
+
+*a new method `getCreatedContractByUpdateId` has been added on the ledger controller. After submitting a transaction you can use the
+returned `updateId` to look up the contract(s) that were created as part of that transaction. Optionally you can narrow the result by
+providing template or interface ids.*
+
+```javascript
+const result = await sdk.userLedger?.prepareSignExecuteAndWaitFor(
+    transferCommand,
+    keyPairSender.privateKey,
+    v4(),
+    disclosedContracts
+)
+
+const transferCid = (
+    await sdk.userLedger!.getCreatedContractByUpdateId(
+        result!.updateId,
+        {
+            interfaceIds: [TRANSFER_INSTRUCTION_INTERFACE_ID],
+        }
+    )
+).contractId!
+```
+
+- unified `createTransferInstruction` choice helper
+
+*the logic for Accept, Reject and Withdraw on a transfer instruction has been consolidated into a single `createTransferInstruction`
+method, reducing boilerplate when you want to exercise a choice without caring about which specific one.*
+
+```javascript
+const [command, disclosedContracts] =
+    await sdk.tokenStandard!.createTransferInstruction(
+        transferCid,
+        'Accept' // or 'Reject' or 'Withdraw'
+    )
+
+await sdk.userLedger?.prepareSignExecuteAndWaitFor(
+    command,
+    keyPairSender.privateKey,
+    v4(),
+    disclosedContracts
+)
+```
+
+- browser support for the ledger client
+
+*the `@canton-network/core-ledger-client` package can now be imported and used directly in a browser environment. Node.js-specific
+modules have been removed from the main bundle so that browser-based dApps and portfolio UIs can leverage the ledger utilities without
+additional bundler workarounds.*
+
+- fixed decimal precision handling
+
+*decimal arithmetic is now handled using `decimal.js` to prevent floating-point precision errors when working with large or fractional
+CC amounts.*

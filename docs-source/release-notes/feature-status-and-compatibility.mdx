@@ -1,0 +1,87 @@
+---
+title: "Status Definitions and Compatibility"
+description: "Which APIs constitute the supported public surface, feature status labels, and the compatibility rules that apply to them."
+---
+
+{/* DIVERGENCE: omitted the "Labs" label and its status column, "Support" row, "Distribution and Releases" row, "Compatibility" and "Documentation" rows, and the deprecation-window table. Also generalized "Daml's public API" to "the public API" (this docs set spans Canton, Splice, PQS, and the SDKs; Upstream docs-website source (docs/replicated/daml/3.5/overview/reference/status-definitions.rst, hash 4ca9c5c5) */}
+
+Semantic versioning, release cadence, and support duration are defined in [Releases and Versioning](/release-notes/releases-and-versioning).
+This page defines: the public API surface, status labels, and the compatibility rules between components.
+
+## The public API
+
+{/* COPIED_START source="docs-website:docs/replicated/daml/3.5/overview/reference/status-definitions.rst" hash="4ca9c5c5" */}
+
+Stable features and components constitute the "public API" in the sense of [Semantic Versioning](https://semver.org/).
+
+{/* COPIED_END */}
+
+The following surfaces have documented compatibility contracts:
+
+| Surface | Compatibility contract |
+|---|---|
+| Ledger API | Ships as part of Canton releases, which are versioned according to [Semantic Versioning](https://semver.org/); the API version a participant serves is discoverable at runtime via the [Version Service](/reference/grpc-ledger-api-reference/com-daml-ledger-api-v2/versionservice/getledgerapiversion) |
+| Canton protocol versions | Negotiated at connection time; nodes set a floor with [`minimum-protocol-version`](/global-synchronizer/reference/canton-configuration-guide#ensure-a-minimum-protocol-version) |
+| Canton Network Token Standard and other Splice Daml interfaces | Daml interfaces are the stable public API for on-ledger integration; see [Splice API overview](/sdks-tools/api-reference/splice-overview) |
+| Splice HTTP endpoints in `*-external` API definitions | Intended to stay backwards compatible across releases; at this point, there might be some cases where backwards compatibility is broken as Splice is still in early stages of development. Any breaking changes in `external` APIs are documented in the release notes. See [Splice HTTP APIs](/sdks-tools/api-reference/splice-http-apis) |
+| PQS SQL API | A set of functions that should be the only database artifacts readers interact with; see [PQS SQL API](/appdev/reference/pqs-sql-reference) |
+
+The following are explicitly **not** part of the public API and may change between releases without notice:
+
+- Splice HTTP endpoints in `*-internal` API definitions ([Splice HTTP APIs](/sdks-tools/api-reference/splice-http-apis))
+- Daml templates and choices of the Splice applications — implementation details behind the interface-based standards ([Splice API overview](/sdks-tools/api-reference/splice-overview))
+- The PQS database schema — the provisioned functions are the only database artifacts readers should interact with ([PQS SQL API](/appdev/reference/pqs-sql-reference))
+
+## Feature status labels
+
+{/* COPIED_START source="docs-website:docs/replicated/daml/3.5/overview/reference/status-definitions.rst" hash="4ca9c5c5" */}
+
+Features or components covered by these docs are Stable by default. Features and components that are not Stable are called "Early Access" and called out explicitly.
+
+Early Access features are opt-in whenever possible, needing to be activated with special commands or flags needing to be started up separately, or requiring the use of additional endpoints.
+
+**Alpha**
+
+Alpha components and features are early preview versions of features being actively developed to become a stable part of the ecosystem.
+At the Alpha stage, they are not yet feature complete, may have poor runtime characteristics, are subject to frequent change, and may not be fully documented.
+Alpha features can be evaluated, and used in PoCs, but should not be relied upon for large projects or production use where breakages or changes to APIs would be costly.
+
+**Beta**
+
+Beta components and features are preview versions of features that are close to maturity.
+They are characterized by being considered feature complete, and the APIs close to the final public APIs.
+It is relatively safe to build on Beta features as long as the documented caveats to runtime characteristics are understood and bugs and minor API adjustments are not too costly.
+
+{/* COPIED_END */}
+
+### Status comparison
+
+{/* COPIED_START source="docs-website:docs/replicated/daml/3.5/overview/reference/status-definitions.rst" hash="4ca9c5c5" */}
+
+| | Stable | Beta | Alpha |
+|---|---|---|---|
+| Functional Completeness | Functionally complete | Considered functionally complete, but subject to change according to usability testing | MVP-level functionality covering at least a few core use-cases |
+| Performance | Unless stated otherwise, the feature can be used without concern about system performance. | Current performance impacts and expected performance for the stable release are documented. | Using the feature may have significant undocumented impact on overall system performance. |
+| Stability & Error Recovery | The feature is long-term stable and supports recovery fit for a production system. | No known reproducible crashes which can't be recovered from. There is still an expectation that new issues may be discovered. | The feature may not be stable and lack error recovery. |
+| Covered by [Semantic Versioning](/release-notes/releases-and-versioning#versioning) | Yes, part of the "public API". | No, but breaking changes will be documented. | No, and changes may be poorly documented. |
+
+{/* COPIED_END */}
+
+### Early access protocol versions
+
+Feature status and **protocol version** status are separate axes. A synchronizer may run an alpha or beta protocol version.
+The use of early access protocol versions is intended for non-production environments and is not covered by support.
+See [Enable early access protocol features](/global-synchronizer/reference/canton-configuration-guide#enable-early-access-protocol-features) for the configuration.
+
+## Compatibility
+
+The live version pairings for each network are published on the [Version Compatibility Dashboard](/shared/version-compatibility-dashboard). The rules behind those pairings:
+
+- **Node to synchronizer:** compatibility is governed by the Canton protocol version, negotiated when a node connects. Operators control the floor with `minimum-protocol-version`; a synchronizer's protocol version is implied by its Splice version.
+- **Application to ledger:** applications built against the Token Standard Daml interfaces remain compatible across Splice upgrades; the interfaces exist to decouple application code from Splice implementation upgrades ([Splice API overview](/sdks-tools/api-reference/splice-overview)).
+- **Daml packages across SDK versions:** governed by [Smart Contract Upgrade](/appdev/deep-dives/smart-contract-upgrade), which defines when a new package version can replace an old one without ledger migration.
+- **Network upgrades:** upgrades are validated through the DevNet → TestNet → MainNet progression described in [Releases and Versioning](/release-notes/releases-and-versioning#process).
+
+## Deprecation
+
+Features and components may be labeled **Deprecated**. Deprecations are announced in the [release notes](/release-notes).

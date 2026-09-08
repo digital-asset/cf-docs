@@ -1,0 +1,12 @@
+```haskell
+nonconsuming choice DoNothing: ()
+  controller owner
+  do
+    return ()
+
+choice Transfer: ContractId Iou
+  with newOwner: Party
+  controller owner
+  do
+    updateOwner newOwner
+```

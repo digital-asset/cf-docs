@@ -1,0 +1,587 @@
+---
+title: "Splice.Api.Token.AllocationInstructionV2"
+description: "Reference documentation for Daml module Splice.Api.Token.AllocationInstructionV2."
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--collection"></div>
+
+<span id="module-splice-api-token-allocationinstructionv2-9958"></span>
+
+
+
+<div class="x2mdx-ref-hero">
+
+  <p class="x2mdx-ref-eyebrow">Daml module</p>
+
+
+  <h1 class="x2mdx-ref-title">Splice.Api.Token.AllocationInstructionV2</h1>
+
+
+  <p class="x2mdx-ref-summary">V2 interfaces to enable wallets to instruct the registry to create allocations.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Daml</span>
+
+</div>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Module</dt>
+    <dd>Splice.Api.Token.AllocationInstructionV2</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Latest release</dt>
+    <dd>0.8.0</dd>
+  </div>
+
+</dl>
+
+</div>
+
+
+
+
+
+## Interfaces
+
+
+<span id="type-splice-api-token-allocationinstructionv2-allocationfactory-48435"></span>
+
+### Interface `AllocationFactory`
+
+Contracts implementing `AllocationFactory` are retrieved from the registry app and are
+used by the wallet to create allocation instructions (or allocations directly).
+
+View Type: [`AllocationFactoryView`](#type-splice-api-token-allocationinstructionv2-allocationfactoryview-38300)
+
+Choices:
+
+<span id="type-splice-api-token-allocationinstructionv2-allocationfactoryallocate-94480"></span>
+
+#### Choice `AllocationFactory_Allocate`
+
+Request the creation of an allocation for a particular settlement.
+
+It depends on the registry whether this results in the allocation being
+created directly or in an allocation instruction being created instead.
+
+Controllers: `actors`
+
+Returns: [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+
+Arguments:
+
+<ResponseField name="settlement" type="SettlementInfo">
+The settlement for which this allocation is made.
+</ResponseField>
+
+<ResponseField name="allocation" type="AllocationSpecification">
+The allocation which should be created.
+
+Implementations MUST validate that the allocation's admin party
+
+matches the admin of the factory.
+</ResponseField>
+
+<ResponseField name="requestedAt" type="Time">
+The time at which the allocation was requested.
+</ResponseField>
+
+<ResponseField name="inputHoldingCids" type="[ContractId Holding]">
+The holdings to use to fund the allocation.
+
+Implementations MUST return change and all input holdings not used for funding
+
+in the `authorizerChangeCids` field of the `AllocationInstructionResult`.
+</ResponseField>
+
+<ResponseField name="extraArgs" type="ExtraArgs">
+Additional choice arguments.
+</ResponseField>
+
+<ResponseField name="actors" type="[Party]">
+Set of parties executing the allocation.
+
+Implementations MUST check their concrete values to avoid unauthorized allocation creation.
+
+Implementations SHOULD allow the initiation of the allocation if the `actors`
+
+is equal to the `authorizer` of the allocation. Likewise, for accounts
+
+where the account provider has the right to allocate funds, the registry
+
+SHOULD allow the initiation of the allocation if the `actors` are
+
+equal to the account provider.
+</ResponseField>
+
+<span id="type-splice-api-token-allocationinstructionv2-allocationfactorypublicfetch-46919"></span>
+
+#### Choice `AllocationFactory_PublicFetch`
+
+Controllers: `actors`
+
+Returns: [`AllocationFactoryView`](#type-splice-api-token-allocationinstructionv2-allocationfactoryview-38300)
+
+Arguments:
+
+<ResponseField name="actors" type="[Party]">
+Set of parties executing the fetch.
+</ResponseField>
+
+#### Choice `Archive`
+
+Controllers: `Signatories of implementing template`
+
+Returns: ()
+
+Methods:
+
+#### Method `allocationFactory_allocateExtraObservers`
+
+Type: [`AllocationFactory_Allocate`](#type-splice-api-token-allocationinstructionv2-allocationfactoryallocate-94480) -> [`Party`]
+
+#### Method `allocationFactory_allocateImpl`
+
+Type: `ContractId` [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) -> [`AllocationFactory_Allocate`](#type-splice-api-token-allocationinstructionv2-allocationfactoryallocate-94480) -> `Update` [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+
+#### Method `allocationFactory_publicFetchImpl`
+
+Type: `ContractId` [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) -> [`AllocationFactory_PublicFetch`](#type-splice-api-token-allocationinstructionv2-allocationfactorypublicfetch-46919) -> `Update` [`AllocationFactoryView`](#type-splice-api-token-allocationinstructionv2-allocationfactoryview-38300)
+
+
+<span id="type-splice-api-token-allocationinstructionv2-allocationinstruction-46357"></span>
+
+### Interface `AllocationInstruction`
+
+An interface for tracking the status of an allocation instruction,
+i.e., a request to a registry app to create an allocation.
+
+Registries MAY evolve the allocation instruction in multiple steps. They SHOULD
+do so using only the choices on this interface, so that wallets can reliably
+parse the transaction history and determine whether the creation of the allocation ultimately
+succeeded or failed.
+
+View Type: [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894)
+
+Choices:
+
+<span id="type-splice-api-token-allocationinstructionv2-allocationinstructionaccept-19413"></span>
+
+#### Choice `AllocationInstruction_Accept`
+
+Accept the allocation instruction as someone that needs to authorize it.
+
+Controllers: `actors`
+
+Returns: [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+
+Arguments:
+
+<ResponseField name="actors" type="[Party]">
+Set of parties executing the acceptance.
+
+Registries are free to decide on the required authorization for
+
+acceptance. They MUST however report the parties that can accept
+
+unilaterally via the `AllocationInstructionView.availableActions`
+
+field, so that wallets can show the accept option to the user.
+</ResponseField>
+
+<ResponseField name="extraArgs" type="ExtraArgs">
+Additional context required in order to exercise the choice.
+</ResponseField>
+
+<span id="type-splice-api-token-allocationinstructionv2-allocationinstructionwithdraw-61449"></span>
+
+#### Choice `AllocationInstruction_Withdraw`
+
+Withdraw the allocation instruction.
+
+Controllers: `actors`
+
+Returns: [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+
+Arguments:
+
+<ResponseField name="actors" type="[Party]">
+Set of parties executing the withdrawal.
+
+Implementations MUST check these parties to avoid unauthorized withdrawal.
+
+Registries are free to decide on the required authorization for
+
+withdrawal. They MUST however report the parties that can withdraw
+
+unilaterally via the `AllocationInstructionView.availableActions`
+
+field, so that wallets can show the withdrawal option to the user.
+</ResponseField>
+
+<ResponseField name="extraArgs" type="ExtraArgs">
+Additional context required in order to exercise the choice.
+</ResponseField>
+
+#### Choice `Archive`
+
+Controllers: `Signatories of implementing template`
+
+Returns: ()
+
+Methods:
+
+#### Method `allocationInstruction_acceptExtraObservers`
+
+Type: [`AllocationInstruction_Accept`](#type-splice-api-token-allocationinstructionv2-allocationinstructionaccept-19413) -> [`Party`]
+
+#### Method `allocationInstruction_acceptImpl`
+
+Type: `ContractId` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) -> [`AllocationInstruction_Accept`](#type-splice-api-token-allocationinstructionv2-allocationinstructionaccept-19413) -> `Update` [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+
+#### Method `allocationInstruction_withdrawExtraObservers`
+
+Type: [`AllocationInstruction_Withdraw`](#type-splice-api-token-allocationinstructionv2-allocationinstructionwithdraw-61449) -> [`Party`]
+
+#### Method `allocationInstruction_withdrawImpl`
+
+Type: `ContractId` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) -> [`AllocationInstruction_Withdraw`](#type-splice-api-token-allocationinstructionv2-allocationinstructionwithdraw-61449) -> `Update` [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+
+
+
+## Data Types
+
+
+<span id="type-splice-api-token-allocationinstructionv2-allocationfactoryview-38300"></span>
+
+### `data AllocationFactoryView`
+
+View for `AllocationFactory`.
+
+Constructors:
+
+<span id="constr-splice-api-token-allocationinstructionv2-allocationfactoryview-7777"></span>
+- `AllocationFactoryView`
+
+<ResponseField name="admin" type="Party">
+The party representing the registry app that administers the instruments
+
+for which this allocation factory can be used.
+</ResponseField>
+
+<ResponseField name="meta" type="Metadata">
+Additional metadata specific to the allocation factory, used for extensibility.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`AllocationFactoryView`](#type-splice-api-token-allocationinstructionv2-allocationfactoryview-38300)
+- instance `Show` [`AllocationFactoryView`](#type-splice-api-token-allocationinstructionv2-allocationfactoryview-38300)
+- instance `HasMethod` [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) `allocationFactory_publicFetchImpl` (`ContractId` [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) -> [`AllocationFactory_PublicFetch`](#type-splice-api-token-allocationinstructionv2-allocationfactorypublicfetch-46919) -> `Update` [`AllocationFactoryView`](#type-splice-api-token-allocationinstructionv2-allocationfactoryview-38300))
+- instance `HasFromAnyView` [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) [`AllocationFactoryView`](#type-splice-api-token-allocationinstructionv2-allocationfactoryview-38300)
+- instance `HasInterfaceView` [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) [`AllocationFactoryView`](#type-splice-api-token-allocationinstructionv2-allocationfactoryview-38300)
+- instance `GetField` `admin` [`AllocationFactoryView`](#type-splice-api-token-allocationinstructionv2-allocationfactoryview-38300) `Party`
+- instance `GetField` `meta` [`AllocationFactoryView`](#type-splice-api-token-allocationinstructionv2-allocationfactoryview-38300) `Metadata`
+- instance `SetField` `admin` [`AllocationFactoryView`](#type-splice-api-token-allocationinstructionv2-allocationfactoryview-38300) `Party`
+- instance `SetField` `meta` [`AllocationFactoryView`](#type-splice-api-token-allocationinstructionv2-allocationfactoryview-38300) `Metadata`
+- instance `HasExercise` [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) [`AllocationFactory_PublicFetch`](#type-splice-api-token-allocationinstructionv2-allocationfactorypublicfetch-46919) [`AllocationFactoryView`](#type-splice-api-token-allocationinstructionv2-allocationfactoryview-38300)
+- instance `HasExerciseGuarded` [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) [`AllocationFactory_PublicFetch`](#type-splice-api-token-allocationinstructionv2-allocationfactorypublicfetch-46919) [`AllocationFactoryView`](#type-splice-api-token-allocationinstructionv2-allocationfactoryview-38300)
+- instance `HasFromAnyChoice` [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) [`AllocationFactory_PublicFetch`](#type-splice-api-token-allocationinstructionv2-allocationfactorypublicfetch-46919) [`AllocationFactoryView`](#type-splice-api-token-allocationinstructionv2-allocationfactoryview-38300)
+- instance `HasToAnyChoice` [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) [`AllocationFactory_PublicFetch`](#type-splice-api-token-allocationinstructionv2-allocationfactorypublicfetch-46919) [`AllocationFactoryView`](#type-splice-api-token-allocationinstructionv2-allocationfactoryview-38300)
+
+
+<span id="type-splice-api-token-allocationinstructionv2-allocationinstructionaction-91665"></span>
+
+### `data AllocationInstructionAction`
+
+Actions to advance the state of an allocation instruction.
+
+Constructors:
+
+<span id="constr-splice-api-token-allocationinstructionv2-aiawithdraw-46739"></span>
+- `AIA_Withdraw`
+<span id="constr-splice-api-token-allocationinstructionv2-aiaaccept-52851"></span>
+- `AIA_Accept`
+<span id="constr-splice-api-token-allocationinstructionv2-aiacustom-67386"></span>
+- `AIA_Custom`
+
+<ResponseField name="id" type="Text">
+Identifier of the action. Namespaced analogously to metadata keys.
+</ResponseField>
+
+Used to represent registry-specific actions that need to happen
+for the allocation to be created.
+
+Instances:
+
+- instance `Eq` [`AllocationInstructionAction`](#type-splice-api-token-allocationinstructionv2-allocationinstructionaction-91665)
+- instance `Ord` [`AllocationInstructionAction`](#type-splice-api-token-allocationinstructionv2-allocationinstructionaction-91665)
+- instance `Show` [`AllocationInstructionAction`](#type-splice-api-token-allocationinstructionv2-allocationinstructionaction-91665)
+- instance `GetField` `availableActions` [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894) (`Map` [`AllocationInstructionAction`](#type-splice-api-token-allocationinstructionv2-allocationinstructionaction-91665) [[`Party`]])
+- instance `GetField` `id` [`AllocationInstructionAction`](#type-splice-api-token-allocationinstructionv2-allocationinstructionaction-91665) `Text`
+- instance `SetField` `availableActions` [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894) (`Map` [`AllocationInstructionAction`](#type-splice-api-token-allocationinstructionv2-allocationinstructionaction-91665) [[`Party`]])
+- instance `SetField` `id` [`AllocationInstructionAction`](#type-splice-api-token-allocationinstructionv2-allocationinstructionaction-91665) `Text`
+
+
+<span id="type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488"></span>
+
+### `data AllocationInstructionResult`
+
+The result of instructing an allocation or advancing the state of an allocation instruction.
+
+Constructors:
+
+<span id="constr-splice-api-token-allocationinstructionv2-allocationinstructionresult-61349"></span>
+- `AllocationInstructionResult`
+
+<ResponseField name="output" type="AllocationInstructionResult_Output">
+The output of the step.
+</ResponseField>
+
+<ResponseField name="authorizerChangeCids" type="TextMap [ContractId Holding]">
+Holdings owned by the authorizer that were not used to fund the
+
+allocation or that were created to return "change", keyed by
+
+`instrumentId.id`. Can be used by callers to batch creating or
+
+updating multiple allocation instructions in a single Daml transaction.
+</ResponseField>
+
+<ResponseField name="meta" type="Metadata">
+Additional metadata specific to the allocation instruction, used for extensibility; e.g., fees charged.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+- instance `Show` [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+- instance `HasMethod` [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) `allocationFactory_allocateImpl` (`ContractId` [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) -> [`AllocationFactory_Allocate`](#type-splice-api-token-allocationinstructionv2-allocationfactoryallocate-94480) -> `Update` [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488))
+- instance `HasMethod` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) `allocationInstruction_acceptImpl` (`ContractId` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) -> [`AllocationInstruction_Accept`](#type-splice-api-token-allocationinstructionv2-allocationinstructionaccept-19413) -> `Update` [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488))
+- instance `HasMethod` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) `allocationInstruction_withdrawImpl` (`ContractId` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) -> [`AllocationInstruction_Withdraw`](#type-splice-api-token-allocationinstructionv2-allocationinstructionwithdraw-61449) -> `Update` [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488))
+- instance `GetField` `authorizerChangeCids` [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488) (`TextMap` [`ContractId` `Holding`])
+- instance `GetField` `meta` [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488) `Metadata`
+- instance `GetField` `output` [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488) [`AllocationInstructionResult_Output`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresultoutput-56921)
+- instance `SetField` `authorizerChangeCids` [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488) (`TextMap` [`ContractId` `Holding`])
+- instance `SetField` `meta` [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488) `Metadata`
+- instance `SetField` `output` [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488) [`AllocationInstructionResult_Output`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresultoutput-56921)
+- instance `HasExercise` [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) [`AllocationFactory_Allocate`](#type-splice-api-token-allocationinstructionv2-allocationfactoryallocate-94480) [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+- instance `HasExercise` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) [`AllocationInstruction_Accept`](#type-splice-api-token-allocationinstructionv2-allocationinstructionaccept-19413) [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+- instance `HasExercise` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) [`AllocationInstruction_Withdraw`](#type-splice-api-token-allocationinstructionv2-allocationinstructionwithdraw-61449) [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+- instance `HasExerciseGuarded` [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) [`AllocationFactory_Allocate`](#type-splice-api-token-allocationinstructionv2-allocationfactoryallocate-94480) [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+- instance `HasExerciseGuarded` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) [`AllocationInstruction_Accept`](#type-splice-api-token-allocationinstructionv2-allocationinstructionaccept-19413) [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+- instance `HasExerciseGuarded` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) [`AllocationInstruction_Withdraw`](#type-splice-api-token-allocationinstructionv2-allocationinstructionwithdraw-61449) [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+- instance `HasFromAnyChoice` [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) [`AllocationFactory_Allocate`](#type-splice-api-token-allocationinstructionv2-allocationfactoryallocate-94480) [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+- instance `HasFromAnyChoice` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) [`AllocationInstruction_Accept`](#type-splice-api-token-allocationinstructionv2-allocationinstructionaccept-19413) [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+- instance `HasFromAnyChoice` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) [`AllocationInstruction_Withdraw`](#type-splice-api-token-allocationinstructionv2-allocationinstructionwithdraw-61449) [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+- instance `HasToAnyChoice` [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) [`AllocationFactory_Allocate`](#type-splice-api-token-allocationinstructionv2-allocationfactoryallocate-94480) [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+- instance `HasToAnyChoice` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) [`AllocationInstruction_Accept`](#type-splice-api-token-allocationinstructionv2-allocationinstructionaccept-19413) [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+- instance `HasToAnyChoice` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) [`AllocationInstruction_Withdraw`](#type-splice-api-token-allocationinstructionv2-allocationinstructionwithdraw-61449) [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+
+
+<span id="type-splice-api-token-allocationinstructionv2-allocationinstructionresultoutput-56921"></span>
+
+### `data AllocationInstructionResult_Output`
+
+The output of instructing an allocation or advancing the state of an allocation instruction.
+
+Constructors:
+
+<span id="constr-splice-api-token-allocationinstructionv2-allocationinstructionresultpending-31785"></span>
+- `AllocationInstructionResult_Pending`
+
+<ResponseField name="allocationInstructionCid" type="ContractId AllocationInstruction">
+Contract id of the allocation instruction representing the pending state.
+</ResponseField>
+
+Use this result to communicate that the creation of the allocation is pending further steps.
+<span id="constr-splice-api-token-allocationinstructionv2-allocationinstructionresultcompleted-32281"></span>
+- `AllocationInstructionResult_Completed`
+
+<ResponseField name="allocationCid" type="ContractId Allocation">
+The newly created allocation.
+</ResponseField>
+
+Use this result to communicate that the allocation was created.
+<span id="constr-splice-api-token-allocationinstructionv2-allocationinstructionresultfailed-58062"></span>
+- `AllocationInstructionResult_Failed`
+
+Use this result to communicate that the creation of the allocation did not succeed and
+all holdings reserved for funding the allocation have been released.
+
+Instances:
+
+- instance `Eq` [`AllocationInstructionResult_Output`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresultoutput-56921)
+- instance `Show` [`AllocationInstructionResult_Output`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresultoutput-56921)
+- instance `GetField` `allocationCid` [`AllocationInstructionResult_Output`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresultoutput-56921) (`ContractId` `Allocation`)
+- instance `GetField` `allocationInstructionCid` [`AllocationInstructionResult_Output`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresultoutput-56921) (`ContractId` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357))
+- instance `GetField` `output` [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488) [`AllocationInstructionResult_Output`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresultoutput-56921)
+- instance `SetField` `allocationCid` [`AllocationInstructionResult_Output`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresultoutput-56921) (`ContractId` `Allocation`)
+- instance `SetField` `allocationInstructionCid` [`AllocationInstructionResult_Output`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresultoutput-56921) (`ContractId` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357))
+- instance `SetField` `output` [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488) [`AllocationInstructionResult_Output`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresultoutput-56921)
+
+
+<span id="type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894"></span>
+
+### `data AllocationInstructionView`
+
+View for `AllocationInstruction`.
+
+Constructors:
+
+<span id="constr-splice-api-token-allocationinstructionv2-allocationinstructionview-86539"></span>
+- `AllocationInstructionView`
+
+<ResponseField name="originalInstructionCid" type="Optional (ContractId AllocationInstruction)">
+The contract id of the first allocation instruction contract of this
+
+allocation instruction workflow, if this is not the first step of the workflow.
+
+This SHOULD be used by wallets to correlate the same allocation instruction across
+
+updates to its state. It should not be used to correlate different allocation
+
+instructions for the same settlement. That can be done using the `allocation.settlement` field.
+</ResponseField>
+
+<ResponseField name="settlement" type="SettlementInfo">
+The settlement for which this allocation is made.
+</ResponseField>
+
+<ResponseField name="allocation" type="AllocationSpecification">
+The allocation that this instruction should create.
+</ResponseField>
+
+<ResponseField name="requestedAt" type="Time">
+The time at which the allocation was originally requested.
+</ResponseField>
+
+<ResponseField name="inputHoldingCids" type="[ContractId Holding]">
+The holdings to be used to fund the allocation.
+
+Empty for allocations that do not require funding.
+
+MAY be empty for registries that do not represent their holdings on-ledger.
+</ResponseField>
+
+<ResponseField name="expiresAt" type="Optional Time">
+The time at which the allocation instruction expires if inactive.
+
+Registries MAY expire the allocation instruction after this time.
+
+Thereby recovering storage resources and protecting themselves from
+
+denial-of-service attacks.
+
+Registries SHOULD avoid unnecessary expiries by
+
+- making the expiry time as close to the allocation's settlement deadline as possible
+
+- bumping expiry on every action on the allocation instruction
+</ResponseField>
+
+<ResponseField name="availableActions" type="Map AllocationInstructionAction [[Party]]">
+What actions are available to which groups of parties. The list of lists
+
+is interpreted as a set of sets and represents a disjunction of
+
+conjunctions of parties, i.e., each inner list represents a group of
+
+parties that can act jointly to execute the action.
+
+This field can be used to inform wallet users whether they can take an action or not;
+
+and which other parties they might be waiting on to take their action.
+
+Supports multiple parties for actions that require joint authorization. Executing them
+
+will require appropriate, registry-specific delegation contracts to be in place.
+</ResponseField>
+
+<ResponseField name="meta" type="Metadata">
+Additional metadata specific to the allocation instruction, used for
+
+extensibility; e.g., more detailed status information.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894)
+- instance `Show` [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894)
+- instance `HasFromAnyView` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894)
+- instance `HasInterfaceView` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894)
+- instance `GetField` `allocation` [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894) `AllocationSpecification`
+- instance `GetField` `availableActions` [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894) (`Map` [`AllocationInstructionAction`](#type-splice-api-token-allocationinstructionv2-allocationinstructionaction-91665) [[`Party`]])
+- instance `GetField` `expiresAt` [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894) (`Optional` `Time`)
+- instance `GetField` `inputHoldingCids` [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894) [`ContractId` `Holding`]
+- instance `GetField` `meta` [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894) `Metadata`
+- instance `GetField` `originalInstructionCid` [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894) (`Optional` (`ContractId` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357)))
+- instance `GetField` `requestedAt` [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894) `Time`
+- instance `GetField` `settlement` [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894) `SettlementInfo`
+- instance `SetField` `allocation` [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894) `AllocationSpecification`
+- instance `SetField` `availableActions` [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894) (`Map` [`AllocationInstructionAction`](#type-splice-api-token-allocationinstructionv2-allocationinstructionaction-91665) [[`Party`]])
+- instance `SetField` `expiresAt` [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894) (`Optional` `Time`)
+- instance `SetField` `inputHoldingCids` [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894) [`ContractId` `Holding`]
+- instance `SetField` `meta` [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894) `Metadata`
+- instance `SetField` `originalInstructionCid` [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894) (`Optional` (`ContractId` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357)))
+- instance `SetField` `requestedAt` [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894) `Time`
+- instance `SetField` `settlement` [`AllocationInstructionView`](#type-splice-api-token-allocationinstructionv2-allocationinstructionview-35894) `SettlementInfo`
+
+
+
+## Functions
+
+
+<span id="function-splice-api-token-allocationinstructionv2-allocationinstructionwithdrawimpl-81083"></span>
+
+### `allocationInstruction_withdrawImpl`
+
+`allocationInstruction_withdrawImpl` : [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) -> `ContractId` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) -> [`AllocationInstruction_Withdraw`](#type-splice-api-token-allocationinstructionv2-allocationinstructionwithdraw-61449) -> `Update` [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+
+
+<span id="function-splice-api-token-allocationinstructionv2-allocationinstructionwithdrawextraobservers-63168"></span>
+
+### `allocationInstruction_withdrawExtraObservers`
+
+`allocationInstruction_withdrawExtraObservers` : [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) -> [`AllocationInstruction_Withdraw`](#type-splice-api-token-allocationinstructionv2-allocationinstructionwithdraw-61449) -> [`Party`]
+
+
+<span id="function-splice-api-token-allocationinstructionv2-allocationinstructionacceptimpl-63643"></span>
+
+### `allocationInstruction_acceptImpl`
+
+`allocationInstruction_acceptImpl` : [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) -> `ContractId` [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) -> [`AllocationInstruction_Accept`](#type-splice-api-token-allocationinstructionv2-allocationinstructionaccept-19413) -> `Update` [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+
+
+<span id="function-splice-api-token-allocationinstructionv2-allocationinstructionacceptextraobservers-43840"></span>
+
+### `allocationInstruction_acceptExtraObservers`
+
+`allocationInstruction_acceptExtraObservers` : [`AllocationInstruction`](#type-splice-api-token-allocationinstructionv2-allocationinstruction-46357) -> [`AllocationInstruction_Accept`](#type-splice-api-token-allocationinstructionv2-allocationinstructionaccept-19413) -> [`Party`]
+
+
+<span id="function-splice-api-token-allocationinstructionv2-allocationfactoryallocateextraobservers-14645"></span>
+
+### `allocationFactory_allocateExtraObservers`
+
+`allocationFactory_allocateExtraObservers` : [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) -> [`AllocationFactory_Allocate`](#type-splice-api-token-allocationinstructionv2-allocationfactoryallocate-94480) -> [`Party`]
+
+
+<span id="function-splice-api-token-allocationinstructionv2-allocationfactoryallocateimpl-12622"></span>
+
+### `allocationFactory_allocateImpl`
+
+`allocationFactory_allocateImpl` : [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) -> `ContractId` [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) -> [`AllocationFactory_Allocate`](#type-splice-api-token-allocationinstructionv2-allocationfactoryallocate-94480) -> `Update` [`AllocationInstructionResult`](#type-splice-api-token-allocationinstructionv2-allocationinstructionresult-99488)
+
+
+<span id="function-splice-api-token-allocationinstructionv2-allocationfactorypublicfetchimpl-80729"></span>
+
+### `allocationFactory_publicFetchImpl`
+
+`allocationFactory_publicFetchImpl` : [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) -> `ContractId` [`AllocationFactory`](#type-splice-api-token-allocationinstructionv2-allocationfactory-48435) -> [`AllocationFactory_PublicFetch`](#type-splice-api-token-allocationinstructionv2-allocationfactorypublicfetch-46919) -> `Update` [`AllocationFactoryView`](#type-splice-api-token-allocationinstructionv2-allocationfactoryview-38300)

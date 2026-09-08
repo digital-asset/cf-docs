@@ -1,0 +1,77 @@
+---
+title: "Splice.DsoBootstrap"
+description: "Documentation for Splice.DsoBootstrap"
+---
+
+{/* COPIED_START source="splice:daml/splice-dso-governance/docs/Splice-DsoBootstrap.rst" tag="0.6.4" hash="54674734" */}
+
+## Templates
+
+<div id="type-splice-dsobootstrap-dsobootstrap-38046">
+
+**template** DsoBootstrap
+
+</div>
+
+> A template for bootstrapping DsoRules and AmuletRules.
+>
+> Signatory: dso
+>
+> | Field                | Type                                                                                                                                                                                                                                      | Description                                                          |
+> |----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------|
+> | dso                  | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                       |                                                                      |
+> | sv1Party             | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                       | the SV that bootstraps the network                                   |
+> | sv1Name              | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)                                                                                                                              | human-readable name of SV1                                           |
+> | sv1RewardWeight      | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)                                                                                                                                | the weight of SV1 in the reward distribution                         |
+> | sv1ParticipantId     | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)                                                                                                                              | the id of the participant of the SV that bootstraps the synchronizer |
+> | sv1SynchronizerNodes | SynchronizerNodeConfigMap                                                                                                                                                                                                                 | Synchronizer nodes on which this workflow runs                       |
+> | round0Duration       | [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)                                                                                                                    |                                                                      |
+> | amuletConfig         | AmuletConfig USD                                                                                                                                                                                                                          |                                                                      |
+> | amuletPrice          | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                        |                                                                      |
+> | ansRulesConfig       | AnsRulesConfig                                                                                                                                                                                                                            |                                                                      |
+> | config               | DsoRulesConfig                                                                                                                                                                                                                            |                                                                      |
+> | initialTrafficState  | [Map](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-map-90052) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) TrafficState |                                                                      |
+> | isDevNet             | [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)                                                                                                                              |                                                                      |
+> | initialRound         | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261) |                                                                      |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-dsobootstrap-dsobootstrapbootstrap-56803">
+>
+>   **Choice** DsoBootstrap_Bootstrap
+>
+>   </div>
+>
+>   Controller: dso
+>
+>   Returns: DsoBootstrap_BootstrapResult
+>
+>   (no fields)
+
+## Data Types
+
+<div id="type-splice-dsobootstrap-dsobootstrapbootstrapresult-11174">
+
+**data** DsoBootstrap_BootstrapResult
+
+</div>
+
+> <div id="constr-splice-dsobootstrap-dsobootstrapbootstrapresult-22331">
+>
+> DsoBootstrap_BootstrapResult
+>
+> </div>
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) DsoBootstrap DsoBootstrap_Bootstrap DsoBootstrap_BootstrapResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) DsoBootstrap DsoBootstrap_Bootstrap DsoBootstrap_BootstrapResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) DsoBootstrap DsoBootstrap_Bootstrap DsoBootstrap_BootstrapResult
+
+{/* COPIED_END */}

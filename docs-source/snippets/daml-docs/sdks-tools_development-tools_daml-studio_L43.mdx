@@ -1,0 +1,7 @@
+```haskell
+template MyContract
+  with
+    owner : Party
+  where
+    signatory missingParty  -- Error: Variable not in scope
+```

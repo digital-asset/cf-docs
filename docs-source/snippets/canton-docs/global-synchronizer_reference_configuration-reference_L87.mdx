@@ -1,0 +1,14 @@
+```yaml
+persistence:
+  host: participant-pg
+  port: 5432
+  secretName: participant-pg-secret
+  databaseName: participant_MIGRATION_ID
+  schema: participant
+
+auth:
+  jwksUrl: "https://OIDC_AUTHORITY_URL/.well-known/jwks.json"
+  targetAudience: "OIDC_AUTHORITY_LEDGER_API_AUDIENCE"
+
+enableHealthProbes: true
+```

@@ -1,0 +1,707 @@
+---
+title: "Splice.Api.Token.TransferInstructionV2"
+description: "Reference documentation for Daml module Splice.Api.Token.TransferInstructionV2."
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--collection"></div>
+
+<span id="module-splice-api-token-transferinstructionv2-57543"></span>
+
+
+
+<div class="x2mdx-ref-hero">
+
+  <p class="x2mdx-ref-eyebrow">Daml module</p>
+
+
+  <h1 class="x2mdx-ref-title">Splice.Api.Token.TransferInstructionV2</h1>
+
+
+  <p class="x2mdx-ref-summary">V2 API to instruct transfers of holdings between accounts.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Daml</span>
+
+</div>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Module</dt>
+    <dd>Splice.Api.Token.TransferInstructionV2</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Latest release</dt>
+    <dd>0.8.0</dd>
+  </div>
+
+</dl>
+
+</div>
+
+
+
+
+
+## Interfaces
+
+
+<span id="type-splice-api-token-transferinstructionv2-transferfactory-72147"></span>
+
+### Interface `TransferFactory`
+
+A factory contract to instruct transfers of holdings between parties.
+
+View Type: [`TransferFactoryView`](#type-splice-api-token-transferinstructionv2-transferfactoryview-8084)
+
+Choices:
+
+#### Choice `Archive`
+
+Controllers: `Signatories of implementing template`
+
+Returns: ()
+
+<span id="type-splice-api-token-transferinstructionv2-transferfactorypublicfetch-11963"></span>
+
+#### Choice `TransferFactory_PublicFetch`
+
+Fetch the view of the factory contract.
+
+Controllers: `actors`
+
+Returns: [`TransferFactoryView`](#type-splice-api-token-transferinstructionv2-transferfactoryview-8084)
+
+Arguments:
+
+<ResponseField name="actors" type="[Party]">
+Set of parties executing the fetch.
+</ResponseField>
+
+<span id="type-splice-api-token-transferinstructionv2-transferfactorytransfer-54000"></span>
+
+#### Choice `TransferFactory_Transfer`
+
+Instruct the registry to execute a transfer.
+Implementations MUST ensure that this choice fails if `transfer.executeBefore` is in the past.
+
+Controllers: `actors`
+
+Returns: [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+
+Arguments:
+
+<ResponseField name="transfer" type="Transfer">
+The transfer to execute.
+
+Implementations MUST validate that the admin of the transferred instrument
+
+matches the admin of the factory.
+</ResponseField>
+
+<ResponseField name="actors" type="[Party]">
+Set of parties executing the transfer.
+
+Implementations MUST check these parties to avoid unauthorized transfer instructions.
+
+Implementations SHOULD
+
+- complete the transfer in a single-step if the actors include all
+
+parties required to authorize the transfer
+
+- allow all the sender's account parties to call this choice, so they
+
+can all initiate a transfer on their own
+</ResponseField>
+
+<ResponseField name="extraArgs" type="ExtraArgs">
+The extra arguments to pass to the transfer implementation.
+</ResponseField>
+
+Methods:
+
+#### Method `transferFactory_publicFetchImpl`
+
+Type: `ContractId` [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) -> [`TransferFactory_PublicFetch`](#type-splice-api-token-transferinstructionv2-transferfactorypublicfetch-11963) -> `Update` [`TransferFactoryView`](#type-splice-api-token-transferinstructionv2-transferfactoryview-8084)
+
+#### Method `transferFactory_transferExtraObservers`
+
+Type: [`TransferFactory_Transfer`](#type-splice-api-token-transferinstructionv2-transferfactorytransfer-54000) -> [`Party`]
+
+#### Method `transferFactory_transferImpl`
+
+Type: `ContractId` [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) -> [`TransferFactory_Transfer`](#type-splice-api-token-transferinstructionv2-transferfactorytransfer-54000) -> `Update` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+
+
+<span id="type-splice-api-token-transferinstructionv2-transferinstruction-61129"></span>
+
+### Interface `TransferInstruction`
+
+An interface for tracking the status of a transfer instruction,
+i.e., a request to a registry app to execute a transfer.
+
+View Type: [`TransferInstructionView`](#type-splice-api-token-transferinstructionv2-transferinstructionview-64402)
+
+Choices:
+
+#### Choice `Archive`
+
+Controllers: `Signatories of implementing template`
+
+Returns: ()
+
+<span id="type-splice-api-token-transferinstructionv2-transferinstructionaccept-24017"></span>
+
+#### Choice `TransferInstruction_Accept`
+
+Accept the transfer instruction as someone that needs to authorize it, either on the
+sending or receiving side.
+
+Implementations MUST ensure that the transfer instruction is archived upon acceptance.
+They SHOULD do so by calling `TransferInstructionV1.TransferInstruction_Accept`
+where possible to maximize compatibility with v1 transaction parsers.
+
+Note that while implementations will typically return `TransferInstructionResult_Completed`,
+this is not guaranteed. The result of the choice is implementation-specific and MAY
+be any of the three possible results.
+
+Controllers: `actors`
+
+Returns: [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+
+Arguments:
+
+<ResponseField name="actors" type="[Party]">
+Set of parties executing the acceptance.
+
+Implementations MUST check these parties to avoid unauthorized acceptance.
+
+Implementations SHOULD allow the owner and the provider of the recipient
+
+account to call this choice.
+</ResponseField>
+
+<ResponseField name="extraArgs" type="ExtraArgs">
+Additional context required in order to exercise the choice.
+</ResponseField>
+
+<span id="type-splice-api-token-transferinstructionv2-transferinstructionreject-12876"></span>
+
+#### Choice `TransferInstruction_Reject`
+
+Reject the transfer offer represented by the transfer instruction.
+
+Implementations MUST ensure that the transfer instruction is archived upon rejection.
+They SHOULD do so by calling `TransferInstructionV1.TransferInstruction_Reject`
+where possible to maximize compatibility with v1 transaction parsers.
+
+Controllers: `actors`
+
+Returns: [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+
+Arguments:
+
+<ResponseField name="actors" type="[Party]">
+Set of parties executing the rejection.
+
+Implementations MUST check these parties to avoid unauthorized rejection.
+
+Implementations SHOULD allow the owner and the provider of the recipient
+
+account to call this choice.
+</ResponseField>
+
+<ResponseField name="extraArgs" type="ExtraArgs">
+Additional context required in order to exercise the choice.
+</ResponseField>
+
+<span id="type-splice-api-token-transferinstructionv2-transferinstructionwithdraw-30201"></span>
+
+#### Choice `TransferInstruction_Withdraw`
+
+Withdraw the transfer offer represented by the transfer instruction.
+
+Implementations MUST ensure that the transfer instruction is archived upon withdrawal.
+They SHOULD do so by calling `TransferInstructionV1.TransferInstruction_Withdraw`
+where possible to maximize compatibility with v1 transaction parsers.
+
+Controllers: `actors`
+
+Returns: [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+
+Arguments:
+
+<ResponseField name="actors" type="[Party]">
+Set of parties executing the withdrawal.
+
+Implementations MUST check these parties to avoid unauthorized withdrawal.
+
+Implementations SHOULD allow the owner and the provider of the sender
+
+account to call this choice.
+</ResponseField>
+
+<ResponseField name="extraArgs" type="ExtraArgs">
+Additional context required in order to exercise the choice.
+</ResponseField>
+
+Methods:
+
+#### Method `transferInstruction_acceptExtraObservers`
+
+Type: [`TransferInstruction_Accept`](#type-splice-api-token-transferinstructionv2-transferinstructionaccept-24017) -> [`Party`]
+
+#### Method `transferInstruction_acceptImpl`
+
+Type: `ContractId` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) -> [`TransferInstruction_Accept`](#type-splice-api-token-transferinstructionv2-transferinstructionaccept-24017) -> `Update` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+
+#### Method `transferInstruction_rejectExtraObservers`
+
+Type: [`TransferInstruction_Reject`](#type-splice-api-token-transferinstructionv2-transferinstructionreject-12876) -> [`Party`]
+
+#### Method `transferInstruction_rejectImpl`
+
+Type: `ContractId` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) -> [`TransferInstruction_Reject`](#type-splice-api-token-transferinstructionv2-transferinstructionreject-12876) -> `Update` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+
+#### Method `transferInstruction_withdrawExtraObservers`
+
+Type: [`TransferInstruction_Withdraw`](#type-splice-api-token-transferinstructionv2-transferinstructionwithdraw-30201) -> [`Party`]
+
+#### Method `transferInstruction_withdrawImpl`
+
+Type: `ContractId` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) -> [`TransferInstruction_Withdraw`](#type-splice-api-token-transferinstructionv2-transferinstructionwithdraw-30201) -> `Update` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+
+
+
+## Data Types
+
+
+<span id="type-splice-api-token-transferinstructionv2-transfer-64952"></span>
+
+### `data Transfer`
+
+A specification of a transfer of holdings between two accounts.
+
+Constructors:
+
+<span id="constr-splice-api-token-transferinstructionv2-transfer-30735"></span>
+- `Transfer`
+
+<ResponseField name="sender" type="Account">
+The sender of the transfer.
+</ResponseField>
+
+<ResponseField name="receiver" type="Account">
+The receiver of the transfer.
+</ResponseField>
+
+<ResponseField name="amount" type="Decimal">
+The amount to transfer.
+</ResponseField>
+
+<ResponseField name="instrumentId" type="InstrumentId">
+The instrument identifier.
+</ResponseField>
+
+<ResponseField name="requestedAt" type="Time">
+Wallet provided timestamp when the transfer was requested.
+
+MUST be in the past when instructing the transfer.
+</ResponseField>
+
+<ResponseField name="executeBefore" type="Time">
+Until when (exclusive) the transfer may be executed. MUST be in the
+
+future when instructing the transfer.
+
+Registries SHOULD NOT execute the transfer instruction after this time,
+
+so that senders can retry creating a new transfer instruction after this time.
+
+Registries MAY limit the duration between `requestedAt` and
+
+`executeBefore` to limit the resources spent on tracking active
+
+transfer instructions.
+</ResponseField>
+
+<ResponseField name="inputHoldingCids" type="[ContractId Holding]">
+The holding contracts that should be used to fund the transfer.
+
+The holdings MUST be owned by the sender account, and match the
+
+instrument specified by the transfer.
+
+MAY be empty if the registry supports automatic selection of holdings for transfers
+
+or does not represent holdings on-ledger.
+
+If specified, then the transfer MUST archive all of these holdings, so
+
+that the execution of the transfer conflicts with any other transfers
+
+using these holdings. Thereby allowing that the sender can use
+
+deliberate contention on holdings to prevent duplicate transfers.
+</ResponseField>
+
+<ResponseField name="meta" type="Metadata">
+Metadata.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952)
+- instance `Show` [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952)
+- instance `GetField` `amount` [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952) `Decimal`
+- instance `GetField` `executeBefore` [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952) `Time`
+- instance `GetField` `inputHoldingCids` [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952) [`ContractId` `Holding`]
+- instance `GetField` `instrumentId` [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952) `InstrumentId`
+- instance `GetField` `meta` [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952) `Metadata`
+- instance `GetField` `receiver` [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952) `Account`
+- instance `GetField` `requestedAt` [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952) `Time`
+- instance `GetField` `sender` [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952) `Account`
+- instance `GetField` `transfer` [`TransferFactory_Transfer`](#type-splice-api-token-transferinstructionv2-transferfactorytransfer-54000) [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952)
+- instance `GetField` `transfer` [`TransferInstructionView`](#type-splice-api-token-transferinstructionv2-transferinstructionview-64402) [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952)
+- instance `SetField` `amount` [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952) `Decimal`
+- instance `SetField` `executeBefore` [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952) `Time`
+- instance `SetField` `inputHoldingCids` [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952) [`ContractId` `Holding`]
+- instance `SetField` `instrumentId` [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952) `InstrumentId`
+- instance `SetField` `meta` [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952) `Metadata`
+- instance `SetField` `receiver` [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952) `Account`
+- instance `SetField` `requestedAt` [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952) `Time`
+- instance `SetField` `sender` [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952) `Account`
+- instance `SetField` `transfer` [`TransferFactory_Transfer`](#type-splice-api-token-transferinstructionv2-transferfactorytransfer-54000) [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952)
+- instance `SetField` `transfer` [`TransferInstructionView`](#type-splice-api-token-transferinstructionv2-transferinstructionview-64402) [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952)
+
+
+<span id="type-splice-api-token-transferinstructionv2-transferfactoryview-8084"></span>
+
+### `data TransferFactoryView`
+
+View for `TransferFactory`.
+
+Constructors:
+
+<span id="constr-splice-api-token-transferinstructionv2-transferfactoryview-61185"></span>
+- `TransferFactoryView`
+
+<ResponseField name="admin" type="Party">
+The party representing the registry app that administers the instruments for
+
+which this transfer factory can be used.
+</ResponseField>
+
+<ResponseField name="meta" type="Metadata">
+Additional metadata specific to the transfer factory, used for extensibility.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`TransferFactoryView`](#type-splice-api-token-transferinstructionv2-transferfactoryview-8084)
+- instance `Show` [`TransferFactoryView`](#type-splice-api-token-transferinstructionv2-transferfactoryview-8084)
+- instance `HasMethod` [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) `transferFactory_publicFetchImpl` (`ContractId` [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) -> [`TransferFactory_PublicFetch`](#type-splice-api-token-transferinstructionv2-transferfactorypublicfetch-11963) -> `Update` [`TransferFactoryView`](#type-splice-api-token-transferinstructionv2-transferfactoryview-8084))
+- instance `HasFromAnyView` [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) [`TransferFactoryView`](#type-splice-api-token-transferinstructionv2-transferfactoryview-8084)
+- instance `HasInterfaceView` [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) [`TransferFactoryView`](#type-splice-api-token-transferinstructionv2-transferfactoryview-8084)
+- instance `GetField` `admin` [`TransferFactoryView`](#type-splice-api-token-transferinstructionv2-transferfactoryview-8084) `Party`
+- instance `GetField` `meta` [`TransferFactoryView`](#type-splice-api-token-transferinstructionv2-transferfactoryview-8084) `Metadata`
+- instance `SetField` `admin` [`TransferFactoryView`](#type-splice-api-token-transferinstructionv2-transferfactoryview-8084) `Party`
+- instance `SetField` `meta` [`TransferFactoryView`](#type-splice-api-token-transferinstructionv2-transferfactoryview-8084) `Metadata`
+- instance `HasExercise` [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) [`TransferFactory_PublicFetch`](#type-splice-api-token-transferinstructionv2-transferfactorypublicfetch-11963) [`TransferFactoryView`](#type-splice-api-token-transferinstructionv2-transferfactoryview-8084)
+- instance `HasExerciseGuarded` [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) [`TransferFactory_PublicFetch`](#type-splice-api-token-transferinstructionv2-transferfactorypublicfetch-11963) [`TransferFactoryView`](#type-splice-api-token-transferinstructionv2-transferfactoryview-8084)
+- instance `HasFromAnyChoice` [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) [`TransferFactory_PublicFetch`](#type-splice-api-token-transferinstructionv2-transferfactorypublicfetch-11963) [`TransferFactoryView`](#type-splice-api-token-transferinstructionv2-transferfactoryview-8084)
+- instance `HasToAnyChoice` [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) [`TransferFactory_PublicFetch`](#type-splice-api-token-transferinstructionv2-transferfactorypublicfetch-11963) [`TransferFactoryView`](#type-splice-api-token-transferinstructionv2-transferfactoryview-8084)
+
+
+<span id="type-splice-api-token-transferinstructionv2-transferinstructionaction-41433"></span>
+
+### `data TransferInstructionAction`
+
+Actions to advance the state of a transfer instruction.
+
+Constructors:
+
+<span id="constr-splice-api-token-transferinstructionv2-tiaaccept-61933"></span>
+- `TIA_Accept`
+<span id="constr-splice-api-token-transferinstructionv2-tiareject-58512"></span>
+- `TIA_Reject`
+<span id="constr-splice-api-token-transferinstructionv2-tiawithdraw-34893"></span>
+- `TIA_Withdraw`
+<span id="constr-splice-api-token-transferinstructionv2-tiacustom-41440"></span>
+- `TIA_Custom`
+
+<ResponseField name="id" type="Text">
+Identifier of the action. Namespaced analogously to metadata keys.
+</ResponseField>
+
+Used to represent registry-specific actions that need to happen
+for the transfer instruction to advance.
+
+Instances:
+
+- instance `Eq` [`TransferInstructionAction`](#type-splice-api-token-transferinstructionv2-transferinstructionaction-41433)
+- instance `Ord` [`TransferInstructionAction`](#type-splice-api-token-transferinstructionv2-transferinstructionaction-41433)
+- instance `Show` [`TransferInstructionAction`](#type-splice-api-token-transferinstructionv2-transferinstructionaction-41433)
+- instance `GetField` `availableActions` [`TransferInstructionView`](#type-splice-api-token-transferinstructionv2-transferinstructionview-64402) (`Map` [`TransferInstructionAction`](#type-splice-api-token-transferinstructionv2-transferinstructionaction-41433) [[`Party`]])
+- instance `GetField` `id` [`TransferInstructionAction`](#type-splice-api-token-transferinstructionv2-transferinstructionaction-41433) `Text`
+- instance `SetField` `availableActions` [`TransferInstructionView`](#type-splice-api-token-transferinstructionv2-transferinstructionview-64402) (`Map` [`TransferInstructionAction`](#type-splice-api-token-transferinstructionv2-transferinstructionaction-41433) [[`Party`]])
+- instance `SetField` `id` [`TransferInstructionAction`](#type-splice-api-token-transferinstructionv2-transferinstructionaction-41433) `Text`
+
+
+<span id="type-splice-api-token-transferinstructionv2-transferinstructionresult-97952"></span>
+
+### `data TransferInstructionResult`
+
+The result of instructing a transfer or advancing the state of a transfer instruction.
+
+Constructors:
+
+<span id="constr-splice-api-token-transferinstructionv2-transferinstructionresult-40597"></span>
+- `TransferInstructionResult`
+
+<ResponseField name="output" type="TransferInstructionResult_Output">
+The output of the step.
+</ResponseField>
+
+<ResponseField name="senderChangeCids" type="[ContractId Holding]">
+New holdings owned by the sender created to return "change". Can be used
+
+by actors to batch creating or updating multiple transfer instructions
+
+in a single Daml transaction.
+</ResponseField>
+
+<ResponseField name="meta" type="Metadata">
+Additional metadata specific to the transfer instruction, used for extensibility; e.g., fees charged.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+- instance `Show` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+- instance `HasMethod` [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) `transferFactory_transferImpl` (`ContractId` [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) -> [`TransferFactory_Transfer`](#type-splice-api-token-transferinstructionv2-transferfactorytransfer-54000) -> `Update` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952))
+- instance `HasMethod` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) `transferInstruction_acceptImpl` (`ContractId` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) -> [`TransferInstruction_Accept`](#type-splice-api-token-transferinstructionv2-transferinstructionaccept-24017) -> `Update` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952))
+- instance `HasMethod` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) `transferInstruction_rejectImpl` (`ContractId` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) -> [`TransferInstruction_Reject`](#type-splice-api-token-transferinstructionv2-transferinstructionreject-12876) -> `Update` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952))
+- instance `HasMethod` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) `transferInstruction_withdrawImpl` (`ContractId` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) -> [`TransferInstruction_Withdraw`](#type-splice-api-token-transferinstructionv2-transferinstructionwithdraw-30201) -> `Update` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952))
+- instance `GetField` `meta` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952) `Metadata`
+- instance `GetField` `output` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952) [`TransferInstructionResult_Output`](#type-splice-api-token-transferinstructionv2-transferinstructionresultoutput-2217)
+- instance `GetField` `senderChangeCids` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952) [`ContractId` `Holding`]
+- instance `SetField` `meta` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952) `Metadata`
+- instance `SetField` `output` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952) [`TransferInstructionResult_Output`](#type-splice-api-token-transferinstructionv2-transferinstructionresultoutput-2217)
+- instance `SetField` `senderChangeCids` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952) [`ContractId` `Holding`]
+- instance `HasExercise` [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) [`TransferFactory_Transfer`](#type-splice-api-token-transferinstructionv2-transferfactorytransfer-54000) [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+- instance `HasExercise` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) [`TransferInstruction_Accept`](#type-splice-api-token-transferinstructionv2-transferinstructionaccept-24017) [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+- instance `HasExercise` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) [`TransferInstruction_Reject`](#type-splice-api-token-transferinstructionv2-transferinstructionreject-12876) [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+- instance `HasExercise` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) [`TransferInstruction_Withdraw`](#type-splice-api-token-transferinstructionv2-transferinstructionwithdraw-30201) [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+- instance `HasExerciseGuarded` [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) [`TransferFactory_Transfer`](#type-splice-api-token-transferinstructionv2-transferfactorytransfer-54000) [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+- instance `HasExerciseGuarded` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) [`TransferInstruction_Accept`](#type-splice-api-token-transferinstructionv2-transferinstructionaccept-24017) [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+- instance `HasExerciseGuarded` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) [`TransferInstruction_Reject`](#type-splice-api-token-transferinstructionv2-transferinstructionreject-12876) [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+- instance `HasExerciseGuarded` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) [`TransferInstruction_Withdraw`](#type-splice-api-token-transferinstructionv2-transferinstructionwithdraw-30201) [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+- instance `HasFromAnyChoice` [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) [`TransferFactory_Transfer`](#type-splice-api-token-transferinstructionv2-transferfactorytransfer-54000) [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+- instance `HasFromAnyChoice` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) [`TransferInstruction_Accept`](#type-splice-api-token-transferinstructionv2-transferinstructionaccept-24017) [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+- instance `HasFromAnyChoice` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) [`TransferInstruction_Reject`](#type-splice-api-token-transferinstructionv2-transferinstructionreject-12876) [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+- instance `HasFromAnyChoice` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) [`TransferInstruction_Withdraw`](#type-splice-api-token-transferinstructionv2-transferinstructionwithdraw-30201) [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+- instance `HasToAnyChoice` [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) [`TransferFactory_Transfer`](#type-splice-api-token-transferinstructionv2-transferfactorytransfer-54000) [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+- instance `HasToAnyChoice` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) [`TransferInstruction_Accept`](#type-splice-api-token-transferinstructionv2-transferinstructionaccept-24017) [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+- instance `HasToAnyChoice` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) [`TransferInstruction_Reject`](#type-splice-api-token-transferinstructionv2-transferinstructionreject-12876) [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+- instance `HasToAnyChoice` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) [`TransferInstruction_Withdraw`](#type-splice-api-token-transferinstructionv2-transferinstructionwithdraw-30201) [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+
+
+<span id="type-splice-api-token-transferinstructionv2-transferinstructionresultoutput-2217"></span>
+
+### `data TransferInstructionResult_Output`
+
+The output of instructing a transfer or advancing the state of a transfer instruction.
+
+Constructors:
+
+<span id="constr-splice-api-token-transferinstructionv2-transferinstructionresultpending-89401"></span>
+- `TransferInstructionResult_Pending`
+
+<ResponseField name="transferInstructionCid" type="ContractId TransferInstruction">
+Contract id of the transfer instruction representing the pending state.
+</ResponseField>
+
+Use this result to communicate that the transfer is pending further steps.
+<span id="constr-splice-api-token-transferinstructionv2-transferinstructionresultcompleted-30685"></span>
+- `TransferInstructionResult_Completed`
+
+<ResponseField name="receiverHoldingCids" type="[ContractId Holding]">
+The newly created holdings owned by the receiver as part of successfully
+
+completing the transfer.
+
+MAY be empty if the registry does not represent holdings on-ledger.
+</ResponseField>
+
+Use this result to communicate that the transfer succeeded and the receiver
+has received their holdings.
+<span id="constr-splice-api-token-transferinstructionv2-transferinstructionresultfailed-73018"></span>
+- `TransferInstructionResult_Failed`
+
+Use this result to communicate that the transfer did not succeed and all holdings (minus fees)
+have been returned to the sender.
+
+Instances:
+
+- instance `Eq` [`TransferInstructionResult_Output`](#type-splice-api-token-transferinstructionv2-transferinstructionresultoutput-2217)
+- instance `Show` [`TransferInstructionResult_Output`](#type-splice-api-token-transferinstructionv2-transferinstructionresultoutput-2217)
+- instance `GetField` `output` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952) [`TransferInstructionResult_Output`](#type-splice-api-token-transferinstructionv2-transferinstructionresultoutput-2217)
+- instance `GetField` `receiverHoldingCids` [`TransferInstructionResult_Output`](#type-splice-api-token-transferinstructionv2-transferinstructionresultoutput-2217) [`ContractId` `Holding`]
+- instance `GetField` `transferInstructionCid` [`TransferInstructionResult_Output`](#type-splice-api-token-transferinstructionv2-transferinstructionresultoutput-2217) (`ContractId` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129))
+- instance `SetField` `output` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952) [`TransferInstructionResult_Output`](#type-splice-api-token-transferinstructionv2-transferinstructionresultoutput-2217)
+- instance `SetField` `receiverHoldingCids` [`TransferInstructionResult_Output`](#type-splice-api-token-transferinstructionv2-transferinstructionresultoutput-2217) [`ContractId` `Holding`]
+- instance `SetField` `transferInstructionCid` [`TransferInstructionResult_Output`](#type-splice-api-token-transferinstructionv2-transferinstructionresultoutput-2217) (`ContractId` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129))
+
+
+<span id="type-splice-api-token-transferinstructionv2-transferinstructionview-64402"></span>
+
+### `data TransferInstructionView`
+
+View for `TransferInstruction`.
+
+Constructors:
+
+<span id="constr-splice-api-token-transferinstructionv2-transferinstructionview-16095"></span>
+- `TransferInstructionView`
+
+<ResponseField name="originalInstructionCid" type="Optional (ContractId TransferInstruction)">
+The contract id of the original transfer instruction contract, which is `None`
+
+for the original transfer instruction itself.
+
+This SHOULD be used by wallets to correlate the same transfer instruction across
+
+updates to its state.
+</ResponseField>
+
+<ResponseField name="transfer" type="Transfer">
+The transfer specified by the transfer instruction.
+</ResponseField>
+
+<ResponseField name="expiresAt" type="Optional Time">
+The time at which the transfer instruction expires if inactive.
+
+Registries MAY expire the transfer instruction after this time. Thereby
+
+recovering storage resources and protecting themselves from
+
+denial-of-service attacks.
+
+Registries SHOULD avoid unnecessary expiries by
+
+- making the expiry time as close to the transfer's executeBefore as possible
+
+- bumping expiry on every action on the transfer instruction
+</ResponseField>
+
+<ResponseField name="availableActions" type="Map TransferInstructionAction [[Party]]">
+What actions are available to which groups of parties. The list of lists
+
+is interpreted as a set of sets and represents a disjunction of
+
+conjunctions of parties, i.e., each inner list represents a group of
+
+parties that can act jointly to execute the action.
+
+This field can be used to inform wallet users whether they can take an action or not;
+
+and which other parties they might be waiting on to take their action.
+
+Supports multiple parties for actions that require joint authorization. Executing them
+
+will require appropriate, registry-specific delegation contracts to be in place.
+</ResponseField>
+
+<ResponseField name="meta" type="Metadata">
+Additional metadata specific to the transfer instruction, used for extensibility; e.g., more detailed status information.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`TransferInstructionView`](#type-splice-api-token-transferinstructionv2-transferinstructionview-64402)
+- instance `Show` [`TransferInstructionView`](#type-splice-api-token-transferinstructionv2-transferinstructionview-64402)
+- instance `HasFromAnyView` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) [`TransferInstructionView`](#type-splice-api-token-transferinstructionv2-transferinstructionview-64402)
+- instance `HasInterfaceView` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) [`TransferInstructionView`](#type-splice-api-token-transferinstructionv2-transferinstructionview-64402)
+- instance `GetField` `availableActions` [`TransferInstructionView`](#type-splice-api-token-transferinstructionv2-transferinstructionview-64402) (`Map` [`TransferInstructionAction`](#type-splice-api-token-transferinstructionv2-transferinstructionaction-41433) [[`Party`]])
+- instance `GetField` `expiresAt` [`TransferInstructionView`](#type-splice-api-token-transferinstructionv2-transferinstructionview-64402) (`Optional` `Time`)
+- instance `GetField` `meta` [`TransferInstructionView`](#type-splice-api-token-transferinstructionv2-transferinstructionview-64402) `Metadata`
+- instance `GetField` `originalInstructionCid` [`TransferInstructionView`](#type-splice-api-token-transferinstructionv2-transferinstructionview-64402) (`Optional` (`ContractId` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129)))
+- instance `GetField` `transfer` [`TransferInstructionView`](#type-splice-api-token-transferinstructionv2-transferinstructionview-64402) [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952)
+- instance `SetField` `availableActions` [`TransferInstructionView`](#type-splice-api-token-transferinstructionv2-transferinstructionview-64402) (`Map` [`TransferInstructionAction`](#type-splice-api-token-transferinstructionv2-transferinstructionaction-41433) [[`Party`]])
+- instance `SetField` `expiresAt` [`TransferInstructionView`](#type-splice-api-token-transferinstructionv2-transferinstructionview-64402) (`Optional` `Time`)
+- instance `SetField` `meta` [`TransferInstructionView`](#type-splice-api-token-transferinstructionv2-transferinstructionview-64402) `Metadata`
+- instance `SetField` `originalInstructionCid` [`TransferInstructionView`](#type-splice-api-token-transferinstructionv2-transferinstructionview-64402) (`Optional` (`ContractId` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129)))
+- instance `SetField` `transfer` [`TransferInstructionView`](#type-splice-api-token-transferinstructionv2-transferinstructionview-64402) [`Transfer`](#type-splice-api-token-transferinstructionv2-transfer-64952)
+
+
+
+## Functions
+
+
+<span id="function-splice-api-token-transferinstructionv2-transferinstructionacceptimpl-46747"></span>
+
+### `transferInstruction_acceptImpl`
+
+`transferInstruction_acceptImpl` : [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) -> `ContractId` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) -> [`TransferInstruction_Accept`](#type-splice-api-token-transferinstructionv2-transferinstructionaccept-24017) -> `Update` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+
+
+<span id="function-splice-api-token-transferinstructionv2-transferinstructionrejectimpl-68290"></span>
+
+### `transferInstruction_rejectImpl`
+
+`transferInstruction_rejectImpl` : [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) -> `ContractId` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) -> [`TransferInstruction_Reject`](#type-splice-api-token-transferinstructionv2-transferinstructionreject-12876) -> `Update` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+
+
+<span id="function-splice-api-token-transferinstructionv2-transferinstructionwithdrawimpl-38143"></span>
+
+### `transferInstruction_withdrawImpl`
+
+`transferInstruction_withdrawImpl` : [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) -> `ContractId` [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) -> [`TransferInstruction_Withdraw`](#type-splice-api-token-transferinstructionv2-transferinstructionwithdraw-30201) -> `Update` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+
+
+<span id="function-splice-api-token-transferinstructionv2-transferinstructionacceptextraobservers-992"></span>
+
+### `transferInstruction_acceptExtraObservers`
+
+`transferInstruction_acceptExtraObservers` : [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) -> [`TransferInstruction_Accept`](#type-splice-api-token-transferinstructionv2-transferinstructionaccept-24017) -> [`Party`]
+
+
+<span id="function-splice-api-token-transferinstructionv2-transferinstructionrejectextraobservers-63697"></span>
+
+### `transferInstruction_rejectExtraObservers`
+
+`transferInstruction_rejectExtraObservers` : [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) -> [`TransferInstruction_Reject`](#type-splice-api-token-transferinstructionv2-transferinstructionreject-12876) -> [`Party`]
+
+
+<span id="function-splice-api-token-transferinstructionv2-transferinstructionwithdrawextraobservers-12020"></span>
+
+### `transferInstruction_withdrawExtraObservers`
+
+`transferInstruction_withdrawExtraObservers` : [`TransferInstruction`](#type-splice-api-token-transferinstructionv2-transferinstruction-61129) -> [`TransferInstruction_Withdraw`](#type-splice-api-token-transferinstructionv2-transferinstructionwithdraw-30201) -> [`Party`]
+
+
+<span id="function-splice-api-token-transferinstructionv2-transferfactorytransferextraobservers-52409"></span>
+
+### `transferFactory_transferExtraObservers`
+
+`transferFactory_transferExtraObservers` : [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) -> [`TransferFactory_Transfer`](#type-splice-api-token-transferinstructionv2-transferfactorytransfer-54000) -> [`Party`]
+
+
+<span id="function-splice-api-token-transferinstructionv2-transferfactorytransferimpl-94762"></span>
+
+### `transferFactory_transferImpl`
+
+`transferFactory_transferImpl` : [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) -> `ContractId` [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) -> [`TransferFactory_Transfer`](#type-splice-api-token-transferinstructionv2-transferfactorytransfer-54000) -> `Update` [`TransferInstructionResult`](#type-splice-api-token-transferinstructionv2-transferinstructionresult-97952)
+
+
+<span id="function-splice-api-token-transferinstructionv2-transferfactorypublicfetchimpl-31481"></span>
+
+### `transferFactory_publicFetchImpl`
+
+`transferFactory_publicFetchImpl` : [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) -> `ContractId` [`TransferFactory`](#type-splice-api-token-transferinstructionv2-transferfactory-72147) -> [`TransferFactory_PublicFetch`](#type-splice-api-token-transferinstructionv2-transferfactorypublicfetch-11963) -> `Update` [`TransferFactoryView`](#type-splice-api-token-transferinstructionv2-transferfactoryview-8084)

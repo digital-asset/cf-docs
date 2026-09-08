@@ -1,0 +1,445 @@
+---
+title: "Splice.Amulet.TokenApiUtils"
+description: "Documentation for Splice.Amulet.TokenApiUtils"
+---
+
+{/* COPIED_START source="splice:daml/splice-amulet/docs/Splice-Amulet-TokenApiUtils.rst" tag="0.6.4" hash="545e6b9f" */}
+
+Common utilities for implementing the token APIs for Amulet.
+
+## Typeclasses
+
+<div id="class-splice-amulet-tokenapiutils-toanyvalue-45157">
+
+**class** ToAnyValue a **where**
+
+</div>
+
+> Values that can be converted to AnyValue
+>
+> <div id="function-splice-amulet-tokenapiutils-toanyvalue-91682">
+>
+> toAnyValue
+> : a -\> AnyValue
+>
+> </div>
+>
+> **instance** ToAnyValue TimeLock
+>
+> **instance** ToAnyValue [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+>
+> **instance** ToAnyValue [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** ToAnyValue [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** ToAnyValue [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** ToAnyValue ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) t)
+>
+> **instance** ToAnyValue [Date](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-date-32253)
+>
+> **instance** ToAnyValue [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** ToAnyValue [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)
+>
+> **instance** ToAnyValue [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)
+>
+> **instance** ToAnyValue ChoiceContext
+>
+> **instance** ToAnyValue a =\> ToAnyValue \[a\]
+
+<div id="class-splice-amulet-tokenapiutils-fromanyvalue-31164">
+
+**class** FromAnyValue a **where**
+
+</div>
+
+> Attempt to parse a value from AnyValue.
+>
+> If a type implements both `ToAnyValue` and `FromAnyValue` then it must hold that `fromAnyValue (toAnyValue x) = Right x` for all `x`.
+>
+> <div id="function-splice-amulet-tokenapiutils-fromanyvalue-32255">
+>
+> fromAnyValue
+> : AnyValue -\> [Either](/appdev/reference/daml-standard-library/prelude#type-da-types-either-56020) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) a
+>
+> </div>
+>
+> **instance** FromAnyValue TimeLock
+>
+> **instance** FromAnyValue [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+>
+> **instance** FromAnyValue [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** FromAnyValue [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** FromAnyValue [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** [Template](/appdev/reference/daml-standard-library/prelude#type-da-internal-template-functions-template-31804) t =\> FromAnyValue ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) t)
+>
+> **instance** FromAnyValue [Date](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-date-32253)
+>
+> **instance** FromAnyValue [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** FromAnyValue [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)
+>
+> **instance** FromAnyValue [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)
+>
+> **instance** FromAnyValue ChoiceContext
+>
+> **instance** FromAnyValue a =\> FromAnyValue \[a\]
+
+## Orphan Typeclass Instances
+
+**instance** [Semigroup](/appdev/reference/daml-standard-library/prelude#class-da-internal-prelude-semigroup-78998) Metadata
+
+**instance** [Monoid](/appdev/reference/daml-standard-library/prelude#class-da-internal-prelude-monoid-6742) Metadata
+
+## Data Types
+
+<div id="type-splice-amulet-tokenapiutils-txkind-33822">
+
+**data** TxKind
+
+</div>
+
+> Internal type for the transaction kind.
+>
+> <div id="constr-splice-amulet-tokenapiutils-txkindtransfer-31504">
+>
+> TxKind_Transfer
+>
+> </div>
+>
+> <div id="constr-splice-amulet-tokenapiutils-txkindunlock-53359">
+>
+> TxKind_Unlock
+>
+> </div>
+>
+> <div id="constr-splice-amulet-tokenapiutils-txkindmergesplit-69091">
+>
+> TxKind_MergeSplit
+>
+> </div>
+>
+> <div id="constr-splice-amulet-tokenapiutils-txkindburn-1830">
+>
+> TxKind_Burn
+>
+> </div>
+>
+> <div id="constr-splice-amulet-tokenapiutils-txkindmint-40517">
+>
+> TxKind_Mint
+>
+> </div>
+>
+> <div id="constr-splice-amulet-tokenapiutils-txkindexpiredust-93818">
+>
+> TxKind_ExpireDust
+>
+> </div>
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) TxKind
+
+## Functions
+
+<div id="function-splice-amulet-tokenapiutils-spliceprefix-80926">
+
+splicePrefix
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-amuletprefix-59772">
+
+amuletPrefix
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-amuletinstrumentid-11366">
+
+amuletInstrumentId
+: [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> InstrumentId
+
+Shared definition of the instrument-id used for amulets.
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-optionalmetadata-95597">
+
+optionalMetadata
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> (a -\> [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)) -\> [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) a -\> [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+Add an optional metadata entry.
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-nonzerometadata-67227">
+
+nonZeroMetadata
+: ([Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) a, [Additive](/appdev/reference/daml-standard-library/prelude#class-ghc-num-additive-25881) a, [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) a) =\> [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> a -\> [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+Add an metadata entry if it is non-zero number.
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-optionalnonzerometadata-8763">
+
+optionalNonZeroMetadata
+: ([Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) a, [Additive](/appdev/reference/daml-standard-library/prelude#class-ghc-num-additive-25881) a, [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) a) =\> [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) a -\> [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+Add an metadata entry for an optional value if it is non-zero number.
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-createdinroundmetakey-43020">
+
+createdInRoundMetaKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-rateperroundmetakey-80476">
+
+ratePerRoundMetaKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-svrewardamountmetakey-76087">
+
+svRewardAmountMetaKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-apprewardamountmetakey-17776">
+
+appRewardAmountMetaKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-unclaimedactivityrecordamountmetakey-33086">
+
+unclaimedActivityRecordAmountMetaKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-validatorrewardamountmetakey-47315">
+
+validatorRewardAmountMetaKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-apprewardbeneficiariesmetakey-63876">
+
+appRewardBeneficiariesMetaKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-apprewardbeneficiaryweightsmetakey-52370">
+
+appRewardBeneficiaryWeightsMetaKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-developmentfundamountmetakey-16464">
+
+developmentFundAmountMetaKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-reasonmetakey-98413">
+
+reasonMetaKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+Short, human-readable reason for the transaction.
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-txkindmetakey-86963">
+
+txKindMetaKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+Kind of the transaction.
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-sendermetakey-57316">
+
+senderMetaKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+The sender of a transfer.
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-burnedmetakey-57705">
+
+burnedMetaKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+The amount of token holdings burned as part of a transaction.
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-holdingtxmeta-93547">
+
+holdingTxMeta
+: TxKind -\> [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) -\> Metadata
+
+Build the metadata for a transaction affecting the amulet holdings.
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-txkindtotext-55602">
+
+txKindToText
+: TxKind -\> [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+Exported for testing only
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-simpleholdingtxmeta-84235">
+
+simpleHoldingTxMeta
+: TxKind -\> [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) -\> Metadata
+
+Simplified version for a few of the common cases.
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-externalpartyconfigstatecontextkey-59994">
+
+externalPartyConfigStateContextKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-featuredapprightcontextkey-84565">
+
+featuredAppRightContextKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-transferpreapprovalcontextkey-6006">
+
+transferPreapprovalContextKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-lockcontextkey-29271">
+
+lockContextKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+The key used to embed all the lock specification in the choice context.
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-lockexpiresatcontextkey-3269">
+
+lockExpiresAtContextKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-lockholderscontextkey-51785">
+
+lockHoldersContextKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-lockcontextcontextkey-63153">
+
+lockContextContextKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+The context description of a lock.
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-expirelockkey-74460">
+
+expireLockKey
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+Key used to signal to a choice whether an expired locked amulet should be unlocked.
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-beneficiariesfrommetadata-93977">
+
+beneficiariesFromMetadata
+: Metadata -\> [Either](/appdev/reference/daml-standard-library/prelude#type-da-types-either-56020) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) \[AppRewardBeneficiary\])
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-parsecommaseparated-63776">
+
+parseCommaSeparated
+: [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> ([Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) a) -\> [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> [Either](/appdev/reference/daml-standard-library/prelude#type-da-types-either-56020) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) \[a\]
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-addoptionalanyvalue-87443">
+
+addOptionalAnyValue
+: ToAnyValue a =\> [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) a -\> [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) AnyValue -\> [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) AnyValue
+
+Convenience function to create maps that contain an optional value if it is set. See its use sites for examples.
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-lookupfromcontext-26074">
+
+lookupFromContext
+: FromAnyValue a =\> ChoiceContext -\> [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> [Either](/appdev/reference/daml-standard-library/prelude#type-da-types-either-56020) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) a)
+
+Lookup and decode a value within a choice context.
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-getfromcontext-35521">
+
+getFromContext
+: FromAnyValue a =\> ChoiceContext -\> [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> [Either](/appdev/reference/daml-standard-library/prelude#type-da-types-either-56020) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) a
+
+Get a value from a choice context, failing if it is not present or fails to parse.
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-lookupfromcontextu-72244">
+
+lookupFromContextU
+: FromAnyValue a =\> ChoiceContext -\> [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) a)
+
+Convenience version of `lookupFromContext` that raises the failure within the `Update`.
+
+</div>
+
+<div id="function-splice-amulet-tokenapiutils-getfromcontextu-55645">
+
+getFromContextU
+: FromAnyValue a =\> ChoiceContext -\> [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) a
+
+Convenience version of `getFromContext` that raises the failure within the `Update`.
+
+</div>
+
+{/* COPIED_END */}

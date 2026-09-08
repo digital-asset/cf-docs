@@ -1,0 +1,6 @@
+```haskell
+-- Better: one contract representing the batch
+choice ProcessBatch : ContractId BatchResult
+  controller processor
+  do create BatchResult with items = processedItems
+```

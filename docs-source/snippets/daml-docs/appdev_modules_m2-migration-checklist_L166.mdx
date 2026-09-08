@@ -1,0 +1,8 @@
+```haskell
+-- Daml: No modifier needed
+choice AdminAction : ()
+  controller admin  -- Only admin can exercise
+  do
+    -- Protocol enforces this
+    pure ()
+```

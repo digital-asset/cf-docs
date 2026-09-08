@@ -1,0 +1,14 @@
+```haskell
+template IouProposal
+  with
+    iou : Iou
+  where
+    signatory iou.issuer
+    observer iou.owner
+
+    choice IouProposal_Accept
+        : ContractId Iou
+        controller iou.owner
+        do
+          create iou
+```

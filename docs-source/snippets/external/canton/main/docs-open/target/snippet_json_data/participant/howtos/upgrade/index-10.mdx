@@ -1,0 +1,9 @@
+```scala
+@ val config = SynchronizerConnectionConfig("newsynchronizer", GrpcSequencerConnection.tryCreate("https://127.0.0.1:5018"))
+    config : SynchronizerConnectionConfig = SynchronizerConnectionConfig(
+      synchronizer = Synchronizer 'newsynchronizer',
+      sequencerConnections = SequencerConnections(
+        connections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(
+          sequencerAlias = Sequencer 'DefaultSequencer',
+    ..
+```

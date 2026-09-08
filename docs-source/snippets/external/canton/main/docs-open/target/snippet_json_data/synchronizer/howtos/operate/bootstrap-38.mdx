@@ -1,0 +1,21 @@
+```scala
+@ val seq1DND = sequencer1.topology.decentralized_namespaces.propose_new(
+        owners = Set(sequencer1Id.namespace, sequencer2Id.namespace),
+        threshold = PositiveInt.two,
+        store = sequencer1TempStore,
+      )
+    seq1DND : SignedTopologyTransaction[TopologyChangeOp, DecentralizedNamespaceDefinition] = SignedTopologyTransaction(
+      TopologyTransaction(
+        DecentralizedNamespaceDefinition(
+          namespace = 12209266a807...,
+          threshold = 2,
+          owners = Seq(12203a55a279..., 1220cb0a22fb...)
+        ),
+        serial = 1,
+        operation = Replace,
+        hash = SHA-256:baa5c4401f12...
+      ),
+      signatures = 1220cb0a22fb...,
+      proposal
+    )
+```

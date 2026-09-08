@@ -1,0 +1,47 @@
+```
+   docker compose -f docker/app-user-shell/compose.yaml --env-file .env run --rm create-app-install-request || true
+   get_token ledger-api-user AppProvider
+   get_user_party AppProvider participant-app-provider
+   http://participant-app-provider:7575/v2/users/AppProvider
+   get_token ledger-api-user Org1
+   get_user_party Org1 participant-app-user
+   http://participant-app-user:7575/v2/users/Org1
+   get_token administrator Org1
+   http://validator-app-user:5003/api/validator/v0/scan-proxy/dso-party-id
+   http://participant-app-user:7575/v2/commands/submit-and-wait
+   --data-raw {
+     "commands" : [
+        {
+           "CreateCommand" : {
+             "template_id":
+             "#quickstart-licensing:Licensing.AppInstall:AppInstallRequest",
+             "create_arguments": {
+                "dso":
+                "DSO::1220015e721c8ec5c1a5868b418442f064530e367c2587a9b43bd66f58c7bfddfec4",
+                "provider":
+                "AppProvider::12202fe7b2bf950dca3858b880d9ee0dd58249af8821ff2330ea1b80420852e816ff",
+                "user":
+                "Org1::122072b20a515d939910f9412f915cff8c1a7a427ddde76c6d0b7646d0022d4d4551",
+                "meta": {"values": []}
+             }
+           }
+        }
+     ],
+     "workflow_id" : "create-app-install-request",
+     "application_id": "ledger-api-user",
+     "command_id": "create-app-install-request",
+     "deduplication_period": { "Empty": {} },
+     "act_as":
+     ["Org1::122072b20a515d939910f9412f915cff8c1a7a427ddde76c6d0b7646d0022d4d4551"],
+     "read_as":
+     ["Org1::122072b20a515d939910f9412f915cff8c1a7a427ddde76c6d0b7646d0022d4d4551"],
+     "submission_id": "create-app-install-request",
+     "disclosed_contracts": [],
+     "domain_id": "",
+     "package_id_selection_preference": []
+   }
+   {"update_id":
+   "1220e48d6d59af99a1b61eca414fe25766c342bb4e7d8d485e049a11a7f2267ed5c0",
+    "completion_offset":73}
+
+```

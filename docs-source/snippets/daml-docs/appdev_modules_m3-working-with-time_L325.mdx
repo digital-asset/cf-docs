@@ -1,0 +1,11 @@
+```daml
+-- Alice can't transfer to herself...
+  submitMustFail alice do
+    exerciseCmd iou Transfer with
+      newOwner = alice
+
+  -- ... but can transfer to Bob.
+  iou2 <- submit alice do
+    exerciseCmd iou Transfer with
+      newOwner = bob
+```

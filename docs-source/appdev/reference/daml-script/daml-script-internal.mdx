@@ -1,0 +1,383 @@
+---
+title: "Daml.Script.Internal"
+description: "Reference documentation for Daml module Daml.Script.Internal."
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--collection"></div>
+
+<span id="module-daml-script-internal-18793"></span>
+
+
+
+<div class="x2mdx-ref-hero">
+
+  <p class="x2mdx-ref-eyebrow">Daml module</p>
+
+
+  <h1 class="x2mdx-ref-title">Daml.Script.Internal</h1>
+
+
+  <p class="x2mdx-ref-summary">Contains all Internal and Alpha functionality provided by Daml Script.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Daml</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--changed" href="#history-updated-3-5-2">Updated 3.5.2</a>
+
+</div>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Module</dt>
+    <dd>Daml.Script.Internal</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Latest release</dt>
+    <dd>3.5.7</dd>
+  </div>
+
+</dl>
+
+</div>
+
+
+
+
+
+## Data Types
+
+
+<span id="type-daml-script-internal-questions-testing-commandname-12991"></span>
+
+### `data CommandName`
+
+Name of the Daml Script Command (or Question) that failed
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-testing-commandname-12826"></span>
+- `CommandName`
+
+<ResponseField name="getCommandName" type="Text" />
+
+Instances:
+
+- instance `Eq` [`CommandName`](#type-daml-script-internal-questions-testing-commandname-12991)
+- instance `Show` [`CommandName`](#type-daml-script-internal-questions-testing-commandname-12991)
+- instance `GetField` `commandName` [`FailedCmd`](#type-daml-script-internal-questions-testing-failedcmd-88074) [`CommandName`](#type-daml-script-internal-questions-testing-commandname-12991)
+- instance `GetField` `getCommandName` [`CommandName`](#type-daml-script-internal-questions-testing-commandname-12991) `Text`
+- instance `SetField` `commandName` [`FailedCmd`](#type-daml-script-internal-questions-testing-failedcmd-88074) [`CommandName`](#type-daml-script-internal-questions-testing-commandname-12991)
+- instance `SetField` `getCommandName` [`CommandName`](#type-daml-script-internal-questions-testing-commandname-12991) `Text`
+
+
+<span id="type-daml-script-internal-questions-testing-errorclassname-49861"></span>
+
+### `data ErrorClassName`
+
+Scala class name of the exception thrown
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-testing-errorclassname-42862"></span>
+- `ErrorClassName`
+
+<ResponseField name="getErrorClassName" type="Text" />
+
+Instances:
+
+- instance `Eq` [`ErrorClassName`](#type-daml-script-internal-questions-testing-errorclassname-49861)
+- instance `Show` [`ErrorClassName`](#type-daml-script-internal-questions-testing-errorclassname-49861)
+- instance `GetField` `errorClassName` [`FailedCmd`](#type-daml-script-internal-questions-testing-failedcmd-88074) [`ErrorClassName`](#type-daml-script-internal-questions-testing-errorclassname-49861)
+- instance `GetField` `getErrorClassName` [`ErrorClassName`](#type-daml-script-internal-questions-testing-errorclassname-49861) `Text`
+- instance `SetField` `errorClassName` [`FailedCmd`](#type-daml-script-internal-questions-testing-failedcmd-88074) [`ErrorClassName`](#type-daml-script-internal-questions-testing-errorclassname-49861)
+- instance `SetField` `getErrorClassName` [`ErrorClassName`](#type-daml-script-internal-questions-testing-errorclassname-49861) `Text`
+
+
+<span id="type-daml-script-internal-questions-testing-errormessage-78991"></span>
+
+### `data ErrorMessage`
+
+Result of the `getMessage` method on the Scala exception
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-testing-errormessage-24784"></span>
+- `ErrorMessage`
+
+<ResponseField name="getErrorMessage" type="Text" />
+
+Instances:
+
+- instance `Eq` [`ErrorMessage`](#type-daml-script-internal-questions-testing-errormessage-78991)
+- instance `Show` [`ErrorMessage`](#type-daml-script-internal-questions-testing-errormessage-78991)
+- instance `GetField` `errorMessage` [`FailedCmd`](#type-daml-script-internal-questions-testing-failedcmd-88074) [`ErrorMessage`](#type-daml-script-internal-questions-testing-errormessage-78991)
+- instance `GetField` `getErrorMessage` [`ErrorMessage`](#type-daml-script-internal-questions-testing-errormessage-78991) `Text`
+- instance `SetField` `errorMessage` [`FailedCmd`](#type-daml-script-internal-questions-testing-failedcmd-88074) [`ErrorMessage`](#type-daml-script-internal-questions-testing-errormessage-78991)
+- instance `SetField` `getErrorMessage` [`ErrorMessage`](#type-daml-script-internal-questions-testing-errormessage-78991) `Text`
+
+
+<span id="type-daml-script-internal-questions-testing-failedcmd-88074"></span>
+
+### `data FailedCmd`
+
+Daml type representing a Scala exception thrown during script interpretation.
+Used for internal testing of the Daml Script library.
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-testing-failedcmd-77803"></span>
+- `FailedCmd`
+
+<ResponseField name="commandName" type="CommandName" />
+
+<ResponseField name="errorClassName" type="ErrorClassName" />
+
+<ResponseField name="errorMessage" type="ErrorMessage" />
+
+Instances:
+
+- instance `Eq` [`FailedCmd`](#type-daml-script-internal-questions-testing-failedcmd-88074)
+- instance `Show` [`FailedCmd`](#type-daml-script-internal-questions-testing-failedcmd-88074)
+- instance `GetField` `commandName` [`FailedCmd`](#type-daml-script-internal-questions-testing-failedcmd-88074) [`CommandName`](#type-daml-script-internal-questions-testing-commandname-12991)
+- instance `GetField` `errorClassName` [`FailedCmd`](#type-daml-script-internal-questions-testing-failedcmd-88074) [`ErrorClassName`](#type-daml-script-internal-questions-testing-errorclassname-49861)
+- instance `GetField` `errorMessage` [`FailedCmd`](#type-daml-script-internal-questions-testing-failedcmd-88074) [`ErrorMessage`](#type-daml-script-internal-questions-testing-errormessage-78991)
+- instance `SetField` `commandName` [`FailedCmd`](#type-daml-script-internal-questions-testing-failedcmd-88074) [`CommandName`](#type-daml-script-internal-questions-testing-commandname-12991)
+- instance `SetField` `errorClassName` [`FailedCmd`](#type-daml-script-internal-questions-testing-failedcmd-88074) [`ErrorClassName`](#type-daml-script-internal-questions-testing-errorclassname-49861)
+- instance `SetField` `errorMessage` [`FailedCmd`](#type-daml-script-internal-questions-testing-failedcmd-88074) [`ErrorMessage`](#type-daml-script-internal-questions-testing-errormessage-78991)
+
+
+<span id="type-daml-script-internal-questions-submit-error-contractnotfoundadditionalinfo-6199"></span>
+
+### `data ContractNotFoundAdditionalInfo`
+
+Additional debugging information provided only by IDE Ledger
+
+Instances:
+
+- instance `Show` [`ContractNotFoundAdditionalInfo`](#type-daml-script-internal-questions-submit-error-contractnotfoundadditionalinfo-6199)
+- instance `GetField` `actAs` [`ContractNotFoundAdditionalInfo`](#type-daml-script-internal-questions-submit-error-contractnotfoundadditionalinfo-6199) [`Party`]
+- instance `GetField` `additionalDebuggingInfo` [`SubmitError`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-questions-submit-error-submiterror-38284) (`Optional` [`ContractNotFoundAdditionalInfo`](#type-daml-script-internal-questions-submit-error-contractnotfoundadditionalinfo-6199))
+- instance `GetField` `additionalInfoCid` [`ContractNotFoundAdditionalInfo`](#type-daml-script-internal-questions-submit-error-contractnotfoundadditionalinfo-6199) [`AnyContractId`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-questions-util-anycontractid-11399)
+- instance `GetField` `effectiveAt` [`ContractNotFoundAdditionalInfo`](#type-daml-script-internal-questions-submit-error-contractnotfoundadditionalinfo-6199) `Text`
+- instance `GetField` `observers` [`ContractNotFoundAdditionalInfo`](#type-daml-script-internal-questions-submit-error-contractnotfoundadditionalinfo-6199) [`Party`]
+- instance `GetField` `readAs` [`ContractNotFoundAdditionalInfo`](#type-daml-script-internal-questions-submit-error-contractnotfoundadditionalinfo-6199) [`Party`]
+- instance `SetField` `actAs` [`ContractNotFoundAdditionalInfo`](#type-daml-script-internal-questions-submit-error-contractnotfoundadditionalinfo-6199) [`Party`]
+- instance `SetField` `additionalDebuggingInfo` [`SubmitError`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-questions-submit-error-submiterror-38284) (`Optional` [`ContractNotFoundAdditionalInfo`](#type-daml-script-internal-questions-submit-error-contractnotfoundadditionalinfo-6199))
+- instance `SetField` `additionalInfoCid` [`ContractNotFoundAdditionalInfo`](#type-daml-script-internal-questions-submit-error-contractnotfoundadditionalinfo-6199) [`AnyContractId`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-questions-util-anycontractid-11399)
+- instance `SetField` `effectiveAt` [`ContractNotFoundAdditionalInfo`](#type-daml-script-internal-questions-submit-error-contractnotfoundadditionalinfo-6199) `Text`
+- instance `SetField` `observers` [`ContractNotFoundAdditionalInfo`](#type-daml-script-internal-questions-submit-error-contractnotfoundadditionalinfo-6199) [`Party`]
+- instance `SetField` `readAs` [`ContractNotFoundAdditionalInfo`](#type-daml-script-internal-questions-submit-error-contractnotfoundadditionalinfo-6199) [`Party`]
+
+
+<span id="type-daml-script-internal-questions-packages-packagename-68696"></span>
+
+### `data PackageName`
+
+Used for vetting and unvetting packages
+
+Constructors:
+
+<span id="constr-daml-script-internal-questions-packages-packagename-3807"></span>
+- `PackageName`
+
+<ResponseField name="name" type="Text" />
+
+<ResponseField name="version" type="Text" />
+
+Instances:
+
+- instance `IsQuestion` `ListAllPackages` [[`PackageName`](#type-daml-script-internal-questions-packages-packagename-68696)]
+- instance `IsQuestion` `ListVettedPackages` [[`PackageName`](#type-daml-script-internal-questions-packages-packagename-68696)]
+- instance `Eq` [`PackageName`](#type-daml-script-internal-questions-packages-packagename-68696)
+- instance `Ord` [`PackageName`](#type-daml-script-internal-questions-packages-packagename-68696)
+- instance `Show` [`PackageName`](#type-daml-script-internal-questions-packages-packagename-68696)
+- instance `GetField` `name` [`PackageName`](#type-daml-script-internal-questions-packages-packagename-68696) `Text`
+- instance `GetField` `packages` `UnvetPackages` [[`PackageName`](#type-daml-script-internal-questions-packages-packagename-68696)]
+- instance `GetField` `packages` `VetPackages` [[`PackageName`](#type-daml-script-internal-questions-packages-packagename-68696)]
+- instance `GetField` `version` [`PackageName`](#type-daml-script-internal-questions-packages-packagename-68696) `Text`
+- instance `SetField` `name` [`PackageName`](#type-daml-script-internal-questions-packages-packagename-68696) `Text`
+- instance `SetField` `packages` `UnvetPackages` [[`PackageName`](#type-daml-script-internal-questions-packages-packagename-68696)]
+- instance `SetField` `packages` `VetPackages` [[`PackageName`](#type-daml-script-internal-questions-packages-packagename-68696)]
+- instance `SetField` `version` [`PackageName`](#type-daml-script-internal-questions-packages-packagename-68696) `Text`
+
+
+
+## Functions
+
+
+<span id="function-daml-script-internal-questions-testing-trycommands-17332"></span>
+
+### `tryCommands`
+
+`tryCommands` : [`Script`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-lowlevel-script-4781) `a` -> [`Script`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-lowlevel-script-4781) (`Either` [`FailedCmd`](#type-daml-script-internal-questions-testing-failedcmd-88074) `a`)
+
+Internal testing tool that allows us to catch FailedCmds in the daml language
+
+
+<span id="function-daml-script-internal-questions-testing-liftfailedcommandtofailurestatus-62416"></span>
+
+### `liftFailedCommandToFailureStatus`
+
+`liftFailedCommandToFailureStatus` : [`Script`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-lowlevel-script-4781) `a` -> [`Script`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-lowlevel-script-4781) `a`
+
+Runs a script and lifts FailedCmd scala exceptions into a FailureStatus, which can be caught via tryFailureStatus
+
+
+<span id="function-daml-script-internal-questions-submit-error-isnotactive-40539"></span>
+
+### `isNotActive`
+
+`isNotActive` : [`ContractNotFoundAdditionalInfo`](#type-daml-script-internal-questions-submit-error-contractnotfoundadditionalinfo-6199) -> `Optional` [`AnyContractId`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-questions-util-anycontractid-11399)
+
+Exacts nonactive contract ID from ContractNotFoundAdditionalInfo
+
+
+<span id="function-daml-script-internal-questions-packages-vetpackages-16211"></span>
+
+### `vetPackages`
+
+`vetPackages` : `HasCallStack` => [[`PackageName`](#type-daml-script-internal-questions-packages-packagename-68696)] -> [`Script`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-lowlevel-script-4781) ()
+
+Vet a set of packages on all participants.
+Note that the Admin API port must be provided when using this with a Canton Ledger
+Use ``--admin-port`` with the `daml script` CLI tool.
+
+
+<span id="function-daml-script-internal-questions-packages-vetpackagesonparticipant-8324"></span>
+
+### `vetPackagesOnParticipant`
+
+`vetPackagesOnParticipant` : `HasCallStack` => [[`PackageName`](#type-daml-script-internal-questions-packages-packagename-68696)] -> [`ParticipantName`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-questions-partymanagement-participantname-88190) -> [`Script`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-lowlevel-script-4781) ()
+
+Vet a set of packages on a single participant.
+Note that the Admin API port must be provided when using this with a Canton Ledger
+Use ``--admin-port`` with the `daml script` CLI tool.
+
+
+<span id="function-daml-script-internal-questions-packages-unvetpackages-80050"></span>
+
+### `unvetPackages`
+
+`unvetPackages` : `HasCallStack` => [[`PackageName`](#type-daml-script-internal-questions-packages-packagename-68696)] -> [`Script`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-lowlevel-script-4781) ()
+
+Unvet a set of packages on all participants.
+Note that the Admin API port must be provided when using this with a Canton Ledger
+Use ``--admin-port`` with the `daml script` CLI tool.
+
+
+<span id="function-daml-script-internal-questions-packages-unvetpackagesonparticipant-47459"></span>
+
+### `unvetPackagesOnParticipant`
+
+`unvetPackagesOnParticipant` : `HasCallStack` => [[`PackageName`](#type-daml-script-internal-questions-packages-packagename-68696)] -> [`ParticipantName`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-questions-partymanagement-participantname-88190) -> [`Script`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-lowlevel-script-4781) ()
+
+Unvet a set of packages on a single participant.
+Note that the Admin API port must be provided when using this with a Canton Ledger
+Use ``--admin-port`` with the `daml script` CLI tool.
+
+
+<span id="function-daml-script-internal-questions-packages-listvettedpackages-3001"></span>
+
+### `listVettedPackages`
+
+`listVettedPackages` : `HasCallStack` => [`Script`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-lowlevel-script-4781) [[`PackageName`](#type-daml-script-internal-questions-packages-packagename-68696)]
+
+Lists the vetted packages on the default participant
+Note that the Admin API port must be provided when using this with a Canton Ledger
+Use ``--admin-port`` with the `daml script` CLI tool.
+
+
+<span id="function-daml-script-internal-questions-packages-listallpackages-50063"></span>
+
+### `listAllPackages`
+
+`listAllPackages` : `HasCallStack` => [`Script`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-lowlevel-script-4781) [[`PackageName`](#type-daml-script-internal-questions-packages-packagename-68696)]
+
+Lists all packages (vetted and unvetted) on the default participant
+Note that the Admin API port must be provided when using this with a Canton Ledger
+Use ``--admin-port`` with the `daml script` CLI tool.
+
+
+<span id="function-daml-script-internal-questions-partymanagement-allocatereplicatedpartyon-96671"></span>
+
+### `allocateReplicatedPartyOn`
+
+`allocateReplicatedPartyOn` : `Text` -> [`ParticipantName`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-questions-partymanagement-participantname-88190) -> [[`ParticipantName`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-questions-partymanagement-participantname-88190)] -> [`Script`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-lowlevel-script-4781) `Party`
+
+Allocate a party with the given display name on the specified main participant using the party management service
+and replicates it to the specified (possibly empty) list of additional participants. Commands submitted by the
+allocated party will be routed to the main participant.
+
+
+<span id="function-daml-script-internal-questions-partymanagement-allocatereplicatedpartywithhinton-30144"></span>
+
+### `allocateReplicatedPartyWithHintOn`
+
+`allocateReplicatedPartyWithHintOn` : `Text` -> [`PartyIdHint`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-questions-partymanagement-partyidhint-14540) -> [`ParticipantName`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-questions-partymanagement-participantname-88190) -> [[`ParticipantName`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-questions-partymanagement-participantname-88190)] -> [`Script`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-lowlevel-script-4781) `Party`
+
+Allocate a party with the given display name and id hint on the specified main participant using the party
+management service and replicates it to the specified (possibly empty) list of additional participants. Commands
+submitted by the allocated party will be routed to the main participant.
+
+
+<span id="function-daml-script-internal-questions-exceptions-throwanyexception-70957"></span>
+
+### `throwAnyException`
+
+`throwAnyException` : `AnyException` -> [`Script`](/appdev/reference/daml-script/daml-script#type-daml-script-internal-lowlevel-script-4781) `t`
+
+Throws an ``AnyException``, note that this function discards the stacktrace
+
+
+
+
+## History
+
+<div class="x2mdx-ref-history" aria-label="Reference history">
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-3-5-2">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">3.5.2</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">Module declarations or documentation updated.</p>
+
+  </div>
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-3-5-1">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">3.5.1</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">Module declarations or documentation updated.</p>
+
+  </div>
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-3-4-11">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">3.4.11</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">Module declarations or documentation updated.</p>
+
+  </div>
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-3-4-10">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">3.4.10</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">Module declarations or documentation updated.</p>
+
+  </div>
+
+</div>

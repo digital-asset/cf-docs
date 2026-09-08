@@ -1,0 +1,581 @@
+---
+title: "GetLedgerApiVersion"
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--operation"></div>
+
+
+<div className="x2mdx-ref-operation-shell">
+<div className="x2mdx-ref-operation-main">
+
+
+<div class="x2mdx-ref-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+
+
+  <span>Ledger API</span>
+
+
+  <span class="x2mdx-ref-breadcrumb-separator">›</span>
+
+
+
+  <a href="../../../overview">Protobuf</a>
+
+
+  <span class="x2mdx-ref-breadcrumb-separator">›</span>
+
+
+
+  <a href="../../../packages/com-daml-ledger-api-v2">com.daml.ledger.api.v2</a>
+
+
+  <span class="x2mdx-ref-breadcrumb-separator">›</span>
+
+
+
+  <span>GetLedgerApiVersion</span>
+
+
+
+</div>
+
+
+<div class="x2mdx-ref-hero">
+
+  <p class="x2mdx-ref-eyebrow">com.daml.ledger.api.v2</p>
+
+
+  <h1 class="x2mdx-ref-title">GetLedgerApiVersion</h1>
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">gRPC</span>
+
+</div>
+
+
+</div>
+
+<div class="x2mdx-ref-operation-bar">
+
+  <span class="x2mdx-ref-operation-method x2mdx-ref-operation-method--rpc">RPC</span>
+
+  <code>/com.daml.ledger.api.v2.VersionService/GetLedgerApiVersion</code>
+</div>
+
+
+## Protocol Details
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Protocol</dt>
+    <dd>gRPC</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Service</dt>
+    <dd>VersionService</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>RPC</dt>
+    <dd>GetLedgerApiVersion</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Client stream</dt>
+    <dd>No</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Server stream</dt>
+    <dd>No</dd>
+  </div>
+
+</dl>
+
+
+## Inputs
+
+
+
+<div class="x2mdx-ref-panel">
+  <div class="x2mdx-ref-panel-head">
+    <h3>GetLedgerApiVersionRequest</h3>
+
+  </div>
+
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Message</dt>
+    <dd>com.daml.ledger.api.v2.GetLedgerApiVersionRequest</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Client stream</dt>
+    <dd>No</dd>
+  </div>
+
+</dl>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+## Outputs
+
+
+
+<div class="x2mdx-ref-panel">
+  <div class="x2mdx-ref-panel-head">
+    <h3>GetLedgerApiVersionResponse</h3>
+
+  </div>
+
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Message</dt>
+    <dd>com.daml.ledger.api.v2.GetLedgerApiVersionResponse</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Server stream</dt>
+    <dd>No</dd>
+  </div>
+
+</dl>
+
+
+
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">version</code>
+      <span class="x2mdx-ref-type-badge">string</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">features</code>
+      <span class="x2mdx-ref-type-badge">FeaturesDescriptor</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+## Related Schemas
+
+<AccordionGroup>
+
+<Accordion title="com.daml.ledger.api.v2.GetLedgerApiVersionRequest">
+<div class="x2mdx-ref-schema" id="schema-com-daml-ledger-api-v2-getledgerapiversionrequest">
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.daml.ledger.api.v2.GetLedgerApiVersionResponse">
+<div class="x2mdx-ref-schema" id="schema-com-daml-ledger-api-v2-getledgerapiversionresponse">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">version</code>
+      <span class="x2mdx-ref-type-badge">string</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">features</code>
+      <span class="x2mdx-ref-type-badge">FeaturesDescriptor</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.daml.ledger.api.v2.FeaturesDescriptor">
+<div class="x2mdx-ref-schema" id="schema-com-daml-ledger-api-v2-featuresdescriptor">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">experimental</code>
+      <span class="x2mdx-ref-type-badge">ExperimentalFeatures</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">user_management</code>
+      <span class="x2mdx-ref-type-badge">UserManagementFeature</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">party_management</code>
+      <span class="x2mdx-ref-type-badge">PartyManagementFeature</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">offset_checkpoint</code>
+      <span class="x2mdx-ref-type-badge">OffsetCheckpointFeature</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">package_feature</code>
+      <span class="x2mdx-ref-type-badge">PackageFeature</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.daml.ledger.api.v2.ExperimentalFeatures">
+<div class="x2mdx-ref-schema" id="schema-com-daml-ledger-api-v2-experimentalfeatures">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">static_time</code>
+      <span class="x2mdx-ref-type-badge">ExperimentalStaticTime</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">command_inspection_service</code>
+      <span class="x2mdx-ref-type-badge">ExperimentalCommandInspectionService</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.daml.ledger.api.v2.ExperimentalStaticTime">
+<div class="x2mdx-ref-schema" id="schema-com-daml-ledger-api-v2-experimentalstatictime">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">supported</code>
+      <span class="x2mdx-ref-type-badge">bool</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.daml.ledger.api.v2.ExperimentalCommandInspectionService">
+<div class="x2mdx-ref-schema" id="schema-com-daml-ledger-api-v2-experimentalcommandinspectionservice">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">supported</code>
+      <span class="x2mdx-ref-type-badge">bool</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.daml.ledger.api.v2.UserManagementFeature">
+<div class="x2mdx-ref-schema" id="schema-com-daml-ledger-api-v2-usermanagementfeature">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">supported</code>
+      <span class="x2mdx-ref-type-badge">bool</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">max_rights_per_user</code>
+      <span class="x2mdx-ref-type-badge">int32</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">max_users_page_size</code>
+      <span class="x2mdx-ref-type-badge">int32</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.daml.ledger.api.v2.PartyManagementFeature">
+<div class="x2mdx-ref-schema" id="schema-com-daml-ledger-api-v2-partymanagementfeature">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">max_parties_page_size</code>
+      <span class="x2mdx-ref-type-badge">int32</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.daml.ledger.api.v2.OffsetCheckpointFeature">
+<div class="x2mdx-ref-schema" id="schema-com-daml-ledger-api-v2-offsetcheckpointfeature">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">max_offset_checkpoint_emission_delay</code>
+      <span class="x2mdx-ref-type-badge">Duration</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.daml.ledger.api.v2.PackageFeature">
+<div class="x2mdx-ref-schema" id="schema-com-daml-ledger-api-v2-packagefeature">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">max_vetted_packages_page_size</code>
+      <span class="x2mdx-ref-type-badge">int32</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+</AccordionGroup>
+
+
+</div>
+
+<div className="x2mdx-ref-right-rail" role="complementary" aria-label="Examples and responses">
+
+  <div className="x2mdx-ref-rail-panel">
+  <div className="x2mdx-ref-rail-code">
+<div className="x2mdx-ref-rail-head">
+  <span className="x2mdx-ref-rail-heading">grpcurl</span>
+
+</div>
+
+```bash grpcurl
+# Add -plaintext if the server is not using TLS.
+grpcurl \
+  -d @ \
+  <HOST:PORT> \
+  com.daml.ledger.api.v2.VersionService/GetLedgerApiVersion <<'EOF'
+{}
+EOF
+```
+
+</div>
+  </div>
+
+  <div className="x2mdx-ref-rail-panel">
+  <div className="x2mdx-ref-rail-code x2mdx-ref-rail-code--response">
+<div className="x2mdx-ref-rail-head">
+  <span className="x2mdx-ref-rail-heading">OK</span>
+
+  <span className="x2mdx-ref-response-label">application/json</span>
+
+</div>
+
+```json OK
+{
+  "version": "string",
+  "features": {
+    "experimental": {
+      "staticTime": {
+        "supported": true
+      },
+      "commandInspectionService": {
+        "supported": true
+      }
+    },
+    "userManagement": {
+      "supported": true,
+      "maxRightsPerUser": 0,
+      "maxUsersPageSize": 0
+    },
+    "partyManagement": {
+      "maxPartiesPageSize": 0
+    },
+    "offsetCheckpoint": {
+      "maxOffsetCheckpointEmissionDelay": "string"
+    },
+    "packageFeature": {
+      "maxVettedPackagesPageSize": 0
+    }
+  }
+}
+```
+
+</div>
+  </div>
+
+</div>
+
+</div>

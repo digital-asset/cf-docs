@@ -1,0 +1,24 @@
+```scala
+        @ source.topology.party_to_participant_mappings
+            .propose_delta(
+              party = alice,
+              adds = Seq(target.id -> ParticipantPermission.Submission),
+              store = synchronizerId,
+            )
+            res5: SignedTopologyTransaction[TopologyChangeOp, PartyToParticipant] = SignedTopologyTransaction(
+              TopologyTransaction(
+                PartyToParticipant(
+                  partyId = Alice::12201ff69b1d...,
+                  participants = Map(
+                    PAR::participant1::12201ff69b1d... -> Submission,
+                    PAR::participant2::1220a4d7463b... -> Submission
+                  )
+                ),
+                serial = 2,
+                operation = Replace,
+                hash = SHA-256:20eef8c6481f...
+              ),
+              signatures = 12201ff69b1d...,
+              proposal
+            )
+```

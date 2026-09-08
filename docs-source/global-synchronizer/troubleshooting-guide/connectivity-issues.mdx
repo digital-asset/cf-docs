@@ -1,0 +1,96 @@
+---
+title: "Connectivity Issues"
+description: "Diagnosing and resolving synchronizer connection failures and TLS errors"
+---
+
+
+import CantonGlobalSynchronizerTroubleshootingGuideConnectivityIssuesL36 from "/snippets/canton-docs/global-synchronizer_troubleshooting-guide_connectivity-issues_L36.mdx";
+import CantonGlobalSynchronizerTroubleshootingGuideConnectivityIssuesL71 from "/snippets/canton-docs/global-synchronizer_troubleshooting-guide_connectivity-issues_L71.mdx";
+import CantonGlobalSynchronizerTroubleshootingGuideConnectivityIssuesL101 from "/snippets/canton-docs/global-synchronizer_troubleshooting-guide_connectivity-issues_L101.mdx";
+
+Connectivity failures prevent your validator from communicating with the synchronizer. The symptoms vary -- from outright connection refusals to subtle TLS handshake errors -- but the diagnostic approach is consistent.
+
+## Cannot Connect to Synchronizer
+
+If your validator logs show:
+
+```
+Request failed for sequencer. Is the server running?
+```
+
+or
+
+```
+SEQUENCER_SUBSCRIPTION_LOST: Lost subscription to sequencer
+```
+
+Work through these checks in order.
+
+### 1. Verify the Sequencer URL
+
+Confirm that your configuration points to the correct sequencer endpoint for your target network:
+
+- **DevNet:** `https://sequencer.dev.sync.global`
+- **TestNet:** `https://sequencer.test.sync.global`
+- **MainNet:** `https://sequencer.sync.global`
+
+A common mistake is using the scan URL (`https://scan.sv-2...`) instead of the SV sponsor URL during onboarding. The scan URL is for read-only network data, not for validator registration.
+
+### 2. Test Network Reachability
+
+<CantonGlobalSynchronizerTroubleshootingGuideConnectivityIssuesL36 />
+
+
+If `nc` times out, a firewall or security group is blocking egress on port 443.
+
+### 3. Check Firewall and Security Groups
+
+Your validator requires outbound HTTPS on port 443 to the synchronizer. If you run in a cloud environment, verify:
+
+- The security group attached to your instance or pod allows outbound TCP/443.
+- No network ACL is blocking the traffic.
+- If you use an HTTP proxy, Canton supports proxy configuration via JVM system properties (`-Dhttps.proxyHost`, `-Dhttps.proxyPort`).
+
+## TLS Handshake Failures
+
+TLS errors typically produce log messages like:
+
+```
+io.grpc.StatusRuntimeException: UNAVAILABLE: io exception
+Channel Pipeline: [SslHandler#0, ...]
+Caused by: javax.net.ssl.SSLHandshakeException: PKIX path building failed
+```
+
+### Certificate Expiry
+
+Check whether the server certificate has expired:
+
+<CantonGlobalSynchronizerTroubleshootingGuideConnectivityIssuesL71 />
+
+
+If the certificate has expired and you control it (e.g., for your own validator's TLS termination), renew it and restart the TLS-terminating proxy or ingress controller.
+
+### CA Trust Chain
+
+If you see `PKIX path building failed`, the validator's JVM does not trust the server's certificate authority. Possible fixes:
+
+- Import the CA certificate into the JVM truststore:
+
+  ```bash
+  keytool -importcert -alias myca -file ca-cert.pem \
+    -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit
+  ```
+
+- For Kubernetes, mount the CA bundle as a volume and set `JAVA_OPTS`:
+
+  ```yaml
+  env:
+    - name: JAVA_OPTS
+      value: "-Djavax.net.ssl.trustStore=/etc/ssl/truststore.jks"
+  ```
+
+### Hostname Mismatch
+
+If the certificate's Subject Alternative Name (SAN) does not include the hostname you are connecting to, the handshake will fail. Verify with:
+
+<CantonGlobalSynchronizerTroubleshootingGuideConnectivityIssuesL101 />

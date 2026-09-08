@@ -1,0 +1,31 @@
+```haskell
+-- daml/v2/daml/Main.daml
+module Main where
+
+data LicenseInfo = LicenseInfo
+  with
+    holder : Party
+    issuer : Party
+    product : Text
+    expiryDate : Optional Time  -- NEW: optional expiry date
+  deriving (Eq, Show)
+
+template License
+  with
+    info : LicenseInfo
+  where
+    signatory info.issuer
+    observer info.holder
+
+    choice Revoke : ()
+      controller info.issuer
+      do pure ()
+
+    -- NEW: choice to renew the license with an expiry date
+    choice Renew : ContractId License
+      with
+        newExpiry : Time
+      controller info.issuer
+      do create this with
+           info = info with expiryDate = Some newExpiry
+```

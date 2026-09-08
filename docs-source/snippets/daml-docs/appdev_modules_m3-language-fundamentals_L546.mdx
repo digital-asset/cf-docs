@@ -1,0 +1,20 @@
+```haskell
+foldlA2 fn init xs =
+  let
+    work accA x = do
+      acc <- accA
+      fn acc x
+   in foldl work (pure init) xs
+
+mapA2 fn [] = pure []
+mapA2 fn (x :: xs) = do
+  y <- fn x
+  ys <- mapA2 fn xs
+  return (y :: ys)
+
+sequence2 [] = pure []
+sequence2 (x :: xs) = do
+  y <- x
+  ys <- sequence2 xs
+  return (y :: ys)
+```

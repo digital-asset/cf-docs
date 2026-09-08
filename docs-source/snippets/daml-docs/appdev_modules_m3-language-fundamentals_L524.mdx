@@ -1,0 +1,9 @@
+```haskell
+let rels =
+        [ Relationship chfbank alice
+        , Relationship chfbank bob
+        , Relationship gbpbank alice
+        , Relationship gbpbank bob
+        ]
+  [chfha, chfhb, gbpha, gbphb] <- mapA setupRelationship rels
+```

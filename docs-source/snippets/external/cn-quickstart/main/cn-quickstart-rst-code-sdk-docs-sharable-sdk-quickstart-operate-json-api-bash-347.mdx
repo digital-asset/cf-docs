@@ -1,0 +1,9 @@
+```bash
+   PROVIDER_ADMIN_TOKEN=$(curl -f -s -S "http://keycloak.localhost:8082/realms/AppProvider/protocol/openid-connect/token" \
+     -H 'Content-Type: application/x-www-form-urlencoded' \
+     -d 'client_id=app-provider-validator' \
+     -d 'client_secret=AL8648b9SfdTFImq7FV56Vd0KHifHBuC' \
+     -d 'grant_type=client_credentials' \
+     -d 'scope=openid' | jq -r .access_token)
+
+```

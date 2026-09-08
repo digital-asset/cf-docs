@@ -1,0 +1,86 @@
+---
+title: "Splice.AmuletAllocation"
+description: "Documentation for Splice.AmuletAllocation"
+---
+
+{/* COPIED_START source="splice:daml/splice-amulet/docs/Splice-AmuletAllocation.rst" tag="0.6.4" hash="2dd0a06d" */}
+
+## Templates
+
+<div id="type-splice-amuletallocation-amuletallocation-39850">
+
+**template** AmuletAllocation
+
+</div>
+
+> Amulet allocated in locked form to a trade.
+>
+> Signatory: allocationInstrumentAdmin allocation, (DA.Internal.Record.getField @"sender" (DA.Internal.Record.getField @"transferLeg" allocation))
+>
+> | Field        | Type                                                                                                                                       | Description                                           |
+> |--------------|--------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
+> | lockedAmulet | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) LockedAmulet | Locked amulet that holds the funds for the allocation |
+> | allocation   | AllocationSpecification                                                                                                                    |                                                       |
+>
+> - <div id="type-splice-amuletallocation-amuletallocationdsoexpire-72174">
+>
+>   **Choice** AmuletAllocation_DsoExpire
+>
+>   </div>
+>
+>   Controller: allocationInstrumentAdmin allocation
+>
+>   Returns: AmuletAllocation_DsoExpireResult
+>
+>   | Field      | Type                                                                                                         | Description |
+>   |------------|--------------------------------------------------------------------------------------------------------------|-------------|
+>   | expireLock | [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265) |             |
+>
+> - **Choice** Archive
+>
+>   Controller: allocationInstrumentAdmin allocation, (DA.Internal.Record.getField @"sender" (DA.Internal.Record.getField @"transferLeg" allocation))
+>
+>   Returns: ()
+>
+>   (no fields)
+
+## Data Types
+
+<div id="type-splice-amuletallocation-amuletallocationdsoexpireresult-36603">
+
+**data** AmuletAllocation_DsoExpireResult
+
+</div>
+
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) AmuletAllocation_DsoExpireResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) AmuletAllocation_DsoExpireResult
+>
+> **instance** GetField "meta" AmuletAllocation_DsoExpireResult Metadata
+>
+> **instance** GetField "results" ExternalPartyAmuletRules_ExpireAmuletAllocationsResult \[AmuletAllocation_DsoExpireResult\]
+>
+> **instance** GetField "senderHoldingCids" AmuletAllocation_DsoExpireResult \[[ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Holding\]
+>
+> **instance** SetField "meta" AmuletAllocation_DsoExpireResult Metadata
+>
+> **instance** SetField "results" ExternalPartyAmuletRules_ExpireAmuletAllocationsResult \[AmuletAllocation_DsoExpireResult\]
+>
+> **instance** SetField "senderHoldingCids" AmuletAllocation_DsoExpireResult \[[ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Holding\]
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AmuletAllocation AmuletAllocation_DsoExpire AmuletAllocation_DsoExpireResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AmuletAllocation AmuletAllocation_DsoExpire AmuletAllocation_DsoExpireResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AmuletAllocation AmuletAllocation_DsoExpire AmuletAllocation_DsoExpireResult
+
+## Functions
+
+<div id="function-splice-amuletallocation-allocationtotwosteptransfer-63709">
+
+allocationToTwoStepTransfer
+: AllocationSpecification -\> TwoStepTransfer
+
+</div>
+
+{/* COPIED_END */}

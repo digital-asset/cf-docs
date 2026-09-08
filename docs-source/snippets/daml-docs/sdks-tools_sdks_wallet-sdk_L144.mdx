@@ -1,0 +1,10 @@
+```typescript
+let startLedger = 0
+let step = 10
+
+const holdings = await sdk.tokenStandard!.listHoldingTransactions(
+    startLedger,
+    step
+)
+// Use holdings.nextOffset for subsequent calls
+```

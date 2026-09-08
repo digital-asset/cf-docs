@@ -1,0 +1,9 @@
+```haskell
+template RegulatedAsset
+  with
+    owner : Party
+    regulator : Party
+  where
+    signatory owner
+    observer regulator  -- Regulator can see but not act
+```

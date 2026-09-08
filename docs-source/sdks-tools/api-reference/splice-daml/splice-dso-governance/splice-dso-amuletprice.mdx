@@ -1,0 +1,59 @@
+---
+title: "Splice.DSO.AmuletPrice"
+description: "Documentation for Splice.DSO.AmuletPrice"
+---
+
+{/* COPIED_START source="splice:daml/splice-dso-governance/docs/Splice-DSO-AmuletPrice.rst" tag="0.6.4" hash="1c68e822" */}
+
+Templates and code for the SVs to agree on a amulet price using median-based voting.
+
+Every sv can change its desired amulet price at any time they like provided they wait at least one tick duration (2.5 minutes by default) between changes.
+
+New `OpenMiningRounds` are always openened with the median of the amulet prices voted for by the SVs.
+
+## Templates
+
+<div id="type-splice-dso-amuletprice-amuletpricevote-96658">
+
+**template** AmuletPriceVote
+
+</div>
+
+> A vote by an SV for their desired amulet price.
+>
+> Signatory: dso
+>
+> | Field         | Type                                                                                                                                                                                                                                              | Description                                                                                                  |
+> |---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+> | dso           | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                               |                                                                                                              |
+> | sv            | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                               |                                                                                                              |
+> | amuletPrice   | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) | Set to None for new svs, but defined thereafter.                                                             |
+> | lastUpdatedAt | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)                                                                                                                                 | The last time this price was updated. Tracked to limit svs from changing their vote more than once per tick. |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+
+## Functions
+
+<div id="function-splice-dso-amuletprice-fetchmedianamuletprice-30507">
+
+fetchMedianAmuletPrice
+: [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> \[[Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)\] -\> \[[ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AmuletPriceVote\] -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+</div>
+
+<div id="function-splice-dso-amuletprice-median-98146">
+
+median
+: \[[Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)\] -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+See https://en.wikipedia.org/wiki/Median
+
+</div>
+
+{/* COPIED_END */}

@@ -1,0 +1,13 @@
+```haskell
+template Account
+  with
+    bank : Party
+    owner : Party
+    accountNumber : Text
+  where
+    signatory bank
+    observer owner
+
+    key (bank, accountNumber) : (Party, Text)
+    maintainer key._1  -- bank maintains the key
+```

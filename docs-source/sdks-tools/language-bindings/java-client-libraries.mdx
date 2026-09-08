@@ -1,0 +1,35 @@
+---
+title: "Java LAPI Bindings"
+description: "Overview, installation, and reference for the Canton Java client libraries (bindings-java)."
+---
+
+{/* COPIED_START source="docs-website:docs/replicated/daml/3.4/sdk/component-howtos/application-development/client-libraries/java-client-libraries.rst" hash="6ccddace" */}
+
+# Java client libraries
+
+The Java client libraries simplify using the gRPC Ledger API. Read How to work with contracts and transactions in Java for guidance on how to use them. Read below to learn about their code architecture, installation, and reference materials.
+
+## Overview
+
+<div id="component-howtos-application-development-java-client-libraries-bindings-java">
+
+The Java client library (`bindings-java`) is a Java-idiomatic layer based on the Ledger API generated classes. This layer simplifies the code required to work with the Ledger API. It contains the `toProto` and `fromProto` methods to interact with the generated classes for the gRPC Ledger API.
+
+</div>
+
+Additionally, it provides a set of classes that represent the basic Daml data types in Java and are utilized by the Daml Codegen for Java to generate user-defined Daml code equivalent in Java.
+
+This library is implemented in the Java package `com.daml.ledger.javaapi.data`.
+
+## Install
+
+Find the available versions of the Java client libraries in the Maven Central Repository:
+
+bindings-java
+
+## References
+
+See the JavaDoc reference documentation.
+
+
+{/* COPIED_END */}

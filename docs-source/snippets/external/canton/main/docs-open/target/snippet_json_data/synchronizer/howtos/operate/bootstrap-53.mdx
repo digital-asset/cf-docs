@@ -1,0 +1,8 @@
+```scala
+@ 
+      mediator2.setup.assign(
+        physicalSynchronizerId,
+        SequencerConnections.single(sequencer2.sequencerConnection),
+      )
+      mediator2.health.wait_for_initialized()
+```

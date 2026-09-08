@@ -1,0 +1,27 @@
+```tsx
+const App: React.FC = () => {
+    const AppProviders = composeProviders(
+        ToastProvider,
+        UserProvider,
+        TenantRegistrationProvider,
+        AppInstallProvider,
+        LicenseProvider
+    );
+
+    return (
+        <AppProviders>
+            <Header />
+            <main className="container mt-4">
+                <Routes>
+                    <Route path="/" element={<HomeView />} />
+                    <Route path="/tenants" element={<TenantRegistrationView />} />
+                    <Route path="/login" element={<LoginView />} />
+                    <Route path="/app-installs" element={<AppInstallsView />} />
+                    <Route path="/licenses" element={<LicensesView />} />
+                </Routes>
+            </main>
+            <ToastNotification />
+        </AppProviders>
+    );
+};
+```

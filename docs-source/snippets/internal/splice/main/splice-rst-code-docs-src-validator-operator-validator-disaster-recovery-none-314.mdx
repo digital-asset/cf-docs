@@ -1,0 +1,8 @@
+```
+val keys = Seq("<signing-key-id-prefix>", "<encryption-key-id-prefix>").map(prefix =>
+  participant.keys.public.list().filter(_.publicKey.id.toProtoPrimitive.startsWith(prefix)).head.publicKey)
+
+val oldParticipantId = ParticipantId.fromProtoPrimitive("<old-participant-id>", "participant").toOption.get
+val otk = OwnerToKeyMapping(member = oldParticipantId, keys = NonEmpty.from(keys).get)
+participant.topology.owner_to_key_mappings.propose(otk, force = ForceFlag.AlienMember)
+```

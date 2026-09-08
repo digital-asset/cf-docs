@@ -1,0 +1,13 @@
+```haskell
+-- Any party can kick off by creating a Pending listing only themselves
+pending <- person1 `submit` do
+  createCmd Pending with finalContract; alreadySigned = [person1]
+
+-- Each party signs
+pending <- person2 `submit` do exerciseCmd pending Sign with signer = person2
+pending <- person3 `submit` do exerciseCmd pending Sign with signer = person3
+pending <- person4 `submit` do exerciseCmd pending Sign with signer = person4
+
+-- Once all have signed, any signatory can finalize
+person1 `submit` do exerciseCmd pending Finalize with signer = person1
+```

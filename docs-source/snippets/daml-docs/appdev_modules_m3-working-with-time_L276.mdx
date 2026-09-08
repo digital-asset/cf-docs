@@ -1,0 +1,13 @@
+```haskell
+choice AcceptTransfer : ContractId Coin
+      controller newOwner
+      do
+        t <- getTime
+        _ <- unless (t < timeLimit) $ failWithStatus $
+                       FailureStatus
+                         "deadline-exceeded"
+                         InvalidGivenCurrentSystemStateOther
+                         ("Ledger time is after deadline " <> show timeLimit)
+                         (TextMap.fromList [("timeLimit", show timeLimit)])
+        create coin with owner = newOwner
+```

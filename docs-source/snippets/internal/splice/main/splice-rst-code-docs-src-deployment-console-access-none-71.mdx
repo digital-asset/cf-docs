@@ -1,0 +1,20 @@
+```
+canton {
+  remote-participants {
+    participant {
+      admin-api {
+        port = 5002
+        address = participant
+      }
+      ledger-api {
+        port = 5001
+        address = participant
+      }
+      token = "<auth token>"
+    }
+  }
+  features.enable-preview-commands = yes
+  features.enable-testing-commands = yes
+  features.enable-repair-commands = yes
+}
+```

@@ -1,0 +1,29 @@
+```haskell
+iou_test = do
+  alice <- allocateParty "Alice"
+  bob <- allocateParty "Bob"
+
+  -- Alice and Bob enter into a trade.
+  -- Alice wants to give Bob an Iou, but she can't without Bob's authority.
+  submitMustFail alice do
+    createCmd Iou with
+      issuer = alice
+      owner = bob
+      cash = Cash with
+        amount = 100.0
+        currency = "USD"
+
+  -- She can issue herself an Iou.
+  iou <- submit alice do
+    createCmd Iou with
+      issuer = alice
+      owner = alice
+      cash = Cash with
+        amount = 100.0
+        currency = "USD"
+
+  -- However, she can't transfer it to Bob.
+  submitMustFail alice do
+    exerciseCmd iou Transfer with
+      newOwner = bob
+```

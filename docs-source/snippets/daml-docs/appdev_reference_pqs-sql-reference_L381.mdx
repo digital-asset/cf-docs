@@ -1,0 +1,7 @@
+```sql
+-- Determine the internal table number for your template
+select __contract_tpe4name('Token');  -- returns e.g. 14
+
+-- Then analyze
+vacuum analyze __contracts_14;
+```

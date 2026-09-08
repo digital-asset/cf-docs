@@ -1,0 +1,4 @@
+```sql
+select * from prune_to_offset(nearest_offset('2024-01-30T00:00:00Z'::timestamptz));
+select * from prune_to_offset(nearest_offset(interval '30 days'));
+```

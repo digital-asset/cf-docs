@@ -38,7 +38,11 @@ jobs:
       - name: Check JSON Ledger OpenAPI generated output
         run: >-
           nix-shell --run 'python3 scripts/generate_json_api_reference.py &&
+          npm run build &&
           git diff --exit-code --
+          docs-source/docs.json
+          docs-source/openapi/json-ledger-api/openapi.yaml
+          docs-source/reference/json-api-reference
           docs-main/docs.json
           docs-main/openapi/json-ledger-api/openapi.yaml
           docs-main/reference/json-api-reference'

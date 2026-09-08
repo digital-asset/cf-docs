@@ -1,0 +1,427 @@
+---
+title: "Environment Configuration"
+description: "Configuring DPM, project settings, and authentication for different Canton Network environments"
+---
+
+import DamlDocsAppdevModulesM5EnvironmentConfigurationL96 from "/snippets/daml-docs/appdev_modules_m5-environment-configuration_L96.mdx";
+import DamlDocsAppdevModulesM5EnvironmentConfigurationL108 from "/snippets/daml-docs/appdev_modules_m5-environment-configuration_L108.mdx";
+import DamlDocsAppdevModulesM5EnvironmentConfigurationL127 from "/snippets/daml-docs/appdev_modules_m5-environment-configuration_L127.mdx";
+import ExternalDpmMainDpmRstCodeDocsSrcPublicConfigurationYaml60 from "/snippets/dpm/dpm-rst-code-docs-src-public-configuration-yaml-60.mdx";
+
+
+Canton applications need different configurations for each environment — LocalNet, DevNet, TestNet, and MainNet. This page covers the configuration layers you work with: DPM global settings, project-level `daml.yaml`, environment variables, and authentication setup.
+
+## DPM Configuration
+
+DPM is Daml's package manager.
+
+{/* COPIED_START source="docs-website:replicated/dpm/3.5/configuration.rst" hash="dpm-config" */}
+
+`dpm` can be configured through a config file and environment variables simultaneously. Environment variables take precedence over the config file.
+
+### Config file
+
+The config file lives at `${DPM_HOME}/dpm-config.yaml`:
+
+- `registry` — Override the default location where `dpm` pulls SDKs and SDK components. Defaults to `europe-docker.pkg.dev/da-images/public` for stable releases. Use `europe-docker.pkg.dev/da-images/public-unstable` for unstable releases.
+- `registry-auth-path` — Override the default auth file for the registry.
+- `insecure` — Allow `dpm` to pull from insecure (HTTP) registries.
+
+### Environment variables
+
+These override the corresponding config file settings:
+
+- `DPM_REGISTRY` — Registry location for SDK pulls
+- `DPM_REGISTRY_AUTH` — Auth file for registry access
+- `DPM_INSECURE_REGISTRY` — Allow insecure registry connections
+- `DPM_LOG_LEVEL` — Log level for commands like `dpm install` and `dpm version` (`debug`, `info`, `error`, `warn`)
+- `DAML_PACKAGE` — Run `dpm` commands in a package context without being in its directory (e.g., `DAML_PACKAGE=/path/to/package`)
+- `DPM_SDK_VERSION` — Override the SDK version globally. This overrides the `sdk-version` in all `daml.yaml` files. It does not affect `dpm install`.
+
+{/* COPIED_END */}
+
+## Project Configuration
+
+{/* COPIED_START source="docs-website:replicated/dpm/3.5/configuration.rst" hash="project-config" */}
+
+### daml.yaml
+
+Each Daml package has a `daml.yaml` that specifies the SDK version, package name, source location, and dependencies. The `dpm build` command uses this file to resolve dependencies and compile the project.
+
+### multi-package.yaml
+
+For projects with multiple connected Daml packages, `multi-package.yaml` tells `dpm` how to find and build them:
+
+<ExternalDpmMainDpmRstCodeDocsSrcPublicConfigurationYaml60 />
+
+`dpm` builds these packages in topological order based on their dependencies.
+
+### Environment variable interpolation
+
+Both `daml.yaml` and `multi-package.yaml` support environment variable interpolation on all string fields. Use `${MY_VARIABLE}` syntax:
+
+```yaml
+sdk-version: ${SDK_VERSION}
+name: ${PROJECT_NAME}_test
+source: daml
+version: ${PROJECT_VERSION}
+dependencies:
+  - ${DEPENDENCY_DIRECTORY}/my-dependency-1.0.0.dar
+```
+
+Escape with `\` prefix: `\${NOT_INTERPOLATED}`.
+
+This is useful for extracting common values like SDK version and package version into `.envrc` files or build system variables. It also allows passing dependency DARs through environment variables, which is helpful when a build system manages DAR artifacts in a cache.
+
+{/* COPIED_END */}
+
+## Per-Environment Settings
+
+Each environment typically needs different values for a small set of configuration points. Here's a pattern for managing them.
+
+### LocalNet
+
+LocalNet is self-contained. The cn-quickstart Makefile and Docker Compose configuration handle most settings:
+
+<DamlDocsAppdevModulesM5EnvironmentConfigurationL96 />
+
+Authentication uses the bundled Keycloak instance with default users (`app-user`, `app-provider`, `sv`).
+
+### DevNet / TestNet / MainNet
+
+For shared networks, you configure connection details and authentication:
+
+<DamlDocsAppdevModulesM5EnvironmentConfigurationL108 />
+
+The Ledger API endpoints, auth provider URLs, and party identifiers differ per environment. Store these in environment-specific files (`.envrc.devnet`, `.envrc.testnet`, `.envrc.mainnet`) and load the appropriate one.
+
+## Authentication Configuration
+
+Canton validators protect the Ledger API with JWT-based authentication. Your application needs a valid token to submit commands and read transactions.
+
+### LocalNet with Keycloak
+
+The cn-quickstart LocalNet includes a pre-configured Keycloak instance. Obtain tokens through the Keycloak token endpoint:
+
+<DamlDocsAppdevModulesM5EnvironmentConfigurationL127 />
+
+### Production environments
+
+On DevNet, TestNet, and MainNet, your validator's auth provider issues tokens. The exact mechanism depends on your validator's IAM setup, but the flow is the same: your application obtains a JWT and includes it in Ledger API requests as a Bearer token.
+
+For gRPC clients, set the token as a call credential. For HTTP/JSON requests, include it in the `Authorization` header.
+
+{/* COPIED_END */}
+
+### dpm Components
+
+<Note>
+This functionality is available in dpm version 1.0.17 or later (or
+bundled with SDK 3.5.1 or later)
+</Note>
+
+`dpm` supports letting you be explicit about the default and optional `dpm` components used, and lets you specify them in a single and/or a
+multi-package project instead of relying on an sdk-version bundle.
+
+You can use _default components_ that are traditionally part of dpm SDKs, or _optional components_ you create and publish to extend the CLI.  See [Publishing Components](/sdks-tools/cli-tools/dpm#publishing-components-to-an-oci-repository) to author your own extensions.
+
+You can find out the available versions for components in the [public da-images registry](https://console.cloud.google.com/artifacts/docker/da-images/europe/public?project=da-images),
+or by running `dpm tags` (see the [Listing tags](/sdks-tools/cli-tools/dpm#listing-available-tags-and-versions-in-an-oci-repository) docs for details)
+
+Example of using `dpm tags` to find the avaliable versions of `damlc` in the [public da-images registry](https://console.cloud.google.com/artifacts/docker/da-images/europe/public?project=da-images):
+
+```shell
+dpm tags oci://europe-docker.pkg.dev/da-images/public/components/damlc
+3.5.2
+3.5.2.darwin_amd64
+3.5.2.darwin_arm64
+3.5.2.linux_amd64
+3.5.2.linux_arm64
+3.5.2.windows_amd64
+...
+```
+
+The following is an example illustrating the use of explicitly specifying default components to use in a `daml.yaml` project file which can be used to pin default component:
+``` yaml
+# daml.yaml
+
+components:
+  # damlc is a component bundled in SDK version 3.5.2 that is now explicitly set in the project
+  - damlc:3.5.2
+  # daml-script is a component bundled in SDK version 3.5.2 that is now explicitly set in the project
+  - daml-script:3.5.2
+```
+
+The following is an example illustrating the use of explicitly specifying default components to use in a multi-package project `multi-package.yaml` which would implicitly be used by all the downstream Daml projects:
+``` yaml
+# multi-package.yaml
+
+packages:
+  - ./daml-pkg-1
+  - ./daml-pkg-2
+
+components:
+  # damlc is a component bundled in SDK version 3.5.2 that is now explicitly set in the project
+  - damlc:3.5.2
+  # daml-script is a component bundled in SDK version 3.5.2 that is now explicitly set in the project
+  - daml-script:3.5.2
+```
+
+#### SDK components
+
+The following components that are bundled by default can be explicitly specified:
+
+| Name | Description |
+| --- | --- |
+| canton-open-source | Canton open source sandbox / JAR |
+| codegen | Java and Typescript codegen |
+| damlc | The Daml compiler |
+| daml-new | Daml new project templates |
+| daml-script | Daml scripting and testing |
+| upgrade-check | Smart Contract Upgrade (SCU) checker |
+| scribe | Participant Query Store |
+| daml-shell | Shell to interact with the Participant Query Store |
+
+
+#### in single-package projects
+
+The following examples show how to specify components for different usecases:
+
+- Specifying default components sourced from [public da-images registry](https://console.cloud.google.com/artifacts/docker/da-images/europe/public?project=da-images):
+``` yaml
+# daml.yaml
+
+components:
+  # component "damlc" at version 3.5.2 explicitly
+  - damlc:3.5.2
+  # component "daml-script" at version 3.5.2 explicitly
+  - daml-script:3.5.2
+```
+
+- Specifying a component from an external OCI registry
+``` yaml
+# daml.yaml
+
+components:
+  # custom component "foo" from an external registry
+  - oci://example.com/some/path/foo:1.2.3
+```
+
+- Specifying a component from a local filesystem
+``` yaml
+# daml.yaml
+
+components:
+  # a codegen-python component present locally on the filesystem
+  - name: codegen-python
+    path: ../path/to/component/directory
+```
+
+#### in multi-package projects
+
+For multi-package projects, you should specify the `components` yaml
+object in `multi-package.yaml`. This applies the specified components to
+all packages.
+
+``` yaml
+# multi-package.yaml
+
+packages:
+  - ./daml-pkg-1
+  - ./daml-pkg-2
+
+components:
+  # adding default components damlc and daml-script
+  - damlc:3.5.2
+  - daml-script:3.5.2
+
+  # adding component "foo"
+  - oci://example.com/some/path/foo:1.2.3@sha256:a1d6c42f8b80842b71c05152c20fb21e351666b9a07ee0d4e22dfe47ae9a3dbb
+
+  # component present locally on the filesystem
+  - name: codegen-java
+    path: ../path/to/component/directory
+```
+
+In multi-package projects, dpm gives precedence to `daml.yaml` components over the ones specified in `multi-package.yaml`. In the following example:
+
+``` yaml
+# multi-package.yaml
+
+packages:
+  - ./daml-pkg-1
+
+components:
+  # adding default components damlc and daml-script
+  - damlc:3.5.1
+  - daml-script:3.5.1
+```
+
+``` yaml
+# ./daml-pkg-1/daml.yaml
+
+components:
+  # adding default components damlc and daml-script
+  - damlc:3.5.2
+```
+The project in the `./daml-pkg-1` directory will use `damlc:3.5.2` instead of the `damlc:3.5.1` specified in the parent `multi-package.yaml`
+
+
+You can optionally also specify the `components` field in a package's individual `daml.yaml`, giving you the flexibility to have
+different components for different packages in the multi-package project.
+
+#### Adding and updating components via `dpm add` / `dpm update`
+
+<Note>
+`dpm add`, `dpm update`, and support for `oci://` components that have `@sha256` or rolling tags is available in DPM version 1.0.20 or later (or
+bundled with SDK 3.5.2 or later)
+</Note>
+
+You can add an `oci://` component to your project via:
+```shell
+dpm add component oci://example.com/some/path/foo:latest
+```
+This will install the specified component to your local machine and add a pinned reference to that component in your`daml.yaml` or `multi-package.yaml` for you (depending on where you run the command from):
+
+Example configuration before running `dpm add component oci://example.com/some/path/foo:latest`
+``` yaml
+# daml.yaml
+components:
+  - damlc:3.5.2
+  - daml-script:3.5.2
+```
+
+Example configuration after running `dpm add component oci://example.com/some/path/foo:latest`
+
+``` yaml
+# daml.yaml
+components:
+  - damlc:3.5.2
+  - daml-script:3.5.2
+  # added via `dpm add component`
+  - oci://example.com/some/path/foo:latest@sha256:a1d6c42f8b80842b71c05152c20fb21e351666b9a07ee0d4e22dfe47ae9a3dbb
+```
+
+To know what tags are available for a component, see [Listing tags](/sdks-tools/cli-tools/dpm#listing-available-tags-and-versions-in-an-oci-repository).
+
+To update a project's components that use rolling tags (e.g. `:latest`), run:
+```shell
+dpm update
+```
+This will similarly install and update your `daml.yaml` / `multi-package.yaml`, as well as applying/updating SHAs, by making changes to the file and saving the file
+
+Example configuration before running `dpm update` with a rolling tag specified:
+``` yaml
+components:
+  # foo component with a rolling tag and outdated sha
+  - oci://example.com/some/path/foo:latest@sha256:a1d6c42f8b80842b71c05152c20fb21e351666b9a07ee0d4e22dfe47ae9a3dbb
+```
+
+Example configuration after running `dpm update`:
+``` yaml
+components:
+  # foo component with a rolling tag and updated sha
+  - oci://example.com/some/path/foo:latest@sha256:7bbb16fd80bac53192b71efd83e9725c9af74cd55978f1ecaea631c4692762bf
+```
+
+
+Currently, this feature only supports components that use fully-qualified URIs that begin with 'oci://` URIs.
+
+#### Installation
+
+Components specified in `components` must be installed by running
+
+``` shell
+dpm install
+```
+in a directory containing the `daml.yaml` or `multi-package.yaml`
+
+For the following example:
+``` yaml
+# daml.yaml
+components:
+  - damlc:3.5.2
+  - daml-script:3.5.2
+```
+Running `dpm install package` in the directory containing the `daml.yaml` will download and save the component artifacts locally
+
+<Warning>
+
+Listing the components you require in your `components` block allows you to include only the specific components that your project requires. The
+sdk-version field will pull the bundle of all default components, whether you require them or not. You can specify either sdk-version 
+or components in your multi-package.yaml or daml.yaml files, but not both simultaneously.
+
+</Warning>
+
+<Note>
+Beginning with SDK version 3.5, the `override-components` field has been
+deprecated in favor of the `components` field.
+</Note>
+
+
+### Remote Dars
+
+<Note>
+Support for remote dar dependencies from an OCI repository is available in DPM version `1.0.20` or later (or
+bundled with SDK `3.5.2` or later)
+</Note>
+
+Given the following `daml.yaml`:
+``` yaml
+# daml.yaml
+components:
+  - damlc:3.5.2
+  - daml-script:3.5.2
+```
+
+You can add a dependency on a dar stored in an OCI repository using the `dpm add dar` command using a specified version or rolling tag (ie. `my-package:latest`):
+```shell
+dpm add dar --dependencies oci://example.com/my/dars/my-package:1.2.3
+```
+
+Resulting `daml.yaml`
+``` yaml
+# daml.yaml
+dependencies:
+  - oci://example.com/my/dars/my-package:1.2.3@sha256:82a5467ac5bf4ed78415dee71f7af587a9e7a8f5e26f3f7dd938fbb8a8d09211
+components:
+  - damlc:3.5.2
+  - daml-script:3.5.2
+```
+
+or add a dependency on a dar stored in an OCI repository as a data-dependency:
+
+```shell
+dpm add dar --data-dependencies oci://example.com/my/dars/my-package:1.2.3
+```
+
+Resulting `daml.yaml`
+``` yaml
+# daml.yaml
+data-dependencies:
+  - oci://example.com/my/dars/my-package:1.2.3@sha256:82a5467ac5bf4ed78415dee71f7af587a9e7a8f5e26f3f7dd938fbb8a8d09211
+components:
+  - damlc:3.5.2
+  - daml-script:3.5.2
+```
+
+This will pull the dar and update your `daml.yaml`'s `dependencies` or `data-dependencies` field (see the [Building and Packaging](/appdev/modules/m3-building-packaging#how-to-depend-on-daml-packages) docs for details on these two fields)
+
+To know what version tags are available for a dar, see [Listing tags](/sdks-tools/cli-tools/dpm#listing-available-tags-and-versions-in-an-oci-repository).
+
+To install any missing remote dars specified in your `daml.yaml`, you can run:
+```shell
+dpm install
+```
+
+Also, you can update remote dars that have rolling tags (e.g. `:latest`) in your project via:
+```shell
+dpm update
+```
+
+See the docs section on [Publishing Dars](/sdks-tools/cli-tools/dpm#publishing-dars-to-an-oci-repository) to learn how to publish your own `oci://` dars
+
+## Next Steps
+
+- [Deployment Progression](/appdev/modules/m5-deployment-progression) — Environment differences and promotion checklist
+- [CI/CD Integration](/appdev/modules/m5-ci-cd-integration) — Using environment configuration in automated pipelines

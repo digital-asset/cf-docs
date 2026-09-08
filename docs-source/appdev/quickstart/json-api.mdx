@@ -1,0 +1,610 @@
+---
+title: "Using the JSON Ledger API"
+description: "Use the JSON Ledger API within the Canton Network quickstart."
+---
+
+import DamlSdksToolsDevelopmentToolsLocalnetL197 from "/snippets/daml-docs/sdks-tools_development-tools_localnet_L197.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText38 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-text-38.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash132 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-132.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash147 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-147.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash156 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-156.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText166 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-text-166.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText172 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-text-172.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash178 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-178.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash192 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-192.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash213 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-213.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiJson227 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-json-227.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText241 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-text-241.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText247 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-text-247.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash258 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-258.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash268 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-268.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiJson277 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-json-277.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash295 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-295.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash315 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-315.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText326 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-text-326.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash335 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-335.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash347 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-347.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash358 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-358.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash370 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-370.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiNone402 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-none-402.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText415 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-text-415.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText434 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-text-434.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash452 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-452.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash461 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-461.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash473 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-473.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText504 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-text-504.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText511 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-text-511.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash521 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-521.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash532 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-532.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash539 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-539.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText552 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-text-552.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash561 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-561.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash567 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-567.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash580 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-580.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText589 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-text-589.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash609 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-609.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiNone645 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-none-645.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiNone651 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-none-651.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash658 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-658.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash667 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-667.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash673 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-673.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash680 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-680.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash687 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-687.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash697 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-697.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash722 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-722.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash728 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-728.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText770 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-text-770.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash779 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-779.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash797 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-797.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash808 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-808.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash908 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-908.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash917 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-917.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash933 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-933.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash946 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-946.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash956 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-956.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash963 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-963.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash976 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-976.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiNone988 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-none-988.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash1122 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-1122.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash1130 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-1130.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash1140 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-1140.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash1150 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-1150.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash1156 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-1156.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash1162 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-1162.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash1012 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-json-api-bash-1012.mdx";
+
+{/* COPIED_START source="docs-website:docs/replicated/quickstart/3.4/sdk/quickstart/operate/json-api.rst" hash="db5d73c4" */}
+
+# Using the JSON Ledger API
+
+## Overview
+
+You are ready to extend the CN Quickstart to interact directly with your LocalNet. You'll learn how to programmatically create parties, upload DARs, create contracts, and integrate with Canton Coin (Amulet) using OAuth2 authentication against your running LocalNet. By the end, you'll have the hands-on experience with critical API patterns needed to build your own Canton Network applications.
+
+## Prerequisites
+
+This guide requires the Daml Package Manager. Follow installation instructions at [DPM](/sdks-tools/cli-tools/dpm).
+
+You should have also finished the Quickstart installation and Explore the demo tutorial. We also recommend reading the developer journey lifecycle to better understand how Quickstart bootstraps your Canton Network development by providing the tooling you will need for any CN app.
+
+## LocalNet interaction expectations vs Explore the demo (using app vs developer skills)
+
+In the demo, you interacted with LocalNet through the web interface as a user. Now you'll take control of LocalNet directly through APIs, learning to programmatically manage the network infrastructure that will become your foundation for building on ScratchNet, TestNet, and beyond.
+
+## Project directory structure
+
+The CN Quickstart contains the following directory structure:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText38 />
+
+The licensing contracts live in `daml/licensing/`; in this tutorial you'll exercise them through the JSON Ledger API.
+
+## LocalNet env & auth
+
+### Env verification
+
+The Quickstart application should be built and running. Verify that all services are operational in the terminal with `make status`.
+
+![Make status](/images/docs_website/terminal-make-status.png)
+
+### Port mappings
+
+#### Security consideration
+
+The port mappings for `LocalNet` expose the `AdminAPI` port and the `Postgres` port, both of which would normally be a security risk. However, having direct access to these ports when running on a local developer's machine can be useful. These ports should not be exposed when preparing deployment configurations for non-local deployments. The port suffixes are defined as environment variables. For any port mappings you wish to disable, you can find and remove the relevant Docker `port`: entry in the appropriate file.
+
+#### JSON API ports
+
+(2975, 3975, 4975): Daml ops and smart contract deployment
+
+#### Validator API ports
+
+(2903, 3903, 4903): status monitoring
+
+### OAuth2 & token mgmt
+
+#### Overview
+
+LocalNet uses Keycloak at [http://keycloak.localhost:8082](http://keycloak.localhost:8082) for OAuth2 authentication with two realms: `AppUser` and `AppProvider`.
+Login to [Keycloak](/appdev/quickstart/deploy-to-devnet#keycloak) at this port by using the username and password `admin`.
+
+![Keycloak admin login](/images/docs_website/keycloak-admin-login.png)
+
+## JSON API Tutorial
+
+In this tutorial, you're making API calls to simulate the steps taken in the Quickstart web app by requesting JWT tokens, then include them as Bearer tokens in API calls. Start the application and tools from the `quickstart/` directory.
+
+### Begin capture logs
+
+`make capture-logs`
+
+Allow capture logs to run in its terminal window. In a new terminal window, run the Quickstart application with `make start`. Once complete, this can become your working terminal window. After `make start` completes, open a new terminal window to initiate lnav. Start lnav with `lnav logs/*.clog` to capture and analyze logs. If there are no clogs you might try running `make stop && make clean-all` then rerunning `make start`. Alternatively, you can begin this guide to make transactions on the ledger. This should cause clogs to self-generate. This command launches lnav to trace transactions, debug issues, and monitor system behavior as you work. Keep lnav running in its terminal window.
+
+#### Lnav Guidance
+
+For detailed guidance on navigating lnav, and understanding the custom format, see [Debugging and troubleshooting with lnav](/appdev/quickstart/lnav).
+
+### Get a Token
+
+Use the AppUser validator client to get a token.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash132 />
+
+(client_secret is set in oauth2.env and AppUser-realm.json)
+
+An empty return indicates success.
+
+Verify the token
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash147 />
+
+### Use the token
+
+List existing parties and include the token in API requests
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash156 />
+
+### View Party and DSO activity in lnav
+
+View Party activity in lnav with the `filter-in` command followed by the app provider or app user IDs.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText166 />
+
+You can also view DSO activity in lnav using the DSO ID.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText172 />
+
+Save the `party` values for `app-provider` as APP_PROVIDER_PARTY and `app-user` as APP_USER_PARTY.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash178 />
+
+### Save the DSO Party
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash192 />
+
+You're now ready to make authenticated JSON API calls to your LocalNet.
+
+### Token management troubleshooting
+
+Tokens expire after a period. If API calls return `Cannot iterate over null` or `401 Unauthorized`, regenerate your token with the command above. For production patterns, see `quickstart/docker/modules/splice-onboarding/docker/utils.sh` for token management utilities.
+
+## Create a party
+
+Create a new party on the AppUser validator.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash213 />
+
+You can use any name as the `partyIdHint` value. Canton may append additional characters for uniqueness.
+
+Success Response:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiJson227 />
+
+### See the new participant Alice in lnav
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText241 />
+
+or
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText247 />
+
+### Troubleshoot common party creation issues
+
+`A security-sensitive error has been received` or `401 Unauthorized`: Token expired - regenerate with the OAuth2 command
+
+`INVALID_ARGUMENT`, `Party already exists`, or `400 Bad Request`: Party might already exist - check with:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash258 />
+
+## Upload a DAR
+
+Upload the prebuilt licensing DAR to the validator.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash268 />
+
+Success looks like:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiJson277 />
+
+### DAR Upload issues
+
+404 Not Found: Verify DAR path is correct from your current directory 413 Payload Too Large: DAR exceeds size limit 409 Conflict: Package already uploaded curl: (52) Empty reply from server: Network issue - retry Check lnav for detailed upload logs and any processing errors.
+
+## Create a contract on LocalNet
+
+Inspect the DAR to find the package hash. Find and save the package ID, a 64-character hex string.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash295 />
+
+We suggest copying and pasting this command for your convenience. If you choose to type it out, you may need to type the full directory without the use of autocomplete.
+
+The desired value may vary between SDK versions. You can identify the main package by the project name in the package list.
+
+The format follows:
+
+``` text
+<project-name>-<version>-<package-id>
+```
+
+At the time of publication, the repeating string of `b59ffbf847ac36fee1a4a743864274c5d8ab6f02ea8899f49fb5347e9978543f` is the project ID that we seek.
+
+Alternatively, if you're querying the `quickstart-licensing` DAR, as we do in this tutorial, you can quickly grep and save the project ID with:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash315 />
+
+If you'd like to query a different DAR then change the file path.
+
+### See the DAR activity in `lnav` by filtering the package ID
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText326 />
+
+### Create the Contract
+
+Renew your token to query the participant:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash335 />
+
+### Get PROVIDER_ADMIN_TOKEN
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash347 />
+
+Get the user token:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash358 />
+
+Create the `AppInstallRequest`:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash370 />
+
+The return shows your first contract made on LocalNet via the JSON API ledger!
+
+The return looks something like:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiNone402 />
+
+updateId: A unique identifier for this ledger update/transaction. You can use this to track this specific operation in logs. completionOffset: The position in the ledger where this transaction was committed. For example, 1666 means this was the 1,666th transaction on this participant.
+
+See the contract creation in lnav by filtering for `AppInstallRequest` or filter by the `updateId` value.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText415 />
+
+The results show detailed information including the trace IDs. Trace IDs can be used to follow related activity throughout the complete business operation.
+
+![lnav AppInstallRequest](/images/docs_website/lnav-appinstallrequest.png)
+
+In this screenshot, `deb9fe66dfb7990e5268f3690dbe53e8` and `61af0b8172d45909f9f8e8c5c4d46f16` are examples of trace IDs.
+
+### Access the contract in daml shell
+
+Open `daml shell` to query for the created contract. In a new terminal window, from the `quickstart/` directory run `make shell`
+
+Query the `AppInstallRequest` contract:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText434 />
+
+![daml shell AppInstallRequest active](/images/docs_website/shell-appinstallrequest-active.png)
+
+Use the displayed portion of the contract ID to display the contract details.
+
+In `daml shell` run the command contract followed by your unique Contract ID. In this case: `contract 0044e9b` until there are no other contract options. Press tab to complete the contract ID and enter to see the contract details.
+
+![daml shell AppInstallRequest contract](/images/docs_website/shell-appinstallrequest-contract.png)
+
+Copy and save the contract ID to a new `INSTALL_REQ_CID` variable in the previous working terminal.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash452 />
+
+### Find the AppInstallRequest contract
+
+Get the provider user token as a password grant for party rights.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash461 />
+
+Exercise the Accept choice on the first contract:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash473 />
+
+SUCCESS looks like
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText504 />
+
+### See the contract in lnav
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText511 />
+
+You can exercise the accept choice exactly once. After that you will receive an error because the contract has been accepted.
+
+### Generate a token for the app provider
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash521 />
+
+Check if `app-provider` user exists
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash532 />
+
+If the `app-provider` user exists, get the party and verify it's set (if it fails review the previous steps):
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash539 />
+
+The `APP_PROVIDER_USER_ID` should equal the "id" value.
+
+### Return to `daml shell` to query for the `AppInstall` contract ID
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText552 />
+
+Use the `contract` command as before to isolate and copy the complete contract id.
+
+### Back to the shell terminal
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash561 />
+
+You may verify that all of your variables are set:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash567 />
+
+### Check that the token is valid
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash580 />
+
+A valid token shows the provider token meta data.
+
+An invalid token may show "a security-sensitive error has been received"
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText589 />
+
+If needed, regenerate the session and then check that the token is valid, again.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash461 />
+
+### Exercise the CreateLicense choice
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash609 />
+
+If you see an error "Contract could not be found with id then you have assigned an incorrect contract ID to a contractId variable.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiNone645 />
+
+Success returns a new updateId and completionOffset.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiNone651 />
+
+### See the AppInstall request in lnav
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash658 />
+
+### Get the License contract ID in daml shell
+
+Return to `daml shell` to get the License contract ID.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash667 />
+
+Copy the complete contract ID and return to the previous working terminal.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash673 />
+
+### Save the license contract ID in a variable
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash680 />
+
+### Generate a unique renewal request
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash687 />
+
+### Set the license extension
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash697 />
+
+### Create the license renewal request
+
+If you receive a "security-sensitive error has been received" then renew the token as before.
+
+As a sanity check you may preemptively renew the token.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash461 />
+
+### Set the COMMAND_ID variable
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash722 />
+
+You have 15 minutes to allocate tokens and 30 minutes to complete the renewal request.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash728 />
+
+Success looks like:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiText770 />
+
+### LicenseRenewalRequest
+
+Return to daml shell to get the `LicenseRenewalRequest` contract ID
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash779 />
+
+Execute the contract command to see the `LicenseRenewalRequest` contract details.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash673 />
+
+![LicenseRenewalRequest contract payload](/images/docs_website/json-api-payload.png)
+
+Take note of the `Payload` field. You'll use the metadata values to send the payment allocation in a future step.
+
+Go back to the terminal and create a new `RENEWAL_REQ_CID` variable
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash797 />
+
+### Return to the `daml shell`
+
+`LicenseRenewalRequest` implements the `AllocationRequest interface`.
+
+The user must allocate 100 CC tokens to satisfy the payment.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash808 />
+
+If the return shows "\<empty\>", wait a couple minutes and try again. (It can take up to 15 minutes). This is normal Canton Network behavior due to how the Participant Query Store (PQS) works. Before the holding, or any other on-ledger activity shows in the `daml shell`, the transaction must be processed on the ledger, PQS polls the participant for new events and updates its database, and after the sync completes the queries return the new data.
+
+The value in `amount` needs to be more than 100 to complete this step.
+
+In LocalNet, the Canton Wallet automatically replenishes tokens in each round. If your amount shows less than 100, then you most likely only need to wait a few minutes for the wallet to build up to a satisfactory amount.
+
+Optional: If you'd like to view more details, call the Holding contract ID.
+
+Navigate to the Canton Wallet UI at [http://wallet.localhost:2000/allocations](http://wallet.localhost:2000/allocations)
+
+Log in as `app-user` with password `abc123`
+
+In the demo, the allocation was completed for you via backend processes in the web app. Now, we need to fill out the allocation request manually
+
+You need to manually create an allocation for the daml shell allocation contract even if the UI shows an allocation request.
+
+![Create allocation manually](/images/docs_website/json-api-create-allocation.png)
+
+Use the `Payload` metadata mentioned above to fill in all the fields surrounded by red.
+
+- **Transfer Leg ID:** `licenseFeePayment`
+- **Settlement Ref ID:** `settlementRef.id`
+- **Recipient:** `receiver`
+- **Executor:** `executor`
+- **Amount:** `100`
+- **Requested At:** `requestedAt`
+- **Settle before:** `settleBefore`
+- **Allocate before:** `allocateBefore`
+
+Add two custom entries for the Settlement meta and Transfer leg meta, each.
+
+- **Key:** `cn-quickstart.example.org/licenseNum`
+- **Value:** `1`
+- **Key:** `splice.lfdecentralizedtrust.org/reason`
+- **Value:** `License renewal payment`
+
+Do NOT wrap values in quotes. Canton Wallet adds escaped quotes.
+
+Both key value pairs go in both meta options.
+
+To find the necessary information, look at the LicenseRenewalRequest contract `payload` field in daml shell.
+
+For the times `Requested At`, `Settle before`, and `Allocate before`, you will need to manually enter a "." before the "Z" followed by six (6) "0"s.
+
+For example, `requestedAt: 2025-10-29T20:38:16Z` becomes `2025-10-29T20:38:16.000000Z`
+
+Send the request once all information is complete.
+
+### Regenerate the provider token in case of security-sensitive errors
+
+Tokens automatically expire over time. This is a security measure and no fault of your own if you experience such errors.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash461 />
+
+### Return to the terminal and get a user token
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash358 />
+
+### Look up the Allocation Contract ID
+
+Query for the allocation in `daml shell`
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash908 />
+
+Save the allocation contract ID as ALLOCATION_CID="###"
+
+Double check that the license renewal request, allocation , and license contract IDs are different. You may verify contract ID variables with values in `daml shell`.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash917 />
+
+### Renew the token
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash933 />
+
+### Generate a unique command ID
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash946 />
+
+### Set the endpoint path to connect to the backend service to complete the license renewal
+
+A backend service is required for this step because the DSO and the user exchange information stored in `lockedAmulet`. This information is not available to the Provider and therefore cannot be accessed via the daml shell.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash956 />
+
+### Create a variable for the request body
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash963 />
+
+### Make the request to complete the license renewal
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash976 />
+
+Success ends in a `licenseId`
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiNone988 />
+
+After successful execution, return to daml shell and run a contract command using the new `licenseId` that was just returned to you.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash673 />
+
+In the `Payload` field, notice that the `expiresAt` value is set for 30 days in the future.
+
+Congratulations! You've made a complete business operation in the Quickstart application using JSON API (with minimal help from the backend service to collect information not available in PQS for `complete-renewal`).
+
+## Appendix
+
+### User token and IDs cookbook
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash1012 />
+
+### Additional ports the default setup exposes
+
+**Ledger API ports** (2901, 3901, 4901): Canton Ledger API access
+
+**Admin API ports** (2902, 3902, 4902): system administration
+
+### Health checks
+
+You can find the health check endpoints for each validator in `quickstart/docker/modules/localnet/docker/splice/health-check.sh`.
+
+Empty responses indicate healthy services.
+
+<DamlSdksToolsDevelopmentToolsLocalnetL197 />
+
+### Access admin ports
+
+Admin ports are defined in `quickstart/docker/modules/localnet/compose.yaml`
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash1122 />
+
+### Show the Daml ledger API claims in your token
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash1130 />
+
+### How to discover the user and provider IDs
+
+AppUser and AppProvider validator, wallet admin, and other IDs are located in their respective oauth2.env files.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash1140 />
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash1150 />
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash1156 />
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateJsonApiBash1162 />
+
+
+{/* COPIED_END */}

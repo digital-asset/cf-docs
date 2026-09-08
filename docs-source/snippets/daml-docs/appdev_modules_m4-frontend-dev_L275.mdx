@@ -1,0 +1,29 @@
+```typescript
+export default defineConfig(({ mode }: ConfigEnv) => {
+    const env = loadEnv(mode, '../');
+    const backendPort = env.VITE_BACKEND_PORT || 8080;
+    return {
+        plugins: [react(), ViteYaml()],
+        server: {
+            host: 'localhost',
+            strictPort: true,
+            allowedHosts: ['app-provider.localhost'],
+            proxy: {
+                '/api': {
+                    target: `http://localhost:${backendPort}/`,
+                    changeOrigin: false,
+                    rewrite: path => path.replace(/^\/api/, ''),
+                },
+                '/login': {
+                    target: `http://localhost:${backendPort}/`,
+                    changeOrigin: false,
+                },
+                '/oauth2': {
+                    target: `http://localhost:${backendPort}/`,
+                    changeOrigin: false,
+                },
+            },
+        },
+    }
+});
+```

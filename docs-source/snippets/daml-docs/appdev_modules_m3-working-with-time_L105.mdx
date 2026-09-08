@@ -1,0 +1,7 @@
+```haskell
+choice AcceptTransfer : ContractId Coin
+      controller newOwner
+      do
+        assertWithinDeadline "time-limited-transfer" timeLimit
+        create coin with owner = newOwner
+```

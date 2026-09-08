@@ -1,0 +1,8 @@
+```haskell
+choice SwapAssets : (ContractId Asset, ContractId Asset)
+  controller partyA
+  do -- Both transfers happen atomically
+     newAssetForB <- exercise assetFromA Transfer with newOwner = partyB
+     newAssetForA <- exercise assetFromB Transfer with newOwner = partyA
+     pure (newAssetForA, newAssetForB)
+```

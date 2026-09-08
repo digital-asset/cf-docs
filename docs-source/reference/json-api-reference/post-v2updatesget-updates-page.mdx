@@ -1,0 +1,4508 @@
+---
+title: "POST /v2/updates/get-updates-page"
+description: "Read a page of ledger's filtered updates. It returns the event types in accordance with the specified contents and filters. Additionally, the selection criteria for individual events depends on the transaction shape chosen. - ACS delta: an event is included only if the requesting party is a stakeholder. - ledger effects: an event is included if the requesting party is a witness."
+api: "POST http://localhost:7575/v2/updates/get-updates-page"
+authMethod: "bearer"
+playground: "interactive"
+sidebarTitle: "/v2/updates/get-updates-page"
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--operation x2mdx-ref-page--manual-api"></div>
+
+
+
+<div class="x2mdx-ref-hero">
+
+
+
+  <p class="x2mdx-ref-summary">Read a page of ledger&#x27;s filtered updates. It returns the event types in accordance with the specified contents and filters. Additionally, the selection criteria for individual events depends on the transaction shape chosen. - ACS delta: an event is included only if the requesting party is a stakeholder. - ledger effects: an event is included if the requesting party is a witness.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">OpenAPI</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--added" href="#history-added-3-5">Added 3.5</a>
+
+</div>
+
+
+</div>
+
+
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url 'http://localhost:7575/v2/updates/get-updates-page' \
+  --header 'Authorization: Bearer $TOKEN' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "beginOffsetExclusive": 123,
+  "endOffsetInclusive": 123,
+  "maxPageSize": 123,
+  "updateFormat": {
+    "includeTransactions": {
+      "eventFormat": {
+        "filtersByParty": {},
+        "filtersForAnyParty": {
+          "cumulative": [
+            "<object>"
+          ]
+        },
+        "verbose": false
+      },
+      "transactionShape": "TRANSACTION_SHAPE_UNSPECIFIED"
+    },
+    "includeReassignments": {
+      "filtersByParty": {},
+      "filtersForAnyParty": {
+        "cumulative": [
+          {
+            "identifierFilter": "<object>"
+          }
+        ]
+      },
+      "verbose": false
+    },
+    "includeTopologyEvents": {
+      "includeParticipantAuthorizationEvents": {
+        "parties": [
+          "<string>"
+        ]
+      }
+    }
+  },
+  "descendingOrder": false,
+  "pageToken": "<string>"
+}'
+```
+
+```python Python
+import json
+import requests
+
+url = "http://localhost:7575/v2/updates/get-updates-page"
+headers = {'Authorization': 'Bearer <token>', 'Content-Type': 'application/json'}
+payload = json.loads(r'''{
+  "beginOffsetExclusive": 123,
+  "endOffsetInclusive": 123,
+  "maxPageSize": 123,
+  "updateFormat": {
+    "includeTransactions": {
+      "eventFormat": {
+        "filtersByParty": {},
+        "filtersForAnyParty": {
+          "cumulative": [
+            "<object>"
+          ]
+        },
+        "verbose": false
+      },
+      "transactionShape": "TRANSACTION_SHAPE_UNSPECIFIED"
+    },
+    "includeReassignments": {
+      "filtersByParty": {},
+      "filtersForAnyParty": {
+        "cumulative": [
+          {
+            "identifierFilter": "<object>"
+          }
+        ]
+      },
+      "verbose": false
+    },
+    "includeTopologyEvents": {
+      "includeParticipantAuthorizationEvents": {
+        "parties": [
+          "<string>"
+        ]
+      }
+    }
+  },
+  "descendingOrder": false,
+  "pageToken": "<string>"
+}''')
+response = requests.request(
+    "POST", url, headers=headers, json=payload
+)
+
+print(response.text)
+```
+
+```javascript JavaScript
+const response = await fetch('http://localhost:7575/v2/updates/get-updates-page', {
+  method: 'POST',
+  headers: {
+  "Authorization": "Bearer <token>",
+  "Content-Type": "application/json"
+},
+  body: JSON.stringify({
+  "beginOffsetExclusive": 123,
+  "endOffsetInclusive": 123,
+  "maxPageSize": 123,
+  "updateFormat": {
+    "includeTransactions": {
+      "eventFormat": {
+        "filtersByParty": {},
+        "filtersForAnyParty": {
+          "cumulative": [
+            "<object>"
+          ]
+        },
+        "verbose": false
+      },
+      "transactionShape": "TRANSACTION_SHAPE_UNSPECIFIED"
+    },
+    "includeReassignments": {
+      "filtersByParty": {},
+      "filtersForAnyParty": {
+        "cumulative": [
+          {
+            "identifierFilter": "<object>"
+          }
+        ]
+      },
+      "verbose": false
+    },
+    "includeTopologyEvents": {
+      "includeParticipantAuthorizationEvents": {
+        "parties": [
+          "<string>"
+        ]
+      }
+    }
+  },
+  "descendingOrder": false,
+  "pageToken": "<string>"
+}),
+});
+
+console.log(await response.text());
+```
+
+```php PHP
+<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => 'http://localhost:7575/v2/updates/get-updates-page',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS => <<<'JSON'
+{
+  "beginOffsetExclusive": 123,
+  "endOffsetInclusive": 123,
+  "maxPageSize": 123,
+  "updateFormat": {
+    "includeTransactions": {
+      "eventFormat": {
+        "filtersByParty": {},
+        "filtersForAnyParty": {
+          "cumulative": [
+            "<object>"
+          ]
+        },
+        "verbose": false
+      },
+      "transactionShape": "TRANSACTION_SHAPE_UNSPECIFIED"
+    },
+    "includeReassignments": {
+      "filtersByParty": {},
+      "filtersForAnyParty": {
+        "cumulative": [
+          {
+            "identifierFilter": "<object>"
+          }
+        ]
+      },
+      "verbose": false
+    },
+    "includeTopologyEvents": {
+      "includeParticipantAuthorizationEvents": {
+        "parties": [
+          "<string>"
+        ]
+      }
+    }
+  },
+  "descendingOrder": false,
+  "pageToken": "<string>"
+}
+JSON,
+    CURLOPT_HTTPHEADER => [
+        "Authorization: Bearer <token>",
+        "Content-Type: application/json"
+    ],
+]);
+
+$response = curl_exec($curl);
+echo $response;
+```
+
+```go Go
+package main
+
+import (
+  "bytes"
+  "fmt"
+  "io"
+  "net/http"
+)
+
+func main() {
+  req, _ := http.NewRequest("POST", "http://localhost:7575/v2/updates/get-updates-page", bytes.NewBufferString(`{
+  "beginOffsetExclusive": 123,
+  "endOffsetInclusive": 123,
+  "maxPageSize": 123,
+  "updateFormat": {
+    "includeTransactions": {
+      "eventFormat": {
+        "filtersByParty": {},
+        "filtersForAnyParty": {
+          "cumulative": [
+            "<object>"
+          ]
+        },
+        "verbose": false
+      },
+      "transactionShape": "TRANSACTION_SHAPE_UNSPECIFIED"
+    },
+    "includeReassignments": {
+      "filtersByParty": {},
+      "filtersForAnyParty": {
+        "cumulative": [
+          {
+            "identifierFilter": "<object>"
+          }
+        ]
+      },
+      "verbose": false
+    },
+    "includeTopologyEvents": {
+      "includeParticipantAuthorizationEvents": {
+        "parties": [
+          "<string>"
+        ]
+      }
+    }
+  },
+  "descendingOrder": false,
+  "pageToken": "<string>"
+}`))
+  req.Header.Set("Authorization", "Bearer <token>")
+  req.Header.Set("Content-Type", "application/json")
+  response, _ := http.DefaultClient.Do(req)
+  defer response.Body.Close()
+  body, _ := io.ReadAll(response.Body)
+  fmt.Println(string(body))
+}
+```
+
+```java Java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+var request = HttpRequest.newBuilder()
+    .uri(URI.create("http://localhost:7575/v2/updates/get-updates-page"))
+    .header("Authorization", "Bearer <token>")
+    .header("Content-Type", "application/json")
+    .method("POST", HttpRequest.BodyPublishers.ofString("""
+{
+  "beginOffsetExclusive": 123,
+  "endOffsetInclusive": 123,
+  "maxPageSize": 123,
+  "updateFormat": {
+    "includeTransactions": {
+      "eventFormat": {
+        "filtersByParty": {},
+        "filtersForAnyParty": {
+          "cumulative": [
+            "<object>"
+          ]
+        },
+        "verbose": false
+      },
+      "transactionShape": "TRANSACTION_SHAPE_UNSPECIFIED"
+    },
+    "includeReassignments": {
+      "filtersByParty": {},
+      "filtersForAnyParty": {
+        "cumulative": [
+          {
+            "identifierFilter": "<object>"
+          }
+        ]
+      },
+      "verbose": false
+    },
+    "includeTopologyEvents": {
+      "includeParticipantAuthorizationEvents": {
+        "parties": [
+          "<string>"
+        ]
+      }
+    }
+  },
+  "descendingOrder": false,
+  "pageToken": "<string>"
+}
+"""))
+    .build();
+var response = HttpClient.newHttpClient().send(
+    request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```ruby Ruby
+require 'net/http'
+require 'uri'
+
+uri = URI('http://localhost:7575/v2/updates/get-updates-page')
+request = Net::HTTP::Post.new(uri)
+request['Authorization'] = 'Bearer <token>'
+request['Content-Type'] = 'application/json'
+request.body = <<~JSON
+{
+  "beginOffsetExclusive": 123,
+  "endOffsetInclusive": 123,
+  "maxPageSize": 123,
+  "updateFormat": {
+    "includeTransactions": {
+      "eventFormat": {
+        "filtersByParty": {},
+        "filtersForAnyParty": {
+          "cumulative": [
+            "<object>"
+          ]
+        },
+        "verbose": false
+      },
+      "transactionShape": "TRANSACTION_SHAPE_UNSPECIFIED"
+    },
+    "includeReassignments": {
+      "filtersByParty": {},
+      "filtersForAnyParty": {
+        "cumulative": [
+          {
+            "identifierFilter": "<object>"
+          }
+        ]
+      },
+      "verbose": false
+    },
+    "includeTopologyEvents": {
+      "includeParticipantAuthorizationEvents": {
+        "parties": [
+          "<string>"
+        ]
+      }
+    }
+  },
+  "descendingOrder": false,
+  "pageToken": "<string>"
+}
+JSON
+response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+  http.request(request)
+end
+puts response.body
+```
+
+</RequestExample>
+
+
+<ResponseExample>
+
+```json 200
+{
+  "updates": [
+    {
+      "update": {
+        "OffsetCheckpoint": {
+          "value": {
+            "offset": 123,
+            "synchronizerTimes": [
+              "<object>"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "lowestPageOffsetExclusive": 123,
+  "highestPageOffsetInclusive": 123,
+  "nextPageToken": "<string>"
+}
+```
+
+```text 400
+<string>
+```
+
+```json default
+{
+  "code": "<string>",
+  "cause": "<string>",
+  "correlationId": "<string>",
+  "traceId": "<string>",
+  "context": {},
+  "resources": [
+    [
+      "<string>"
+    ]
+  ],
+  "errorCategory": 123,
+  "grpcCodeValue": 123,
+  "retryInfo": "<string>",
+  "definiteAnswer": false
+}
+```
+
+</ResponseExample>
+
+
+## Authorizations
+
+
+### httpAuth
+
+
+
+
+
+
+<ParamField header="Authorization" type="string" required>
+
+
+HTTP bearer authentication. Send the token as `Authorization: Bearer &lt;token&gt;`. Ledger API standard JWT token
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+### apiKeyAuth
+
+
+
+
+
+
+<ParamField header="Sec-WebSocket-Protocol" type="string" required>
+
+
+API key authentication in the header. Ledger API standard JWT token (websocket)
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+
+
+## Body
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ParamField body="beginOffsetExclusive" type="number">
+OpenAPI type: <code>integer (int64)</code>.
+
+
+
+Exclusive lower bound offset of the requested ledger section (non-negative integer). The response page will only contain updates whose offset is strictly greater than this. If set to zero or not defined, the lower bound is set to the actual pruning offset or to the beginning of the ledger if the participant was not pruned yet. If set to positive and the ledger has been pruned, this parameter must be greater or equal than the pruning offset. Optional
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="endOffsetInclusive" type="number">
+OpenAPI type: <code>integer (int64)</code>.
+
+
+
+Inclusive upper bound offset of the requested ledger section. If specified the response will only contain updates whose offset is less than or equal to this. If not specified response will only contain updates whose offset is less than the current ledger-end. Optional
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="maxPageSize" type="number">
+OpenAPI type: <code>integer (int32)</code>.
+
+
+
+The result page will contain the first max_page_size Updates of all matching updates. The server may reject queries with max_page_size above server specified limits. If not specified, the default max_page_size is determined by the server. Optional
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="updateFormat" type="object" required>
+OpenAPI type: <code>UpdateFormat</code>.
+
+
+
+A format specifying what updates to include and how to render them.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="includeTransactions" type="object">
+OpenAPI type: <code>TransactionFormat</code>.
+
+
+
+A format that specifies what events to include in Daml transactions and what data to compute and include for them.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="eventFormat" type="object" required>
+OpenAPI type: <code>EventFormat</code>.
+
+
+
+A format for events which defines both which events should be included and what data should be computed and included for them. Note that some of the filtering behavior depends on the `TransactionShape`, which is expected to be specified alongside usages of `EventFormat`.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="filtersByParty" type="object">
+OpenAPI type: <code>Map_Filters</code>.
+
+
+
+Each key must be a valid PartyIdString (as described in ``value.proto``). The interpretation of the filter depends on the transaction-shape being filtered: 1. For **ledger-effects** create and exercise events are returned, for which the witnesses include at least one of the listed parties and match the per-party filter. 2. For **transaction and active-contract-set streams** create and archive events are returned for all contracts whose stakeholders include at least one of the listed parties and match the per-party filter. Optional: can be empty
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="filtersForAnyParty" type="object">
+OpenAPI type: <code>Filters</code>.
+
+
+
+The union of a set of template filters, interface filters, or a wildcard.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="cumulative" type="object[]">
+OpenAPI type: <code>CumulativeFilter[]</code>.
+
+
+
+Every filter in the cumulative list expands the scope of the resulting stream. Each interface, template or wildcard filter means additional events that will match the query. The impact of include_interface_view and include_created_event_blob fields in the filters will also be accumulated. A template or an interface SHOULD NOT appear twice in the accumulative field. A wildcard filter SHOULD NOT be defined more than once in the accumulative field. If no ``CumulativeFilter`` defined, the default of a single ``WildcardFilter`` with include_created_event_blob unset is used. Optional: can be empty
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="identifierFilter" type="object">
+OpenAPI type: <code>IdentifierFilter</code>.
+
+
+
+Required
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="Variant 1" type="object">
+
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="Empty" type="object" required>
+OpenAPI type: <code>Empty1</code>.
+
+
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+<ParamField body="Variant 2" type="object">
+
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="InterfaceFilter" type="object" required>
+OpenAPI type: <code>InterfaceFilter</code>.
+
+
+
+This filter matches contracts that implement a specific interface.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="value" type="object" required>
+OpenAPI type: <code>InterfaceFilter1</code>.
+
+
+
+This filter matches contracts that implement a specific interface.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="interfaceId" type="string" required>
+
+
+The interface that a matching contract must implement. The ``interface_id`` needs to be valid: corresponding interface should be defined in one of the available packages at the time of the query. Both package-name and package-id reference formats for the identifier are supported. Note: The package-id reference identifier format is deprecated. We plan to end support for this format in version 3.4. Required
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="includeInterfaceView" type="boolean">
+
+
+Whether to include the interface view on the contract in the returned ``CreatedEvent``. Use this to access contract data in a uniform manner in your API client. Optional
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="includeCreatedEventBlob" type="boolean">
+
+
+Whether to include a ``created_event_blob`` in the returned ``CreatedEvent``. Use this to access the contract create event payload in your API client for submitting it as a disclosed contract with future commands. Optional
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+<ParamField body="Variant 3" type="object">
+
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="TemplateFilter" type="object" required>
+OpenAPI type: <code>TemplateFilter</code>.
+
+
+
+This filter matches contracts of a specific template.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="value" type="object" required>
+OpenAPI type: <code>TemplateFilter1</code>.
+
+
+
+This filter matches contracts of a specific template.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="templateId" type="string" required>
+
+
+A template for which the payload should be included in the response. The ``template_id`` needs to be valid: corresponding template should be defined in one of the available packages at the time of the query. Both package-name and package-id reference formats for the identifier are supported. Note: The package-id reference identifier format is deprecated. We plan to end support for this format in version 3.4. Required
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="includeCreatedEventBlob" type="boolean">
+
+
+Whether to include a ``created_event_blob`` in the returned ``CreatedEvent``. Use this to access the contract event payload in your API client for submitting it as a disclosed contract with future commands. Optional
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+<ParamField body="Variant 4" type="object">
+
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="WildcardFilter" type="object" required>
+OpenAPI type: <code>WildcardFilter</code>.
+
+
+
+This filter matches all templates.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="value" type="object" required>
+OpenAPI type: <code>WildcardFilter1</code>.
+
+
+
+This filter matches all templates.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="includeCreatedEventBlob" type="boolean">
+
+
+Whether to include a ``created_event_blob`` in the returned ``CreatedEvent``. Use this to access the contract create event payload in your API client for submitting it as a disclosed contract with future commands. Optional
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+<ParamField body="verbose" type="boolean">
+
+
+If enabled, values served over the API will contain more information than strictly necessary to interpret the data. In particular, setting the verbose flag to true triggers the ledger to include labels for record fields. Optional
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+<ParamField body="transactionShape" type="string" required>
+
+
+What transaction shape to use for interpreting the filters of the event format. Required
+
+
+Allowed values: <code>TRANSACTION_SHAPE_UNSPECIFIED</code>, <code>TRANSACTION_SHAPE_ACS_DELTA</code>, <code>TRANSACTION_SHAPE_LEDGER_EFFECTS</code>.
+
+
+
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+<ParamField body="includeReassignments" type="object">
+OpenAPI type: <code>EventFormat</code>.
+
+
+
+A format for events which defines both which events should be included and what data should be computed and included for them. Note that some of the filtering behavior depends on the `TransactionShape`, which is expected to be specified alongside usages of `EventFormat`.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="filtersByParty" type="object">
+OpenAPI type: <code>Map_Filters</code>.
+
+
+
+Each key must be a valid PartyIdString (as described in ``value.proto``). The interpretation of the filter depends on the transaction-shape being filtered: 1. For **ledger-effects** create and exercise events are returned, for which the witnesses include at least one of the listed parties and match the per-party filter. 2. For **transaction and active-contract-set streams** create and archive events are returned for all contracts whose stakeholders include at least one of the listed parties and match the per-party filter. Optional: can be empty
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="filtersForAnyParty" type="object">
+OpenAPI type: <code>Filters</code>.
+
+
+
+The union of a set of template filters, interface filters, or a wildcard.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="cumulative" type="object[]">
+OpenAPI type: <code>CumulativeFilter[]</code>.
+
+
+
+Every filter in the cumulative list expands the scope of the resulting stream. Each interface, template or wildcard filter means additional events that will match the query. The impact of include_interface_view and include_created_event_blob fields in the filters will also be accumulated. A template or an interface SHOULD NOT appear twice in the accumulative field. A wildcard filter SHOULD NOT be defined more than once in the accumulative field. If no ``CumulativeFilter`` defined, the default of a single ``WildcardFilter`` with include_created_event_blob unset is used. Optional: can be empty
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="identifierFilter" type="object">
+OpenAPI type: <code>IdentifierFilter</code>.
+
+
+
+Required
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="Variant 1" type="object">
+
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="Empty" type="object" required>
+OpenAPI type: <code>Empty1</code>.
+
+
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+<ParamField body="Variant 2" type="object">
+
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="InterfaceFilter" type="object" required>
+OpenAPI type: <code>InterfaceFilter</code>.
+
+
+
+This filter matches contracts that implement a specific interface.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="value" type="object" required>
+OpenAPI type: <code>InterfaceFilter1</code>.
+
+
+
+This filter matches contracts that implement a specific interface.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="interfaceId" type="string" required>
+
+
+The interface that a matching contract must implement. The ``interface_id`` needs to be valid: corresponding interface should be defined in one of the available packages at the time of the query. Both package-name and package-id reference formats for the identifier are supported. Note: The package-id reference identifier format is deprecated. We plan to end support for this format in version 3.4. Required
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="includeInterfaceView" type="boolean">
+
+
+Whether to include the interface view on the contract in the returned ``CreatedEvent``. Use this to access contract data in a uniform manner in your API client. Optional
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="includeCreatedEventBlob" type="boolean">
+
+
+Whether to include a ``created_event_blob`` in the returned ``CreatedEvent``. Use this to access the contract create event payload in your API client for submitting it as a disclosed contract with future commands. Optional
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+<ParamField body="Variant 3" type="object">
+
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="TemplateFilter" type="object" required>
+OpenAPI type: <code>TemplateFilter</code>.
+
+
+
+This filter matches contracts of a specific template.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="value" type="object" required>
+OpenAPI type: <code>TemplateFilter1</code>.
+
+
+
+This filter matches contracts of a specific template.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="templateId" type="string" required>
+
+
+A template for which the payload should be included in the response. The ``template_id`` needs to be valid: corresponding template should be defined in one of the available packages at the time of the query. Both package-name and package-id reference formats for the identifier are supported. Note: The package-id reference identifier format is deprecated. We plan to end support for this format in version 3.4. Required
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="includeCreatedEventBlob" type="boolean">
+
+
+Whether to include a ``created_event_blob`` in the returned ``CreatedEvent``. Use this to access the contract event payload in your API client for submitting it as a disclosed contract with future commands. Optional
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+<ParamField body="Variant 4" type="object">
+
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="WildcardFilter" type="object" required>
+OpenAPI type: <code>WildcardFilter</code>.
+
+
+
+This filter matches all templates.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="value" type="object" required>
+OpenAPI type: <code>WildcardFilter1</code>.
+
+
+
+This filter matches all templates.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="includeCreatedEventBlob" type="boolean">
+
+
+Whether to include a ``created_event_blob`` in the returned ``CreatedEvent``. Use this to access the contract create event payload in your API client for submitting it as a disclosed contract with future commands. Optional
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+<ParamField body="verbose" type="boolean">
+
+
+If enabled, values served over the API will contain more information than strictly necessary to interpret the data. In particular, setting the verbose flag to true triggers the ledger to include labels for record fields. Optional
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+<ParamField body="includeTopologyEvents" type="object">
+OpenAPI type: <code>TopologyFormat</code>.
+
+
+
+A format specifying which topology transactions to include and how to render them.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="includeParticipantAuthorizationEvents" type="object">
+OpenAPI type: <code>ParticipantAuthorizationTopologyFormat</code>.
+
+
+
+A format specifying which participant authorization topology transactions to include and how to render them.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="parties" type="string[]">
+
+
+List of parties for which the topology transactions should be sent. Empty means: for all parties. Optional: can be empty
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+<ParamField body="descendingOrder" type="boolean">
+
+
+If set, the page will populate the elements in descending order starting from the end_offset_inclusive. Optional
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="pageToken" type="string">
+
+
+To get the next page of updates, the ``page_token`` should be set to the ``next_page_token`` of the last ``GetUpdatesPageResponse``. To achieve correct paging: subsequent requests must - be executed on the same participant, - have the same begin_offset_exclusive, - have the same end_offset_inclusive, - have the same update_format and - have the same descending_order. If not specified, the first page of updates will be returned. Optional: can be empty
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+
+## Responses
+
+
+### 200
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="updates" type="JsGetUpdateResponse[]">
+
+The first max_page_size updates that match the filter in the request. In case descending_order was selected, the order of the updates is in reversed offset order. Optional: can be empty
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="update" type="Update">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="Variant 1" type="object">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="OffsetCheckpoint" type="OffsetCheckpoint2" required>
+
+OffsetCheckpoints may be used to: - detect time out of commands. - provide an offset which can be used to restart consumption.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="value" type="OffsetCheckpoint1" required>
+
+OffsetCheckpoints may be used to: - detect time out of commands. - provide an offset which can be used to restart consumption.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="offset" type="integer (int64)" required>
+
+The participant&#x27;s offset, the details of the offset field are described in ``community/ledger-api/README.md``. Must be a valid absolute offset (positive integer). Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="synchronizerTimes" type="SynchronizerTime[]">
+
+The times associated with each synchronizer at this offset. Optional: can be empty
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="synchronizerId" type="string" required>
+
+The id of the synchronizer. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="recordTime" type="string" required>
+
+All commands with a maximum record time below this value MUST be considered lost if their completion has not arrived before this checkpoint. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="Variant 2" type="object">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="Reassignment" type="Reassignment" required>
+
+Complete view of an on-ledger reassignment.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="value" type="JsReassignment" required>
+
+Complete view of an on-ledger reassignment.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="updateId" type="string" required>
+
+Assigned by the server. Useful for correlating logs. Must be a valid LedgerString (as described in ``value.proto``). Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="commandId" type="string">
+
+The ID of the command which resulted in this reassignment. Missing for everyone except the submitting party on the submitting participant. Must be a valid LedgerString (as described in ``value.proto``). Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="workflowId" type="string">
+
+The workflow ID used in reassignment command submission. Only set if the ``workflow_id`` for the command was set. Must be a valid LedgerString (as described in ``value.proto``). Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="offset" type="integer (int64)" required>
+
+The participant&#x27;s offset. The details of this field are described in ``community/ledger-api/README.md``. Must be a valid absolute offset (positive integer). Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="events" type="JsReassignmentEvent[]" required>
+
+The collection of reassignment events. Required: must be non-empty
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="Variant 1" type="object">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="JsAssignmentEvent" type="JsAssignmentEvent" required>
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="source" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="target" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="reassignmentId" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="submitter" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="reassignmentCounter" type="integer (int64)" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="createdEvent" type="CreatedEvent" required>
+
+Records that a contract has been created, and choices may now be exercised on it.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="offset" type="integer (int64)" required>
+
+The offset of origin, which has contextual meaning, please see description at messages that include a CreatedEvent. Offsets are managed by the participant nodes. Transactions can thus NOT be assumed to have the same offsets on different participant nodes. It is a valid absolute offset (positive integer) Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="nodeId" type="integer (int32)" required>
+
+The position of this event in the originating transaction or reassignment. The origin has contextual meaning, please see description at messages that include a CreatedEvent. Node IDs are not necessarily equal across participants, as these may see different projections/parts of transactions. Must be valid node ID (non-negative integer) Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="contractId" type="string" required>
+
+The ID of the created contract. Must be a valid LedgerString (as described in ``value.proto``). Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="templateId" type="string" required>
+
+The template of the created contract. The identifier uses the package-id reference format. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="contractKey" type="object">
+
+The key of the created contract. This will be set if and only if ``template_id`` defines a contract key. Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="contractKeyHash" type="string">
+
+The hash of contract_key. This will be set if and only if ``template_id`` defines a contract key. Optional: can be empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="createArgument" type="object" required>
+
+The arguments that have been used to create the contract. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="createdEventBlob" type="string">
+
+Opaque representation of contract create event payload intended for forwarding to an API server as a contract disclosed as part of a command submission. Optional: can be empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="interfaceViews" type="JsInterfaceView[]">
+
+Interface views specified in the transaction filter. Includes an ``InterfaceView`` for each interface for which there is a ``InterfaceFilter`` with - its party in the ``witness_parties`` of this event, - and which is implemented by the template of this event, - and which has ``include_interface_view`` set. Optional: can be empty
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="interfaceId" type="string" required>
+
+The interface implemented by the matched event. The identifier uses the package-id reference format. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="viewStatus" type="JsStatus" required>
+
+Whether the view was successfully computed, and if not, the reason for the error. The error is reported using the same rules for error codes and messages as the errors returned for API requests. Required
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="code" type="integer (int32)" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="message" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="details" type="ProtoAny[]">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="viewValue" type="object">
+
+The value of the interface&#x27;s view method on this event. Set if it was requested in the ``InterfaceFilter`` and it could be successfully computed. Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="implementationPackageId" type="string">
+
+The package defining the interface implementation used to compute the view. Can be different from the package that was used to create the contract itself, as the contract arguments can be upgraded or downgraded using smart-contract upgrading as part of computing the interface view. Populated if the view computation is successful, otherwise empty. Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="witnessParties" type="string[]" required>
+
+The parties that are notified of this event. When a ``CreatedEvent`` is returned as part of a transaction tree or ledger-effects transaction, this will include all the parties specified in the ``TransactionFilter`` that are witnesses of the event (the stakeholders of the contract and all informees of all the ancestors of this create action that this participant knows about). If served as part of a ACS delta transaction those will be limited to all parties specified in the ``TransactionFilter`` that are stakeholders of the contract (i.e. either signatories or observers). If the ``CreatedEvent`` is returned as part of an AssignedEvent, ActiveContract or IncompleteUnassigned (so the event is related to an assignment or unassignment): this will include all parties of the ``TransactionFilter`` that are stakeholders of the contract. The behavior of reading create events visible to parties not hosted on the participant node serving the Ledger API is undefined. Concretely, there is neither a guarantee that the participant node will serve all their create events on the ACS stream, nor is there a guarantee that matching archive events are delivered for such create events. For most clients this is not a problem, as they only read events for parties that are hosted on the participant node. If you need to read events for parties that may not be hosted at all times on the participant node, subscribe to the ``TopologyEvent``s for that party by setting a corresponding ``UpdateFormat``. Using these events, query the ACS as-of an offset where the party is hosted on the participant node, and ignore create events at offsets where the party is not hosted on the participant node. Required: must be non-empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="signatories" type="string[]" required>
+
+The signatories for this contract as specified by the template. Required: must be non-empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="observers" type="string[]">
+
+The observers for this contract as specified explicitly by the template or implicitly as choice controllers. This field never contains parties that are signatories. Optional: can be empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="createdAt" type="string" required>
+
+Ledger effective time of the transaction that created the contract. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="packageName" type="string" required>
+
+The package name of the created contract. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="representativePackageId" type="string" required>
+
+A package-id present in the participant package store that typechecks the contract&#x27;s argument. This may differ from the package-id of the template used to create the contract. For contracts created before Canton 3.4, this field matches the contract&#x27;s creation package-id. NOTE: Experimental, server internal concept, not for client consumption. Subject to change without notice. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="acsDelta" type="boolean" required>
+
+Whether this event would be part of respective ACS_DELTA shaped stream, and should therefore considered when tracking contract activeness on the client-side. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="Variant 2" type="object">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="JsUnassignedEvent" type="JsUnassignedEvent" required>
+
+Records that a contract has been unassigned, and it becomes unusable on the source synchronizer
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="value" type="UnassignedEvent" required>
+
+Records that a contract has been unassigned, and it becomes unusable on the source synchronizer
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="reassignmentId" type="string" required>
+
+The ID of the unassignment. This needs to be used as an input for a assign ReassignmentCommand. Must be a valid LedgerString (as described in ``value.proto``). Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="contractId" type="string" required>
+
+The ID of the reassigned contract. Must be a valid LedgerString (as described in ``value.proto``). Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="templateId" type="string" required>
+
+The template of the reassigned contract. The identifier uses the package-id reference format. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="source" type="string" required>
+
+The ID of the source synchronizer Must be a valid synchronizer id Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="target" type="string" required>
+
+The ID of the target synchronizer Must be a valid synchronizer id Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="submitter" type="string">
+
+Party on whose behalf the unassign command was executed. Empty if the unassignment happened offline via the repair service. Must be a valid PartyIdString (as described in ``value.proto``). Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="reassignmentCounter" type="integer (int64)" required>
+
+Each corresponding assigned and unassigned event has the same reassignment_counter. This strictly increases with each unassign command for the same contract. Creation of the contract corresponds to reassignment_counter equals zero. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="assignmentExclusivity" type="string">
+
+Assignment exclusivity Before this time (measured on the target synchronizer), only the submitter of the unassignment can initiate the assignment Defined for reassigning participants. Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="witnessParties" type="string[]" required>
+
+The parties that are notified of this event. Required: must be non-empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="packageName" type="string" required>
+
+The package name of the contract. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="offset" type="integer (int64)" required>
+
+The offset of origin. Offsets are managed by the participant nodes. Reassignments can thus NOT be assumed to have the same offsets on different participant nodes. Must be a valid absolute offset (positive integer) Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="nodeId" type="integer (int32)" required>
+
+The position of this event in the originating reassignment. Node IDs are not necessarily equal across participants, as these may see different projections/parts of reassignments. Must be valid node ID (non-negative integer) Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="traceContext" type="TraceContext">
+
+Ledger API trace context The trace context transported in this message corresponds to the trace context supplied by the client application in a HTTP2 header of the original command submission. We typically use a header to transfer this type of information. Here we use message body, because it is used in gRPC streams which do not support per message headers. This field will be populated with the trace context contained in the original submission. If that was not provided, a unique ledger-api-server generated trace context will be used instead. Optional
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="traceparent" type="string">
+
+https://www.w3.org/TR/trace-context/ Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="tracestate" type="string">
+
+Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="recordTime" type="string" required>
+
+The time at which the reassignment was recorded. The record time refers to the source/target synchronizer for an unassign/assign event respectively. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="synchronizerId" type="string" required>
+
+A valid synchronizer id. Identifies the synchronizer that synchronized this Reassignment. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="paidTrafficCost" type="integer (int64)">
+
+The traffic cost that this participant node paid for the corresponding (un)assignment request. Not set for transactions that were - initiated by another participant - initiated offline via the repair service - processed before the participant started serving traffic cost on the Ledger API - returned as part of a query filtering for a non submitting party Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="Variant 3" type="object">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="TopologyTransaction" type="TopologyTransaction" required>
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="value" type="JsTopologyTransaction" required>
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="updateId" type="string" required>
+
+Assigned by the server. Useful for correlating logs. Must be a valid LedgerString (as described in ``value.proto``). Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="offset" type="integer (int64)" required>
+
+The absolute offset. The details of this field are described in ``community/ledger-api/README.md``. It is a valid absolute offset (positive integer). Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="synchronizerId" type="string" required>
+
+A valid synchronizer id. Identifies the synchronizer that synchronized the topology transaction. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="recordTime" type="string" required>
+
+The time at which the changes in the topology transaction become effective. There is a small delay between a topology transaction being sequenced and the changes it contains becoming effective. Topology transactions appear in order relative to a synchronizer based on their effective time rather than their sequencing time. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="events" type="TopologyEvent[]" required>
+
+A non-empty list of topology events. Required: must be non-empty
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="event" type="TopologyEventEvent">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="Variant 1" type="object">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="Empty" type="Empty7" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="Variant 2" type="object">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="ParticipantAuthorizationAdded" type="ParticipantAuthorizationAdded" required>
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="value" type="ParticipantAuthorizationAdded1" required>
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="partyId" type="string" required>
+
+Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="participantId" type="string" required>
+
+Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="participantPermission" type="string" required>
+
+Required
+
+
+Allowed values: <code>PARTICIPANT_PERMISSION_UNSPECIFIED</code>, <code>PARTICIPANT_PERMISSION_SUBMISSION</code>, <code>PARTICIPANT_PERMISSION_CONFIRMATION</code>, <code>PARTICIPANT_PERMISSION_OBSERVATION</code>.
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="Variant 3" type="object">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="ParticipantAuthorizationChanged" type="ParticipantAuthorizationChanged" required>
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="value" type="ParticipantAuthorizationChanged1" required>
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="partyId" type="string" required>
+
+Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="participantId" type="string" required>
+
+Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="participantPermission" type="string" required>
+
+Required
+
+
+Allowed values: <code>PARTICIPANT_PERMISSION_UNSPECIFIED</code>, <code>PARTICIPANT_PERMISSION_SUBMISSION</code>, <code>PARTICIPANT_PERMISSION_CONFIRMATION</code>, <code>PARTICIPANT_PERMISSION_OBSERVATION</code>.
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="Variant 4" type="object">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="ParticipantAuthorizationOnboarding" type="ParticipantAuthorizationOnboarding" required>
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="value" type="ParticipantAuthorizationOnboarding1" required>
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="partyId" type="string" required>
+
+Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="participantId" type="string" required>
+
+Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="participantPermission" type="string" required>
+
+Required
+
+
+Allowed values: <code>PARTICIPANT_PERMISSION_UNSPECIFIED</code>, <code>PARTICIPANT_PERMISSION_SUBMISSION</code>, <code>PARTICIPANT_PERMISSION_CONFIRMATION</code>, <code>PARTICIPANT_PERMISSION_OBSERVATION</code>.
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="Variant 5" type="object">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="ParticipantAuthorizationRevoked" type="ParticipantAuthorizationRevoked" required>
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="value" type="ParticipantAuthorizationRevoked1" required>
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="partyId" type="string" required>
+
+Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="participantId" type="string" required>
+
+Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="traceContext" type="TraceContext">
+
+Ledger API trace context The trace context transported in this message corresponds to the trace context supplied by the client application in a HTTP2 header of the original command submission. We typically use a header to transfer this type of information. Here we use message body, because it is used in gRPC streams which do not support per message headers. This field will be populated with the trace context contained in the original submission. If that was not provided, a unique ledger-api-server generated trace context will be used instead. Optional
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="traceparent" type="string">
+
+https://www.w3.org/TR/trace-context/ Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="tracestate" type="string">
+
+Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="Variant 4" type="object">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="Transaction" type="Transaction" required>
+
+Filtered view of an on-ledger transaction&#x27;s create and archive events.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="value" type="JsTransaction" required>
+
+Filtered view of an on-ledger transaction&#x27;s create and archive events.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="updateId" type="string" required>
+
+Assigned by the server. Useful for correlating logs. Must be a valid LedgerString (as described in ``value.proto``). Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="commandId" type="string">
+
+The ID of the command which resulted in this transaction. Missing for everyone except the submitting party. Must be a valid LedgerString (as described in ``value.proto``). Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="workflowId" type="string">
+
+The workflow ID used in command submission. Must be a valid LedgerString (as described in ``value.proto``). Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="effectiveAt" type="string" required>
+
+Ledger effective time. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="events" type="Event[]" required>
+
+The collection of events. Contains: - ``CreatedEvent`` or ``ArchivedEvent`` in case of ACS_DELTA transaction shape - ``CreatedEvent`` or ``ExercisedEvent`` in case of LEDGER_EFFECTS transaction shape Required: must be non-empty
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="Variant 1" type="object">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="ArchivedEvent" type="ArchivedEvent" required>
+
+Records that a contract has been archived, and choices may no longer be exercised on it.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="offset" type="integer (int64)" required>
+
+The offset of origin. Offsets are managed by the participant nodes. Transactions can thus NOT be assumed to have the same offsets on different participant nodes. It is a valid absolute offset (positive integer) Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="nodeId" type="integer (int32)" required>
+
+The position of this event in the originating transaction or reassignment. Node IDs are not necessarily equal across participants, as these may see different projections/parts of transactions. Must be valid node ID (non-negative integer) Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="contractId" type="string" required>
+
+The ID of the archived contract. Must be a valid LedgerString (as described in ``value.proto``). Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="templateId" type="string" required>
+
+Identifies the template that defines the choice that archived the contract. This template&#x27;s package-id may differ from the target contract&#x27;s package-id if the target contract has been upgraded or downgraded. The identifier uses the package-id reference format. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="witnessParties" type="string[]" required>
+
+The parties that are notified of this event. For an ``ArchivedEvent``, these are the intersection of the stakeholders of the contract in question and the parties specified in the ``TransactionFilter``. The stakeholders are the union of the signatories and the observers of the contract. Each one of its elements must be a valid PartyIdString (as described in ``value.proto``). Required: must be non-empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="packageName" type="string" required>
+
+The package name of the contract. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="implementedInterfaces" type="string[]">
+
+The interfaces implemented by the target template that have been matched from the interface filter query. Populated only in case interface filters with include_interface_view set. If defined, the identifier uses the package-id reference format. Optional: can be empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="Variant 2" type="object">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="CreatedEvent" type="CreatedEvent" required>
+
+Records that a contract has been created, and choices may now be exercised on it.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="offset" type="integer (int64)" required>
+
+The offset of origin, which has contextual meaning, please see description at messages that include a CreatedEvent. Offsets are managed by the participant nodes. Transactions can thus NOT be assumed to have the same offsets on different participant nodes. It is a valid absolute offset (positive integer) Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="nodeId" type="integer (int32)" required>
+
+The position of this event in the originating transaction or reassignment. The origin has contextual meaning, please see description at messages that include a CreatedEvent. Node IDs are not necessarily equal across participants, as these may see different projections/parts of transactions. Must be valid node ID (non-negative integer) Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="contractId" type="string" required>
+
+The ID of the created contract. Must be a valid LedgerString (as described in ``value.proto``). Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="templateId" type="string" required>
+
+The template of the created contract. The identifier uses the package-id reference format. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="contractKey" type="object">
+
+The key of the created contract. This will be set if and only if ``template_id`` defines a contract key. Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="contractKeyHash" type="string">
+
+The hash of contract_key. This will be set if and only if ``template_id`` defines a contract key. Optional: can be empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="createArgument" type="object" required>
+
+The arguments that have been used to create the contract. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="createdEventBlob" type="string">
+
+Opaque representation of contract create event payload intended for forwarding to an API server as a contract disclosed as part of a command submission. Optional: can be empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="interfaceViews" type="JsInterfaceView[]">
+
+Interface views specified in the transaction filter. Includes an ``InterfaceView`` for each interface for which there is a ``InterfaceFilter`` with - its party in the ``witness_parties`` of this event, - and which is implemented by the template of this event, - and which has ``include_interface_view`` set. Optional: can be empty
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="interfaceId" type="string" required>
+
+The interface implemented by the matched event. The identifier uses the package-id reference format. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="viewStatus" type="JsStatus" required>
+
+Whether the view was successfully computed, and if not, the reason for the error. The error is reported using the same rules for error codes and messages as the errors returned for API requests. Required
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="code" type="integer (int32)" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="message" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="details" type="ProtoAny[]">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="typeUrl" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="value" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="unknownFields" type="UnknownFieldSet" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="valueDecoded" type="string">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="viewValue" type="object">
+
+The value of the interface&#x27;s view method on this event. Set if it was requested in the ``InterfaceFilter`` and it could be successfully computed. Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="implementationPackageId" type="string">
+
+The package defining the interface implementation used to compute the view. Can be different from the package that was used to create the contract itself, as the contract arguments can be upgraded or downgraded using smart-contract upgrading as part of computing the interface view. Populated if the view computation is successful, otherwise empty. Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="witnessParties" type="string[]" required>
+
+The parties that are notified of this event. When a ``CreatedEvent`` is returned as part of a transaction tree or ledger-effects transaction, this will include all the parties specified in the ``TransactionFilter`` that are witnesses of the event (the stakeholders of the contract and all informees of all the ancestors of this create action that this participant knows about). If served as part of a ACS delta transaction those will be limited to all parties specified in the ``TransactionFilter`` that are stakeholders of the contract (i.e. either signatories or observers). If the ``CreatedEvent`` is returned as part of an AssignedEvent, ActiveContract or IncompleteUnassigned (so the event is related to an assignment or unassignment): this will include all parties of the ``TransactionFilter`` that are stakeholders of the contract. The behavior of reading create events visible to parties not hosted on the participant node serving the Ledger API is undefined. Concretely, there is neither a guarantee that the participant node will serve all their create events on the ACS stream, nor is there a guarantee that matching archive events are delivered for such create events. For most clients this is not a problem, as they only read events for parties that are hosted on the participant node. If you need to read events for parties that may not be hosted at all times on the participant node, subscribe to the ``TopologyEvent``s for that party by setting a corresponding ``UpdateFormat``. Using these events, query the ACS as-of an offset where the party is hosted on the participant node, and ignore create events at offsets where the party is not hosted on the participant node. Required: must be non-empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="signatories" type="string[]" required>
+
+The signatories for this contract as specified by the template. Required: must be non-empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="observers" type="string[]">
+
+The observers for this contract as specified explicitly by the template or implicitly as choice controllers. This field never contains parties that are signatories. Optional: can be empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="createdAt" type="string" required>
+
+Ledger effective time of the transaction that created the contract. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="packageName" type="string" required>
+
+The package name of the created contract. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="representativePackageId" type="string" required>
+
+A package-id present in the participant package store that typechecks the contract&#x27;s argument. This may differ from the package-id of the template used to create the contract. For contracts created before Canton 3.4, this field matches the contract&#x27;s creation package-id. NOTE: Experimental, server internal concept, not for client consumption. Subject to change without notice. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="acsDelta" type="boolean" required>
+
+Whether this event would be part of respective ACS_DELTA shaped stream, and should therefore considered when tracking contract activeness on the client-side. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="Variant 3" type="object">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="ExercisedEvent" type="ExercisedEvent" required>
+
+Records that a choice has been exercised on a target contract.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="offset" type="integer (int64)" required>
+
+The offset of origin. Offsets are managed by the participant nodes. Transactions can thus NOT be assumed to have the same offsets on different participant nodes. It is a valid absolute offset (positive integer) Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="nodeId" type="integer (int32)" required>
+
+The position of this event in the originating transaction or reassignment. Node IDs are not necessarily equal across participants, as these may see different projections/parts of transactions. Must be valid node ID (non-negative integer) Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="contractId" type="string" required>
+
+The ID of the target contract. Must be a valid LedgerString (as described in ``value.proto``). Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="templateId" type="string" required>
+
+Identifies the template that defines the executed choice. This template&#x27;s package-id may differ from the target contract&#x27;s package-id if the target contract has been upgraded or downgraded. The identifier uses the package-id reference format. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="interfaceId" type="string">
+
+The interface where the choice is defined, if inherited. If defined, the identifier uses the package-id reference format. Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="choice" type="string" required>
+
+The choice that was exercised on the target contract. Must be a valid NameString (as described in ``value.proto``). Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="choiceArgument" type="object" required>
+
+The argument of the exercised choice. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="actingParties" type="string[]" required>
+
+The parties that exercised the choice. Each element must be a valid PartyIdString (as described in ``value.proto``). Required: must be non-empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="consuming" type="boolean" required>
+
+If true, the target contract may no longer be exercised. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="witnessParties" type="string[]" required>
+
+The parties that are notified of this event. The witnesses of an exercise node will depend on whether the exercise was consuming or not. If consuming, the witnesses are the union of the stakeholders, the actors and all informees of all the ancestors of this event this participant knows about. If not consuming, the witnesses are the union of the signatories, the actors and all informees of all the ancestors of this event this participant knows about. In both cases the witnesses are limited to the querying parties, or not limited in case anyParty filters are used. Note that the actors might not necessarily be observers and thus stakeholders. This is the case when the controllers of a choice are specified using &quot;flexible controllers&quot;, using the ``choice ... controller`` syntax, and said controllers are not explicitly marked as observers. Each element must be a valid PartyIdString (as described in ``value.proto``). Required: must be non-empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="lastDescendantNodeId" type="integer (int32)" required>
+
+Specifies the upper boundary of the node ids of the events in the same transaction that appeared as a result of this ``ExercisedEvent``. This allows unambiguous identification of all the members of the subtree rooted at this node. A full subtree can be constructed when all descendant nodes are present in the stream. If nodes are heavily filtered, it is only possible to determine if a node is in a consequent subtree or not. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="exerciseResult" type="object">
+
+The result of exercising the choice. Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="packageName" type="string" required>
+
+The package name of the contract. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="implementedInterfaces" type="string[]">
+
+If the event is consuming, the interfaces implemented by the target template that have been matched from the interface filter query. Populated only in case interface filters with include_interface_view set. The identifier uses the package-id reference format. Optional: can be empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="acsDelta" type="boolean" required>
+
+Whether this event would be part of respective ACS_DELTA shaped stream, and should therefore considered when tracking contract activeness on the client-side. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="offset" type="integer (int64)" required>
+
+The absolute offset. The details of this field are described in ``community/ledger-api/README.md``. It is a valid absolute offset (positive integer). Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="synchronizerId" type="string" required>
+
+A valid synchronizer id. Identifies the synchronizer that synchronized the transaction. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="traceContext" type="TraceContext">
+
+Ledger API trace context The trace context transported in this message corresponds to the trace context supplied by the client application in a HTTP2 header of the original command submission. We typically use a header to transfer this type of information. Here we use message body, because it is used in gRPC streams which do not support per message headers. This field will be populated with the trace context contained in the original submission. If that was not provided, a unique ledger-api-server generated trace context will be used instead. Optional
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="traceparent" type="string">
+
+https://www.w3.org/TR/trace-context/ Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="tracestate" type="string">
+
+Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="recordTime" type="string" required>
+
+The time at which the transaction was recorded. The record time refers to the synchronizer which synchronized the transaction. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="externalTransactionHash" type="string">
+
+For transaction externally signed, contains the external transaction hash signed by the external party. Can be used to correlate an external submission with a committed transaction. Optional: can be empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="paidTrafficCost" type="integer (int64)">
+
+The traffic cost that this participant node paid for the confirmation request for this transaction. Not set for transactions that were - initiated by another participant - initiated offline via the repair service - processed before the participant started serving traffic cost on the Ledger API - returned as part of a query filtering for a non submitting party Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="lowestPageOffsetExclusive" type="integer (int64)" required>
+
+Represents the lower bound of this page. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="highestPageOffsetInclusive" type="integer (int64)" required>
+
+Represents the upper bound of the page. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="nextPageToken" type="string">
+
+If the value is not populated, this is the last page. If the value is populated, this token can be used to get the next page. If the original ``GetFirstUpdatePageRequest`` end_offset_inclusive was not specified and the request uses ascending order, then this token will always be populated, so you can use it to &quot;tail&quot; the ledger by repeatedly polling with the new page token returned. Optional: can be empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+### 400
+
+Invalid value, Invalid value for: body
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">text/plain</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="value" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+### default
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="code" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="cause" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="correlationId" type="string">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="traceId" type="string">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="context" type="Map_String" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="resources" type="Tuple2_String_String[]">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="errorCategory" type="integer (int32)" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="grpcCodeValue" type="integer (int32)">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="retryInfo" type="string">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="definiteAnswer" type="boolean">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+
+
+## History
+
+<div class="x2mdx-ref-history" aria-label="Reference history">
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--introduced" id="history-added-3-5">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Added</span>
+      <code class="x2mdx-ref-history-event-version">3.5</code>
+    </div>
+
+  </div>
+
+</div>

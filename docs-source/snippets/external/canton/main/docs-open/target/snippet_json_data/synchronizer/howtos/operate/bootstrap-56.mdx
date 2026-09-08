@@ -1,0 +1,17 @@
+```scala
+@ participant1.synchronizers.register(sequencer1, alias = synchronizerName, manualConnect = true)
+    ERROR com.digitalasset.canton.integration.EnvironmentDefinition$$anon$3:SynchronizerInstallationManual - Request failed for participant1.
+      GrpcRequestRefusedByServer: FAILED_PRECONDITION/INITIAL_ONBOARDING_ERROR(9,28ba989f): Transport(Status{code=FAILED_PRECONDITION, description=Unable to register onboarding topology transactions, cause=null})
+      Request: RegisterSynchronizer(SynchronizerConnectionConfig(
+      synchronizer = Synchronizer 'mySynchronizer',
+      sequencerConnections = SequencerConnections(
+        connections = Sequencer 'sequencer1' -> GrpcSequencerConnection(sequencerAlias = Sequencer 'sequence ...
+      DecodedCantonError(
+      code = 'INITIAL_ONBOARDING_ERROR',
+      category = InvalidGivenCurrentSystemStateOther,
+      cause = "Transport(Status{code=FAILED_PRECONDITION, description=Unable to register onboarding topology transactions, cause=null})",
+      traceId = '28ba989f10d13e95a75aa90c55e03c76',
+      context = Seq('participant=>participant1', 'test=>SynchronizerInstallationManual', 'synchronizer=>mySynchronizer')
+    )
+      Command ParticipantAdministration$synchronizers$.register invoked from cmd10000013.sc:1
+```

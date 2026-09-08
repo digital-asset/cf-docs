@@ -1,0 +1,2923 @@
+{
+  "surface_id": "json-ledger-api-openapi",
+  "title": "JSON Ledger API OpenAPI",
+  "format": "openapi",
+  "configured_scope": "JSON Ledger API OpenAPI operations",
+  "history_mode": "snapshots",
+  "publish_version": "3.5",
+  "comparison_versions": [
+    "3.4",
+    "3.5"
+  ],
+  "source_artifacts": [
+    {
+      "version": "3.4",
+      "source": "Canton release bundle JSON Ledger API specifications",
+      "revision": "3.4.12-snapshot.20260331.17644.0.v82050917",
+      "path": null
+    },
+    {
+      "version": "3.5",
+      "source": "Canton release bundle JSON Ledger API specifications",
+      "revision": "3.5.16",
+      "path": null
+    }
+  ],
+  "version_policy": "configured_publish_version",
+  "items": [
+    {
+      "id": "json-ledger-api::deleteV2IdpsIdp-id",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/delete-v2idps:idp-id",
+      "location": "json-ledger-api: DELETE /v2/idps/{idp-id}",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/idps/{idp-id}.delete",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The DELETE /v2/idps/{idp-id} operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/idps/{idp-id}.delete",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::deleteV2UsersUser-id",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/delete-v2users:user-id",
+      "location": "json-ledger-api: DELETE /v2/users/{user-id}",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/users/{user-id}.delete",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The DELETE /v2/users/{user-id} operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/users/{user-id}.delete",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getLivez",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-livez",
+      "location": "json-ledger-api: GET /livez",
+      "first_seen": "3.5",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.5",
+        "location": "json-ledger-api#paths./livez.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getReadyz",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-readyz",
+      "location": "json-ledger-api: GET /readyz",
+      "first_seen": "3.5",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.5",
+        "location": "json-ledger-api#paths./readyz.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2Authenticated-user",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2authenticated-user",
+      "location": "json-ledger-api: GET /v2/authenticated-user",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/authenticated-user.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The GET /v2/authenticated-user operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/authenticated-user.get",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2Idps",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2idps",
+      "location": "json-ledger-api: GET /v2/idps",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/idps.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The GET /v2/idps operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/idps.get",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2IdpsIdp-id",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2idps:idp-id",
+      "location": "json-ledger-api: GET /v2/idps/{idp-id}",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/idps/{idp-id}.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The GET /v2/idps/{idp-id} operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/idps/{idp-id}.get",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2Interactive-submissionPreferred-package-version",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2interactive-submissionpreferred-package-version",
+      "location": "json-ledger-api: GET /v2/interactive-submission/preferred-package-version",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/interactive-submission/preferred-package-version.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The GET /v2/interactive-submission/preferred-package-version operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/interactive-submission/preferred-package-version.get",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": "deprecated",
+      "lifecycle_transitions": [
+        {
+          "state": "deprecated",
+          "version": "3.5",
+          "evidence": {
+            "kind": "source_metadata",
+            "source": "Canton release bundle JSON Ledger API specifications",
+            "observed_in_version": "3.5",
+            "location": "json-ledger-api#paths./v2/interactive-submission/preferred-package-version.get.deprecated",
+            "detail": null
+          }
+        }
+      ],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2Package-vetting",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2package-vetting",
+      "location": "json-ledger-api: GET /v2/package-vetting",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/package-vetting.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The GET /v2/package-vetting operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/package-vetting.get",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": "deprecated",
+      "lifecycle_transitions": [
+        {
+          "state": "deprecated",
+          "version": "3.4",
+          "evidence": {
+            "kind": "source_metadata",
+            "source": "Canton release bundle JSON Ledger API specifications",
+            "observed_in_version": "3.4",
+            "location": "json-ledger-api#paths./v2/package-vetting.get.deprecated",
+            "detail": null
+          }
+        }
+      ],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2Packages",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2packages",
+      "location": "json-ledger-api: GET /v2/packages",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/packages.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The GET /v2/packages operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/packages.get",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2PackagesPackage-id",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2packages:package-id",
+      "location": "json-ledger-api: GET /v2/packages/{package-id}",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/packages/{package-id}.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The GET /v2/packages/{package-id} operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/packages/{package-id}.get",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2PackagesPackage-idStatus",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2packages:package-idstatus",
+      "location": "json-ledger-api: GET /v2/packages/{package-id}/status",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/packages/{package-id}/status.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The GET /v2/packages/{package-id}/status operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/packages/{package-id}/status.get",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2Parties",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2parties",
+      "location": "json-ledger-api: GET /v2/parties",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/parties.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The GET /v2/parties operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/parties.get",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2PartiesParticipant-id",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2partiesparticipant-id",
+      "location": "json-ledger-api: GET /v2/parties/participant-id",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/parties/participant-id.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The GET /v2/parties/participant-id operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/parties/participant-id.get",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2PartiesParty",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2parties:party",
+      "location": "json-ledger-api: GET /v2/parties/{party}",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/parties/{party}.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The GET /v2/parties/{party} operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/parties/{party}.get",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2StateActive-contracts-page",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2stateactive-contracts-page",
+      "location": "json-ledger-api: GET /v2/state/active-contracts-page",
+      "first_seen": "3.5",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.5",
+        "location": "json-ledger-api#paths./v2/state/active-contracts-page.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": "deprecated",
+      "lifecycle_transitions": [
+        {
+          "state": "deprecated",
+          "version": "3.5",
+          "evidence": {
+            "kind": "source_metadata",
+            "source": "Canton release bundle JSON Ledger API specifications",
+            "observed_in_version": "3.5",
+            "location": "json-ledger-api#paths./v2/state/active-contracts-page.get.deprecated",
+            "detail": null
+          }
+        }
+      ],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2StateConnected-synchronizers",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2stateconnected-synchronizers",
+      "location": "json-ledger-api: GET /v2/state/connected-synchronizers",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/state/connected-synchronizers.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The GET /v2/state/connected-synchronizers operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/state/connected-synchronizers.get",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2StateLatest-pruned-offsets",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2statelatest-pruned-offsets",
+      "location": "json-ledger-api: GET /v2/state/latest-pruned-offsets",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/state/latest-pruned-offsets.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The GET /v2/state/latest-pruned-offsets operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/state/latest-pruned-offsets.get",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2StateLedger-end",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2stateledger-end",
+      "location": "json-ledger-api: GET /v2/state/ledger-end",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/state/ledger-end.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The GET /v2/state/ledger-end operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/state/ledger-end.get",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2TrafficAccountsAccount-id",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2trafficaccounts:account-id",
+      "location": "json-ledger-api: GET /v2/traffic/accounts/{account-id}",
+      "first_seen": "3.5",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.5",
+        "location": "json-ledger-api#paths./v2/traffic/accounts/{account-id}.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2UpdatesTransaction-tree-by-idUpdate-id",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2updatestransaction-tree-by-id:update-id",
+      "location": "json-ledger-api: GET /v2/updates/transaction-tree-by-id/{update-id}",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/updates/transaction-tree-by-id/{update-id}.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The GET /v2/updates/transaction-tree-by-id/{update-id} operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/updates/transaction-tree-by-id/{update-id}.get",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": "deprecated",
+      "lifecycle_transitions": [
+        {
+          "state": "deprecated",
+          "version": "3.4",
+          "evidence": {
+            "kind": "source_metadata",
+            "source": "Canton release bundle JSON Ledger API specifications",
+            "observed_in_version": "3.4",
+            "location": "json-ledger-api#paths./v2/updates/transaction-tree-by-id/{update-id}.get.deprecated",
+            "detail": null
+          }
+        }
+      ],
+      "remove_as_of": "3.5.0",
+      "remove_as_of_evidence": {
+        "kind": "source_metadata",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.5",
+        "location": "json-ledger-api#paths./v2/updates/transaction-tree-by-id/{update-id}.get.description",
+        "detail": "Authored removal schedule in the OpenAPI operation text."
+      },
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2UpdatesTransaction-tree-by-offsetOffset",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2updatestransaction-tree-by-offset:offset",
+      "location": "json-ledger-api: GET /v2/updates/transaction-tree-by-offset/{offset}",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/updates/transaction-tree-by-offset/{offset}.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The GET /v2/updates/transaction-tree-by-offset/{offset} operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/updates/transaction-tree-by-offset/{offset}.get",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": "deprecated",
+      "lifecycle_transitions": [
+        {
+          "state": "deprecated",
+          "version": "3.4",
+          "evidence": {
+            "kind": "source_metadata",
+            "source": "Canton release bundle JSON Ledger API specifications",
+            "observed_in_version": "3.4",
+            "location": "json-ledger-api#paths./v2/updates/transaction-tree-by-offset/{offset}.get.deprecated",
+            "detail": null
+          }
+        }
+      ],
+      "remove_as_of": "3.5.0",
+      "remove_as_of_evidence": {
+        "kind": "source_metadata",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.5",
+        "location": "json-ledger-api#paths./v2/updates/transaction-tree-by-offset/{offset}.get.description",
+        "detail": "Authored removal schedule in the OpenAPI operation text."
+      },
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2Users",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2users",
+      "location": "json-ledger-api: GET /v2/users",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/users.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The GET /v2/users operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/users.get",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2UsersUser-id",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2users:user-id",
+      "location": "json-ledger-api: GET /v2/users/{user-id}",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/users/{user-id}.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The GET /v2/users/{user-id} operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/users/{user-id}.get",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2UsersUser-idRights",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2users:user-idrights",
+      "location": "json-ledger-api: GET /v2/users/{user-id}/rights",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/users/{user-id}/rights.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The GET /v2/users/{user-id}/rights operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/users/{user-id}/rights.get",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::getV2Version",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/get-v2version",
+      "location": "json-ledger-api: GET /v2/version",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/version.get",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The GET /v2/version operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/version.get",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::patchV2IdpsIdp-id",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/patch-v2idps:idp-id",
+      "location": "json-ledger-api: PATCH /v2/idps/{idp-id}",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/idps/{idp-id}.patch",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The PATCH /v2/idps/{idp-id} operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/idps/{idp-id}.patch",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::patchV2PartiesParty",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/patch-v2parties:party",
+      "location": "json-ledger-api: PATCH /v2/parties/{party}",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/parties/{party}.patch",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The PATCH /v2/parties/{party} operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/parties/{party}.patch",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::patchV2UsersUser-id",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/patch-v2users:user-id",
+      "location": "json-ledger-api: PATCH /v2/users/{user-id}",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/users/{user-id}.patch",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The PATCH /v2/users/{user-id} operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/users/{user-id}.patch",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::patchV2UsersUser-idIdentity-provider-id",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/patch-v2users:user-ididentity-provider-id",
+      "location": "json-ledger-api: PATCH /v2/users/{user-id}/identity-provider-id",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/users/{user-id}/identity-provider-id.patch",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The PATCH /v2/users/{user-id}/identity-provider-id operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/users/{user-id}/identity-provider-id.patch",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::patchV2UsersUser-idRights",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/patch-v2users:user-idrights",
+      "location": "json-ledger-api: PATCH /v2/users/{user-id}/rights",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/users/{user-id}/rights.patch",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The PATCH /v2/users/{user-id}/rights operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/users/{user-id}/rights.patch",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2CommandsAsyncSubmit",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2commandsasyncsubmit",
+      "location": "json-ledger-api: POST /v2/commands/async/submit",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/commands/async/submit.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/commands/async/submit operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/commands/async/submit.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2CommandsAsyncSubmit-reassignment",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2commandsasyncsubmit-reassignment",
+      "location": "json-ledger-api: POST /v2/commands/async/submit-reassignment",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/commands/async/submit-reassignment.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/commands/async/submit-reassignment operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/commands/async/submit-reassignment.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2CommandsCommand-completions",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2commandscommand-completions",
+      "location": "json-ledger-api: POST /v2/commands/command-completions",
+      "first_seen": "3.5",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.5",
+        "location": "json-ledger-api#paths./v2/commands/command-completions.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2CommandsCompletions",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2commandscompletions",
+      "location": "json-ledger-api: POST /v2/commands/completions",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/commands/completions.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/commands/completions operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/commands/completions.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2CommandsSubmit-and-wait",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2commandssubmit-and-wait",
+      "location": "json-ledger-api: POST /v2/commands/submit-and-wait",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/commands/submit-and-wait.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/commands/submit-and-wait operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/commands/submit-and-wait.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2CommandsSubmit-and-wait-for-reassignment",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2commandssubmit-and-wait-for-reassignment",
+      "location": "json-ledger-api: POST /v2/commands/submit-and-wait-for-reassignment",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/commands/submit-and-wait-for-reassignment.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/commands/submit-and-wait-for-reassignment operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/commands/submit-and-wait-for-reassignment.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2CommandsSubmit-and-wait-for-transaction",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2commandssubmit-and-wait-for-transaction",
+      "location": "json-ledger-api: POST /v2/commands/submit-and-wait-for-transaction",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/commands/submit-and-wait-for-transaction.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/commands/submit-and-wait-for-transaction operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/commands/submit-and-wait-for-transaction.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2CommandsSubmit-and-wait-for-transaction-tree",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2commandssubmit-and-wait-for-transaction-tree",
+      "location": "json-ledger-api: POST /v2/commands/submit-and-wait-for-transaction-tree",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/commands/submit-and-wait-for-transaction-tree.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/commands/submit-and-wait-for-transaction-tree operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/commands/submit-and-wait-for-transaction-tree.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": "deprecated",
+      "lifecycle_transitions": [
+        {
+          "state": "deprecated",
+          "version": "3.4",
+          "evidence": {
+            "kind": "source_metadata",
+            "source": "Canton release bundle JSON Ledger API specifications",
+            "observed_in_version": "3.4",
+            "location": "json-ledger-api#paths./v2/commands/submit-and-wait-for-transaction-tree.post.deprecated",
+            "detail": null
+          }
+        }
+      ],
+      "remove_as_of": "3.5.0",
+      "remove_as_of_evidence": {
+        "kind": "source_metadata",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.5",
+        "location": "json-ledger-api#paths./v2/commands/submit-and-wait-for-transaction-tree.post.description",
+        "detail": "Authored removal schedule in the OpenAPI operation text."
+      },
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2ContractsContract-by-id",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2contractscontract-by-id",
+      "location": "json-ledger-api: POST /v2/contracts/contract-by-id",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/contracts/contract-by-id.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/contracts/contract-by-id operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/contracts/contract-by-id.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2Dars",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2dars",
+      "location": "json-ledger-api: POST /v2/dars",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/dars.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/dars operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/dars.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2DarsValidate",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2darsvalidate",
+      "location": "json-ledger-api: POST /v2/dars/validate",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/dars/validate.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/dars/validate operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/dars/validate.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2EventsEvents-by-contract-id",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2eventsevents-by-contract-id",
+      "location": "json-ledger-api: POST /v2/events/events-by-contract-id",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/events/events-by-contract-id.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/events/events-by-contract-id operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/events/events-by-contract-id.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2Idps",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2idps",
+      "location": "json-ledger-api: POST /v2/idps",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/idps.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/idps operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/idps.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2Interactive-submissionExecute",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2interactive-submissionexecute",
+      "location": "json-ledger-api: POST /v2/interactive-submission/execute",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/interactive-submission/execute.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/interactive-submission/execute operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/interactive-submission/execute.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2Interactive-submissionExecuteandwait",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2interactive-submissionexecuteandwait",
+      "location": "json-ledger-api: POST /v2/interactive-submission/executeAndWait",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/interactive-submission/executeAndWait.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/interactive-submission/executeAndWait operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/interactive-submission/executeAndWait.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2Interactive-submissionExecuteandwaitfortransaction",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2interactive-submissionexecuteandwaitfortransaction",
+      "location": "json-ledger-api: POST /v2/interactive-submission/executeAndWaitForTransaction",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/interactive-submission/executeAndWaitForTransaction.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/interactive-submission/executeAndWaitForTransaction operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/interactive-submission/executeAndWaitForTransaction.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2Interactive-submissionPreferred-packages",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2interactive-submissionpreferred-packages",
+      "location": "json-ledger-api: POST /v2/interactive-submission/preferred-packages",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/interactive-submission/preferred-packages.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/interactive-submission/preferred-packages operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/interactive-submission/preferred-packages.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2Interactive-submissionPrepare",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2interactive-submissionprepare",
+      "location": "json-ledger-api: POST /v2/interactive-submission/prepare",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/interactive-submission/prepare.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/interactive-submission/prepare operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/interactive-submission/prepare.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2Package-vetting",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2package-vetting",
+      "location": "json-ledger-api: POST /v2/package-vetting",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/package-vetting.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/package-vetting operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/package-vetting.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": "deprecated",
+      "lifecycle_transitions": [
+        {
+          "state": "deprecated",
+          "version": "3.4",
+          "evidence": {
+            "kind": "source_metadata",
+            "source": "Canton release bundle JSON Ledger API specifications",
+            "observed_in_version": "3.4",
+            "location": "json-ledger-api#paths./v2/package-vetting.post.deprecated",
+            "detail": null
+          }
+        }
+      ],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2Package-vettingList",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2package-vettinglist",
+      "location": "json-ledger-api: POST /v2/package-vetting/list",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/package-vetting/list.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/package-vetting/list operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/package-vetting/list.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2Package-vettingUpdate",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2package-vettingupdate",
+      "location": "json-ledger-api: POST /v2/package-vetting/update",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/package-vetting/update.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/package-vetting/update operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/package-vetting/update.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2Packages",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2packages",
+      "location": "json-ledger-api: POST /v2/packages",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/packages.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/packages operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/packages.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2Parties",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2parties",
+      "location": "json-ledger-api: POST /v2/parties",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/parties.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/parties operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/parties.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2PartiesExternalAllocate",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2partiesexternalallocate",
+      "location": "json-ledger-api: POST /v2/parties/external/allocate",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/parties/external/allocate.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/parties/external/allocate operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/parties/external/allocate.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2PartiesExternalGenerate-topology",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2partiesexternalgenerate-topology",
+      "location": "json-ledger-api: POST /v2/parties/external/generate-topology",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/parties/external/generate-topology.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/parties/external/generate-topology operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/parties/external/generate-topology.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2StateActive-contracts",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2stateactive-contracts",
+      "location": "json-ledger-api: POST /v2/state/active-contracts",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/state/active-contracts.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/state/active-contracts operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/state/active-contracts.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2StateActive-contracts-page",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2stateactive-contracts-page",
+      "location": "json-ledger-api: POST /v2/state/active-contracts-page",
+      "first_seen": "3.5",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.5",
+        "location": "json-ledger-api#paths./v2/state/active-contracts-page.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2TrafficAccounts",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2trafficaccounts",
+      "location": "json-ledger-api: POST /v2/traffic/accounts",
+      "first_seen": "3.5",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.5",
+        "location": "json-ledger-api#paths./v2/traffic/accounts.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2Updates",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2updates",
+      "location": "json-ledger-api: POST /v2/updates",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/updates.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/updates operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/updates.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2UpdatesFlats",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2updatesflats",
+      "location": "json-ledger-api: POST /v2/updates/flats",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/updates/flats.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/updates/flats operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/updates/flats.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": "deprecated",
+      "lifecycle_transitions": [
+        {
+          "state": "deprecated",
+          "version": "3.4",
+          "evidence": {
+            "kind": "source_metadata",
+            "source": "Canton release bundle JSON Ledger API specifications",
+            "observed_in_version": "3.4",
+            "location": "json-ledger-api#paths./v2/updates/flats.post.deprecated",
+            "detail": null
+          }
+        }
+      ],
+      "remove_as_of": "3.5.0",
+      "remove_as_of_evidence": {
+        "kind": "source_metadata",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.5",
+        "location": "json-ledger-api#paths./v2/updates/flats.post.description",
+        "detail": "Authored removal schedule in the OpenAPI operation text."
+      },
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2UpdatesGet-updates-page",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2updatesget-updates-page",
+      "location": "json-ledger-api: POST /v2/updates/get-updates-page",
+      "first_seen": "3.5",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.5",
+        "location": "json-ledger-api#paths./v2/updates/get-updates-page.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": null,
+      "changes": [],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2UpdatesTransaction-by-id",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2updatestransaction-by-id",
+      "location": "json-ledger-api: POST /v2/updates/transaction-by-id",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/updates/transaction-by-id.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/updates/transaction-by-id operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/updates/transaction-by-id.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": "deprecated",
+      "lifecycle_transitions": [
+        {
+          "state": "deprecated",
+          "version": "3.4",
+          "evidence": {
+            "kind": "source_metadata",
+            "source": "Canton release bundle JSON Ledger API specifications",
+            "observed_in_version": "3.4",
+            "location": "json-ledger-api#paths./v2/updates/transaction-by-id.post.deprecated",
+            "detail": null
+          }
+        }
+      ],
+      "remove_as_of": "3.5.0",
+      "remove_as_of_evidence": {
+        "kind": "source_metadata",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.5",
+        "location": "json-ledger-api#paths./v2/updates/transaction-by-id.post.description",
+        "detail": "Authored removal schedule in the OpenAPI operation text."
+      },
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2UpdatesTransaction-by-offset",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2updatestransaction-by-offset",
+      "location": "json-ledger-api: POST /v2/updates/transaction-by-offset",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/updates/transaction-by-offset.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/updates/transaction-by-offset operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/updates/transaction-by-offset.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": "deprecated",
+      "lifecycle_transitions": [
+        {
+          "state": "deprecated",
+          "version": "3.4",
+          "evidence": {
+            "kind": "source_metadata",
+            "source": "Canton release bundle JSON Ledger API specifications",
+            "observed_in_version": "3.4",
+            "location": "json-ledger-api#paths./v2/updates/transaction-by-offset.post.deprecated",
+            "detail": null
+          }
+        }
+      ],
+      "remove_as_of": "3.5.0",
+      "remove_as_of_evidence": {
+        "kind": "source_metadata",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.5",
+        "location": "json-ledger-api#paths./v2/updates/transaction-by-offset.post.description",
+        "detail": "Authored removal schedule in the OpenAPI operation text."
+      },
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2UpdatesTrees",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2updatestrees",
+      "location": "json-ledger-api: POST /v2/updates/trees",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/updates/trees.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/updates/trees operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/updates/trees.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": "deprecated",
+      "lifecycle_transitions": [
+        {
+          "state": "deprecated",
+          "version": "3.4",
+          "evidence": {
+            "kind": "source_metadata",
+            "source": "Canton release bundle JSON Ledger API specifications",
+            "observed_in_version": "3.4",
+            "location": "json-ledger-api#paths./v2/updates/trees.post.deprecated",
+            "detail": null
+          }
+        }
+      ],
+      "remove_as_of": "3.5.0",
+      "remove_as_of_evidence": {
+        "kind": "source_metadata",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.5",
+        "location": "json-ledger-api#paths./v2/updates/trees.post.description",
+        "detail": "Authored removal schedule in the OpenAPI operation text."
+      },
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2UpdatesUpdate-by-id",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2updatesupdate-by-id",
+      "location": "json-ledger-api: POST /v2/updates/update-by-id",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/updates/update-by-id.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/updates/update-by-id operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/updates/update-by-id.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2UpdatesUpdate-by-offset",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2updatesupdate-by-offset",
+      "location": "json-ledger-api: POST /v2/updates/update-by-offset",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/updates/update-by-offset.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/updates/update-by-offset operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/updates/update-by-offset.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2Users",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2users",
+      "location": "json-ledger-api: POST /v2/users",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/users.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/users operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/users.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    },
+    {
+      "id": "json-ledger-api::postV2UsersUser-idRights",
+      "kind": "operation",
+      "route": "/reference/json-api-reference/post-v2users:user-idrights",
+      "location": "json-ledger-api: POST /v2/users/{user-id}/rights",
+      "first_seen": "3.4",
+      "last_seen": "3.5",
+      "current_present": true,
+      "introduction_evidence": {
+        "kind": "snapshot",
+        "source": "Canton release bundle JSON Ledger API specifications",
+        "observed_in_version": "3.4",
+        "location": "json-ledger-api#paths./v2/users/{user-id}/rights.post",
+        "detail": null
+      },
+      "observed_removal": null,
+      "removal_evidence": null,
+      "last_changed": "3.5",
+      "changes": [
+        {
+          "version": "3.5",
+          "summary": "The POST /v2/users/{user-id}/rights operation changed in this snapshot.",
+          "evidence": [
+            {
+              "kind": "snapshot_diff",
+              "source": "Canton release bundle JSON Ledger API specifications",
+              "observed_in_version": "3.5",
+              "location": "json-ledger-api#paths./v2/users/{user-id}/rights.post",
+              "detail": null
+            }
+          ]
+        }
+      ],
+      "lifecycle_state": null,
+      "lifecycle_transitions": [],
+      "remove_as_of": null,
+      "remove_as_of_evidence": null,
+      "replacement_edges": [],
+      "identity_confidence": "exact",
+      "identity_evidence": []
+    }
+  ],
+  "limitations": [
+    "Release-bundle OpenAPI snapshots establish operation additions, normalized updates, authored deprecations, and removals."
+  ]
+}

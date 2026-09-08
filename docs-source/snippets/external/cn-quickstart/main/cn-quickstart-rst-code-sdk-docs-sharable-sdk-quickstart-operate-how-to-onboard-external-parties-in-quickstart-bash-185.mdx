@@ -1,0 +1,17 @@
+```bash
+  # Sign hash 1
+  printf '%s' "$HASH_1" | xxd -r -p > /tmp/hash1.bin
+  SIG_1=$(openssl pkeyutl -sign -inkey external_party_private.pem -rawin -in /tmp/hash1.bin | xxd -p | tr -d '\n')
+  echo "Signature 1: $SIG_1"
+ 
+  # Sign hash 2
+  printf '%s' "$HASH_2" | xxd -r -p > /tmp/hash2.bin
+  SIG_2=$(openssl pkeyutl -sign -inkey external_party_private.pem -rawin -in /tmp/hash2.bin | xxd -p | tr -d '\n')
+  echo "Signature 2: $SIG_2"
+ 
+  # Sign hash 3
+  printf '%s' "$HASH_3" | xxd -r -p > /tmp/hash3.bin
+  SIG_3=$(openssl pkeyutl -sign -inkey external_party_private.pem -rawin -in /tmp/hash3.bin | xxd -p | tr -d '\n')
+  echo "Signature 3: $SIG_3"
+
+```

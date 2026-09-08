@@ -1,0 +1,8 @@
+```java
+@WithSpan
+public CompletableFuture<ResponseEntity<List<License>>> listLicenses() {
+    // The @WithSpan annotation creates a trace span automatically
+    return damlRepository.findActiveLicenses()
+        .thenApply(licenses -> ResponseEntity.ok(licenses));
+}
+```

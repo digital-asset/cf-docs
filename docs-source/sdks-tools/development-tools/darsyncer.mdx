@@ -1,0 +1,272 @@
+---
+title: "Darsyncer Docker Image"
+description: "Upload and synchronize DAR files to a participant."
+---
+
+# darsyncer
+
+`darsyncer` synchronizes one or more DAR files to a participant ledger. It can upload missing DARs, verify that required packages are present, or wait until synchronization has completed.
+
+## Docker Image
+
+```text
+europe-docker.pkg.dev/da-images/public/docker/darsyncer:latest
+```
+
+## Features
+
+* Upload one or more DAR files to a participant
+* Synchronize an entire directory of DARs
+* Verify that required DARs are already available
+* Wait until a participant has received all required DARs
+* OAuth authentication support
+* Configurable transport security
+* Health probe endpoint for Kubernetes deployments
+
+## Pulling the Image
+
+```bash
+docker pull europe-docker.pkg.dev/da-images/public/docker/darsyncer:latest
+```
+
+### Available Versions
+
+Released versions of darsyncer are browsable through the Google Artifact Registry UI (accessible to all, but does require you to log in to Google).
+
+| Source          | Location                                                                                                                                                     |
+|-----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Browse UI       | <a href="https://console.cloud.google.com/artifacts/docker/da-images/europe/public/docker%2Fdarsyncer?project=da-images">Browse available image versions</a> |
+| Docker Registry | `europe-docker.pkg.dev/da-images/public/docker/darsyncer:<version-tag>`                                                                                      |
+
+If you do not specify a tag, Docker defaults to pulling `:latest`. This documentation uses `:latest` as an example; if you need a pinned version, use an immutable image digest (for example, `europe-docker.pkg.dev/da-images/public/docker/darsyncer@sha256:<digest>`) rather than a floating tag.
+
+Generally speaking, darsyncer versions are compatible across participant/Splice versions, and it is advantageous to stay current to benefit from security vulnerability fixes and other patches.
+
+## Quick Start
+
+Assuming your DAR files are located in `./dars`:
+
+```bash
+docker run --rm \
+  -v $(pwd)/dars:/dars:ro \
+  europe-docker.pkg.dev/da-images/public/docker/darsyncer:latest \
+  --endpoint participant.example.com:443 \
+  --dars /dars
+```
+
+## Usage
+
+```text
+darsyncer [global options]
+```
+
+### Required Options
+
+| Option       | Description                                                    |
+| ------------ | -------------------------------------------------------------- |
+| `--endpoint` | Participant endpoint to synchronize to.                        |
+| `--dars`     | Path to a single DAR file or a directory containing DAR files. |
+
+## Command-Line Options
+
+### General
+
+| Option                 | Description                                                                 | Default                         |
+| ---------------------- | --------------------------------------------------------------------------- | ------------------------------- |
+| `--dars`               | Path to a DAR file or directory.                                            |                                 |
+| `--log`                | Log level.                                                                  | `info`                          |
+| `--transport-security` | Connection security mode (`https-with-plaintext-fallback` or `https-only`). | `https-with-plaintext-fallback` |
+| `--help`               | Show help information.                                                      |                                 |
+
+### Authentication
+
+These options may also be provided using environment variables.
+
+| Option            | Environment Variable | Description               |
+| ----------------- | -------------------- | ------------------------- |
+| `--audience`      | `AUDIENCE`           | OAuth audience            |
+| `--client-id`     | `CLIENT_ID`          | OAuth client ID           |
+| `--client-secret` | `CLIENT_SECRET`      | OAuth client secret       |
+| `--oauth-domain`  | `OAUTH_DOMAIN`       | OAuth domain              |
+| `--scope`         | `SCOPE`              | OAuth scope               |
+| `--token-path`    | `TOKEN_PATH`         | Path to a JWKS token file |
+
+### Modes
+
+| Option             | Description                                                 |
+| ------------------ | ----------------------------------------------------------- |
+| `--endpoint`       | Participant endpoint                                        |
+| `--check`          | Verify the participant already contains all DARs and exit   |
+| `--wait`           | Wait until the participant contains all DARs before exiting |
+| `--just-print`     | Print package IDs without uploading                         |
+| `--probe-endpoint` | Health probe bind address                                   |
+| `--retry-delay`    | Delay between retry attempts                                |
+
+## Examples
+
+### Upload all DARs from a directory
+
+```bash
+docker run --rm \
+  -v $(pwd)/dars:/dars:ro \
+  europe-docker.pkg.dev/da-images/public/docker/darsyncer:latest \
+  --endpoint participant.example.com:443 \
+  --dars /dars
+```
+
+### Upload a single DAR
+
+```bash
+docker run --rm \
+  -v $(pwd)/dars:/dars:ro \
+  europe-docker.pkg.dev/da-images/public/docker/darsyncer:latest \
+  --endpoint participant.example.com:443 \
+  --dars /dars/example.dar
+```
+
+### Verify required DARs
+
+```bash
+docker run --rm \
+  -v $(pwd)/dars:/dars:ro \
+  europe-docker.pkg.dev/da-images/public/docker/darsyncer:latest \
+  --endpoint participant.example.com:443 \
+  --dars /dars \
+  --check
+```
+
+### Wait until synchronization completes
+
+```bash
+docker run --rm \
+  -v $(pwd)/dars:/dars:ro \
+  europe-docker.pkg.dev/da-images/public/docker/darsyncer:latest \
+  --endpoint participant.example.com:443 \
+  --dars /dars \
+  --wait
+```
+
+### Print package IDs
+
+```bash
+docker run --rm \
+  -v $(pwd)/dars:/dars:ro \
+  europe-docker.pkg.dev/da-images/public/docker/darsyncer:latest \
+  --dars /dars \
+  --just-print
+```
+
+## Using Environment Variables
+
+Authentication parameters can be supplied through environment variables.
+
+```bash
+docker run --rm \
+  -v $(pwd)/dars:/dars:ro \
+  -e CLIENT_ID=my-client \
+  -e CLIENT_SECRET=my-secret \
+  -e AUDIENCE=my-audience \
+  -e OAUTH_DOMAIN=https://auth.example.com \
+  europe-docker.pkg.dev/da-images/public/docker/darsyncer:latest \
+  --endpoint participant.example.com:443 \
+  --dars /dars
+```
+
+## Health Probe
+
+By default, the health probe server listens on:
+
+```text
+0.0.0.0:8080
+```
+
+To change the address:
+
+```bash
+--probe-endpoint 0.0.0.0:9090
+```
+
+This endpoint is intended for Kubernetes liveness and readiness probes.
+
+## Logging
+
+Configure the log level:
+
+```bash
+--log info
+```
+
+Default:
+
+```text
+info
+```
+
+## Transport Security
+
+| Mode                            | Description                                                 |
+| ------------------------------- | ----------------------------------------------------------- |
+| `https-with-plaintext-fallback` | Attempt HTTPS first and fall back to plaintext if necessary |
+| `https-only`                    | Require HTTPS for all participant connections               |
+
+## Volume Mounts
+
+Mount a directory containing DAR files into the container.
+
+Example:
+
+```bash
+-v $(pwd)/dars:/dars:ro
+```
+
+## Environment Variables
+
+| Variable        | Description           |
+| --------------- | --------------------- |
+| `DARS`          | DAR file or directory |
+| `ENDPOINT`      | Participant endpoint  |
+| `CLIENT_ID`     | OAuth client ID       |
+| `CLIENT_SECRET` | OAuth client secret   |
+| `AUDIENCE`      | OAuth audience        |
+| `OAUTH_DOMAIN`  | OAuth provider        |
+| `SCOPE`         | OAuth scope           |
+| `TOKEN_PATH`    | JWKS token file       |
+
+## Troubleshooting
+
+### No DARs Found
+
+Verify that:
+
+* the mounted directory contains `.dar` files;
+* the path supplied to `--dars` is correct; and
+* the directory is mounted into the container.
+
+### Authentication Failures
+
+Confirm that:
+
+* the OAuth credentials are valid;
+* the configured audience and scope are correct; and
+* the participant accepts the supplied credentials.
+
+### Unable to Connect
+
+Verify:
+
+* the participant endpoint is reachable;
+* the selected transport security mode matches the participant configuration; and
+* network policies or firewalls allow the connection.
+
+## Display Help
+
+```bash
+docker run --rm \
+  europe-docker.pkg.dev/da-images/public/docker/darsyncer:latest \
+  --help
+```
+
+## Contribution
+
+darsyncer is an open sourced component available at https://github.com/digital-asset/darsyncer - contributions and enhancements are welcome.
+

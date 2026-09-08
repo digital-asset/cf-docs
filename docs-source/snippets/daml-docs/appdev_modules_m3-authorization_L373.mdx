@@ -1,0 +1,25 @@
+```haskell
+template NonTransitive
+  with
+    partyA : Party
+    partyB : Party
+  where
+    signatory partyA
+    observer partyB
+
+    choice TryA
+      : ContractId NonTransitive
+      controller partyA
+      do
+        create NonTransitive with
+          partyA = partyB
+          partyB = partyA
+
+    choice TryB
+      : ContractId NonTransitive
+        with
+          other : ContractId NonTransitive
+      controller partyB
+      do
+        exercise other TryA
+```

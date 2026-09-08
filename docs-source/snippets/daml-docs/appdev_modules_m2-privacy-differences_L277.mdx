@@ -1,0 +1,17 @@
+```haskell
+template DesignedForPrivacy
+  with
+    primaryParty : Party
+    counterparty : Party
+    auditor : Party  -- Only if audit is required
+    details : SensitiveData
+  where
+    signatory primaryParty
+    observer counterparty  -- Needs to see, but not auditor
+
+    -- Add auditor only when they need to see
+    choice AddAuditObserver : ContractId DesignedForPrivacy
+      with newAuditor : Party
+      controller primaryParty
+      do create this with auditor = newAuditor
+```

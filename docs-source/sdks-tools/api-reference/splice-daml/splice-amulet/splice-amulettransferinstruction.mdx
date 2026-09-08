@@ -1,0 +1,42 @@
+---
+title: "Splice.AmuletTransferInstruction"
+description: "Documentation for Splice.AmuletTransferInstruction"
+---
+
+{/* COPIED_START source="splice:daml/splice-amulet/docs/Splice-AmuletTransferInstruction.rst" tag="0.6.4" hash="afde74aa" */}
+
+## Templates
+
+<div id="type-splice-amulettransferinstruction-amulettransferinstruction-76678">
+
+**template** AmuletTransferInstruction
+
+</div>
+
+> A transfer instruction for transferring Amulet tokens pending on receiver acceptance.
+>
+> Signatory: (DA.Internal.Record.getField @"admin" (DA.Internal.Record.getField @"instrumentId" transfer)), (DA.Internal.Record.getField @"sender" transfer)
+>
+> | Field        | Type                                                                                                                                       | Description                                                                   |
+> |--------------|--------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+> | lockedAmulet | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) LockedAmulet | Locked amulet that holds the funds for executing the transfer upon acceptance |
+> | transfer     | Transfer                                                                                                                                   |                                                                               |
+>
+> - **Choice** Archive
+>
+>   Controller: (DA.Internal.Record.getField @"admin" (DA.Internal.Record.getField @"instrumentId" transfer)), (DA.Internal.Record.getField @"sender" transfer)
+>
+>   Returns: ()
+>
+>   (no fields)
+
+## Functions
+
+<div id="function-splice-amulettransferinstruction-standardtransfertotwosteptransfer-69205">
+
+standardTransferToTwoStepTransfer
+: Transfer -\> TwoStepTransfer
+
+</div>
+
+{/* COPIED_END */}

@@ -1,0 +1,194 @@
+---
+title: "Splice.Api.RewardAssignmentV1"
+description: "Documentation for Splice.Api.RewardAssignmentV1"
+---
+
+{/* COPIED_START source="splice:daml/splice-api-reward-assignment-v1/docs/Splice-Api-RewardAssignmentV1.rst" hash="d233352e" */}
+
+An API for app providers and other service providers to assign reward coupons for their activity to their beneficiaries.
+
+## Interfaces
+
+<div id="type-splice-api-rewardassignmentv1-rewardcoupon-91850">
+
+**interface** RewardCoupon
+
+</div>
+
+> A coupon representing the right to mint a certain amount of rewards.
+>
+> **viewtype** RewardCouponView
+>
+> - **Choice** Archive
+>
+>   Controller: Signatories of implementing template
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-api-rewardassignmentv1-rewardcouponassignbeneficiaries-91237">
+>
+>   **Choice** RewardCoupon_AssignBeneficiaries
+>
+>   </div>
+>
+>   Assign ultimate beneficiaries to the coupon. Useful for apps where the party that earns the minting right (the provider) is just an operational party and the actual beneficiaries are different parties.
+>
+>   The coupon MUST NOT already have an assigned beneficiary.
+>
+>   Controller: (DA.Internal.Record.getField @"provider" (view this))
+>
+>   Returns: RewardCoupon_AssignBeneficiariesResult
+>
+>   | Field             | Type                                                                                                                                           | Description                                                                                                                                                                                                                                                                                                                                                                                                                                |
+>   |-------------------|------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+>   | additionalCoupons | \[[ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) RewardCoupon\] | Additional coupons of the provider to share in the same transaction. These MUST NOT already have any assigned beneficiary.                                                                                                                                                                                                                                                                                                                 |
+>   | newBeneficiaries  | \[RewardBeneficiary\]                                                                                                                          | The new beneficiaries to whom to assign part of the minting amount of the coupon. The percentages MUST be between 0.0 and 1.0, add up to 1.0, and there MUST NOT be duplicate beneficiaries. There MUST be at most `(view this).maxNumNewBeneficiaries` new beneficiaries in the list. The purpose of this limit is to ensure that traffic cost of creating coupons guards the overhead of tracking the created coupons for the DSO party. |
+>   | extraArgs         | ExtraArgs                                                                                                                                      | Extra arguments for extensibility. Set to empty, unless needed for specific implementations.                                                                                                                                                                                                                                                                                                                                               |
+>
+> - **Method rewardCoupon_assignBeneficiariesImpl :** [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) RewardCoupon -\> RewardCoupon_AssignBeneficiaries -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) RewardCoupon_AssignBeneficiariesResult
+
+## Data Types
+
+<div id="type-splice-api-rewardassignmentv1-rewardbeneficiary-10184">
+
+**data** RewardBeneficiary
+
+</div>
+
+> Specification of a beneficiary of rewards.
+>
+> <div id="constr-splice-api-rewardassignmentv1-rewardbeneficiary-42059">
+>
+> RewardBeneficiary
+>
+> </div>
+>
+> > | Field       | Type                                                                                                                | Description                                                                                                            |
+> > |-------------|---------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+> > | beneficiary | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | The party that is granted the right to mint amulet for this activity.                                                  |
+> > | percentage  | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)  | Percentage (specified as a number between 0.0 and 1.0) of the reward minting allowance to assign to this beneficiary . |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) RewardBeneficiary
+>
+> **instance** [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) RewardBeneficiary
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) RewardBeneficiary
+>
+> **instance** GetField "beneficiary" RewardBeneficiary [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "newBeneficiaries" RewardCoupon_AssignBeneficiaries \[RewardBeneficiary\]
+>
+> **instance** GetField "percentage" RewardBeneficiary [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "beneficiary" RewardBeneficiary [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "newBeneficiaries" RewardCoupon_AssignBeneficiaries \[RewardBeneficiary\]
+>
+> **instance** SetField "percentage" RewardBeneficiary [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+<div id="type-splice-api-rewardassignmentv1-rewardcouponview-77665">
+
+**data** RewardCouponView
+
+</div>
+
+> View on a coupon representing the right to mint a certain amount of rewards.
+>
+> <div id="constr-splice-api-rewardassignmentv1-rewardcouponview-34344">
+>
+> RewardCouponView
+>
+> </div>
+>
+> > | Field                  | Type                                                                                                                                                                                                                                               | Description                                                                                                                             |
+> > |------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+> > | dso                    | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                                | The DSO party.                                                                                                                          |
+> > | provider               | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                                | The party that provided the service for whose activity the minting right was granted.                                                   |
+> > | beneficiary            | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | The beneficiary that can mint the amount specified in the coupon. If not set assignment via this interface is possible by the provider. |
+> > | amount                 | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                 | Amulet amount that can be minted with this coupon.                                                                                      |
+> > | expiresAt              | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)                                                                                                                                  | Expiration time of the coupon. The minting right granted by the coupon can only be exercised before this time.                          |
+> > | maxNumNewBeneficiaries | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)                                                                                                                                         | The maximum number of new beneficiaries that can be assigned to the coupon in a single assignment.                                      |
+> > | meta                   | Metadata                                                                                                                                                                                                                                           | Metadata associated with this coupon. Provided for extensibility.                                                                       |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) RewardCouponView
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) RewardCouponView
+>
+> **instance** [HasFromAnyView](/appdev/reference/daml-standard-library/da-internal-interface-anyview#class-da-internal-interface-anyview-hasfromanyview-30108) RewardCoupon RewardCouponView
+>
+> **instance** [HasInterfaceView](/appdev/reference/daml-standard-library/prelude#class-da-internal-interface-hasinterfaceview-4492) RewardCoupon RewardCouponView
+>
+> **instance** GetField "amount" RewardCouponView [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "beneficiary" RewardCouponView ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932))
+>
+> **instance** GetField "dso" RewardCouponView [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "expiresAt" RewardCouponView [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)
+>
+> **instance** GetField "maxNumNewBeneficiaries" RewardCouponView [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** GetField "meta" RewardCouponView Metadata
+>
+> **instance** GetField "provider" RewardCouponView [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "amount" RewardCouponView [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "beneficiary" RewardCouponView ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932))
+>
+> **instance** SetField "dso" RewardCouponView [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "expiresAt" RewardCouponView [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)
+>
+> **instance** SetField "maxNumNewBeneficiaries" RewardCouponView [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "meta" RewardCouponView Metadata
+>
+> **instance** SetField "provider" RewardCouponView [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+
+<div id="type-splice-api-rewardassignmentv1-rewardcouponassignbeneficiariesresult-6056">
+
+**data** RewardCoupon_AssignBeneficiariesResult
+
+</div>
+
+> <div id="constr-splice-api-rewardassignmentv1-rewardcouponassignbeneficiariesresult-3545">
+>
+> RewardCoupon_AssignBeneficiariesResult
+>
+> </div>
+>
+> > | Field                      | Type                                                                                                                                                                                                                                                                      | Description                                               |
+> > |----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
+> > | newBeneficiariesCouponCids | \[([Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932), \[[ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) RewardCoupon\])\] | The coupons created for the newly assigned beneficiaries. |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) RewardCoupon_AssignBeneficiariesResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) RewardCoupon_AssignBeneficiariesResult
+>
+> **instance** HasMethod RewardCoupon "rewardCoupon_assignBeneficiariesImpl" ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) RewardCoupon -\> RewardCoupon_AssignBeneficiaries -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) RewardCoupon_AssignBeneficiariesResult)
+>
+> **instance** GetField "newBeneficiariesCouponCids" RewardCoupon_AssignBeneficiariesResult \[([Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932), \[[ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) RewardCoupon\])\]
+>
+> **instance** SetField "newBeneficiariesCouponCids" RewardCoupon_AssignBeneficiariesResult \[([Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932), \[[ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) RewardCoupon\])\]
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) RewardCoupon RewardCoupon_AssignBeneficiaries RewardCoupon_AssignBeneficiariesResult
+>
+> **instance** [HasExerciseGuarded](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexerciseguarded-97843) RewardCoupon RewardCoupon_AssignBeneficiaries RewardCoupon_AssignBeneficiariesResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) RewardCoupon RewardCoupon_AssignBeneficiaries RewardCoupon_AssignBeneficiariesResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) RewardCoupon RewardCoupon_AssignBeneficiaries RewardCoupon_AssignBeneficiariesResult
+
+## Functions
+
+<div id="function-splice-api-rewardassignmentv1-rewardcouponassignbeneficiariesimpl-26627">
+
+rewardCoupon_assignBeneficiariesImpl
+: RewardCoupon -\> [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) RewardCoupon -\> RewardCoupon_AssignBeneficiaries -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) RewardCoupon_AssignBeneficiariesResult
+
+</div>
+
+{/* COPIED_END */}

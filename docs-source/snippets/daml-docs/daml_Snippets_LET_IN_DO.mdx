@@ -1,0 +1,11 @@
+```haskell
+blah = script
+  do
+    let
+      x = 1
+      y = 2
+      -- x and y are in scope for all subsequent expressions of the do block,
+      -- so can be used in expression1 and expression2.
+    expression1
+    expression2
+```

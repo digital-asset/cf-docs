@@ -1,0 +1,7 @@
+```sql
+   select * 
+   from creates(from_offset := 'last_memoized_offset')
+   where created_at_offset > 'last_memoized_offset'
+   order by created_at_offset;
+
+```

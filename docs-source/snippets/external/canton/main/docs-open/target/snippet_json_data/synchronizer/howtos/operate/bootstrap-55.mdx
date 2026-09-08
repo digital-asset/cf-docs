@@ -1,0 +1,12 @@
+```scala
+@ val synchronizerId = sequencer1.synchronizer_id
+    synchronizerId : SynchronizerId = mySynchronizer::1220a82692ab...
+```
+
+```scala
+@ sequencer1.topology.synchronizer_parameters.propose_update(synchronizerId, _.update(onboardingRestriction = OnboardingRestriction.RestrictedOpen))
+```
+
+```scala
+@ mediator1.topology.synchronizer_parameters.propose_update(synchronizerId, _.update(onboardingRestriction = OnboardingRestriction.RestrictedOpen))
+```

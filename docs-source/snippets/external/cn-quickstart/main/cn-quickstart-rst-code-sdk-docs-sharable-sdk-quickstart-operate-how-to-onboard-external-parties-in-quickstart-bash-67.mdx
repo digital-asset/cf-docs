@@ -1,0 +1,7 @@
+```bash
+  ADMIN_TOKEN=$(docker exec splice-onboarding \
+    jwt-cli encode hs256 --s unsafe --p '{"sub": "app-user", "aud": "https://canton.network.global"}')
+ 
+  echo $ADMIN_TOKEN
+
+```

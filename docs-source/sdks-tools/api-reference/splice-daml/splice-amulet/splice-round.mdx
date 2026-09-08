@@ -1,0 +1,158 @@
+---
+title: "Splice.Round"
+description: "Documentation for Splice.Round"
+---
+
+{/* COPIED_START source="splice:daml/splice-amulet/docs/Splice-Round.rst" tag="0.6.4" hash="a941ba90" */}
+
+## Templates
+
+<div id="type-splice-round-closedmininground-12506">
+
+**template** ClosedMiningRound
+
+</div>
+
+> A record that a specific mining round has been closed, which can be used to archive expired rewards.
+>
+> Signatory: dso
+>
+> | Field                                | Type                                                                                                                                                                                                                                              | Description         |
+> |--------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
+> | dso                                  | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                               |                     |
+> | round                                | Round                                                                                                                                                                                                                                             |                     |
+> | issuancePerValidatorRewardCoupon     | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                     |
+> | issuancePerFeaturedAppRewardCoupon   | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                     |
+> | issuancePerUnfeaturedAppRewardCoupon | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                     |
+> | issuancePerSvRewardCoupon            | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                     |
+> | optIssuancePerValidatorFaucetCoupon  | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) | Introduced in CIP-3 |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+
+<div id="type-splice-round-issuingmininground-98097">
+
+**template** IssuingMiningRound
+
+</div>
+
+> A mining round for whose rewards amulets are being issued.
+>
+> Signatory: dso
+>
+> | Field                                | Type                                                                                                                                                                                                                                              | Description                                                                                                       |
+> |--------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+> | dso                                  | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                               |                                                                                                                   |
+> | round                                | Round                                                                                                                                                                                                                                             |                                                                                                                   |
+> | issuancePerValidatorRewardCoupon     | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                                                                                                                   |
+> | issuancePerFeaturedAppRewardCoupon   | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                                                                                                                   |
+> | issuancePerUnfeaturedAppRewardCoupon | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                                                                                                                   |
+> | issuancePerSvRewardCoupon            | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                                                                                                                   |
+> | opensAt                              | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)                                                                                                                                 | Time after which rewards from this mining round can be collected                                                  |
+> | targetClosesAt                       | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)                                                                                                                                 | Time when this round is expected to close during standard DSO. The round SHOULD NOT be archived before this time. |
+> | optIssuancePerValidatorFaucetCoupon  | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) | Introduced in CIP-3                                                                                               |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+
+<div id="type-splice-round-openmininground-90060">
+
+**template** OpenMiningRound
+
+</div>
+
+> A mining round for which new rewards can be registered. Note that multiple mining rounds can be open at the same time to give some time for propagating a new open round, while still registering rewards against the previous open round.
+>
+> Signatory: dso
+>
+> | Field             | Type                                                                                                                   | Description                                                                                                               |
+> |-------------------|------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
+> | dso               | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)    |                                                                                                                           |
+> | round             | Round                                                                                                                  |                                                                                                                           |
+> | amuletPrice       | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)     |                                                                                                                           |
+> | opensAt           | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)      | Time after which transfers can use this mining round                                                                      |
+> | targetClosesAt    | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)      | Time when this round is expected to be closed as part of standard DSO. The round SHOULD NOT be archived before this time. |
+> | issuingFor        | [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) | Timepoint on the issuance curve that was used to determing the issuance configuration for this round.                     |
+> | transferConfigUsd | TransferConfig USD                                                                                                     | Configuration determining the fees and limits in USD for Amulet transfers                                                 |
+> | issuanceConfig    | IssuanceConfig                                                                                                         | Configuration for issuance of this round.                                                                                 |
+> | tickDuration      | [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) | Duration of a tick, which is the duration of half a round.                                                                |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-round-openminingroundfetch-48019">
+>
+>   **Choice** OpenMiningRound_Fetch
+>
+>   </div>
+>
+>   Controller: p
+>
+>   Returns: OpenMiningRound
+>
+>   | Field | Type                                                                                                                | Description |
+>   |-------|---------------------------------------------------------------------------------------------------------------------|-------------|
+>   | p     | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+
+<div id="type-splice-round-summarizingmininground-36579">
+
+**template** SummarizingMiningRound
+
+</div>
+
+> A mining round for which the total sum of registered rewards is being computed. Rewards can no longer be registered aginst such a round.
+>
+> Signatory: dso
+>
+> | Field          | Type                                                                                                                   | Description |
+> |----------------|------------------------------------------------------------------------------------------------------------------------|-------------|
+> | dso            | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)    |             |
+> | round          | Round                                                                                                                  |             |
+> | amuletPrice    | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)     |             |
+> | issuanceConfig | IssuanceConfig                                                                                                         |             |
+> | tickDuration   | [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) |             |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+
+## Functions
+
+<div id="function-splice-round-getissuingminingroundissuancepervalidatorfaucetcoupon-99508">
+
+getIssuingMiningRoundIssuancePerValidatorFaucetCoupon
+: IssuingMiningRound -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+Accessor with defaulting for the optional issuancePerValidatorFaucetCoupon field
+
+</div>
+
+<div id="function-splice-round-getclosedminingroundissuancepervalidatorfaucetcoupon-25673">
+
+getClosedMiningRoundIssuancePerValidatorFaucetCoupon
+: ClosedMiningRound -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+Accessor with defaulting for the optional issuancePerValidatorFaucetCoupon field
+
+</div>
+
+{/* COPIED_END */}

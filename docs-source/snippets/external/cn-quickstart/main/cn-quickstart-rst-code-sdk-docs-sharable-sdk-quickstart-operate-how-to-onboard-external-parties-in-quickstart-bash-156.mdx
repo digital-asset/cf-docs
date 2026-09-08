@@ -1,0 +1,25 @@
+```bash
+  # Extract party_id for later use
+  PARTY_ID=$(echo "$GENERATE_RESPONSE" | jq -r '.party_id')
+  echo "Party ID: $PARTY_ID"
+ 
+  # Extract key fingerprint from party_id (the part after ::)
+  # This is needed for signing transactions in Part 3
+  KEY_FINGERPRINT=${PARTY_ID##*::}
+  echo "Key fingerprint: $KEY_FINGERPRINT"
+ 
+  # Extract topology transactions and their hashes
+  TOPOLOGY_TX_1=$(echo "$GENERATE_RESPONSE" | jq -r '.topology_txs[0].topology_tx')
+  HASH_1=$(echo "$GENERATE_RESPONSE" | jq -r '.topology_txs[0].hash')
+ 
+  TOPOLOGY_TX_2=$(echo "$GENERATE_RESPONSE" | jq -r '.topology_txs[1].topology_tx')
+  HASH_2=$(echo "$GENERATE_RESPONSE" | jq -r '.topology_txs[1].hash')
+ 
+  TOPOLOGY_TX_3=$(echo "$GENERATE_RESPONSE" | jq -r '.topology_txs[2].topology_tx')
+  HASH_3=$(echo "$GENERATE_RESPONSE" | jq -r '.topology_txs[2].hash')
+ 
+  echo "Hash 1: $HASH_1"
+  echo "Hash 2: $HASH_2"
+  echo "Hash 3: $HASH_3"
+
+```

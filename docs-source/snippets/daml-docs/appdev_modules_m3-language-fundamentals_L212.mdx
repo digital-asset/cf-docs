@@ -1,0 +1,19 @@
+```haskell
+let
+          validate (asset, assetCid) = do
+            fetchedAsset <- fetch assetCid
+            assertMsg
+              "Asset mismatch"
+              (asset == fetchedAsset with
+                observers = asset.observers)
+
+        mapA_ validate (zip baseAssets baseAssetCids)
+        mapA_ validate (zip quoteAssets quoteAssetCids)
+
+        let
+          transfer (assetCid, approvalCid) = do
+            exercise approvalCid TransferApproval_Transfer with assetCid
+
+        transferredBaseCids <- mapA transfer (zip baseAssetCids baseApprovalCids)
+        transferredQuoteCids <- mapA transfer (zip quoteAssetCids quoteApprovalCids)
+```

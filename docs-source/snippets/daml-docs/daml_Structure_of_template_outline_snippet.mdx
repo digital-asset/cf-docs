@@ -1,0 +1,18 @@
+```text
+template NameOfTemplate
+  with
+    exampleParty : Party
+    exampleParty2 : Party
+    exampleParty3 : Party
+    exampleParameter : Text
+    -- more parameters here
+  where
+    signatory exampleParty
+    observer exampleParty2
+    ensure
+      -- boolean condition
+      True
+    key (exampleParty, exampleParameter) : (Party, Text)
+    maintainer (exampleFunction key)
+    -- a choice goes here; see next section
+```

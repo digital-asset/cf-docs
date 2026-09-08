@@ -1,0 +1,27 @@
+```haskell
+charlie <- allocateParty "Charlie"
+
+  -- Alice issues an Iou using a transfer proposal.
+  tpab <- submit alice do
+    createCmd IouTransferProposal with
+      newOwner = bob
+      iou = Iou with
+        issuer = alice
+        owner = alice
+        cash = Cash with
+          amount = 100.0
+          currency = "USD"
+
+  -- Bob accepts the transfer from Alice.
+  iou2 <- submit bob do
+    exerciseCmd tpab IouTransferProposal_Accept
+
+  -- Bob offers Charlie a transfer.
+  tpbc <- submit bob do
+    exerciseCmd iou2 ProposeTransfer with
+      newOwner = charlie
+
+  -- Charlie accepts the transfer from Bob.
+  submit charlie do
+    exerciseCmd tpbc IouTransferProposal_Accept
+```

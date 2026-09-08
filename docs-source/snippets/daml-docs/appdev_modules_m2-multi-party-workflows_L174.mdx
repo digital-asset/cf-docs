@@ -1,0 +1,29 @@
+```haskell
+data WorkflowState
+  = Proposed
+  | Approved
+  | Settled
+
+template Workflow
+  with
+    initiator : Party
+    approver : Party
+    settler : Party
+    state : WorkflowState
+    payload : Text
+  where
+    signatory initiator
+    observer approver, settler
+
+    choice Approve : ContractId Workflow
+      controller approver
+      do
+        assertMsg "Must be in Proposed state" (state == Proposed)
+        create this with state = Approved
+
+    choice Settle : ContractId Workflow
+      controller settler
+      do
+        assertMsg "Must be in Approved state" (state == Approved)
+        create this with state = Settled
+```

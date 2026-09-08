@@ -82,13 +82,13 @@ def test_dashboard_target_runs_network_variable_tabs_after_dashboard_data_genera
     )
     assert target.source_update_paths == (
         "config/repo-version-config.json",
-        "docs-main/snippets/generated/version-dashboard-data.mdx",
+        "docs-source/snippets/generated/version-dashboard-data.mdx",
     )
-    assert target.paths == (
+    assert target.paths == module.source_and_output_paths((
         "config/repo-version-config.json",
-        "docs-main/snippets/generated/version-dashboard-data.mdx",
+        "docs-source/snippets/generated/version-dashboard-data.mdx",
         *module.NETWORK_VARIABLE_TAB_PAGES,
-    )
+    ))
 
 
 def test_java_ledger_bindings_target_does_not_auto_merge() -> None:
@@ -108,6 +108,7 @@ def test_splice_openapi_target_regenerates_without_a_source_pin() -> None:
     assert target.summary_path is None
     assert target.generate_commands == (
         ("nix-shell", "--run", "npm run generate:splice-mintlify-openapi"),
+        module.RENDER_SITE_COMMAND,
     )
     assert "config/mintlify-openapi/splice-openapi/source-artifacts.json" not in target.paths
     assert "docs-main/reference/splice-scan-api" in target.paths
@@ -173,10 +174,13 @@ def test_daml_script_target_wires_source_pin_and_generated_paths() -> None:
     assert target.source_update_paths == ("config/x2mdx/daml-script/source-artifacts.json",)
     assert target.generate_commands == (
         ("nix-shell", "--run", "npm run generate:daml-script-reference"),
+        module.RENDER_SITE_COMMAND,
     )
     assert target.paths == (
         "config/x2mdx/daml-script/source-artifacts.json",
+        "docs-source/docs.json",
         "docs-main/docs.json",
+        "docs-source/appdev/reference/daml-script",
         "docs-main/appdev/reference/daml-script",
     )
     assert target.validation == (
@@ -320,6 +324,7 @@ def test_source_update_targets_generate_when_source_changed(monkeypatch, tmp_pat
         ("reset", "base-sha"),
         ("nix-shell", "--run", "npm run update:generated-reference-sources -- --source wallet-gateway-openrpc"),
         ("nix-shell", "--run", "npm run generate:wallet-gateway-openrpc-reference"),
+        module.RENDER_SITE_COMMAND,
         ("pr", "wallet-gateway-openrpc"),
     ]
     assert body_paths
@@ -407,7 +412,7 @@ def test_network_variable_tab_target_pages_match_generated_blocks() -> None:
         )
     )
 
-    assert module.NETWORK_VARIABLE_TAB_PAGES == generated_block_pages
+    assert tuple(path.replace("docs-source/", "docs-main/", 1) for path in module.NETWORK_VARIABLE_TAB_PAGES) == generated_block_pages
 
 
 def test_body_markdown_includes_description_changes_and_validation() -> None:
@@ -1208,3 +1213,13 @@ def test_generated_pr_policy_rejects_legacy_github_actions_author() -> None:
     assert errors == [
         "expected PR author 'app/cf-docs-generated-docs-merger', found 'app/github-actions'"
     ]
+
+
+def test_all_automated_producers_render_and_commit_both_trees() -> None:
+    module = load_script_module()
+    for target in module.UPDATE_TARGETS:
+        assert target.generate_commands[-1] == module.RENDER_SITE_COMMAND, target.key
+        for path in target.paths:
+            if path.startswith("docs-source/"):
+                assert path.replace("docs-source/", "docs-main/", 1) in target.paths
+        assert not any(path.startswith("docs-main/") for path in target.source_update_paths)

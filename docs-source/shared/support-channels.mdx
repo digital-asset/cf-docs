@@ -1,0 +1,131 @@
+---
+title: "Support Channels"
+description: "Getting help with Canton Network development and operations"
+---
+
+Multiple support channels are available depending on your needs and relationship with Canton Network.
+
+## Community Support
+
+Free, community-driven support channels available to everyone.
+
+### Slack
+
+The primary community channel for real-time discussion.
+
+| Channel | Purpose |
+|---------|---------|
+| **#gsf-global-synchronizer-appdev** | Application development questions |
+| **#validator-operations** | Validator operational discussions |
+| **#validator-operations-onboarding** | New validator onboarding |
+
+{/* TODO: Add Slack link once available */}
+
+### Forum
+
+For longer-form technical discussions and searchable knowledge base.
+
+**URL:** [forum.canton.network](https://forum.canton.network/)
+
+**Best for:**
+- Technical questions that benefit from detailed answers
+- Discussions that should be searchable
+- Topics that may help others with similar questions
+
+### GitHub
+
+For bug reports, feature requests, and source code issues.
+
+| Repository | Purpose |
+|------------|---------|
+| [canton-network/splice](https://github.com/canton-network/splice) | Splice applications |
+| [digital-asset/cn-quickstart](https://github.com/digital-asset/cn-quickstart) | QuickStart issues |
+| [digital-asset/daml](https://github.com/digital-asset/daml) | Daml language |
+
+## What to Include in Support Requests
+
+For effective support, include:
+
+### For Development Issues
+
+- Daml/Canton version
+- Code snippet or minimal reproduction
+- Error messages (full stack trace)
+- What you expected vs. what happened
+
+### For Operational Issues
+
+| Information | Why Needed |
+|-------------|------------|
+| **Validator ID** | Identify your node |
+| **Network** | DevNet/TestNet/MainNet |
+| **Splice version** | Determine compatibility |
+| **Infrastructure** | Docker/K8s, cloud provider |
+| **Logs** | Relevant error logs |
+| **Timeline** | When the issue started |
+
+### Template
+
+```
+Environment:
+- Network: [DevNet/TestNet/MainNet]
+- Splice Version: [e.g., 0.5.4]
+- Canton Version: [e.g., 3.4.x]
+- Deployment: [Docker Compose/Kubernetes]
+- Cloud Provider: [AWS/GCP/Azure/On-prem]
+
+Issue:
+[Clear description of the problem]
+
+Expected Behavior:
+[What should happen]
+
+Actual Behavior:
+[What actually happens]
+
+Steps to Reproduce:
+1. ...
+2. ...
+
+Relevant Logs:
+[Sanitized logs - remove secrets/keys]
+
+Additional Context:
+[Any other relevant information]
+```
+
+<Warning>
+Always sanitize logs before sharing—remove private keys, JWTs, passwords, and other sensitive information.
+</Warning>
+
+## Self-Service Resources
+
+Before contacting support, check these resources:
+
+| Resource | Content |
+|----------|---------|
+| [FAQ](/appdev/faq) | Common questions |
+| [Troubleshooting](/appdev/troubleshooting) | Error solutions |
+| [Release Notes](/release-notes) | Version changes |
+| [Documentation](/) | Full documentation |
+
+## Mailing Lists
+
+Subscribe to announcements and updates:
+
+**URL:** [lists.sync.global](https://lists.sync.global)
+
+| List | Content |
+|------|---------|
+| **Announcements** | Network announcements, upgrades |
+| **Improvements** | Feature updates, changes |
+| **Tokenomics** | Economic parameter updates |
+
+## Office Hours
+
+The community holds regular office hours for:
+- New developer onboarding
+- Technical deep dives
+- Q&A sessions
+
+Check [canton.network](https://canton.network) for scheduled events.

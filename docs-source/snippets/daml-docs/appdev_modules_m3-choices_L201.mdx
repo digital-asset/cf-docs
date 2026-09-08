@@ -1,0 +1,23 @@
+```haskell
+data Cash = Cash with
+  currency : Text
+  amount : Decimal
+    deriving (Eq, Show)
+
+template SimpleIou
+  with
+    issuer : Party
+    owner : Party
+    cash : Cash
+  where
+    signatory issuer
+    observer owner
+
+    choice Transfer
+      : ContractId SimpleIou
+      with
+        newOwner : Party
+      controller owner
+      do
+        create this with owner = newOwner
+```

@@ -1,0 +1,22 @@
+```haskell
+-- daml/v1/daml/Main.daml
+module Main where
+
+data LicenseInfo = LicenseInfo
+  with
+    holder : Party
+    issuer : Party
+    product : Text
+  deriving (Eq, Show)
+
+template License
+  with
+    info : LicenseInfo
+  where
+    signatory info.issuer
+    observer info.holder
+
+    choice Revoke : ()
+      controller info.issuer
+      do pure ()
+```

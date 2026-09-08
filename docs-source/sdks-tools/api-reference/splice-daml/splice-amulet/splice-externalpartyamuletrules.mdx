@@ -1,0 +1,441 @@
+---
+title: "Splice.ExternalPartyAmuletRules"
+description: "Documentation for Splice.ExternalPartyAmuletRules"
+---
+
+{/* COPIED_START source="splice:daml/splice-amulet/docs/Splice-ExternalPartyAmuletRules.rst" tag="0.6.4" hash="76e07229" */}
+
+## Templates
+
+<div id="type-splice-externalpartyamuletrules-externalpartyamuletrules-29682">
+
+**template** ExternalPartyAmuletRules
+
+</div>
+
+> Rules contract that can be used in transactions that require signatures from an external party. This is intended to get archived and recreated as rarely as possible to support long delays between preparing and signing a transaction.
+>
+> Signatory: dso
+>
+> | Field | Type                                                                                                                | Description |
+> |-------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> | dso   | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-externalpartyamuletrules-externalpartyamuletrulescreatetransfercommand-90877">
+>
+>   **Choice** ExternalPartyAmuletRules_CreateTransferCommand
+>
+>   </div>
+>
+>   Controller: sender
+>
+>   Returns: ExternalPartyAmuletRules_CreateTransferCommandResult
+>
+>   | Field       | Type                                                                                                                                                                                                                                               | Description |
+>   |-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | sender      | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                                |             |
+>   | receiver    | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                                |             |
+>   | delegate    | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                                |             |
+>   | amount      | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                 |             |
+>   | expiresAt   | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)                                                                                                                                  |             |
+>   | nonce       | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)                                                                                                                                         |             |
+>   | description | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        |             |
+>   | expectedDso | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>
+> - <div id="type-splice-externalpartyamuletrules-externalpartyamuletrulesexpireamuletallocations-38439">
+>
+>   **Choice** ExternalPartyAmuletRules_ExpireAmuletAllocations
+>
+>   </div>
+>
+>   Controller: dso
+>
+>   Returns: ExternalPartyAmuletRules_ExpireAmuletAllocationsResult
+>
+>   | Field       | Type                                                                                                                    | Description |
+>   |-------------|-------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | expectedDso | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)     |             |
+>   | inputs      | \[ExternalPartyAmuletRules_ExpireAmuletAllocationInput\]                                                                |             |
+>   | observers   | \[[Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)\] |             |
+>
+> - **interface instance** AllocationFactory **for** ExternalPartyAmuletRules
+>
+> - **interface instance** TransferFactory **for** ExternalPartyAmuletRules
+
+<div id="type-splice-externalpartyamuletrules-transfercommand-52429">
+
+**template** TransferCommand
+
+</div>
+
+> Deprecated: The token standard transfer APIs now support 24h signing delays so this contract is no longer required.
+>
+> One-time delegation to execute a transfer to the given receiver for the given amount.
+>
+> Signatory: sender, dso
+>
+> | Field       | Type                                                                                                                                                                                                                                        | Description                                                                                                                                                                                         |
+> |-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+> | dso         | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                         |                                                                                                                                                                                                     |
+> | sender      | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                         |                                                                                                                                                                                                     |
+> | receiver    | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                         |                                                                                                                                                                                                     |
+> | delegate    | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                         | The delegate that actually executes the transfer                                                                                                                                                    |
+> | amount      | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                          |                                                                                                                                                                                                     |
+> | expiresAt   | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)                                                                                                                           | Expiry of the command until when TransferCommand_Send must be called                                                                                                                                |
+> | nonce       | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)                                                                                                                                  | Expected nonce value to order and deduplicate concurrent transfers. Starts at 0 and the next value to use can then be read from TransferCommandCounter and the in-flight TransferCommand contracts. |
+> | description | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) |                                                                                                                                                                                                     |
+>
+> - **Choice** Archive
+>
+>   Controller: sender, dso
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-externalpartyamuletrules-transfercommandexpire-28516">
+>
+>   **Choice** TransferCommand_Expire
+>
+>   </div>
+>
+>   Controller: p
+>
+>   Returns: TransferCommand_ExpireResult
+>
+>   | Field | Type                                                                                                                | Description |
+>   |-------|---------------------------------------------------------------------------------------------------------------------|-------------|
+>   | p     | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>
+> - <div id="type-splice-externalpartyamuletrules-transfercommandsend-32409">
+>
+>   **Choice** TransferCommand_Send
+>
+>   </div>
+>
+>   Controller: delegate
+>
+>   Returns: TransferCommand_SendResult
+>
+>   | Field                   | Type                                                                                                                                                                                                                                                                               | Description |
+>   |-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | context                 | PaymentTransferContext                                                                                                                                                                                                                                                             |             |
+>   | inputs                  | \[TransferInput\]                                                                                                                                                                                                                                                                  |             |
+>   | transferPreapprovalCidO | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferPreapproval) |             |
+>   | transferCounterCid      | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferCommandCounter                                                                                                                               |             |
+>
+> - <div id="type-splice-externalpartyamuletrules-transfercommandwithdraw-90837">
+>
+>   **Choice** TransferCommand_Withdraw
+>
+>   </div>
+>
+>   Controller: sender
+>
+>   Returns: TransferCommand_WithdrawResult
+>
+>   (no fields)
+
+<div id="type-splice-externalpartyamuletrules-transfercommandcounter-30214">
+
+**template** TransferCommandCounter
+
+</div>
+
+> A contract tracking the number of completed TransferCommands per sender, which is used to determine the nonces used in TransferCommands for deduplication.
+>
+> Signatory: dso
+>
+> | Field     | Type                                                                                                                | Description |
+> |-----------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> | dso       | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> | sender    | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> | nextNonce | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)          |             |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+
+## Data Types
+
+<div id="type-splice-externalpartyamuletrules-externalpartyamuletrulescreatetransfercommandresult-84908">
+
+**data** ExternalPartyAmuletRules_CreateTransferCommandResult
+
+</div>
+
+> <div id="constr-splice-externalpartyamuletrules-externalpartyamuletrulescreatetransfercommandresult-32161">
+>
+> ExternalPartyAmuletRules_CreateTransferCommandResult
+>
+> </div>
+>
+> > | Field              | Type                                                                                                                                          | Description |
+> > |--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | transferCommandCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferCommand |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) ExternalPartyAmuletRules_CreateTransferCommandResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) ExternalPartyAmuletRules_CreateTransferCommandResult
+>
+> **instance** GetField "transferCommandCid" ExternalPartyAmuletRules_CreateTransferCommandResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferCommand)
+>
+> **instance** SetField "transferCommandCid" ExternalPartyAmuletRules_CreateTransferCommandResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferCommand)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) ExternalPartyAmuletRules ExternalPartyAmuletRules_CreateTransferCommand ExternalPartyAmuletRules_CreateTransferCommandResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) ExternalPartyAmuletRules ExternalPartyAmuletRules_CreateTransferCommand ExternalPartyAmuletRules_CreateTransferCommandResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) ExternalPartyAmuletRules ExternalPartyAmuletRules_CreateTransferCommand ExternalPartyAmuletRules_CreateTransferCommandResult
+
+<div id="type-splice-externalpartyamuletrules-externalpartyamuletrulesexpireamuletallocationinput-45980">
+
+**data** ExternalPartyAmuletRules_ExpireAmuletAllocationInput
+
+</div>
+
+> <div id="constr-splice-externalpartyamuletrules-externalpartyamuletrulesexpireamuletallocationinput-86145">
+>
+> ExternalPartyAmuletRules_ExpireAmuletAllocationInput
+>
+> </div>
+>
+> > | Field         | Type                                                                                                                                           | Description |
+> > |---------------|------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | allocationCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AmuletAllocation |             |
+> > | expireLock    | [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)                                   |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) ExternalPartyAmuletRules_ExpireAmuletAllocationInput
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) ExternalPartyAmuletRules_ExpireAmuletAllocationInput
+>
+> **instance** GetField "allocationCid" ExternalPartyAmuletRules_ExpireAmuletAllocationInput ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AmuletAllocation)
+>
+> **instance** GetField "expireLock" ExternalPartyAmuletRules_ExpireAmuletAllocationInput [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+>
+> **instance** GetField "inputs" ExternalPartyAmuletRules_ExpireAmuletAllocations \[ExternalPartyAmuletRules_ExpireAmuletAllocationInput\]
+>
+> **instance** SetField "allocationCid" ExternalPartyAmuletRules_ExpireAmuletAllocationInput ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AmuletAllocation)
+>
+> **instance** SetField "expireLock" ExternalPartyAmuletRules_ExpireAmuletAllocationInput [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+>
+> **instance** SetField "inputs" ExternalPartyAmuletRules_ExpireAmuletAllocations \[ExternalPartyAmuletRules_ExpireAmuletAllocationInput\]
+
+<div id="type-splice-externalpartyamuletrules-externalpartyamuletrulesexpireamuletallocationsresult-57118">
+
+**data** ExternalPartyAmuletRules_ExpireAmuletAllocationsResult
+
+</div>
+
+> <div id="constr-splice-externalpartyamuletrules-externalpartyamuletrulesexpireamuletallocationsresult-31907">
+>
+> ExternalPartyAmuletRules_ExpireAmuletAllocationsResult
+>
+> </div>
+>
+> > | Field   | Type                                 | Description |
+> > |---------|--------------------------------------|-------------|
+> > | results | \[AmuletAllocation_DsoExpireResult\] |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) ExternalPartyAmuletRules_ExpireAmuletAllocationsResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) ExternalPartyAmuletRules_ExpireAmuletAllocationsResult
+>
+> **instance** GetField "results" ExternalPartyAmuletRules_ExpireAmuletAllocationsResult \[AmuletAllocation_DsoExpireResult\]
+>
+> **instance** SetField "results" ExternalPartyAmuletRules_ExpireAmuletAllocationsResult \[AmuletAllocation_DsoExpireResult\]
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) ExternalPartyAmuletRules ExternalPartyAmuletRules_ExpireAmuletAllocations ExternalPartyAmuletRules_ExpireAmuletAllocationsResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) ExternalPartyAmuletRules ExternalPartyAmuletRules_ExpireAmuletAllocations ExternalPartyAmuletRules_ExpireAmuletAllocationsResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) ExternalPartyAmuletRules ExternalPartyAmuletRules_ExpireAmuletAllocations ExternalPartyAmuletRules_ExpireAmuletAllocationsResult
+
+<div id="type-splice-externalpartyamuletrules-transfercommandresult-23924">
+
+**data** TransferCommandResult
+
+</div>
+
+> <div id="constr-splice-externalpartyamuletrules-transfercommandresultfailure-75214">
+>
+> TransferCommandResultFailure
+>
+> </div>
+>
+> > | Field  | Type                  | Description |
+> > |--------|-----------------------|-------------|
+> > | reason | InvalidTransferReason |             |
+>
+> <div id="constr-splice-externalpartyamuletrules-transfercommandresultsuccess-68641">
+>
+> TransferCommandResultSuccess
+>
+> </div>
+>
+> > | Field  | Type           | Description |
+> > |--------|----------------|-------------|
+> > | result | TransferResult |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) TransferCommandResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) TransferCommandResult
+>
+> **instance** GetField "reason" TransferCommandResult InvalidTransferReason
+>
+> **instance** GetField "result" TransferCommandResult TransferResult
+>
+> **instance** GetField "result" TransferCommand_SendResult TransferCommandResult
+>
+> **instance** SetField "reason" TransferCommandResult InvalidTransferReason
+>
+> **instance** SetField "result" TransferCommandResult TransferResult
+>
+> **instance** SetField "result" TransferCommand_SendResult TransferCommandResult
+
+<div id="type-splice-externalpartyamuletrules-transfercommandexpireresult-5229">
+
+**data** TransferCommand_ExpireResult
+
+</div>
+
+> <div id="constr-splice-externalpartyamuletrules-transfercommandexpireresult-27948">
+>
+> TransferCommand_ExpireResult
+>
+> </div>
+>
+> > | Field  | Type                                                                                                                | Description |
+> > |--------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> > | sender | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> > | nonce  | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)          |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) TransferCommand_ExpireResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) TransferCommand_ExpireResult
+>
+> **instance** GetField "nonce" TransferCommand_ExpireResult [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** GetField "sender" TransferCommand_ExpireResult [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "nonce" TransferCommand_ExpireResult [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "sender" TransferCommand_ExpireResult [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) TransferCommand TransferCommand_Expire TransferCommand_ExpireResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) TransferCommand TransferCommand_Expire TransferCommand_ExpireResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) TransferCommand TransferCommand_Expire TransferCommand_ExpireResult
+
+<div id="type-splice-externalpartyamuletrules-transfercommandsendresult-21916">
+
+**data** TransferCommand_SendResult
+
+</div>
+
+> <div id="constr-splice-externalpartyamuletrules-transfercommandsendresult-15277">
+>
+> TransferCommand_SendResult
+>
+> </div>
+>
+> > | Field  | Type                                                                                                                | Description |
+> > |--------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> > | result | TransferCommandResult                                                                                               |             |
+> > | sender | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> > | nonce  | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)          |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) TransferCommand_SendResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) TransferCommand_SendResult
+>
+> **instance** GetField "nonce" TransferCommand_SendResult [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** GetField "result" TransferCommand_SendResult TransferCommandResult
+>
+> **instance** GetField "sender" TransferCommand_SendResult [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "nonce" TransferCommand_SendResult [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "result" TransferCommand_SendResult TransferCommandResult
+>
+> **instance** SetField "sender" TransferCommand_SendResult [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) TransferCommand TransferCommand_Send TransferCommand_SendResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) TransferCommand TransferCommand_Send TransferCommand_SendResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) TransferCommand TransferCommand_Send TransferCommand_SendResult
+
+<div id="type-splice-externalpartyamuletrules-transfercommandwithdrawresult-60664">
+
+**data** TransferCommand_WithdrawResult
+
+</div>
+
+> <div id="constr-splice-externalpartyamuletrules-transfercommandwithdrawresult-93393">
+>
+> TransferCommand_WithdrawResult
+>
+> </div>
+>
+> > | Field  | Type                                                                                                                | Description |
+> > |--------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> > | sender | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> > | nonce  | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)          |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) TransferCommand_WithdrawResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) TransferCommand_WithdrawResult
+>
+> **instance** GetField "nonce" TransferCommand_WithdrawResult [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** GetField "sender" TransferCommand_WithdrawResult [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "nonce" TransferCommand_WithdrawResult [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "sender" TransferCommand_WithdrawResult [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) TransferCommand TransferCommand_Withdraw TransferCommand_WithdrawResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) TransferCommand TransferCommand_Withdraw TransferCommand_WithdrawResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) TransferCommand TransferCommand_Withdraw TransferCommand_WithdrawResult
+
+## Functions
+
+<div id="function-splice-externalpartyamuletrules-amulettransferfactorytransferimpl-9935">
+
+amulet_transferFactory_transferImpl
+: ExternalPartyAmuletRules -\> [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferFactory -\> TransferFactory_Transfer -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) TransferInstructionResult
+
+</div>
+
+<div id="function-splice-externalpartyamuletrules-amuletallocationfactoryallocateimpl-5710">
+
+amulet_allocationFactory_allocateImpl
+: ExternalPartyAmuletRules -\> [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AllocationFactory -\> AllocationFactory_Allocate -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) AllocationInstructionResult
+
+</div>
+
+<div id="function-splice-externalpartyamuletrules-requireexpectedadminmatch-79926">
+
+requireExpectedAdminMatch
+: [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) ()
+
+</div>
+
+{/* COPIED_END */}

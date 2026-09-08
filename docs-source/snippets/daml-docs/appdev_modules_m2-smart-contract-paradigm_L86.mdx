@@ -1,0 +1,8 @@
+```haskell
+-- Canton: Holdings are individual contracts
+-- Alice's total balance = sum of all Token contracts where owner = Alice
+
+-- Query: Find all my tokens
+myTokens <- queryContractKey @Token myParty
+totalBalance <- pure $ sum [amount | Token{amount} <- myTokens]
+```

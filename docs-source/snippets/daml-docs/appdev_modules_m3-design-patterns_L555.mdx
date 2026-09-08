@@ -1,0 +1,21 @@
+```haskell
+template LockRequest
+  with
+    locker: Party
+    maturity: Time
+    coin: Coin
+  where
+    signatory locker
+    observer coin.owner
+
+    choice Accept : LockResult
+      with coinCid : ContractId Coin
+      controller coin.owner
+      do
+        inputCoin <- fetch coinCid
+        assert (inputCoin == coin)
+        tpCid <- exercise coinCid Transfer with newOwner = locker
+        coinCid <- exercise tpCid AcceptTransfer
+        lockCid <- create LockedCoinV2 with locker; maturity; coin
+        return LockResult {coinCid; lockCid}
+```

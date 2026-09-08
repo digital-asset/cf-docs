@@ -1,0 +1,7 @@
+```haskell
+process : [Decimal] -> Update [Decimal]
+process items = do
+  forA items \item -> do
+    assertMsg "Over threshold" (item <= threshold)
+    pure (item * 2.0)
+```

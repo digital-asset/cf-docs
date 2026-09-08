@@ -1,0 +1,344 @@
+---
+title: "Version Compatibility Dashboard"
+description: "Compatibility matrix for Canton Network component versions"
+---
+
+import { networkData, lastUpdatedLabel } from '/snippets/generated/version-dashboard-data.mdx'; 
+
+
+export const componentDescriptions = {
+  splice: { text: 'Canton Network infrastructure including validator apps, wallet, and governance tools.', link: 'https://github.com/canton-network/splice/releases', linkText: 'View releases' },
+  canton: { text: 'Canton ledger software (participants, sequencers, mediators).', link: 'https://github.com/digital-asset/canton/releases', linkText: 'View releases' },
+  damlSdk: { text: 'Daml SDK for building, compiling, and testing smart contracts.', link: 'https://github.com/digital-asset/dpm-assembly/releases', linkText: 'View releases' },
+  pqs: { text: 'Participant Query Store - SQL database for querying ledger data.', link: '/sdks-tools/development-tools/pqs', linkText: 'Documentation' },
+  tokenStandard: { text: 'Canton Network Token Standard API for fungible token operations (CIP-0056).' },
+  walletSdk: { text: 'TypeScript SDK for wallet providers and exchanges.', link: 'https://www.npmjs.com/package/@canton-network/wallet-sdk', linkText: 'npm package' },
+  dappSdk: { text: 'Browser-optimized SDK for building decentralized applications.', link: 'https://www.npmjs.com/package/@canton-network/dapp-sdk', linkText: 'npm package' },
+  walletGateway: { text: 'Server-side gateway for dApp/validator/wallet communication.', link: 'https://github.com/canton-network/wallet-gateway', linkText: 'GitHub' },
+}
+
+export const darTooltips = {
+  'splice-amulet': 'Core token contracts for Canton Coin (CC) including minting, burning, and transfer logic.',
+  'splice-wallet': 'Wallet application contracts for user balances, payment requests, and transaction history.',
+  'splice-dso-governance': 'Decentralized Synchronizer Operator governance contracts for voting, proposals, and network rules.',
+}
+
+export const parameterTooltips = {
+  minProtocolVersion: 'Minimum Canton protocol version required for network participation. Implied by Splice version.',
+  migrationId: 'Network migration identifier. Used when configuring a validator for the first time.',
+}
+
+export const Tooltip = ({ children, content, link, linkText }) => {
+  const [show, setShow] = React.useState(false)
+  const timeoutRef = React.useRef(null)
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    setShow(true)
+  }
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => setShow(false), 150)
+  }
+  return (
+    <span
+      className="relative inline-flex items-center"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {children}
+      {show && (
+        <span
+          className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 text-xs rounded-lg bg-gray-900 text-gray-200 whitespace-normal w-64 shadow-lg border border-gray-700"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          {content}
+          {link && (
+            <span className="block mt-1">
+              <a href={link} target="_blank" rel="noopener noreferrer" className="text-yellow-200 hover:underline">
+                {linkText} →
+              </a>
+            </span>
+          )}
+        </span>
+      )}
+    </span>
+  )
+}
+
+export const InfoIcon = ({ size = 14 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="text-gray-500 hover:text-gray-400 cursor-help ml-1"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <path d="M12 16v-4" />
+    <path d="M12 8h.01" />
+  </svg>
+)
+
+export const ChevronIcon = ({ open }) => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+  >
+    <path d="m6 9 6 6 6-6" />
+  </svg>
+)
+
+export const ExternalLinkIcon = ({ size = 12 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+    <polyline points="15 3 21 3 21 9" />
+    <line x1="10" y1="14" x2="21" y2="3" />
+  </svg>
+)
+
+export const ClockIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <circle cx="12" cy="12" r="10" />
+    <polyline points="12 6 12 12 16 14" />
+  </svg>
+)
+
+export const NetworkCard = ({ network, data }) => {
+  const [advancedOpen, setAdvancedOpen] = React.useState(false)
+  const versionItems = [
+    { key: 'splice', label: 'Splice' },
+    { key: 'canton', label: 'Canton' },
+    { key: 'damlSdk', label: 'Daml SDK' },
+    { key: 'pqs', label: 'PQS' },
+    { key: 'tokenStandard', label: 'Token Standard' },
+    { key: 'walletSdk', label: 'Wallet SDK' },
+    { key: 'dappSdk', label: 'dApp SDK' },
+    { key: 'walletGateway', label: 'Wallet Gateway' },
+    { key: 'dpm', label: 'dpm' },
+  ]
+  return (
+    <div
+      className="bg-gray-900 rounded-lg border border-gray-800 transition-all hover:-translate-y-0.5"
+      style={{ borderTopWidth: '3px', borderTopColor: data.color }}
+    >
+      <div className="px-3 pt-3 pb-2 flex items-center gap-1">
+        <span className="text-sm font-semibold text-white">{data.name}</span>
+        <Tooltip content={data.description}>
+          <InfoIcon size={12} />
+        </Tooltip>
+      </div>
+      <div className="px-3 pb-2">
+        {versionItems.map(({ key, label }) => (
+          <div key={key} className="py-1.5 border-b border-gray-800 last:border-b-0 flex justify-between items-center">
+            <span className="text-xs text-gray-500 flex items-center shrink-0">
+              {label}
+              {componentDescriptions[key] && (
+                <Tooltip
+                  content={componentDescriptions[key].text}
+                  link={componentDescriptions[key].link}
+                  linkText={componentDescriptions[key].linkText}
+                >
+                  <InfoIcon size={12} />
+                </Tooltip>
+              )}
+            </span>
+            <span className="font-mono text-xs font-medium text-right break-all leading-tight max-w-32" style={{ color: data.color }}>
+              {data.versions[key]}
+            </span>
+          </div>
+        ))}
+      </div>
+      {data.resetDate && (
+        <div
+          className="px-3 py-2 flex items-center gap-2 text-xs font-medium border-t border-gray-800"
+          style={{ background: `linear-gradient(135deg, ${data.color}20 0%, ${data.color}10 100%)`, color: data.color }}
+        >
+          <ClockIcon />
+          <span>Next Network Reset: {data.resetDate}</span>
+        </div>
+      )}
+      <button
+        onClick={() => setAdvancedOpen(!advancedOpen)}
+        className="w-full px-3 py-2 flex items-center justify-between text-xs text-gray-500 hover:text-gray-400 hover:bg-gray-800/30 border-t border-gray-800 transition-colors"
+      >
+        <span>Canton Network Details</span>
+        <ChevronIcon open={advancedOpen} />
+      </button>
+      {advancedOpen && (
+        <div className="px-3 py-3 bg-gray-950 border-t border-gray-800 space-y-3">
+          <div>
+            <div className="text-[10px] text-gray-500 uppercase tracking-wide mb-1">Network Parameters</div>
+            <div className="space-y-1">
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-gray-400 flex items-center">
+                  Min Protocol Version
+                  <Tooltip content={parameterTooltips.minProtocolVersion}>
+                    <InfoIcon size={10} />
+                  </Tooltip>
+                </span>
+                <span className="font-mono text-gray-300">{data.advanced.minProtocolVersion}</span>
+              </div>
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-gray-400 flex items-center">
+                  Migration ID
+                  <Tooltip content={parameterTooltips.migrationId}>
+                    <InfoIcon size={10} />
+                  </Tooltip>
+                </span>
+                <span className="font-mono text-gray-300">{data.advanced.migrationId}</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="text-[10px] text-gray-500 uppercase tracking-wide mb-1">Splice DAR Versions</div>
+            <div className="flex flex-wrap gap-2">
+              {data.advanced.darVersions.map((dar) => (
+                <span
+                  key={dar.name}
+                  className="text-[10px] font-mono text-gray-400 px-2 py-1 bg-white/5 border border-gray-700 rounded flex items-center"
+                >
+                  {dar.name} {dar.version}
+                  <Tooltip content={darTooltips[dar.name]}>
+                    <InfoIcon size={10} />
+                  </Tooltip>
+                </span>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="text-[10px] text-gray-500 uppercase tracking-wide mb-1">Release Notes</div>
+            <a
+              href={data.advanced.releaseUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs text-cyan-400 hover:text-cyan-300 transition-colors"
+            >
+              <ExternalLinkIcon />
+              Splice v{data.versions.splice} Release Notes
+            </a>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+<Note>**Starting a new project?** Use the versions currently deployed on DevNet.</Note>
+
+<Info>Last Updated: {lastUpdatedLabel}</Info>
+
+export const VersionDashboard = () => {
+  const [showAllEndpoints, setShowAllEndpoints] = React.useState(false)
+  return (
+    <div className="space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-start">
+        <NetworkCard network="mainnet" data={networkData.mainnet} />
+        <NetworkCard network="testnet" data={networkData.testnet} />
+        <NetworkCard network="devnet" data={networkData.devnet} />
+      </div>
+      <div className="bg-gray-900 rounded-xl border border-gray-800 p-5">
+        <h3 className="text-base font-semibold text-white mt-0 mb-4 flex items-center gap-2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F9FFCB" strokeWidth="2">
+            <circle cx="12" cy="12" r="3" />
+            <path d="M12 2v4m0 12v4M2 12h4m12 0h4" />
+          </svg>
+          Network Endpoints
+        </h3>
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="text-left text-gray-500">
+              <th className="pb-2 font-medium">Network</th>
+              <th className="pb-2 font-medium">Primary Scan API</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.entries(networkData).map(([key, data]) => (
+              <tr key={key} className="border-t border-gray-800">
+                <td className="py-2 font-medium" style={{ color: data.color }}>{data.name}</td>
+                <td className="py-2 font-mono text-xs text-gray-400 break-all">{data.endpoint}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className="mt-4 pt-4 border-t border-gray-800">
+          <button
+            onClick={() => setShowAllEndpoints(!showAllEndpoints)}
+            className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-400 transition-colors"
+          >
+            <ChevronIcon open={showAllEndpoints} />
+            <span>Show all SV endpoints (DevNet)</span>
+          </button>
+          {showAllEndpoints && (
+            <div className="mt-3 p-3 bg-gray-950 rounded-lg font-mono text-xs text-gray-400 space-y-1">
+              <div>sv-1: scan.sv-1.dev.global.canton.network.sync.global</div>
+              <div>sv-2: scan.sv-2.dev.global.canton.network.sync.global</div>
+              <div>sv-3: scan.sv-3.dev.global.canton.network.sync.global</div>
+              <div>sv-4: scan.sv-4.dev.global.canton.network.sync.global</div>
+              <div className="text-gray-600">... (13-16 SVs per network)</div>
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="bg-gray-900 rounded-xl border border-gray-800 p-5">
+        <h3 className="text-base font-semibold text-white mt-0 mb-4 flex items-center gap-2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F9FFCB" strokeWidth="2">
+            <polyline points="16 18 22 12 16 6" />
+            <polyline points="8 6 2 12 8 18" />
+          </svg>
+          Quick Compatibility Check
+        </h3>
+        <pre className="p-4 bg-gray-950 rounded-lg text-sm overflow-x-auto">
+          <code>
+            <span className="text-gray-500"># Check your local Daml SDK version</span>{'\n'}
+            <span className="text-yellow-200">dpm version</span>{'\n\n'}
+            <span className="text-gray-500"># Check network version via Scan API</span>{'\n'}
+            <span className="text-yellow-200">curl -s https://scan.sv-1.dev.global.canton.network.sync.global/api/scan/version | jq</span>
+          </code>
+        </pre>
+      </div>
+      <div className="bg-gray-900 rounded-xl border border-gray-800 p-5">
+        <h3 className="text-base font-semibold text-white mt-0 mb-4 flex items-center gap-2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F9FFCB" strokeWidth="2">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+            <line x1="12" y1="22.08" x2="12" y2="12" />
+          </svg>
+          Artifact Links
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+          {[
+            { name: 'Wallet SDK', url: 'https://www.npmjs.com/package/@canton-network/wallet-sdk' },
+            { name: 'dApp SDK', url: 'https://www.npmjs.com/package/@canton-network/dapp-sdk' },
+            { name: 'Splice Releases', url: 'https://github.com/canton-network/splice/releases' },
+            { name: 'Canton Releases', url: 'https://github.com/digital-asset/canton/releases' },
+            { name: 'Daml SDK Releases', url: 'https://github.com/digital-asset/dpm-assembly/releases' },
+            { name: 'Docker Images', url: 'https://ghcr.io/digital-asset/decentralized-canton-sync' },
+            { name: 'Wallet Gateway', url: 'https://github.com/canton-network/wallet-gateway' },
+          ].map((link) => (
+            <a
+              key={link.name}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 px-2 py-1.5 text-xs text-gray-400 bg-gray-800/50 border border-gray-700 rounded hover:border-yellow-200/50 hover:text-yellow-200 transition-colors"
+            >
+              <ExternalLinkIcon size={10} />
+              {link.name}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+<VersionDashboard />

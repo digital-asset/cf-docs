@@ -1,0 +1,605 @@
+---
+title: 'Creating an External Party'
+description: 'Create and onboard an external party: key pairs, mnemonics, party hints, fingerprints, and topology transactions.'
+---
+
+## Overview
+
+Parties represent acting entities in the network and all transaction happens between one or more parties. To understand more about parties see the Parties in the Overview.
+
+A detailed tutorial of the steps below can be seen in the External Signing Tutorial [here](/appdev/deep-dives/external-signing-onboarding) using python example scripts.
+
+*This document focuses on the steps required to create an external party using the Wallet SDK.*
+
+## How do I quickly allocate a party?
+
+Using the wallet SDK you can quickly allocate a party using the following code snippet:
+
+<Tabs>
+    <Tab title="Quick using Splice LocalNet">
+        ``` typescript
+        import {
+            SDK,
+            TokenProviderConfig,
+            localNetStaticConfig,
+        } from '@canton-network/wallet-sdk'
+
+        export default async function () {
+            const auth: TokenProviderConfig = {
+                method: 'self_signed',
+                issuer: 'unsafe-auth',
+                credentials: {
+                    clientId: 'ledger-api-user',
+                    clientSecret: 'unsafe',
+                    audience: 'https://canton.network.global',
+                    scope: '',
+                },
+            }
+
+            /*
+            if using OAuth, provide a different auth config when initializing the SDK such as:
+                const auth = {
+                method: 'client_credentials',
+                configUrl: 'https://my-oauth-url',
+                credentials: {
+                    clientId: 'your-client-id',
+                    clientSecret: 'your-client-secret',
+                    audience: `https://daml.com/jwt/aud/participant/${participantId}`,
+                    scope: 'openid daml_ledger_api offline_access',
+                },
+            }
+            */
+
+            const sdk = await SDK.create({
+                auth,
+                ledgerClientUrl: localNetStaticConfig.LOCALNET_APP_USER_LEDGER_URL,
+            })
+
+            const key = sdk.keys.generate()
+
+            // partyHint is optional but recommended to make it easier to identify the party
+            const partyHint = 'my-wallet-1'
+
+            await sdk.party.external
+                .create(key.publicKey, { partyHint })
+                .sign(key.privateKey)
+                .execute()
+        }
+        ```
+    </Tab>
+    <Tab title="Comprehensive using Splice LocalNet">
+        ``` typescript
+        import {
+            localNetStaticConfig,
+            SDK,
+            signTransactionHash,
+        } from '@canton-network/wallet-sdk'
+        import { pino } from 'pino'
+        import { v4 } from 'uuid'
+        import {
+            TOKEN_NAMESPACE_CONFIG,
+            TOKEN_PROVIDER_CONFIG_DEFAULT,
+            AMULET_NAMESPACE_CONFIG,
+        } from './utils/index.js'
+
+        const logger = pino({ name: 'v1-01-ping-localnet', level: 'info' })
+
+        const sdk = await SDK.create({
+            auth: TOKEN_PROVIDER_CONFIG_DEFAULT,
+            ledgerClientUrl: localNetStaticConfig.LOCALNET_APP_USER_LEDGER_URL,
+            token: TOKEN_NAMESPACE_CONFIG,
+            amulet: AMULET_NAMESPACE_CONFIG,
+        })
+
+        const senderKeys = sdk.keys.generate()
+
+        const sender = await sdk.party.external
+            .create(senderKeys.publicKey, {
+                partyHint: 'v1-01-alice',
+            })
+            .sign(senderKeys.privateKey)
+            .execute()
+
+        const senderFingerprint = await sdk.keys.fingerprint(senderKeys.publicKey)
+
+        logger.info({ sender, senderFingerprint }, 'Sender party representation:')
+
+        if (sender.publicKeyFingerprint !== senderFingerprint)
+            throw Error('Inconsistent fingerprints')
+
+        const receiverKeys = sdk.keys.generate()
+
+        const receiverPartyCreation = sdk.party.external.create(
+            receiverKeys.publicKey,
+            {
+                partyHint: 'v1-01-bob',
+            }
+        )
+
+        const unsignedReceiver = await receiverPartyCreation.topology()
+
+        // external signing simulation
+        const receiverPartySignature = signTransactionHash(
+            unsignedReceiver.multiHash,
+            receiverKeys.privateKey
+        )
+
+        const signedReceiverParty = await receiverPartyCreation.execute(
+            receiverPartySignature
+        )
+
+        logger.info({ signedReceiverParty }, 'Receiver party representation:')
+
+        const pingCommand = [
+            {
+                CreateCommand: {
+                    templateId:
+                        '#canton-builtin-admin-workflow-ping:Canton.Internal.Ping:Ping',
+                    createArguments: {
+                        id: v4(),
+                        initiator: sender.partyId,
+                        responder: sender.partyId,
+                    },
+                },
+            },
+        ]
+
+        logger.info({ pingCommand }, 'Ping command to be submitted:')
+
+        await sdk.ledger
+            .prepare({
+                partyId: sender.partyId,
+                commands: pingCommand,
+                disclosedContracts: [],
+            })
+            .sign(senderKeys.privateKey)
+            .execute({ partyId: sender.partyId })
+
+        logger.info('Ping command submitted with online signing')
+
+        /*
+        offline signing example
+        */
+
+        const preparedPingCommand = sdk.ledger.prepare({
+            partyId: sender.partyId,
+            commands: pingCommand,
+            disclosedContracts: [],
+        })
+
+        const { response: preparedPingCommandResponse } =
+            await preparedPingCommand.toJSON()
+
+        logger.info({ preparedPingCommand }, 'Prepared ping command:')
+
+        /*
+        Note: The following code uses the @canton-network/core-signing-lib as the 'custodian' of the private key to sign the prepared transaction hash,
+        but in a real scenario, the signing could be done using any compatible signing mechanism, such as a hardware wallet or an external signing service.
+        */
+        const signature = signTransactionHash(
+            preparedPingCommandResponse.preparedTransactionHash,
+            senderKeys.privateKey
+        )
+
+        const signed = sdk.ledger.fromSignature(preparedPingCommandResponse, signature)
+
+        await sdk.ledger.execute(signed, { partyId: sender.partyId })
+
+        logger.info('Ping command submitted with offline signing')
+
+        const [amuletTapCommand, amuletTapDisclosedContracts] = await sdk.amulet.tap(
+            sender.partyId,
+            '10000'
+        )
+
+        const result = await sdk.ledger
+            .prepare({
+                partyId: sender.partyId,
+                commands: amuletTapCommand,
+                disclosedContracts: amuletTapDisclosedContracts,
+            })
+            .sign(senderKeys.privateKey)
+            .execute({ partyId: sender.partyId })
+
+        const senderUtxos = await sdk.token.utxos.list({ partyId: sender.partyId })
+
+        const tapTransaction = await sdk.token.transactionsById({
+            updateId: result.updateId,
+            partyId: sender.partyId,
+        })
+
+        const mintEvent = tapTransaction.events.find(
+            (tokenStandardEvent) =>
+                tokenStandardEvent.label.type === 'Mint' &&
+                tokenStandardEvent.unlockedHoldingsChange.creates.find(
+                    (h) => h.amount === '10000.0000000000'
+                )
+        )
+
+        if (mintEvent) {
+            logger.info('Found token standard event with type Mint')
+        } else {
+            throw new Error(`Couldn't find tap transaction by updateId`)
+        }
+        const senderAmuletUtxos = senderUtxos.filter((utxo) => {
+            return (
+                utxo.interfaceViewValue.amount === '10000.0000000000' &&
+                utxo.interfaceViewValue.instrumentId.id === 'Amulet'
+            )
+        })
+
+        if (senderAmuletUtxos.length === 0) {
+            throw new Error('No UTXOs found for Sender')
+        }
+
+        logger.info('Tap command for Amulet for Sender submitted and UTXO received')
+        ```
+    </Tab>
+</Tabs>
+
+## Create a key pair
+
+The process for creating a key using standard encryption practices is similar that in other blockchains. The full details of supported cryptographic algorithms can be found [Here](/overview/learn/cryptographic-keys). By default an **Ed25519** encryption is used. There exists many libraries that can be used to generate such a key pair, you can do it simply with the WalletSDK using:
+
+``` typescript
+import { SDK, localNetStaticConfig } from '@canton-network/wallet-sdk'
+
+export default async function () {
+    const sdk = await SDK.create({
+        auth: global.TOKEN_PROVIDER_CONFIG_DEFAULT,
+        ledgerClientUrl: localNetStaticConfig.LOCALNET_APP_USER_LEDGER_URL,
+    })
+    sdk.keys.generate()
+}
+```
+
+### Generating Keys from a Mnemonic Phrase (BIP-0039)
+
+The Canton Network supports the generation of cryptographic keys using a mnemonic code or mnemonic sentence, following the [BIP-0039 standard](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki).
+
+Using a mnemonic phrase allows for deterministic key generation, which simplifies the backup and recovery process. Instead of managing individual private key files, you can recreate your keys across different environments using a human-readable sequence of words.
+
+A typescript example of generating an Ed25519 key pair with a BIP-0039 mnemonic phrase using the libraries bip39 and ed25519 as dependencies is shown below:
+
+``` typescript
+import { getPublicKeyFromPrivate } from '@canton-network/wallet-sdk'
+import naclUtil from 'tweetnacl-util'
+import * as bip39 from 'bip39'
+import * as fs from 'fs'
+
+export default async function createCantonKeyFromMnemonic() {
+    try {
+        // 1. Generate a new 24-word BIP-0039 mnemonic
+        const mnemonic = bip39.generateMnemonic(256)
+        console.log('Generated Mnemonic:', mnemonic)
+
+        // 2. Convert mnemonic to a seed
+        const seed = await bip39.mnemonicToSeed(mnemonic)
+
+        // 3. Derive a 32-byte Private Key (first 32 bytes of the seed)
+        const privateKey = naclUtil.encodeBase64(seed.slice(0, 32))
+        const publicKey = getPublicKeyFromPrivate(privateKey)
+
+        console.log('Private Key (bas64):', privateKey)
+        console.log('Public Key (bas64):', publicKey)
+
+        // 4. Save to a file for Canton Import
+        fs.writeFileSync('canton_private_key.base64', privateKey)
+
+        console.log(
+            "\nSuccess: Private key saved to 'canton_private_key.base64'"
+        )
+        console.log('Keep your mnemonic phrase safe!')
+    } catch (error) {
+        console.error('An error occurred:', error)
+    }
+}
+```
+
+## Choosing a party hint
+
+The unique party id is defined as **\${partyHint}::\${fingerprint}**. The partyHint is a user friendly name and can be anything that is unique for the fingerprint, e.g. "alice", "bob" or "my-wallet-1". It is recommended to include a hint when setting up the party (see `quick-party-allocation` for an example).
+
+## Generate the fingerprint
+
+The wallet SDK has a built in function to generate the fingerprint:
+
+``` typescript
+import { SDK, localNetStaticConfig } from '@canton-network/wallet-sdk'
+
+export default async function () {
+    const sdk = await SDK.create({
+        auth: global.TOKEN_PROVIDER_CONFIG_DEFAULT,
+        ledgerClientUrl: localNetStaticConfig.LOCALNET_APP_USER_LEDGER_URL,
+    })
+
+    const keys = EXISTING_PARTY_1_KEYS
+
+    await sdk.keys.fingerprint(keys.publicKey)
+}
+```
+
+this can be used to determine the unique party id beforehand or recompute the fingerprint based on the public key.
+
+## Generating the topology transactions
+
+When onboarding using external signing, multiple topology transactions are required to be generated and signed. This is because both the keyHolder (the party) and the node (the validator) need to agree on the hosting relationship. The three transactions that needs to be generated are:
+
+- \`PartyToParticipant\`: This transaction indicates that the party agrees to be hosted by the participant (validator).
+- \`ParticipantToParty\`: This transaction indicates that the participant (validator) agrees to host the party.
+- \`KeyToParty\`: This transaction indicates that the key (public key) is associated with the party.
+
+Once all the transactions are built they can be combined into a single hash and submitted as part of a single signature. The wallet SDK has helper functions to generate these transactions:
+
+``` typescript
+import { SDK, localNetStaticConfig } from '@canton-network/wallet-sdk'
+
+export default async function () {
+    // it is important to configure the SDK correctly else you might run into connectivity or authentication issues
+    const sdk = await SDK.create({
+        auth: global.TOKEN_PROVIDER_CONFIG_DEFAULT,
+        ledgerClientUrl: localNetStaticConfig.LOCALNET_APP_USER_LEDGER_URL,
+    })
+    const key = sdk.keys.generate()
+
+    // partyHint is optional but recommended to make it easier to identify the party
+    const partyHint = 'my-wallet-1'
+
+    const prepared = sdk.party.external.create(key.publicKey, {
+        partyHint,
+    })
+
+    await prepared.topology()
+}
+```
+
+## Decoding the topology transactions
+
+Sometimes converting the topology transactions to human readable json might be needed, for this you can use the `.decode()` function:
+
+``` typescript
+import { SDK, localNetStaticConfig } from '@canton-network/wallet-sdk'
+
+export default async function () {
+    // it is important to configure the SDK correctly else you might run into connectivity or authentication issues
+    const sdk = await SDK.create({
+        auth: global.TOKEN_PROVIDER_CONFIG_DEFAULT,
+        ledgerClientUrl: localNetStaticConfig.LOCALNET_APP_USER_LEDGER_URL,
+        amulet: AMULET_NAMESPACE_CONFIG,
+    })
+
+    const sender = global.EXISTING_PARTY_1
+
+    const [tapCommand, disclosedContracts] = await sdk.amulet.tap(
+        sender,
+        '2000'
+    )
+
+    const preparedTransaction = sdk.ledger.prepare({
+        commands: tapCommand,
+        disclosedContracts,
+        partyId: sender,
+    })
+
+    await preparedTransaction.decode()
+}
+```
+
+## Sign multi-hash
+
+Since the topology transactions need to be submitted together the combined hash needs to be signed. The wallet SDK has a helper function to sign the combined hash:
+
+``` typescript
+import {
+    SDK,
+    localNetStaticConfig,
+    signTransactionHash,
+} from '@canton-network/wallet-sdk'
+
+export default async function () {
+    const sdk = await SDK.create({
+        auth: global.TOKEN_PROVIDER_CONFIG_DEFAULT,
+        ledgerClientUrl: localNetStaticConfig.LOCALNET_APP_USER_LEDGER_URL,
+    })
+    const keys = sdk.keys.generate()
+
+    const preparedParty = EXISTING_TOPOLOGY
+
+    //This signing function works for a party topology hash or a transaction hash
+    signTransactionHash(preparedParty.multiHash, keys.privateKey)
+}
+```
+
+## Submit the topology transactions
+
+Once the signature is generated, the topology transactions can be submitted to the validator. The wallet SDK has a helper function to submit the transactions:
+
+``` typescript
+import {
+    SDK,
+    localNetStaticConfig,
+    signTransactionHash,
+} from '@canton-network/wallet-sdk'
+
+export default async function () {
+    const sdk = await SDK.create({
+        auth: global.TOKEN_PROVIDER_CONFIG_DEFAULT,
+        ledgerClientUrl: localNetStaticConfig.LOCALNET_APP_USER_LEDGER_URL,
+    })
+
+    //Online signing
+    const keys = sdk.keys.generate()
+
+    await sdk.party.external
+        .create(keys.publicKey, {
+            partyHint: 'snippet-party-hint',
+        })
+        .sign(keys.privateKey)
+        .execute()
+
+    //offline signing where the keys are held externally
+    const offlineSigningKeys = sdk.keys.generate()
+
+    const receiverPartyCreation = sdk.party.external.create(
+        offlineSigningKeys.publicKey,
+        {
+            partyHint: 'offline-signing-party',
+        }
+    )
+
+    const unsignedReceiver = await receiverPartyCreation.topology()
+
+    // offline signing simulation - in most cases a signing provider would sign the multihash
+    const receiverPartySignature = signTransactionHash(
+        unsignedReceiver.multiHash,
+        offlineSigningKeys.privateKey
+    )
+
+    await receiverPartyCreation.execute(receiverPartySignature)
+}
+```
+
+## Multi-hosting a party
+
+Since only relevant data is shared between validator nodes, and nodes don't contain all data, backup and recovery are important. Another important aspect is to prevent having a validator being a single source of failure, this can be handled on a party basis by doing multi hosting. Multi hosting of a party means replication of all the information related to that party onto multiple validators, this can either be multiple validators run by the same entity (most common case for wallets) or even validators run by different entities in case of malicious actors.
+
+To facilitate multi-hosting we simply need to extend `partyToParticipant` and `ParticipantToParty` to include new validators. This requires sourcing signed transaction from the validators the client is interested in being hosted on.
+
+The below script allows you (by using the SDK) to host a single party on both `app-user` and `app-provider` validators.
+
+``` typescript
+import pino from 'pino'
+import { localNetStaticConfig, SDK } from '@canton-network/wallet-sdk'
+import {
+    TOKEN_PROVIDER_CONFIG_DEFAULT,
+    AMULET_NAMESPACE_CONFIG,
+} from './utils/index.js'
+
+const logger = pino({ name: 'v1-03-parties', level: 'info' })
+
+const userId = localNetStaticConfig.LOCALNET_USER_ID
+
+const sdk = await SDK.create({
+    auth: TOKEN_PROVIDER_CONFIG_DEFAULT,
+    ledgerClientUrl: localNetStaticConfig.LOCALNET_APP_USER_LEDGER_URL,
+    amulet: AMULET_NAMESPACE_CONFIG,
+})
+
+const allocatedParties = await Promise.all(
+    ['v1-03-alice', 'v1-03-bob'].map((partyHint) => {
+        const partyKeys = sdk.keys.generate()
+        return sdk.party.external
+            .create(partyKeys.publicKey, {
+                partyHint,
+            })
+            .sign(partyKeys.privateKey)
+            .execute()
+    })
+)
+
+logger.info(allocatedParties, 'Allocated parties')
+
+const listedParties = await sdk.party.list()
+
+logger.info(listedParties, `Obtained parties for ${userId}`)
+
+const allocatedPartiesIds = new Set(
+    allocatedParties.map((party) => party.partyId)
+)
+
+if (!allocatedPartiesIds.isSubsetOf(new Set(listedParties))) {
+    throw new Error(
+        "At least some of the allocated parties haven't been listed."
+    )
+}
+
+const featuredAppRights = await sdk.amulet.featuredApp.grant()
+
+if (!featuredAppRights) {
+    throw new Error(
+        'Failed to obtain featured app rights for validator operator party'
+    )
+} else {
+    logger.info(
+        featuredAppRights,
+        'Featured app rights for validator operator party'
+    )
+}
+
+logger.info('Preparing multi hosted party...')
+
+const participantEndpoints = [
+    {
+        url: new URL('http://127.0.0.1:3975'),
+        tokenProviderConfig: TOKEN_PROVIDER_CONFIG_DEFAULT,
+    },
+]
+
+const charlieKeys = sdk.keys.generate()
+const charlie = await sdk.party.external
+    .create(charlieKeys.publicKey, {
+        partyHint: 'v1-03-charlie',
+        confirmingParticipantEndpoints: participantEndpoints,
+    })
+    .sign(charlieKeys.privateKey)
+    .execute()
+
+logger.info(charlie, 'Multi hosted party allocated successfully')
+
+const charliePingCommand = sdk.utils.ping.create([
+    { initiator: charlie.partyId, responder: charlie.partyId },
+])
+
+const pingResult = await sdk.ledger
+    .prepare({
+        partyId: charlie.partyId,
+        commands: charliePingCommand,
+    })
+    .sign(charlieKeys.privateKey)
+    .execute({
+        partyId: charlie.partyId,
+    })
+
+logger.info(
+    pingResult,
+    'Successfully validated party allocation via Canton.Internal.Ping'
+)
+
+logger.info('Preparing multi hosted party with observing participant...')
+
+const observingCharlieKeys = sdk.keys.generate()
+const observingCharlie = await sdk.party.external
+    .create(observingCharlieKeys.publicKey, {
+        partyHint: 'v1-03-observingCharlie',
+        observingParticipantEndpoints: participantEndpoints,
+    })
+    .sign(observingCharlieKeys.privateKey)
+    .execute()
+
+logger.info(
+    observingCharlie,
+    'Multi hosted party with observing participant allocated successfully'
+)
+
+const observingConradPingCommand = sdk.utils.ping.create([
+    {
+        initiator: observingCharlie.partyId,
+        responder: observingCharlie.partyId,
+    },
+])
+
+const observingPingResult = await sdk.ledger
+    .prepare({
+        partyId: observingCharlie.partyId,
+        commands: observingConradPingCommand,
+    })
+    .sign(observingCharlieKeys.privateKey)
+    .execute({
+        partyId: observingCharlie.partyId,
+    })
+
+logger.info(
+    observingPingResult,
+    'Successfully validated observing party allocation via Canton.Internal.Ping'
+)
+```

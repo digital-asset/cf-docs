@@ -1,0 +1,15 @@
+```haskell
+template Payment
+  with
+    sender : Party
+    receiver : Party
+    amount : Decimal
+  where
+    signatory sender
+    observer receiver
+    
+    choice Accept : ContractId Receipt
+      controller receiver
+      do
+        create Receipt with payer = sender, payee = receiver, amount
+```

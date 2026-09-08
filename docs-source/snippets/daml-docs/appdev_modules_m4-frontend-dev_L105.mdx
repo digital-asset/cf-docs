@@ -1,0 +1,21 @@
+```typescript
+export const LicenseProvider = ({ children }: { children: React.ReactNode }) => {
+    const [licenses, setLicenses] = useState<License[]>([]);
+    const toast = useToast();
+
+    const fetchLicenses = useCallback(
+        withErrorHandling(`Fetching Licenses`)(async () => {
+            const client: Client = await api.getClient();
+            const response = await client.listLicenses();
+            setLicenses(response.data);
+        }), [withErrorHandling, setLicenses, toast]);
+
+    // ... other operations (renew, expire, complete renewal)
+
+    return (
+        <LicenseContext.Provider value={{ licenses, fetchLicenses, /* ... */ }}>
+            {children}
+        </LicenseContext.Provider>
+    );
+};
+```
