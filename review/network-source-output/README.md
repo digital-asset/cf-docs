@@ -28,12 +28,12 @@ The local preview shows the unchanged static network tabs:
 
 ![Network tabs rendered from the source corpus](network-tabs.png)
 
-On the [hosted preview](https://cantonfoundation-codex-network-vars-source-output.mintlify.site/global-synchronizer/deployment/onboarding-process),
+On the [hosted preview](https://cantonfoundation-network-vars-source-output.mintlify.site/global-synchronizer/deployment/onboarding-process),
 “Suggest edits” is absent before consent. After accepting the Osano banner it
 points to:
 
 ```
-https://github.com/canton-network/cf-docs/edit/codex/network-vars-source-output/docs-source/global-synchronizer/deployment/onboarding-process.mdx
+https://github.com/canton-network/cf-docs/edit/network-vars-source-output/docs-source/global-synchronizer/deployment/onboarding-process.mdx
 ```
 
 After navigating through the sidebar to Prerequisites, the link updates to the
