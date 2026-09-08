@@ -27,13 +27,14 @@ jobs:
       - name: Validate external snippet wrapper
         run: nix-shell --run 'npm run test:external-snippets'
 
-      - name: Validate generated-reference history output
+      - name: Validate generated-reference output
         run: >-
           nix-shell --run 'python3 -m pytest
           tests/test_history_contract.py
           tests/test_reference_page_history.py
           tests/test_openapi_manual_render.py
-          tests/test_json_api_openapi.py'
+          tests/test_json_api_openapi.py
+          tests/test_canton_topology_transaction_versions.py'
 
       - name: Check JSON Ledger OpenAPI generated output
         run: >-

@@ -4,7 +4,7 @@ The corpus is authored in `docs-source/` and copied/rendered into `docs-main/`.
 The 28 former network-variable fragments are inline in their 14 owning source
 pages. Mintlify's deployment directory and all public routes stay the same.
 
-Against baseline `aaa9e325`, every retained output file is byte-identical except
+Against current main `1b18e1ec`, every retained output file is byte-identical except
 network block comments pointing to the new owning source page. This comparison
 covers text, link targets, network values, navigation, and binary assets.
 
@@ -66,12 +66,23 @@ every changed config, source, and output file was covered by the dashboard
 target's commit paths, and output validation passed. This did not publish an
 automated PR or exercise every reference generator's upstream service.
 
+The merged topology generator from #1549 now writes its table into `docs-source/`.
+Its scheduled target runs both topology generators before rendering and commits
+both source and output. The aggregate reference runner retains the new generator.
+Main's six-DAR dashboard changes from #1586 are also preserved in source.
+
+The expanded suite passes 114 focused tests, including a regression that fails
+with the old topology output path, then verifies source generation, publication,
+and drift checking. The topology tests also run in Mintlify's Nix validation job.
+Real regeneration from the public Canton `v3.5.15` release reproduces the merged
+table. The topology page and both merged dashboard files remain byte-identical
+to main after rebuilding; all 14 network pages still differ only in source comments.
+
 Existing open branches must adopt the source root when rebased:
 
 | PR | Integration requirement |
 | --- | --- |
 | [#1519](https://github.com/canton-network/cf-docs/pull/1519) | The snippet lifecycle CLI writes snippets and scans page imports in `docs-main`; move authoring operations to `docs-source` and build output. |
-| [#1549](https://github.com/canton-network/cf-docs/pull/1549) | Move the topology-table generator's output default and target paths to source. |
 | [#1067](https://github.com/canton-network/cf-docs/pull/1067) | Preserve this PR's source artifact destination and build step when merging the snippet workflow changes. |
 | [#1567](https://github.com/canton-network/cf-docs/pull/1567) | Preserve source/output generation and validation while merging the Nix command changes. |
 

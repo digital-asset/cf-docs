@@ -380,6 +380,7 @@ def test_generated_clean_paths_include_target_paths_and_internal_output() -> Non
     assert "docs-main/global-synchronizer/reference/canton-console-commands.mdx" in clean_paths
     assert "docs-main/global-synchronizer/reference/error-codes.mdx" in clean_paths
     assert "docs-main/release-notes/releases-and-versioning.mdx" in clean_paths
+    assert "docs-main/appdev/deep-dives/external-signing-topology.mdx" in clean_paths
     assert "docs-main/global-synchronizer/reference/canton-metrics.mdx" in clean_paths
     assert "docs-main/global-synchronizer/release-notes" in clean_paths
     assert "docs-main/integrations/release-notes/wallet-gateway.mdx" in clean_paths
@@ -1225,3 +1226,20 @@ def test_all_automated_producers_render_and_commit_both_trees() -> None:
             if path.startswith("docs-main/"):
                 assert path.replace("docs-main/", "docs-source/", 1) in target.paths
         assert not any(path.startswith("docs-main/") for path in target.source_update_paths)
+
+
+def test_topology_target_renders_table_and_stages_source_and_output() -> None:
+    module = load_script_module()
+    target = next(target for target in module.UPDATE_TARGETS if target.key == "canton-topology-proto-link")
+
+    assert target.generate_commands == (
+        ("nix-shell", "--run", "npm run generate:canton-topology-proto-link"),
+        ("nix-shell", "--run", "npm run generate:canton-topology-transaction-versions"),
+        module.RENDER_SITE_COMMAND,
+    )
+    assert target.paths == (
+        "docs-source/snippets/generated/canton-topology-proto-link.mdx",
+        "docs-main/snippets/generated/canton-topology-proto-link.mdx",
+        "docs-source/appdev/deep-dives/external-signing-topology.mdx",
+        "docs-main/appdev/deep-dives/external-signing-topology.mdx",
+    )

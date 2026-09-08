@@ -126,6 +126,11 @@ SCRIPT_JOBS = [
         nav_slices=(),
         target_ids=(),
     ),
+    ScriptJob(
+        script_path=REPO_ROOT / "scripts" / "generate_canton_topology_transaction_versions.py",
+        nav_slices=(),
+        target_ids=(),
+    ),
 ]
 
 

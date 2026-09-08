@@ -690,14 +690,106 @@ def test_parse_dars_lock_selects_latest_dashboard_packages_only() -> None:
     dars_lock = """
 splice-amulet 0.1.17 abc
 splice-amulet 0.1.18 def
+splice-amulet-name-service 0.1.9 abc
+splice-amulet-name-service 0.1.20 def
+splice-amulet-name-service 0.1.21-rc1 ghi
 splice-wallet 0.1.19 abc
 splice-dso-governance 0.1.23 abc
 splice-dso-governance 0.1.24 def
+splice-validator-lifecycle 0.1.6 abc
+splice-validator-lifecycle 0.1.7 def
+splice-wallet-payments 0.1.18 abc
+splice-wallet-payments 0.1.19 def
 unrelated-package 9.9.9 abc
 """
 
     assert module.parse_dars_lock(dars_lock, "test-lock") == {
         "splice-amulet": "0.1.18",
+        "splice-amulet-name-service": "0.1.20",
         "splice-wallet": "0.1.19",
         "splice-dso-governance": "0.1.24",
+        "splice-validator-lifecycle": "0.1.7",
+        "splice-wallet-payments": "0.1.19",
     }
+
+
+@pytest.mark.parametrize("missing_name", [
+    "splice-amulet-name-service",
+    "splice-validator-lifecycle",
+    "splice-wallet-payments",
+])
+def test_parse_dars_lock_rejects_missing_core_package(missing_name: str) -> None:
+    module = load_script_module()
+    dars_lock = "\n".join(
+        f"{name} 0.1.0 abc" for name in module.DASHBOARD_DAR_NAMES if name != missing_name
+    )
+
+    with pytest.raises(RuntimeError, match=f"No stable semantic versions found.*{missing_name}"):
+        module.parse_dars_lock(dars_lock, "test-lock")
+
+
+def test_collect_network_dars_refreshes_all_six_from_each_release_line(monkeypatch) -> None:
+    module = load_script_module()
+    expected_names = [
+        "splice-amulet",
+        "splice-amulet-name-service",
+        "splice-dso-governance",
+        "splice-validator-lifecycle",
+        "splice-wallet",
+        "splice-wallet-payments",
+    ]
+    releases = {"mainnet": "0.6.12", "testnet": "0.6.13", "devnet": "0.6.14"}
+    patch = 1
+    requested_locks = []
+
+    def fake_fetch_text(url: str, timeout: float) -> str:
+        for network_key, release in releases.items():
+            if url == module.NETWORKS[network_key]["index_url"]:
+                return "".join(
+                    f'<tr class="row-odd"><td><p>{label}</p></td><td><p>{release}</p></td></tr>'
+                    for label in ["Docker Image Tag:", "Helm Chart Version:"]
+                )
+            if url == module.splice_raw_file_url(f"release-line-{release}", "daml/dars.lock"):
+                requested_locks.append(url)
+                return "\n".join(
+                    f"{name} 0.{release.rsplit('.', 1)[-1]}.{patch} abc"
+                    for name in expected_names
+                )
+        raise AssertionError(f"Unexpected URL: {url}")
+
+    def fake_fetch_json(url: str, timeout: float) -> dict:
+        for network_key, release in releases.items():
+            if url == module.NETWORKS[network_key]["info_url"]:
+                return {
+                    "sv": {"version": release, "migration_id": 1},
+                    "synchronizer": {"active": {"version": release, "migration_id": 1}},
+                }
+            if url == module.splice_raw_file_url(f"release-line-{release}", "nix/canton-sources.json"):
+                return {"version": "3.5.1"}
+        raise AssertionError(f"Unexpected URL: {url}")
+
+    monkeypatch.setattr(module, "fetch_text", fake_fetch_text)
+    monkeypatch.setattr(module, "fetch_json", fake_fetch_json)
+    existing_config = {"versions": {}, "repositories": {}}
+    for patch in [1, 2]:
+        snapshot = dashboard_snapshot(
+            generated_at=f"2026-09-0{patch}T00:00:00+00:00", splice_version="0.6.12"
+        )
+        snapshot["networks"] = {
+            key: module.collect_network_snapshot(key, timeout=1.0) for key in releases
+        }
+        config = module.build_config(existing_config, snapshot)
+        for key, release in releases.items():
+            assert config["versions"][key]["advanced"]["darVersions"] == [
+                {"name": name, "version": f"0.{release.rsplit('.', 1)[-1]}.{patch}"}
+                for name in expected_names
+            ]
+            assert config["_generated"]["networkSources"][key]["darVersionsUrl"] == (
+                module.splice_blob_file_url(f"release-line-{release}", "daml/dars.lock")
+            )
+        assert config["_generated"]["generatedAt"] == snapshot["generatedAt"]
+        existing_config = config
+    assert requested_locks == [
+        module.splice_raw_file_url(f"release-line-{release}", "daml/dars.lock")
+        for release in releases.values()
+    ] * 2
