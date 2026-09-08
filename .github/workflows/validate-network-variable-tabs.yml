@@ -26,7 +26,7 @@ jobs:
       - name: Test corpus rendering and source edit links
         run: |
           python3 -m pip install pytest
-          python3 -m pytest tests/test_network_variable_tabs.py tests/test_update_generated_reference_prs.py
+          python3 -m pytest tests/test_network_variable_tabs.py tests/test_update_generated_reference_prs.py tests/test_generate_external_snippets.py
           node --test tests/test_edit_source.cjs
 
       - name: Validate rendered network variable tabs

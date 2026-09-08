@@ -1222,4 +1222,6 @@ def test_all_automated_producers_render_and_commit_both_trees() -> None:
         for path in target.paths:
             if path.startswith("docs-source/"):
                 assert path.replace("docs-source/", "docs-main/", 1) in target.paths
+            if path.startswith("docs-main/"):
+                assert path.replace("docs-main/", "docs-source/", 1) in target.paths
         assert not any(path.startswith("docs-main/") for path in target.source_update_paths)

@@ -4900,7 +4900,7 @@
       }
     },
     {
-      "snippetName": "docs-open/target/snippet_json_data/docs-cn/docs-source-appdev-reference-configuration-reference-envsubst-0",
+      "snippetName": "docs-open/target/snippet_json_data/docs-cn/docs-main-appdev-reference-configuration-reference-envsubst-0",
       "sourceRepo": "canton",
       "sourceFilepath": "community/app/src/test/resources/documentation-snippets/docs-cn-appdev_configuration_reference.conf",
       "location": {
@@ -4915,7 +4915,7 @@
       }
     },
     {
-      "snippetName": "docs-open/target/snippet_json_data/docs-cn/docs-source-appdev-reference-configuration-reference-init-1",
+      "snippetName": "docs-open/target/snippet_json_data/docs-cn/docs-main-appdev-reference-configuration-reference-init-1",
       "sourceRepo": "canton",
       "sourceFilepath": "community/app/src/test/resources/documentation-snippets/docs-cn-appdev_configuration_reference.conf",
       "location": {
@@ -4930,7 +4930,7 @@
       }
     },
     {
-      "snippetName": "docs-open/target/snippet_json_data/docs-cn/docs-source-appdev-reference-configuration-reference-alpha-2",
+      "snippetName": "docs-open/target/snippet_json_data/docs-cn/docs-main-appdev-reference-configuration-reference-alpha-2",
       "sourceRepo": "canton",
       "sourceFilepath": "community/app/src/test/resources/documentation-snippets/docs-cn-appdev_configuration_reference.conf",
       "location": {
@@ -4945,7 +4945,7 @@
       }
     },
     {
-      "snippetName": "docs-open/target/snippet_json_data/docs-cn/docs-source-faq-connection-allocation-hocon-0",
+      "snippetName": "docs-open/target/snippet_json_data/docs-cn/docs-main-faq-connection-allocation-hocon-0",
       "sourceRepo": "canton",
       "sourceFilepath": "community/app/src/test/resources/documentation-snippets/docs-cn-appdev_faq_max_connections.conf",
       "location": {

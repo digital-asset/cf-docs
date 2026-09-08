@@ -44,3 +44,36 @@ The screenshot shows the post-consent toolbar whose destination was verified:
 
 GitHub checks: DCO, network-variable validation, Mintlify build validation, and
 hosted deployment passed. Mintlify's separate link-rot check was skipped.
+
+## Automation path audit
+
+All 21 scheduled targets write source first, render the site, and include both
+source and output in their commit paths. Source-change detection remains scoped
+to the inputs. The artifact-download workflow copies external snippets into
+`docs-source/` and builds before opening its update PR. The reference inventory,
+output validators, and Mintlify deployment intentionally retain `docs-main/`.
+
+The follow-up audit restored four Canton snippet identifiers: `docs-main` inside
+those names is part of the existing import destination, not the site's root.
+A regression test fails with the renamed identifiers and passes after restoring
+them. Another test exercises real snippet extraction, source copying, site
+rendering, and output drift validation. The 69 focused rendering, automation,
+and snippet tests pass; these now run together in CI.
+
+The live dashboard generator succeeded in an isolated copy with no upstream
+changes. A controlled MainNet substitution change then rebuilt ten output files;
+every changed config, source, and output file was covered by the dashboard
+target's commit paths, and output validation passed. This did not publish an
+automated PR or exercise every reference generator's upstream service.
+
+Existing open branches must adopt the source root when rebased:
+
+| PR | Integration requirement |
+| --- | --- |
+| [#1519](https://github.com/canton-network/cf-docs/pull/1519) | The snippet lifecycle CLI writes snippets and scans page imports in `docs-main`; move authoring operations to `docs-source` and build output. |
+| [#1549](https://github.com/canton-network/cf-docs/pull/1549) | Move the topology-table generator's output default and target paths to source. |
+| [#1067](https://github.com/canton-network/cf-docs/pull/1067) | Preserve this PR's source artifact destination and build step when merging the snippet workflow changes. |
+| [#1567](https://github.com/canton-network/cf-docs/pull/1567) | Preserve source/output generation and validation while merging the Nix command changes. |
+
+Documentation edits on other existing branches must also move to source before
+rebuilding; editing output alone fails the full-corpus drift check.

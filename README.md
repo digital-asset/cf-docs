@@ -65,6 +65,12 @@ Commit both trees together. The existing network-variable check now verifies
 **every output file**, including ordinary pages and binary assets. It detects
 missing, extra, or changed targets without modifying either tree.
 
+When rebasing an existing branch, move its documentation edits and generator
+destinations from `docs-main/` to `docs-source/` before rebuilding. Automation
+must generate source, run the build, and include both trees in its commit paths.
+Validators and previews that read published output continue to use `docs-main/`.
+External snippet identifiers and `/snippets/...` imports keep their existing names.
+
 Author network-dependent content inline in a source page:
 
 ```mdx
