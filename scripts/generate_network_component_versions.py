@@ -82,7 +82,14 @@ CANTON_VERSION_SOURCE_REPO_URL = SPLICE_REPOSITORY_URL
 SPLICE_RAW_BASE_URL = "https://raw.githubusercontent.com/canton-network/splice"
 CANTON_SOURCES_PATH = "nix/canton-sources.json"
 DARS_LOCK_PATH = "daml/dars.lock"
-DASHBOARD_DAR_NAMES = ("splice-amulet", "splice-wallet", "splice-dso-governance")
+DASHBOARD_DAR_NAMES = (
+    "splice-amulet",
+    "splice-amulet-name-service",
+    "splice-dso-governance",
+    "splice-validator-lifecycle",
+    "splice-wallet",
+    "splice-wallet-payments",
+)
 WALLET_GATEWAY_RELEASE_REPO = "canton-network/wallet"
 WALLET_GATEWAY_RELEASE_TAG_PREFIX = "@canton-network/wallet-gateway-remote@"
 WALLET_GATEWAY_RELEASES_URL = (
@@ -860,8 +867,8 @@ def build_source_contract(snapshot: dict) -> dict:
         ),
         "minProtocolVersion": "Manual/fallback until a public live source is identified.",
         "darVersions": (
-            "Latest stable package rows for splice-amulet, splice-wallet, and "
-            "splice-dso-governance from the observed Splice release-line daml/dars.lock."
+            f"Latest stable package rows for {', '.join(DASHBOARD_DAR_NAMES)} "
+            "from each network's observed Splice release-line daml/dars.lock."
         ),
     }
 
