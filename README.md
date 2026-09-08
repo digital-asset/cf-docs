@@ -42,7 +42,7 @@ Use this to report a problem or request new content without editing the source y
 Either:
 
 - [`direnv`](https://direnv.net/)
-- [`nix`](https://nixos.org/download/)
+- [`nix`](https://nixos.org/download/) with `nix-command` and flakes support
 
 OR:
 

@@ -1,14 +1,6 @@
+{ pkgs }:
+
 let
-  # To get the sha256:
-  # nix-prefetch-url --unpack https://github.com/NixOS/nixpkgs/archive/<the rev>.tar.gz
-  rev = "ec942ba042dad5ef097e2ef3a3effc034241f011";
-  sha256 = "sha256:01i5lznyfxyb5r7llscybv17nhbnb58p0wi62rag9jdagjwxm6a7";
-
-  pkgs = (import (builtins.fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/${rev}.tar.gz";
-    inherit sha256;
-  }) {});
-
   pythonBase = pkgs.python314;
   python = pythonBase.withPackages (ps: [
     ps.grpcio-tools
@@ -23,6 +15,7 @@ let
 in
 pkgs.mkShell {
   packages = [
+    pkgs.bash
     pkgs.curl
     pkgs.gh
     pkgs.git

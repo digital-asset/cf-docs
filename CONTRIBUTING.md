@@ -58,7 +58,7 @@ For new pages, restructuring, or anything touching multiple files, set up a loca
 Either:
 
 - [`direnv`](https://direnv.net/)
-- [`nix`](https://nixos.org/download/)
+- [`nix`](https://nixos.org/download/) with `nix-command` and flakes support
 
 OR:
 

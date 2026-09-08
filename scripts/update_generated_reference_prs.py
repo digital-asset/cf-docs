@@ -32,6 +32,21 @@ NETWORK_VARIABLE_TAB_PAGES = (
     "docs-main/sdks-tools/api-reference/splice-scan-gs-connectivity-api.mdx",
 )
 
+NIX_DEVELOP_PREFIX = (
+    "nix",
+    "--extra-experimental-features",
+    "nix-command flakes",
+    "develop",
+    "path:nix",
+    "--command",
+    "bash",
+    "-c",
+)
+
+
+def nix_develop_command(command: str) -> tuple[str, ...]:
+    return (*NIX_DEVELOP_PREFIX, command)
+
 
 @dataclass(frozen=True)
 class UpdateTarget:
@@ -62,7 +77,7 @@ UPDATE_TARGETS = (
             "package, and installer sources, then refreshes generated pages that render "
             "network-specific values from that data."
         ),
-        generate_commands=(("nix-shell", "--run", "npm run generate:network-variable-tabs"),),
+        generate_commands=(nix_develop_command("npm run generate:network-variable-tabs"),),
         paths=(
             "config/repo-version-config.json",
             "docs-main/snippets/generated/version-dashboard-data.mdx",
@@ -77,7 +92,7 @@ UPDATE_TARGETS = (
             "git diff --check",
         ),
         source_update_commands=(
-            ("nix-shell", "--run", "npm run generate:version-compatibility-dashboard"),
+            nix_develop_command("npm run generate:version-compatibility-dashboard"),
         ),
         source_update_paths=(
             "config/repo-version-config.json",
@@ -95,7 +110,7 @@ UPDATE_TARGETS = (
             "specifications, operation pages, history, and navigation."
         ),
         generate_commands=(
-            ("nix-shell", "--run", "npm run generate:splice-mintlify-openapi"),
+            nix_develop_command("npm run generate:splice-mintlify-openapi"),
         ),
         paths=(
             "docs-main/docs.json",
@@ -131,7 +146,7 @@ UPDATE_TARGETS = (
             "canton-network/splice release tag."
         ),
         generate_commands=(
-            ("nix-shell", "--run", "npm run generate:splice-token-standard-v2-reference"),
+            nix_develop_command("npm run generate:splice-token-standard-v2-reference"),
         ),
         paths=(
             "config/x2mdx/splice-token-standard-v2/source-artifacts.json",
@@ -164,7 +179,7 @@ UPDATE_TARGETS = (
             "OpenRPC reference pages."
         ),
         generate_commands=(
-            ("nix-shell", "--run", "npm run generate:wallet-gateway-openrpc-reference"),
+            nix_develop_command("npm run generate:wallet-gateway-openrpc-reference"),
         ),
         paths=(
             "config/x2mdx/wallet-gateway-openrpc/source-artifacts.json",
@@ -180,7 +195,7 @@ UPDATE_TARGETS = (
             "git diff --check",
         ),
         source_update_commands=(
-            ("nix-shell", "--run", "npm run update:generated-reference-sources -- --source wallet-gateway-openrpc"),
+            nix_develop_command("npm run update:generated-reference-sources -- --source wallet-gateway-openrpc"),
         ),
         source_update_paths=("config/x2mdx/wallet-gateway-openrpc/source-artifacts.json",),
     ),
@@ -194,7 +209,7 @@ UPDATE_TARGETS = (
             "the checked-in OpenAPI reference."
         ),
         generate_commands=(
-            ("nix-shell", "--run", "npm run generate:json-api-reference"),
+            nix_develop_command("npm run generate:json-api-reference"),
         ),
         paths=(
             "config/x2mdx/ledger-api/source-artifacts.json",
@@ -211,7 +226,7 @@ UPDATE_TARGETS = (
             "git diff --check",
         ),
         source_update_commands=(
-            ("nix-shell", "--run", "npm run update:generated-reference-sources -- --source ledger-api"),
+            nix_develop_command("npm run update:generated-reference-sources -- --source ledger-api"),
         ),
         source_update_paths=("config/x2mdx/ledger-api/source-artifacts.json",),
     ),
@@ -225,7 +240,7 @@ UPDATE_TARGETS = (
             "the checked-in AsyncAPI reference."
         ),
         generate_commands=(
-            ("nix-shell", "--run", "npm run generate:json-api-asyncapi-reference"),
+            nix_develop_command("npm run generate:json-api-asyncapi-reference"),
         ),
         paths=(
             "config/x2mdx/ledger-api-asyncapi/source-artifacts.json",
@@ -241,7 +256,7 @@ UPDATE_TARGETS = (
             "git diff --check",
         ),
         source_update_commands=(
-            ("nix-shell", "--run", "npm run update:generated-reference-sources -- --source ledger-api-asyncapi"),
+            nix_develop_command("npm run update:generated-reference-sources -- --source ledger-api-asyncapi"),
         ),
         source_update_paths=("config/x2mdx/ledger-api-asyncapi/source-artifacts.json",),
     ),
@@ -253,7 +268,7 @@ UPDATE_TARGETS = (
             "Regenerates the checked-in gRPC Ledger API reference from the latest "
             "stable Canton protobuf release bundles selected by the existing source config."
         ),
-        generate_commands=(("nix-shell", "--run", "npm run generate:grpc-ledger-api-reference"),),
+        generate_commands=(nix_develop_command("npm run generate:grpc-ledger-api-reference"),),
         paths=(
             "docs-main/docs.json",
             "docs-main/reference/grpc-ledger-api-reference",
@@ -274,7 +289,7 @@ UPDATE_TARGETS = (
             "Regenerates the checked-in Canton protobuf history references from the "
             "latest stable Canton protobuf release bundles selected by the existing source config."
         ),
-        generate_commands=(("nix-shell", "--run", "npm run generate:canton-protobuf-history"),),
+        generate_commands=(nix_develop_command("npm run generate:canton-protobuf-history"),),
         paths=(
             "config/x2mdx/protobuf-history/metadata.json",
             "docs-main/docs.json",
@@ -299,7 +314,7 @@ UPDATE_TARGETS = (
             "Maven artifacts and regenerates the checked-in Java bindings reference pages."
         ),
         generate_commands=(
-            ("nix-shell", "--run", "npm run generate:ledger-bindings-api-reference"),
+            nix_develop_command("npm run generate:ledger-bindings-api-reference"),
         ),
         paths=(
             "config/x2mdx/ledger-bindings/source-artifacts.json",
@@ -316,7 +331,7 @@ UPDATE_TARGETS = (
             "git diff --check",
         ),
         source_update_commands=(
-            ("nix-shell", "--run", "npm run update:generated-reference-sources -- --source ledger-bindings"),
+            nix_develop_command("npm run update:generated-reference-sources -- --source ledger-bindings"),
         ),
         source_update_paths=("config/x2mdx/ledger-bindings/source-artifacts.json",),
         auto_merge=False,
@@ -330,7 +345,7 @@ UPDATE_TARGETS = (
             "version and regenerates the checked-in Daml Standard Library reference pages."
         ),
         generate_commands=(
-            ("nix-shell", "--run", "npm run generate:daml-standard-library-reference"),
+            nix_develop_command("npm run generate:daml-standard-library-reference"),
         ),
         paths=(
             "config/x2mdx/daml-standard-library/source-artifacts.json",
@@ -346,7 +361,7 @@ UPDATE_TARGETS = (
             "git diff --check",
         ),
         source_update_commands=(
-            ("nix-shell", "--run", "npm run update:generated-reference-sources -- --source daml-standard-library"),
+            nix_develop_command("npm run update:generated-reference-sources -- --source daml-standard-library"),
         ),
         source_update_paths=("config/x2mdx/daml-standard-library/source-artifacts.json",),
         requires_daml_tooling=True,
@@ -360,7 +375,7 @@ UPDATE_TARGETS = (
             "regenerates the checked-in Daml Script reference pages."
         ),
         generate_commands=(
-            ("nix-shell", "--run", "npm run generate:daml-script-reference"),
+            nix_develop_command("npm run generate:daml-script-reference"),
         ),
         paths=(
             "config/x2mdx/daml-script/source-artifacts.json",
@@ -376,7 +391,7 @@ UPDATE_TARGETS = (
             "git diff --check",
         ),
         source_update_commands=(
-            ("nix-shell", "--run", "npm run update:generated-reference-sources -- --source daml-script"),
+            nix_develop_command("npm run update:generated-reference-sources -- --source daml-script"),
         ),
         source_update_paths=("config/x2mdx/daml-script/source-artifacts.json",),
         requires_daml_tooling=True,
@@ -390,7 +405,7 @@ UPDATE_TARGETS = (
             "releases and regenerates the checked-in TypeScript bindings reference pages."
         ),
         generate_commands=(
-            ("nix-shell", "--run", "npm run generate:typescript-bindings-reference"),
+            nix_develop_command("npm run generate:typescript-bindings-reference"),
         ),
         paths=(
             "config/x2mdx/typescript-bindings/source-artifacts.json",
@@ -407,7 +422,7 @@ UPDATE_TARGETS = (
             "git diff --check",
         ),
         source_update_commands=(
-            ("nix-shell", "--run", "npm run update:generated-reference-sources -- --source typescript-bindings"),
+            nix_develop_command("npm run update:generated-reference-sources -- --source typescript-bindings"),
         ),
         source_update_paths=("config/x2mdx/typescript-bindings/source-artifacts.json",),
     ),
@@ -419,7 +434,7 @@ UPDATE_TARGETS = (
             "Regenerates the checked-in Canton console command reference from runtime "
             "help metadata in the latest public Canton release binary."
         ),
-        generate_commands=(("nix-shell", "--run", "npm run generate:canton-console-reference"),),
+        generate_commands=(nix_develop_command("npm run generate:canton-console-reference"),),
         paths=("docs-main/global-synchronizer/reference/canton-console-commands.mdx",),
         summary_kind="static",
         summary_path=None,
@@ -437,7 +452,7 @@ UPDATE_TARGETS = (
             "Regenerates the checked-in Canton error-code inventory from runtime "
             "metadata in the latest public Canton release binary."
         ),
-        generate_commands=(("nix-shell", "--run", "npm run generate:canton-error-codes-reference"),),
+        generate_commands=(nix_develop_command("npm run generate:canton-error-codes-reference"),),
         paths=("docs-main/global-synchronizer/reference/error-codes.mdx",),
         summary_kind="static",
         summary_path=None,
@@ -455,7 +470,7 @@ UPDATE_TARGETS = (
             "Regenerates the Canton release-to-protocol compatibility table from "
             "runtime metadata in the latest public Canton release binary."
         ),
-        generate_commands=(("nix-shell", "--run", "npm run generate:canton-release-protocol-versions"),),
+        generate_commands=(nix_develop_command("npm run generate:canton-release-protocol-versions"),),
         paths=("docs-main/release-notes/releases-and-versioning.mdx",),
         summary_kind="static",
         summary_path=None,
@@ -473,7 +488,7 @@ UPDATE_TARGETS = (
             "Regenerates the checked-in Canton Metrics reference page from the latest "
             "Canton release documentation source."
         ),
-        generate_commands=(("nix-shell", "--run", "npm run generate:canton-metrics-reference"),),
+        generate_commands=(nix_develop_command("npm run generate:canton-metrics-reference"),),
         paths=("docs-main/global-synchronizer/reference/canton-metrics.mdx",),
         summary_kind="static",
         summary_path=None,
@@ -493,7 +508,7 @@ UPDATE_TARGETS = (
             "updates the generated MDX export used by the topology reference page."
         ),
         generate_commands=(
-            ("nix-shell", "--run", "npm run generate:canton-topology-proto-link"),
+            nix_develop_command("npm run generate:canton-topology-proto-link"),
         ),
         paths=("docs-main/snippets/generated/canton-topology-proto-link.mdx",),
         summary_kind="static",
@@ -512,7 +527,7 @@ UPDATE_TARGETS = (
             "Updates the published Canton release-note pages from the `RELEASE-NOTES.md` "
             "files in stable public Canton release bundles."
         ),
-        generate_commands=(("nix-shell", "--run", "npm run update:canton-release-notes"),),
+        generate_commands=(nix_develop_command("npm run update:canton-release-notes"),),
         paths=(
             "docs-main/docs.json",
             "docs-main/global-synchronizer/release-notes",
@@ -534,7 +549,7 @@ UPDATE_TARGETS = (
             "`@canton-network/wallet-gateway-remote` GitHub releases in "
             "`canton-network/wallet`."
         ),
-        generate_commands=(("nix-shell", "--run", "npm run update:release-notes -- --target wallet-gateway"),),
+        generate_commands=(nix_develop_command("npm run update:release-notes -- --target wallet-gateway"),),
         paths=(
             "docs-main/docs.json",
             "docs-main/integrations/release-notes/wallet-gateway.mdx",
@@ -557,7 +572,7 @@ UPDATE_TARGETS = (
             "`docs/wallet-integration-guide/src/release-notes/index.rst` in "
             "`canton-network/wallet`."
         ),
-        generate_commands=(("nix-shell", "--run", "npm run update:release-notes -- --target wallet-sdk"),),
+        generate_commands=(nix_develop_command("npm run update:release-notes -- --target wallet-sdk"),),
         paths=(
             "docs-main/docs.json",
             "docs-main/integrations/release-notes/wallet-sdk.mdx",
@@ -580,7 +595,7 @@ UPDATE_TARGETS = (
             "`@canton-network/dapp-sdk` GitHub releases in "
             "`canton-network/wallet`."
         ),
-        generate_commands=(("nix-shell", "--run", "npm run update:release-notes -- --target dapp-sdk"),),
+        generate_commands=(nix_develop_command("npm run update:release-notes -- --target dapp-sdk"),),
         paths=(
             "docs-main/docs.json",
             "docs-main/integrations/release-notes/dapp-sdk.mdx",

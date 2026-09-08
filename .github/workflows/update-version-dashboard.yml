@@ -24,6 +24,9 @@ concurrency:
   group: update-generated-docs
   cancel-in-progress: false
 
+env:
+  NIX_CONFIG: "extra-experimental-features = nix-command flakes"
+
 # The canton-network-cf-docs runner contract provides Nix through a shared store and daemon.
 jobs:
   select-targets:
@@ -41,7 +44,7 @@ jobs:
         env:
           GENERATED_DOCS_TARGETS: ${{ inputs.targets || 'all' }}
         run: |
-          target_matrix="$(SKIP_NPM_INSTALL=1 nix-shell --run 'python3 scripts/update_generated_reference_prs.py --targets $GENERATED_DOCS_TARGETS --print-target-matrix-json')"
+          target_matrix="$(SKIP_NPM_INSTALL=1 nix develop path:nix --command bash -c 'python3 scripts/update_generated_reference_prs.py --targets $GENERATED_DOCS_TARGETS --print-target-matrix-json')"
           echo "target_matrix=$target_matrix" >> "$GITHUB_OUTPUT"
 
   update-generated-docs:
@@ -63,19 +66,19 @@ jobs:
         run: SKIP_NPM_INSTALL=1 direnv allow . && SKIP_NPM_INSTALL=1 direnv exec . true
 
       - name: Install npm dependencies
-        run: SKIP_NPM_INSTALL=1 nix-shell --run 'npm ci'
+        run: SKIP_NPM_INSTALL=1 nix develop path:nix --command npm ci
 
       - name: Set up Daml tooling
         if: ${{ matrix.requires_daml_tooling }}
         run: |
-          SKIP_NPM_INSTALL=1 nix-shell --run 'bash scripts/install_daml_tooling.sh'
+          SKIP_NPM_INSTALL=1 nix develop path:nix --command bash scripts/install_daml_tooling.sh
           echo "$HOME/.dpm/bin" >> "$GITHUB_PATH"
           echo "$HOME/.daml/bin" >> "$GITHUB_PATH"
 
       - name: Verify generated-doc dependencies
         env:
           GENERATED_DOCS_DEPENDENCY_ARGS: ${{ matrix.requires_daml_tooling && '--require-daml' || '' }}
-        run: SKIP_NPM_INSTALL=1 nix-shell --run "python3 scripts/check_generated_docs_dependencies.py $GENERATED_DOCS_DEPENDENCY_ARGS"
+        run: SKIP_NPM_INSTALL=1 nix develop path:nix --command bash -c "python3 scripts/check_generated_docs_dependencies.py $GENERATED_DOCS_DEPENDENCY_ARGS"
 
       - name: Check generated-docs merger app configuration
         id: merger-app
@@ -100,7 +103,7 @@ jobs:
       - name: Configure generated-docs PR authentication
         env:
           GH_TOKEN: ${{ steps.merger-token.outputs.token || github.token }}
-        run: SKIP_NPM_INSTALL=1 nix-shell --run 'gh auth setup-git'
+        run: SKIP_NPM_INSTALL=1 nix develop path:nix --command gh auth setup-git
 
       - name: Generate update pull requests
         env:
@@ -113,5 +116,4 @@ jobs:
           if [[ "${{ inputs.dry_run || false }}" == "true" ]]; then
             args+=(--dry-run)
           fi
-          printf -v generated_docs_command '%q ' "${args[@]}"
-          SKIP_NPM_INSTALL=1 nix-shell --run "$generated_docs_command"
+          SKIP_NPM_INSTALL=1 nix develop path:nix --command "${args[@]}"
