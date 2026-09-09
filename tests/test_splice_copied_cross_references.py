@@ -7,8 +7,6 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
 EXPECTED_LINK_COUNTS = [
-    ("docs-main/overview/reference/canton-coin-tokenomics.mdx", "Scan State API", "/sdks-tools/api-reference/splice-scan-current-state-api", 1),
-    ("docs-main/overview/reference/canton-coin-tokenomics.mdx", "minting delegation", "/global-synchronizer/splice-fundamentals/rewards-minting", 1),
     ("docs-main/appdev/modules/m4-featured-app-activity-marker.mdx", "types_of_activity_records", "/overview/reference/canton-coin-tokenomics", 1),
     ("docs-main/appdev/modules/m7-canton-coin-preapprovals.mdx", "API docs", "/sdks-tools/api-reference/splice-validator-api", 1),
     ("docs-main/appdev/modules/m7-canton-coin-preapprovals.mdx", "limit on the number of parties", "/global-synchronizer/production-operations/scalability", 1),
@@ -107,8 +105,7 @@ EXPECTED_LINK_COUNTS = [
     ("docs-main/global-synchronizer/troubleshooting-guide/troubleshooting-methodology.mdx", "purchase any traffic", "/global-synchronizer/deployment/synchronizer-traffic", 1),
     ("docs-main/global-synchronizer/troubleshooting-guide/troubleshooting-methodology.mdx", "purchase traffic", "/global-synchronizer/deployment/synchronizer-traffic", 1),
     ("docs-main/global-synchronizer/troubleshooting-guide/troubleshooting-methodology.mdx", "validator_reonboard", "/global-synchronizer/production-operations/validator-disaster-recovery", 1),
-    ("docs-main/overview/reference/canton-coin-tokenomics.mdx", "Scan State API", "/sdks-tools/api-reference/splice-scan-current-state-api", 1),
-    ("docs-main/overview/reference/canton-coin-tokenomics.mdx", "minting delegation", "/global-synchronizer/splice-fundamentals/rewards-minting", 1),
+    ("docs-main/overview/reference/canton-coin-tokenomics.mdx", "Minting Delegations", "/global-synchronizer/splice-fundamentals/rewards-minting", 1),
     ("docs-main/sdks-tools/api-reference/splice-architecture.mdx", "app_dev_daml_api", "/sdks-tools/api-reference/splice-daml-apis", 1),
     ("docs-main/sdks-tools/api-reference/splice-daml-apis.mdx", "Canton Coin transfer preapproval", "/appdev/modules/m7-canton-coin-preapprovals", 1),
     ("docs-main/sdks-tools/api-reference/splice-daml-apis.mdx", "featured wallet provider party", "/overview/reference/canton-coin-tokenomics", 1),

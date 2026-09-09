@@ -255,8 +255,6 @@ class ProtobufMinimalLifecycleTests(unittest.TestCase):
         )
 
     def test_cli_renders_explicit_lifecycle_states(self) -> None:
-        # TODO(https://github.com/digital-asset/docs/issues/341): define the
-        # Protobuf source/overlay convention for explicit lifecycle states.
         package = "com.example.payments.v1"
         manifest_path = self._write_manifest(
             metadata_overlay={
@@ -306,8 +304,6 @@ class ProtobufMinimalLifecycleTests(unittest.TestCase):
         assert_contains_all(list_payments, ["Lifecycle", "Stable"])
 
     def test_cli_renders_replacement_metadata(self) -> None:
-        # TODO(https://github.com/digital-asset/docs/issues/341): define the
-        # Protobuf source/overlay convention for replacement metadata.
         package = "com.example.payments.v1"
         manifest_path = self._write_manifest(
             metadata_overlay={

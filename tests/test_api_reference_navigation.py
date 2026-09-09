@@ -86,8 +86,7 @@ def test_product_selector_groups_reference_utility_links() -> None:
     ]
 
     integrations = next(item for item in products if item["product"] == "Integrations")
-    wallet = next(group for group in integrations["groups"] if group["group"] == "Wallet")
-    assert "integrations/wallet/release-notes" not in wallet["pages"]
+    assert "integrations/wallet/release-notes" not in json.dumps(integrations)
 
     styles = (REPO_ROOT / "docs-main" / "styles.css").read_text(encoding="utf-8")
     assert "--canton-product-selector-divider" in styles

@@ -48,6 +48,7 @@ PACKAGE_GROUP_ORDER = [
 GRPC_TARGET_PLACEHOLDER = "<HOST:PORT>"
 REQUEST_SAMPLE_MAX_DEPTH = 4
 REQUEST_SAMPLE_MAX_FIELDS = 8
+LIFECYCLE_STATES = {"alpha", "beta", "stable", "deprecated"}
 
 
 def slugify_segment(value: str) -> str:
@@ -111,6 +112,33 @@ def lifecycle_badges(
     if removed:
         badges.append(ReferenceBadge(f"Removed {removed}", tone="removed"))
     return badges
+
+
+def lifecycle_meta_items(entity: dict[str, Any]) -> list[ReferenceMetaItem]:
+    metadata = entity.get("metadata")
+    lifecycle = metadata.get("lifecycle") if isinstance(metadata, dict) else None
+    if not isinstance(lifecycle, dict):
+        return []
+
+    items: list[ReferenceMetaItem] = []
+    raw_state = lifecycle.get("state")
+    if raw_state is not None:
+        if not isinstance(raw_state, str) or raw_state.strip().lower() not in LIFECYCLE_STATES:
+            allowed = ", ".join(sorted(LIFECYCLE_STATES))
+            raise ValueError(
+                f"Unsupported Protobuf lifecycle state {raw_state!r} for {entity['id']}; "
+                f"expected one of {allowed}"
+            )
+        items.append(ReferenceMetaItem("Lifecycle", raw_state.strip().title()))
+
+    replaces = lifecycle.get("replaces")
+    if replaces is not None:
+        if not isinstance(replaces, str) or not replaces.strip():
+            raise ValueError(
+                f"Protobuf replacement target for {entity['id']} must be a non-empty string"
+            )
+        items.append(ReferenceMetaItem("Replaces", replaces.strip()))
+    return items
 
 
 def aggregate_history_events(
@@ -659,6 +687,7 @@ def build_package_page(
                         ReferenceMetaItem("Response", endpoint["responseType"]),
                         ReferenceMetaItem("Client stream", "Yes" if endpoint["clientStreaming"] else "No"),
                         ReferenceMetaItem("Server stream", "Yes" if endpoint["serverStreaming"] else "No"),
+                        *lifecycle_meta_items(endpoint),
                     ],
                 )
             )
@@ -792,6 +821,7 @@ def build_operation_page(
             ReferenceMetaItem("RPC", endpoint["name"]),
             ReferenceMetaItem("Client stream", "Yes" if endpoint["clientStreaming"] else "No"),
             ReferenceMetaItem("Server stream", "Yes" if endpoint["serverStreaming"] else "No"),
+            *lifecycle_meta_items(endpoint),
         ],
         inputs=[
             ReferencePanel(
@@ -799,6 +829,7 @@ def build_operation_page(
                 meta_items=[
                     ReferenceMetaItem("Message", endpoint["requestType"]),
                     ReferenceMetaItem("Client stream", "Yes" if endpoint["clientStreaming"] else "No"),
+                    *lifecycle_meta_items(ctx["messages"][endpoint["requestType"]]),
                 ],
                 schema=request_schema,
             )
@@ -809,6 +840,7 @@ def build_operation_page(
                 meta_items=[
                     ReferenceMetaItem("Message", endpoint["responseType"]),
                     ReferenceMetaItem("Server stream", "Yes" if endpoint["serverStreaming"] else "No"),
+                    *lifecycle_meta_items(ctx["messages"][endpoint["responseType"]]),
                 ],
                 schema=response_schema,
             )

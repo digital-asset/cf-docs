@@ -90,7 +90,7 @@ def deprecated_refs_from_java_html(text: str) -> dict[str, str]:
     refs: dict[str, str] = {}
     row_pattern = re.compile(
         r'<div class="col-summary-item-name[^"]*">\s*<a href="([^"]+)".*?</a>\s*</div>\s*'
-        r'<div class="col-last[^"]*">\s*(?:<div class="deprecation-comment">(.*?)</div>)?',
+        r'<div class="col-last[^"]*">\s*(.*?)</div>',
         flags=re.S,
     )
     for href, comment_html in row_pattern.findall(text):

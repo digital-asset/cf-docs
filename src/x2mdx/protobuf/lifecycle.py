@@ -485,6 +485,7 @@ class DescriptorSnapshotBuilder:
         locmap = self.file_locmap(file_proto.name)
         description, line = comment_and_line(locmap, (FILE_SERVICE_FIELD_NUMBER, service_idx, SERVICE_METHOD_FIELD_NUMBER, method_idx))
         endpoint_id = f"{service_doc['id']}/{method_proto.name}"
+        metadata_id = f"{service_doc['id']}.{method_proto.name}"
         endpoint_doc = {
             "id": endpoint_id,
             "name": method_proto.name,
@@ -496,7 +497,7 @@ class DescriptorSnapshotBuilder:
             "description": description,
             "line": line,
             "sourceUrl": self.file_source_url(file_proto.name, line),
-            "metadata": self.metadata("endpoints", endpoint_id),
+            "metadata": self.metadata("endpoints", metadata_id),
             "requestType": strip_leading_dot(method_proto.input_type),
             "responseType": strip_leading_dot(method_proto.output_type),
             "clientStreaming": bool(method_proto.client_streaming),
