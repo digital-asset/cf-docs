@@ -50,6 +50,9 @@ Please modify the file `splice-node/examples/sv-helm/scan-values.yaml` as follow
 - No longer needed since splice `0.6.8`: Replace all instances of `MIGRATION_ID` with the migration ID of the global synchronizer on your target cluster.
 - Replace all instances of `SERIAL_ID` with the serial ID of the global synchronizer on your target cluster.
 - When using CantonBFT set `synchronizers.(current|legacy|successor).cantonBft.p2pUrl: https://sequencer-p2p-SERIAL_ID.sv.YOUR_HOSTNAME`
+- Starting from splice X.Y.Z: To enable bulk storage (not yet mandated, to allow gradual adoption, but will be made mandatory in a future release),
+  uncomment the bulk storage section, and replace `STAGING_ENDPOINT`, `STAGING_REGION`, `STAGING_BUCKET_NAME`, `COMMITTED_ENDPOINT`,
+  `COMMITTED_REGION`, `COMMITTED_BUCKET_NAME` with the values for your cloud storage buckets.
 
 An SV node includes a validator app so you also need to configure that. Please modify the file `splice-node/examples/sv-helm/validator-values.yaml` as follows:
 

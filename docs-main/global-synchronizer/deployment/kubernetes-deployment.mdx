@@ -560,6 +560,48 @@ If you wish to use cloud-hosted Postgres instances, please configure and initial
 
 Note that the default Helm values files used below assume that the Postgres instances are deployed using the Helm charts above, thus are accessible at hostname sequencer-pg, mediator-pg, etc. If you are using cloud-hosted Postgres instances, please override the hostnames under `persistence.host` with the IP addresses of the Postgres instances. To avoid conflicts across migration IDs, you will also need to ensure that `persistence.databaseName` is unique per component (participant, sequencer, mediator) and migration ID.
 
+## Preparing Bulk Storage Buckets
+
+The Scan app persists long-term data in cloud storage buckets, via standard S3-compatible APIs.
+The app requires two buckets: one for staging objects, and another for long-term committed ones.
+Objects are stored in the staging bucket first, and once confirmed that the stored data conforms with
+that in a majority of peer Scan instances, are moved to the permanent committed one.
+
+Please create two buckets as described, and a service account (or two service accounts, one per bucket, if you wish),
+with permissions as follows:
+
+- Staging bucket: permission to create, read, overwrite and delete objects in the bucket
+- Committed bucket: permission to create (write-once) and read objects in the bucket.
+  Objects in this bucket should not be overwritten or deleted, so the service account should not have
+  permission to do so, to prevent accidental loss of data.
+
+We will use the environment variables listed in the table below to refer to aspects of your configuration:
+
+| Name                               | Value                                                                                                       |
+|------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| STAGING_ENDPOINT                   | The endpoint of the staging bucket (e.g. `https://s3.amazonaws.com` or `https://storage.googleapis.com`)    |
+| STAGING_REGION                     | The region of the staging bucket                                                                            |
+| STAGING_BUCKET_NAME                | The name of the staging bucket                                                                              |
+| STAGING_ACCESS_KEY                 | The HMAC access key of the service account for the staging bucket                                           |
+| STAGING_SECRET_KEY                 | The HMAC secret key of the service account for the staging bucket                                           |
+| COMMITTED_ENDPOINT                 | The endpoint of the committed bucket (e.g. `https://s3.amazonaws.com` or `https://storage.googleapis.com`)  |
+| COMMITTED_REGION                   | The region of the committed bucket                                                                          |
+| COMMITTED_BUCKET_NAME              | The name of the committed bucket                                                                            |
+| COMMITTED_ACCESS_KEY               | The HMAC access key of the service account for the committed bucket                                         |
+| COMMITTED_SECRET_KEY               | The HMAC secret key of the service account for the committed bucket                                         |
+
+Save the access and secret keys of the service accounts in k8s secrets, as follows:
+
+```bash
+kubectl create secret --namespace sv generic splice-app-bulk-storage-staging-credentials \
+    --from-literal=accessKey=${STAGING_ACCESS_KEY} \
+    --from-literal=secretKey=${STAGING_SECRET_KEY}
+
+kubectl create secret --namespace sv generic splice-app-bulk-storage-committed-credentials \
+    --from-literal=accessKey=${COMMITTED_ACCESS_KEY} \
+    --from-literal=secretKey=${COMMITTED_SECRET_KEY}
+```
+
 ## Installing the Software
 
 <Note>
@@ -631,6 +673,9 @@ Please modify the file `splice-node/examples/sv-helm/scan-values.yaml` as follow
 - No longer needed since splice `0.6.8`: Replace all instances of `MIGRATION_ID` with the migration ID of the global synchronizer on your target cluster.
 - Replace all instances of `SERIAL_ID` with the serial ID of the global synchronizer on your target cluster.
 - When using CantonBFT set `synchronizers.(current|legacy|successor).cantonBft.p2pUrl: https://sequencer-p2p-SERIAL_ID.sv.YOUR_HOSTNAME`
+- Starting from splice X.Y.Z: To enable bulk storage (not yet mandated, to allow gradual adoption, but will be made mandatory in a future release),
+  uncomment the bulk storage section, and replace `STAGING_ENDPOINT`, `STAGING_REGION`, `STAGING_BUCKET_NAME`, `COMMITTED_ENDPOINT`,
+  `COMMITTED_REGION`, `COMMITTED_BUCKET_NAME` with the values for your cloud storage buckets.
 
 An SV node includes a validator app so you also need to configure that. Please modify the file `splice-node/examples/sv-helm/validator-values.yaml` as follows:
 
@@ -749,6 +794,9 @@ Please modify the file `splice-node/examples/sv-helm/scan-values.yaml` as follow
 - No longer needed since splice `0.6.8`: Replace all instances of `MIGRATION_ID` with the migration ID of the global synchronizer on your target cluster.
 - Replace all instances of `SERIAL_ID` with the serial ID of the global synchronizer on your target cluster.
 - When using CantonBFT set `synchronizers.(current|legacy|successor).cantonBft.p2pUrl: https://sequencer-p2p-SERIAL_ID.sv.YOUR_HOSTNAME`
+- Starting from splice X.Y.Z: To enable bulk storage (not yet mandated, to allow gradual adoption, but will be made mandatory in a future release),
+  uncomment the bulk storage section, and replace `STAGING_ENDPOINT`, `STAGING_REGION`, `STAGING_BUCKET_NAME`, `COMMITTED_ENDPOINT`,
+  `COMMITTED_REGION`, `COMMITTED_BUCKET_NAME` with the values for your cloud storage buckets.
 
 An SV node includes a validator app so you also need to configure that. Please modify the file `splice-node/examples/sv-helm/validator-values.yaml` as follows:
 
@@ -867,6 +915,9 @@ Please modify the file `splice-node/examples/sv-helm/scan-values.yaml` as follow
 - No longer needed since splice `0.6.8`: Replace all instances of `MIGRATION_ID` with the migration ID of the global synchronizer on your target cluster.
 - Replace all instances of `SERIAL_ID` with the serial ID of the global synchronizer on your target cluster.
 - When using CantonBFT set `synchronizers.(current|legacy|successor).cantonBft.p2pUrl: https://sequencer-p2p-SERIAL_ID.sv.YOUR_HOSTNAME`
+- Starting from splice X.Y.Z: To enable bulk storage (not yet mandated, to allow gradual adoption, but will be made mandatory in a future release),
+  uncomment the bulk storage section, and replace `STAGING_ENDPOINT`, `STAGING_REGION`, `STAGING_BUCKET_NAME`, `COMMITTED_ENDPOINT`,
+  `COMMITTED_REGION`, `COMMITTED_BUCKET_NAME` with the values for your cloud storage buckets.
 
 An SV node includes a validator app so you also need to configure that. Please modify the file `splice-node/examples/sv-helm/validator-values.yaml` as follows:
 
