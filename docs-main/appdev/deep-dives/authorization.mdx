@@ -135,6 +135,48 @@ To interpret the above notation:
 - `exp` is an optional field which specifies the JWT expiration date (in seconds since EPOCH)
 - `scope` is a space-separated list of [OAuth 2.0 scopes](https://datatracker.ietf.org/doc/html/rfc6749#section-3.3) that must contain the `"daml_ledger_api"` scope
 
+### Party JWTs
+
+Canton 3.6 and later can also accept self-issued JWTs.
+This allows users to authenticate to the Ledger API using a JWT signed by the private key held by the primary (external) party.
+To enable this, first update the participant configuration and add a `type = party-jwt` authentication entry:
+
+```hocon
+participants {
+  participant1 {
+    ledger-api {
+      auth-services = [
+        ...,
+        {
+          type = party-jwt
+        }
+      ]
+    }
+  }
+}
+```
+
+The users for which the Party JWTs are issued should not be associated with any IDP, in other words, `identityProviderId` must not be set.
+In addition to that, the user attribute `primaryPartyAuthentication` must be set to `true`.
+
+The external private key can then be used to mint a JWT of the shape:
+
+```json
+{
+  "aud": "someParticipantId",
+  "exp": 1300819380,
+  "iss": "somePartyId",
+  "sub": "somePartyId",
+  "daml.com": {
+    "syn": "someSynchronizerId",
+    "usr": "someUserId"
+  }
+}
+```
+
+Note that this access token can be used to perform any action that the user has the rights for,
+so it is not limited to the signing party.
+
 ### Requirements for User IDs
 
 User IDs must be non-empty strings of at most 128 characters that are either alphanumeric ASCII characters or one of the symbols "@^\$.!\`-#+'~\_\|:()".
