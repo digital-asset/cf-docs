@@ -185,10 +185,11 @@ function generateMDX(dashboardMetadata, networkData) {
     // darVersions array
     lines.push(`      darVersions: [`);
     for (const dar of network.advanced.darVersions) {
-      lines.push(`        { name: ${formatValue(dar.name, 4)}, version: ${formatValue(dar.version, 4)} },`);
+      lines.push(`        { name: ${formatValue(dar.name, 4)}, version: ${JSON.stringify(dar.version)} },`);
     }
     lines.push(`      ],`);
     
+    lines.push(`      darGovernance: ${JSON.stringify(network.advanced.darGovernance, null, 2).replace(/\n/g, "\n      ")},`);
     lines.push(`      releaseUrl: ${formatValue(network.advanced.releaseUrl, 3)},`);
     lines.push(`    },`);
     

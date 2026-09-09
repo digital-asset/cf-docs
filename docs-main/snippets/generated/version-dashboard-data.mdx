@@ -1,5 +1,5 @@
-export const lastUpdatedAt = '2026-09-08T22:11:02+00:00';
-export const lastUpdatedLabel = 'September 8, 2026';
+export const lastUpdatedAt = '2026-09-09T03:38:53+00:00';
+export const lastUpdatedLabel = 'September 9, 2026';
 
 export const networkData = {
   mainnet: {
@@ -21,13 +21,14 @@ export const networkData = {
       minProtocolVersion: '35',
       migrationId: '4',
       darVersions: [
-        { name: 'splice-amulet', version: '0.1.22' },
-        { name: 'splice-amulet-name-service', version: '0.1.23' },
-        { name: 'splice-dso-governance', version: '0.1.28' },
-        { name: 'splice-validator-lifecycle', version: '0.1.8' },
-        { name: 'splice-wallet', version: '0.1.23' },
-        { name: 'splice-wallet-payments', version: '0.1.22' },
       ],
+      darGovernance: {
+        "status": "unavailable",
+        "votesStatus": "unavailable",
+        "sourceUrl": "https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/dso",
+        "votesUrl": "https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/admin/sv/voterequests",
+        "proposals": []
+      },
       releaseUrl: 'https://github.com/canton-network/splice/releases/tag/0.7.4',
     },
     endpoint: 'scan.sv-1.global.canton.network.sync.global',
@@ -76,13 +77,14 @@ export const networkData = {
       minProtocolVersion: '35',
       migrationId: '1',
       darVersions: [
-        { name: 'splice-amulet', version: '0.1.22' },
-        { name: 'splice-amulet-name-service', version: '0.1.23' },
-        { name: 'splice-dso-governance', version: '0.1.28' },
-        { name: 'splice-validator-lifecycle', version: '0.1.8' },
-        { name: 'splice-wallet', version: '0.1.23' },
-        { name: 'splice-wallet-payments', version: '0.1.22' },
       ],
+      darGovernance: {
+        "status": "unavailable",
+        "votesStatus": "unavailable",
+        "sourceUrl": "https://scan.sv-1.test.global.canton.network.sync.global/api/scan/v0/dso",
+        "votesUrl": "https://scan.sv-1.test.global.canton.network.sync.global/api/scan/v0/admin/sv/voterequests",
+        "proposals": []
+      },
       releaseUrl: 'https://github.com/canton-network/splice/releases/tag/0.7.5',
     },
     endpoint: 'scan.sv-1.test.global.canton.network.sync.global',
@@ -131,13 +133,14 @@ export const networkData = {
       minProtocolVersion: '35',
       migrationId: '1',
       darVersions: [
-        { name: 'splice-amulet', version: '0.1.22' },
-        { name: 'splice-amulet-name-service', version: '0.1.23' },
-        { name: 'splice-dso-governance', version: '0.1.28' },
-        { name: 'splice-validator-lifecycle', version: '0.1.8' },
-        { name: 'splice-wallet', version: '0.1.23' },
-        { name: 'splice-wallet-payments', version: '0.1.22' },
       ],
+      darGovernance: {
+        "status": "unavailable",
+        "votesStatus": "unavailable",
+        "sourceUrl": "https://scan.sv-1.dev.global.canton.network.sync.global/api/scan/v0/dso",
+        "votesUrl": "https://scan.sv-1.dev.global.canton.network.sync.global/api/scan/v0/admin/sv/voterequests",
+        "proposals": []
+      },
       releaseUrl: 'https://github.com/canton-network/splice/releases/tag/0.7.5',
     },
     endpoint: 'scan.sv-1.dev.global.canton.network.sync.global',

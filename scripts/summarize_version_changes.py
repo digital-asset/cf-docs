@@ -120,7 +120,7 @@ def dar_version_changes(before: Mapping[str, object], after: Mapping[str, object
             continue
         before_dars = dar_versions(before_advanced.get("darVersions"))
         after_dars = dar_versions(after_advanced.get("darVersions"))
-        for package_name in sorted(after_dars):
+        for package_name in sorted(before_dars.keys() | after_dars.keys()):
             if before_dars.get(package_name) != after_dars.get(package_name):
                 network_label = NETWORK_LABELS.get(network_key, network_key)
                 changes.append(
@@ -130,10 +130,27 @@ def dar_version_changes(before: Mapping[str, object], after: Mapping[str, object
     return changes
 
 
+def dar_governance_changes(before: Mapping[str, object], after: Mapping[str, object]) -> list[str]:
+    changes: list[str] = []
+    before_versions = object_mapping(before.get("versions")) or {}
+    after_versions = object_mapping(after.get("versions")) or {}
+    for key, value in after_versions.items():
+        old_network = object_mapping(before_versions.get(key)) or {}
+        new_network = object_mapping(value) or {}
+        old = (object_mapping(old_network.get("advanced")) or {}).get("darGovernance")
+        new = object_mapping((object_mapping(new_network.get("advanced")) or {}).get("darGovernance"))
+        if new is not None and old != new:
+            proposals = list(object_items(new.get("proposals")))
+            changes.append(f"- {NETWORK_LABELS.get(key, key)} DAR governance: "
+                           f"{new.get('status')}; {len(proposals)} scheduled/proposed package changes.")
+    return changes
+
+
 def dashboard_changes(before_path: Path, after_path: Path) -> list[str]:
     before = load_json(before_path)
     after = load_json(after_path)
-    return repository_version_changes(before, after) + dar_version_changes(before, after)
+    return (repository_version_changes(before, after) + dar_version_changes(before, after)
+            + dar_governance_changes(before, after))
 
 
 def source_config_changes(before_path: Path, after_path: Path, *, label: str) -> list[str]:

@@ -171,3 +171,18 @@ def test_artifact_source_config_changes_summarizes_added_versions(tmp_path: Path
     assert module.artifact_source_config_changes(before, after, label="Java ledger bindings") == [
         "- Java ledger bindings com.daml:bindings-java versions: added 3.5.5"
     ]
+
+
+def test_dashboard_changes_includes_vote_only_updates_and_unavailable_state(tmp_path: Path) -> None:
+    module = load_script_module()
+    before, after = tmp_path / "before.json", tmp_path / "after.json"
+    payload = dashboard_payload(splice_version="0.7.4", dar_version="0.1.1")
+    payload["versions"]["mainnet"]["advanced"]["darGovernance"] = {"status": "current", "proposals": []}
+    write_json(before, payload)
+    payload["versions"]["mainnet"]["advanced"]["darGovernance"]["proposals"] = [{"status": "open", "versions": [{"name": "splice-wallet", "version": "0.1.2"}]}]
+    write_json(after, payload)
+    assert module.dashboard_changes(before, after) == ["- MainNet DAR governance: current; 1 scheduled/proposed package changes."]
+    write_json(before, payload)
+    payload["versions"]["mainnet"]["advanced"]["darGovernance"]["status"] = "stale"
+    write_json(after, payload)
+    assert module.dashboard_changes(before, after) == ["- MainNet DAR governance: stale; 1 scheduled/proposed package changes."]

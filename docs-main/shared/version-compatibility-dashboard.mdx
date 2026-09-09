@@ -115,6 +115,67 @@ export const ClockIcon = () => (
   </svg>
 )
 
+export const DarVersions = ({ versions }) => (
+  <div className="flex flex-wrap gap-2">
+    {versions.map((dar) => (
+      <span key={dar.name} className="text-[10px] font-mono text-gray-400 px-2 py-1 bg-white/5 border border-gray-700 rounded flex items-center">
+        {dar.name} {dar.version || 'None vetted'}
+        <Tooltip content={darTooltips[dar.name]}><InfoIcon size={10} /></Tooltip>
+      </span>
+    ))}
+  </div>
+)
+
+export const DarDate = ({ value }) => (
+  <span>{new Date(value).toLocaleString('en-GB', { timeZone: 'UTC', year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' })} UTC</span>
+)
+
+export const DarGovernance = ({ data }) => {
+  const state = data.darGovernance
+  return (
+    <div className="space-y-3">
+      <div>
+        <div className="text-[10px] text-gray-500 uppercase tracking-wide mb-1">Current DAR versions</div>
+        {state.status === 'unavailable' ? (
+          <p className="text-xs text-amber-300 my-1">Current versions unavailable: Scan data could not be verified.</p>
+        ) : (
+          <>
+            {state.status === 'stale' && <p className="text-xs text-amber-300 my-1">Scan unavailable. Showing the last verified versions and proposals; these may be out of date.</p>}
+            <DarVersions versions={data.darVersions} />
+          </>
+        )}
+        <a href={state.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-block text-[10px] text-cyan-400 mt-2">View Scan AmuletRules</a>
+      </div>
+      {state.status !== 'unavailable' && (
+        <div>
+          <div className="text-[10px] text-gray-500 uppercase tracking-wide mb-1">Scheduled and proposed changes</div>
+          {state.votesStatus === 'unavailable' && <p className="text-xs text-amber-300 my-1">Open votes unavailable. Only approved schedules are shown.</p>}
+          {state.proposals.length === 0 ? (
+            <p className="text-xs text-gray-400 my-1">{state.votesStatus === 'current' ? 'No pending DAR changes reported by Scan.' : 'No approved package changes are scheduled.'}</p>
+          ) : (
+            <>
+              <p className="text-xs text-gray-400 my-1">These changes are not active. Votes can change before execution.</p>
+              <div className="space-y-2">
+                {state.proposals.map((proposal) => (
+                  <div key={proposal.id} className="border border-gray-700 rounded p-2 space-y-2 text-[10px] text-gray-400">
+                    <div className="font-medium text-amber-300">{proposal.status === 'scheduled' ? 'Approved schedule' : proposal.status === 'threshold-met' ? 'Approval threshold met' : 'Open vote'}</div>
+                    <div>{proposal.action}</div>
+                    <div>{proposal.effectiveAt ? <>Effective: <DarDate value={proposal.effectiveAt} /></> : 'Effective on acceptance'}</div>
+                    {proposal.voteBefore && <div>Voting deadline: <DarDate value={proposal.voteBefore} /></div>}
+                    {proposal.acceptedVotes !== undefined && <div>{proposal.acceptedVotes} yes · {proposal.rejectedVotes} no · {proposal.requiredVotes} approvals required</div>}
+                    <DarVersions versions={proposal.versions} />
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+          <a href={state.votesUrl} target="_blank" rel="noopener noreferrer" className="inline-block text-[10px] text-cyan-400 mt-2">View Scan open votes</a>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export const NetworkCard = ({ network, data }) => {
   const [advancedOpen, setAdvancedOpen] = React.useState(false)
   const versionItems = [
@@ -201,22 +262,7 @@ export const NetworkCard = ({ network, data }) => {
               </div>
             </div>
           </div>
-          <div>
-            <div className="text-[10px] text-gray-500 uppercase tracking-wide mb-1">Splice DAR Versions</div>
-            <div className="flex flex-wrap gap-2">
-              {data.advanced.darVersions.map((dar) => (
-                <span
-                  key={dar.name}
-                  className="text-[10px] font-mono text-gray-400 px-2 py-1 bg-white/5 border border-gray-700 rounded flex items-center"
-                >
-                  {dar.name} {dar.version}
-                  <Tooltip content={darTooltips[dar.name]}>
-                    <InfoIcon size={10} />
-                  </Tooltip>
-                </span>
-              ))}
-            </div>
-          </div>
+          <DarGovernance data={data.advanced} />
           <div>
             <div className="text-[10px] text-gray-500 uppercase tracking-wide mb-1">Release Notes</div>
             <a
