@@ -182,13 +182,6 @@ function generateMDX(dashboardMetadata, networkData) {
     lines.push(`      minProtocolVersion: ${formatValue(network.advanced.minProtocolVersion, 3)},`);
     lines.push(`      migrationId: ${formatValue(network.advanced.migrationId, 3)},`);
     
-    // darVersions array
-    lines.push(`      darVersions: [`);
-    for (const dar of network.advanced.darVersions) {
-      lines.push(`        { name: ${formatValue(dar.name, 4)}, version: ${formatValue(dar.version, 4)} },`);
-    }
-    lines.push(`      ],`);
-    
     lines.push(`      releaseUrl: ${formatValue(network.advanced.releaseUrl, 3)},`);
     lines.push(`    },`);
     

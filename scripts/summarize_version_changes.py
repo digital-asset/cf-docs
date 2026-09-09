@@ -52,15 +52,6 @@ def object_items(value: object) -> Iterable[Mapping[str, object]]:
     return tuple(mapping for item in value if (mapping := object_mapping(item)) is not None)
 
 
-def dar_versions(value: object) -> dict[str, object]:
-    versions: dict[str, object] = {}
-    for item in object_items(value):
-        name = item.get("name")
-        if isinstance(name, str):
-            versions[name] = item.get("version")
-    return versions
-
-
 def format_value(value: object) -> str:
     if isinstance(value, str):
         return value
@@ -102,38 +93,10 @@ def repository_version_changes(before: Mapping[str, object], after: Mapping[str,
     return changes
 
 
-def dar_version_changes(before: Mapping[str, object], after: Mapping[str, object]) -> list[str]:
-    changes: list[str] = []
-    before_versions = object_mapping(before.get("versions"))
-    after_versions = object_mapping(after.get("versions"))
-    if before_versions is None or after_versions is None:
-        return changes
-
-    for network_key in sorted(after_versions):
-        before_network = object_mapping(before_versions.get(network_key))
-        after_network = object_mapping(after_versions.get(network_key))
-        if before_network is None or after_network is None:
-            continue
-        before_advanced = object_mapping(before_network.get("advanced"))
-        after_advanced = object_mapping(after_network.get("advanced"))
-        if before_advanced is None or after_advanced is None:
-            continue
-        before_dars = dar_versions(before_advanced.get("darVersions"))
-        after_dars = dar_versions(after_advanced.get("darVersions"))
-        for package_name in sorted(after_dars):
-            if before_dars.get(package_name) != after_dars.get(package_name):
-                network_label = NETWORK_LABELS.get(network_key, network_key)
-                changes.append(
-                    f"- {network_label} {package_name} DAR: "
-                    f"{format_value(before_dars.get(package_name))} -> {format_value(after_dars.get(package_name))}"
-                )
-    return changes
-
-
 def dashboard_changes(before_path: Path, after_path: Path) -> list[str]:
     before = load_json(before_path)
     after = load_json(after_path)
-    return repository_version_changes(before, after) + dar_version_changes(before, after)
+    return repository_version_changes(before, after)
 
 
 def source_config_changes(before_path: Path, after_path: Path, *, label: str) -> list[str]:

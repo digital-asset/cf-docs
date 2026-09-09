@@ -25,7 +25,7 @@ def write_json(path: Path, payload: dict) -> None:
     path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
 
 
-def dashboard_payload(*, splice_version: str, dar_version: str) -> dict:
+def dashboard_payload(*, splice_version: str) -> dict:
     return {
         "repositories": {
             "splice": {
@@ -40,29 +40,19 @@ def dashboard_payload(*, splice_version: str, dar_version: str) -> dict:
                 }
             },
         },
-        "versions": {
-            "mainnet": {
-                "advanced": {
-                    "darVersions": [
-                        {"name": "splice-wallet", "version": dar_version},
-                    ]
-                }
-            }
-        },
     }
 
 
-def test_dashboard_changes_summarizes_component_and_dar_versions(tmp_path: Path) -> None:
+def test_dashboard_changes_summarizes_component_versions(tmp_path: Path) -> None:
     module = load_script_module()
     before = tmp_path / "before.json"
     after = tmp_path / "after.json"
-    write_json(before, dashboard_payload(splice_version="0.6.5", dar_version="0.1.18"))
-    write_json(after, dashboard_payload(splice_version="0.6.7", dar_version="0.1.19"))
+    write_json(before, dashboard_payload(splice_version="0.6.5"))
+    write_json(after, dashboard_payload(splice_version="0.6.7"))
 
     assert module.dashboard_changes(before, after) == [
         "- MainNet Splice: 0.6.5 -> 0.6.7",
         "- TestNet Splice: 0.6.5 -> 0.6.7",
-        "- MainNet splice-wallet DAR: 0.1.18 -> 0.1.19",
     ]
 
 
@@ -70,7 +60,7 @@ def test_dashboard_changes_reports_no_changes(tmp_path: Path) -> None:
     module = load_script_module()
     before = tmp_path / "before.json"
     after = tmp_path / "after.json"
-    payload = dashboard_payload(splice_version="0.6.5", dar_version="0.1.18")
+    payload = dashboard_payload(splice_version="0.6.5")
     write_json(before, payload)
     write_json(after, payload)
 
