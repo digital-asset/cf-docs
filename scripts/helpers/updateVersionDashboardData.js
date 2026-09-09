@@ -179,8 +179,6 @@ function generateMDX(dashboardMetadata, networkData) {
     
     // Advanced object
     lines.push(`    advanced: {`);
-    lines.push(`      minProtocolVersion: ${formatValue(network.advanced.minProtocolVersion, 3)},`);
-    lines.push(`      migrationId: ${formatValue(network.advanced.migrationId, 3)},`);
     
     lines.push(`      releaseUrl: ${formatValue(network.advanced.releaseUrl, 3)},`);
     lines.push(`    },`);
