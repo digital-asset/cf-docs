@@ -1,0 +1,10 @@
+```haskell
+-- Daml: Visibility is explicit
+template TrulyPrivate
+  with
+    owner : Party
+    secretValue : Decimal
+  where
+    signatory owner
+    -- No observers: only owner sees this contract
+```

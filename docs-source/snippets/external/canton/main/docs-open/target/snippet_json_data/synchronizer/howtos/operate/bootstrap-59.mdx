@@ -1,0 +1,35 @@
+```scala
+@ sequencer1.topology.participant_synchronizer_permissions.propose(synchronizerId, participantIdFromString, ParticipantPermission.Submission, store = Some(synchronizerId))
+    res6: SignedTopologyTransaction[TopologyChangeOp, ParticipantSynchronizerPermission] = SignedTopologyTransaction(
+      TopologyTransaction(
+        ParticipantSynchronizerPermission(
+          synchronizerId = mySynchronizer::1220a82692ab...,
+          participantId = PAR::participant1::12201ff69b1d...,
+          permission = Submission
+        ),
+        serial = 1,
+        operation = Replace,
+        hash = SHA-256:0f3f9883b343...
+      ),
+      signatures = 1220cb0a22fb...,
+      proposal
+    )
+```
+
+```scala
+@ mediator1.topology.participant_synchronizer_permissions.propose(synchronizerId, participantIdFromString, ParticipantPermission.Submission, store = Some(synchronizerId))
+    res7: SignedTopologyTransaction[TopologyChangeOp, ParticipantSynchronizerPermission] = SignedTopologyTransaction(
+      TopologyTransaction(
+        ParticipantSynchronizerPermission(
+          synchronizerId = mySynchronizer::1220a82692ab...,
+          participantId = PAR::participant1::12201ff69b1d...,
+          permission = Submission
+        ),
+        serial = 1,
+        operation = Replace,
+        hash = SHA-256:0f3f9883b343...
+      ),
+      signatures = 122009299340...,
+      proposal
+    )
+```

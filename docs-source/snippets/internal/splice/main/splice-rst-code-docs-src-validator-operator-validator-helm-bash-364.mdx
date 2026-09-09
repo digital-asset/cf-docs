@@ -1,0 +1,9 @@
+```bash
+kubectl create --namespace validator secret generic splice-app-wallet-ui-auth \
+    "--from-literal=url=${OIDC_AUTHORITY_URL}" \
+    "--from-literal=client-id=${WALLET_UI_CLIENT_ID}"
+
+kubectl create --namespace validator secret generic splice-app-cns-ui-auth \
+    "--from-literal=url=${OIDC_AUTHORITY_URL}" \
+    "--from-literal=client-id=${CNS_UI_CLIENT_ID}"
+```

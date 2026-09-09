@@ -1,0 +1,13 @@
+```haskell
+template CoinMaster
+  with
+    issuer: Party
+  where
+    signatory issuer
+
+    nonconsuming choice Invite : ContractId CoinIssueProposal
+      with owner: Party
+      controller issuer
+      do create CoinIssueProposal
+            with coinAgreement = CoinIssueAgreement with issuer; owner
+```

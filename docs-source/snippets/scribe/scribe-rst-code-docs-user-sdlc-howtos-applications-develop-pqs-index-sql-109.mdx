@@ -1,0 +1,7 @@
+```sql
+   select payload->'token'->'issue'->>'issuer'          as issuer,
+          sum((payload->'token'->>'quantity')::decimal) as total_quantity
+   from active('TokenOpen')
+   group by payload->'token'->'issue'->>'issuer';
+
+```

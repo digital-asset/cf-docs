@@ -1,0 +1,9 @@
+```haskell
+template LegacyAsset
+  with
+    owner : Party
+    value : Decimal
+  where
+    signatory owner
+    ensure False  -- No new contracts can be created
+```

@@ -1,0 +1,340 @@
+---
+title: "Splice.Fees"
+description: "Documentation for Splice.Fees"
+---
+
+{/* COPIED_START source="splice:daml/splice-amulet/docs/Splice-Fees.rst" tag="0.6.4" hash="2bd77408" */}
+
+Utility functions for different kinds of fees.
+
+## Data Types
+
+<div id="type-splice-fees-expiringamount-39537">
+
+**data** ExpiringAmount
+
+</div>
+
+> <div id="constr-splice-fees-expiringamount-68564">
+>
+> ExpiringAmount
+>
+> </div>
+>
+> > | Field         | Type                                                                                                               | Description |
+> > |---------------|--------------------------------------------------------------------------------------------------------------------|-------------|
+> > | initialAmount | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) |             |
+> > | createdAt     | Round                                                                                                              |             |
+> > | ratePerRound  | RatePerRound                                                                                                       |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) ExpiringAmount
+>
+> **instance** [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) ExpiringAmount
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) ExpiringAmount
+>
+> **instance** GetField "amount" Amulet ExpiringAmount
+>
+> **instance** GetField "createdAt" ExpiringAmount Round
+>
+> **instance** GetField "initialAmount" ExpiringAmount [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "ratePerRound" ExpiringAmount RatePerRound
+>
+> **instance** SetField "amount" Amulet ExpiringAmount
+>
+> **instance** SetField "createdAt" ExpiringAmount Round
+>
+> **instance** SetField "initialAmount" ExpiringAmount [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "ratePerRound" ExpiringAmount RatePerRound
+
+<div id="type-splice-fees-fixedfee-53985">
+
+**data** FixedFee
+
+</div>
+
+> A fixed fee independent of the action being taken. TODO(M3-90): check whether this name matches usage in financial terms, it probably isn't. Should it be 'flat-fee', 'constantfee', ... ???
+>
+> <div id="constr-splice-fees-fixedfee-53900">
+>
+> FixedFee
+>
+> </div>
+>
+> > | Field | Type                                                                                                               | Description |
+> > |-------|--------------------------------------------------------------------------------------------------------------------|-------------|
+> > | fee   | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) FixedFee
+>
+> **instance** [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) FixedFee
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) FixedFee
+>
+> **instance** GetField "createFee" (TransferConfig unit) FixedFee
+>
+> **instance** GetField "fee" FixedFee [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "lockHolderFee" (TransferConfig unit) FixedFee
+>
+> **instance** SetField "createFee" (TransferConfig unit) FixedFee
+>
+> **instance** SetField "fee" FixedFee [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "lockHolderFee" (TransferConfig unit) FixedFee
+>
+> **instance** Patchable FixedFee
+
+<div id="type-splice-fees-rateperday-41902">
+
+**data** RatePerDay
+
+</div>
+
+> <div id="constr-splice-fees-rateperday-51003">
+>
+> RatePerDay
+>
+> </div>
+>
+> > | Field | Type                                                                                                               | Description |
+> > |-------|--------------------------------------------------------------------------------------------------------------------|-------------|
+> > | rate  | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) RatePerDay
+>
+> **instance** [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) RatePerDay
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) RatePerDay
+>
+> **instance** GetField "rate" RatePerDay [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "rate" RatePerDay [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+<div id="type-splice-fees-rateperround-90570">
+
+**data** RatePerRound
+
+</div>
+
+> <div id="constr-splice-fees-rateperround-75691">
+>
+> RatePerRound
+>
+> </div>
+>
+> > | Field | Type                                                                                                               | Description |
+> > |-------|--------------------------------------------------------------------------------------------------------------------|-------------|
+> > | rate  | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) RatePerRound
+>
+> **instance** [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) RatePerRound
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) RatePerRound
+>
+> **instance** GetField "holdingFee" (TransferConfig unit) RatePerRound
+>
+> **instance** GetField "holdingFee" (TransferConfigV2 unit) RatePerRound
+>
+> **instance** GetField "rate" RatePerRound [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "ratePerRound" ExpiringAmount RatePerRound
+>
+> **instance** SetField "holdingFee" (TransferConfig unit) RatePerRound
+>
+> **instance** SetField "holdingFee" (TransferConfigV2 unit) RatePerRound
+>
+> **instance** SetField "rate" RatePerRound [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "ratePerRound" ExpiringAmount RatePerRound
+>
+> **instance** Patchable RatePerRound
+
+<div id="type-splice-fees-steppedrate-36691">
+
+**data** SteppedRate
+
+</div>
+
+> A rate defined as a piecewise linear function, e.g., \`SteppedRate 0.01 \[(100.0, 0.001), (1000.0, 0.0001), (1000000, 0.00001)\] corresponds to 1% of the first 100, 0.1% between 100 and 1000, 0.01% between 1000 and 1000000 and 0.001% for everything above that.
+>
+> <div id="constr-splice-fees-steppedrate-72856">
+>
+> SteppedRate
+>
+> </div>
+>
+> > | Field       | Type                                                                                                                                                                                                                                         | Description |
+> > |-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | initialRate | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                           |             |
+> > | steps       | \[([Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135), [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135))\] |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) SteppedRate
+>
+> **instance** [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) SteppedRate
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) SteppedRate
+>
+> **instance** GetField "initialRate" SteppedRate [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "steps" SteppedRate \[([Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135), [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135))\]
+>
+> **instance** GetField "transferFee" (TransferConfig unit) SteppedRate
+>
+> **instance** SetField "initialRate" SteppedRate [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "steps" SteppedRate \[([Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135), [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135))\]
+>
+> **instance** SetField "transferFee" (TransferConfig unit) SteppedRate
+>
+> **instance** Patchable SteppedRate
+
+## Functions
+
+<div id="function-splice-fees-reltimetomicros-80866">
+
+relTimeToMicros
+: [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+</div>
+
+<div id="function-splice-fees-microsperday-26445">
+
+microsPerDay
+: [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+</div>
+
+<div id="function-splice-fees-reltimetodays-39078">
+
+relTimeToDays
+: [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+</div>
+
+<div id="function-splice-fees-daystoreltime-342">
+
+daysToRelTime
+: [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) -\> [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)
+
+</div>
+
+<div id="function-splice-fees-reltimetoseconds-31347">
+
+relTimeToSeconds
+: [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+</div>
+
+<div id="function-splice-fees-chargerateperround-14136">
+
+chargeRatePerRound
+: RatePerRound -\> RelRound -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+</div>
+
+<div id="function-splice-fees-scalerateperround-96257">
+
+scaleRatePerRound
+: [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) -\> RatePerRound -\> RatePerRound
+
+Scale a round rate such that
+
+ALL s r dt. s \* chargeRatePerRound r dt = chargeRatePerRound (s `scaleRatePerRound` r) dt
+
+</div>
+
+<div id="function-splice-fees-positiverateperround-2835">
+
+positiveRatePerRound
+: RatePerRound -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+</div>
+
+<div id="function-splice-fees-scalefixedfee-12994">
+
+scaleFixedFee
+: [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) -\> FixedFee -\> FixedFee
+
+</div>
+
+<div id="function-splice-fees-positivefixedfee-97380">
+
+positiveFixedFee
+: FixedFee -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+</div>
+
+<div id="function-splice-fees-validsteppedrate-82534">
+
+validSteppedRate
+: SteppedRate -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+</div>
+
+<div id="function-splice-fees-chargesteppedrate-67705">
+
+chargeSteppedRate
+: SteppedRate -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+</div>
+
+<div id="function-splice-fees-gochargesteppedrate-62505">
+
+goChargeSteppedRate
+: ([Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135), [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135), [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)) -\> \[([Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135), [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135))\] -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+</div>
+
+<div id="function-splice-fees-scalesteppedrate-86486">
+
+scaleSteppedRate
+: [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) -\> SteppedRate -\> SteppedRate
+
+Scale a fixed-plus-variable rate such that
+
+ALL s r q. s \* chargeSteppedRate r (q/s) = chargeSteppedRate (s `scaleSteppedRate` r) q
+
+</div>
+
+<div id="function-splice-fees-validexpiringamount-89306">
+
+validExpiringAmount
+: ExpiringAmount -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+</div>
+
+<div id="function-splice-fees-expiringamount-85661">
+
+expiringAmount
+: RatePerRound -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) -\> Round -\> ExpiringAmount
+
+Smart constructor for an expiring amount.
+
+</div>
+
+<div id="function-splice-fees-getvalueasofround0-94025">
+
+getValueAsOfRound0
+: ExpiringAmount -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+</div>
+
+<div id="function-splice-fees-chargerateperday-61208">
+
+chargeRatePerDay
+: RatePerDay -\> [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+</div>
+
+<div id="function-splice-fees-rateperroundtorateperday-46486">
+
+ratePerRoundToRatePerDay
+: RatePerRound -\> [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) -\> RatePerDay
+
+</div>
+
+{/* COPIED_END */}

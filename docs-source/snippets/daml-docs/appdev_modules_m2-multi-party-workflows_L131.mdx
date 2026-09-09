@@ -1,0 +1,19 @@
+```haskell
+-- Delegation authority as a separate contract
+template DelegationAuthority
+  with
+    principal : Party    -- Who grants authority
+    agent : Party        -- Who receives authority
+    scope : [Text]       -- What actions are allowed
+  where
+    signatory principal
+    observer agent
+
+    nonconsuming choice ActOnBehalf : ()
+      with action : Text
+      controller agent
+      do
+        assertMsg "Action not in scope" (action `elem` scope)
+        -- Perform delegated action...
+        pure ()
+```

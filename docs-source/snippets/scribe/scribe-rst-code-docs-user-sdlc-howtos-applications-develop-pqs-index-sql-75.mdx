@@ -1,0 +1,7 @@
+```sql
+   select payload->'token'->'wallet'->>'label'
+   from active('TokenOpen')
+   where payload->'token'->'issue'->>'issuer' = 'foo'
+     and (payload->'token'->>'quantity')::decimal > 42;
+
+```

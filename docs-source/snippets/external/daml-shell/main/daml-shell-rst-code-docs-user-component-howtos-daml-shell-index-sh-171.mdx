@@ -1,0 +1,37 @@
+```sh
+   $ ./daml-shell.jar --help
+      Usage: daml-shell [options]
+
+        -h, --help               prints this usage text
+        --config <file>          HOCON config file with settings as key-value pairs
+        -v, --version            Print the version of Daml Shell
+        --wildcard-char <char>   wildcard character used to abbreviate identifiers. Default: "…"
+        --identifier-hash-length <length>
+                                 Number of characters to render for hashes inside identifiers. Default: 20
+        --full-identifiers       Disable identifier shortening.
+        --identifier-trim-location <leading|middle|trailing>
+                                 Where to trim long identifiers. Default: "trailing"
+        --completion-query-items <count>
+                                 How many completions to show unprompted. Default: 100
+        --disable-color          Disable ANSI colored output.
+        --postgres-host <host>   Postgres host to connect to. Implies --connect. Default: "localhost"
+        --postgres-port <port>   Postgres port to connect to. Implies --connect. Default: 5432
+        --postgres-username <username>
+                                 Postgres username to connect with. Implies --connect. Default: "postgres"
+        --postgres-password <password>
+                                 Postgres password to connect with. Implies --connect. Default: none
+        --postgres-database <name>
+                                 Postgres database to connect to. Implies --connect. Default: "postgres"
+        --postgres-schema <schema>
+                                 Postgres schema to connect to. Implies --connect. Default: "public"
+        --postgres-tls-mode <Disable|VerifyCA|VerifyFull|Require>
+                                 TLS mode for Postgres connection. Implies --connect. Default: "Disable"
+        --postgres-tls-cafile <path>
+                                 Path to the TLS CA file for Postgres connection. Implies --connect. Default: none
+        --postgres-tls-cert <path>
+                                 Path to the TLS certificate file for Postgres connection. Implies --connect. Default: none
+        --postgres-tls-key <path>
+                                 Path to the TLS key file for Postgres connection. Implies --connect. Default: none
+        --connect                Auto-connect to the database on startup.
+
+```

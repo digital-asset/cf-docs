@@ -1,0 +1,44 @@
+---
+title: "SV Pruning"
+description: "Sequencer and CometBFT pruning on Super Validator nodes"
+---
+
+import ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvPruningYaml62 from "/snippets/internal/splice/main/splice-rst-code-docs-src-sv-operator-sv-pruning-yaml-62.mdx";
+import ExternalSpliceMainSpliceRstLiteralMarkerAppsAppSrcPackExamplesSvHelmSvValuesDocsPruningStart from "/snippets/external/splice/main/splice-literal-marker-apps-app-src-pack-examples-sv-helm-sv-values-docs-pruning-start.mdx";
+import ExternalSpliceMainSpliceRstLiteralMarkerClusterHelmSpliceCometbftValuesTemplateDocsCometbftPruningStart from "/snippets/external/splice/main/splice-literal-marker-cluster-helm-splice-cometbft-values-template-docs-cometbft-pruning-start.mdx";
+import ExternalSpliceMainSpliceRstLiteralMarkerAppsAppSrcPackExamplesSvHelmSvValidatorValuesSvParticipantPruningScheduleStart from "/snippets/external/splice/main/splice-literal-marker-apps-app-src-pack-examples-sv-helm-sv-validator-values-sv-participant-pruning-schedule-start.mdx";
+
+{/* COPIED_START source="splice:docs/src/sv_operator/sv_pruning.rst" hash="07e081c3" */}
+
+The sequencer, participant and CometBFT have pruning options that can be used to ensure storage use is kept within reasonable bounds.
+
+## Sequencer pruning
+
+Can be enabled in helm through the following config:
+
+<ExternalSpliceMainSpliceRstLiteralMarkerAppsAppSrcPackExamplesSvHelmSvValuesDocsPruningStart />
+
+<Note>
+It is recommended that sequencer pruning is enabled and the `pruningInterval` is set to `1 hour` and the `retentionPeriod` to `30 days`.
+</Note>
+
+## CometBFT pruning
+
+It is enabled by default. Pruning is defined as the number of blocks to keep. Older blocks are pruned.
+
+The number of blocks to keep can be configured under the `node` helm values key.
+
+<ExternalSpliceMainSpliceRstLiteralMarkerClusterHelmSpliceCometbftValuesTemplateDocsCometbftPruningStart />
+
+## Participant pruning
+
+Participant pruning is also supported and recommend. To enable it, set the following helm value on your validator chart:
+
+<ExternalSpliceMainSpliceRstLiteralMarkerAppsAppSrcPackExamplesSvHelmSvValidatorValuesSvParticipantPruningScheduleStart />
+
+You also need to tell the participant to continue pruning even if it has not received an ACS commitment from one of its counter participant in the last 30 days. Without this pruning will essentially never run on mainnet as validators get shut down relatively frequently: To do so, set the following through the `additionalEnvVars` on your participant:
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvPruningYaml62 />
+
+
+{/* COPIED_END */}

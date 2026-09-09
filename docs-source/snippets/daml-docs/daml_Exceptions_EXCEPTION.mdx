@@ -1,0 +1,8 @@
+```haskell
+exception MyException
+  with
+    field1 : Int
+    field2 : Text
+  where
+    message "MyException(" <> show field1 <> ", " <> show field2 <> ")"
+```

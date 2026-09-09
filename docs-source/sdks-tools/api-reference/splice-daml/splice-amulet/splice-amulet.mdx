@@ -1,0 +1,1325 @@
+---
+title: "Splice.Amulet"
+description: "Documentation for Splice.Amulet"
+---
+
+{/* COPIED_START source="splice:daml/splice-amulet/docs/Splice-Amulet.rst" tag="0.6.4" hash="48e2f479" */}
+
+The contracts representing the long-term state of Splice.
+
+## Templates
+
+<div id="type-splice-amulet-amulet-63582">
+
+**template** Amulet
+
+</div>
+
+> A amulet, which can be locked and whose amount expires over time.
+>
+> The expiry serves to charge an inactivity fee, and thereby ensures that the SVs can reclaim the corresponding storage space at some point in the future.
+>
+> Signatory: dso, owner
+>
+> | Field  | Type                                                                                                                | Description |
+> |--------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> | dso    | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> | owner  | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> | amount | ExpiringAmount                                                                                                      |             |
+>
+> - <div id="type-splice-amulet-amuletexpire-87297">
+>
+>   **Choice** Amulet_Expire
+>
+>   </div>
+>
+>   Controller: dso
+>
+>   Returns: Amulet_ExpireResult
+>
+>   | Field    | Type                                                                                                                                          | Description |
+>   |----------|-----------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | roundCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) OpenMiningRound |             |
+>
+> - <div id="type-splice-amulet-amuletexpirev2-59227">
+>
+>   **Choice** Amulet_ExpireV2
+>
+>   </div>
+>
+>   Controller: dso
+>
+>   Returns: Amulet_ExpireV2Result
+>
+>   | Field                        | Type                                                                                                                                                   | Description |
+>   |------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | externalPartyConfigState0Cid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ExternalPartyConfigState |             |
+>   | externalPartyConfigState1Cid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ExternalPartyConfigState |             |
+>
+> - **Choice** Archive
+>
+>   Controller: dso, owner
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - **interface instance** Holding **for** Amulet
+
+<div id="type-splice-amulet-apprewardcoupon-57229">
+
+**template** AppRewardCoupon
+
+</div>
+
+> A coupon for receiving app rewards proportional to the usage fee paid as part of a Amulet transfer coordinated by the app of a provider.
+>
+> Signatory: dso
+>
+> | Field       | Type                                                                                                                                                                                                                                               | Description                                                           |
+> |-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
+> | dso         | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                                |                                                                       |
+> | provider    | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                                | Application provider                                                  |
+> | featured    | [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)                                                                                                                                       |                                                                       |
+> | amount      | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                 |                                                                       |
+> | round       | Round                                                                                                                                                                                                                                              |                                                                       |
+> | beneficiary | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | The party that can mint this reward. If not set, this is the provider |
+>
+> - <div id="type-splice-amulet-apprewardcoupondsoexpire-84081">
+>
+>   **Choice** AppRewardCoupon_DsoExpire
+>
+>   </div>
+>
+>   Controller: dso
+>
+>   Returns: AppRewardCoupon_DsoExpireResult
+>
+>   | Field          | Type                                                                                                                                            | Description |
+>   |----------------|-------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | closedRoundCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ClosedMiningRound |             |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+
+<div id="type-splice-amulet-developmentfundcoupon-75673">
+
+**template** DevelopmentFundCoupon
+
+</div>
+
+> A coupon recording an emission for the Development Fund under CIP-0082, which can be collected by the designated beneficiary.
+>
+> Signatory: dso
+>
+> | Field       | Type                                                                                                                | Description                                                                                                         |
+> |-------------|---------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
+> | dso         | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |                                                                                                                     |
+> | beneficiary | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | The owner of the `Amulet` to be minted.                                                                             |
+> | fundManager | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | The party that executed the assignment of the coupon to the beneficiary so they can mint from the development fund. |
+> | amount      | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)  | The total amount of `Amulet` to mint on collection.                                                                 |
+> | expiresAt   | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)   | Until when the minting can be completed.                                                                            |
+> | reason      | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        | Reason for the emission of the coupon.                                                                              |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-amulet-developmentfundcoupondsoexpire-7301">
+>
+>   **Choice** DevelopmentFundCoupon_DsoExpire
+>
+>   </div>
+>
+>   Controller: dso
+>
+>   Returns: DevelopmentFundCoupon_DsoExpireResult
+>
+>   (no fields)
+>
+> - <div id="type-splice-amulet-developmentfundcouponreject-89668">
+>
+>   **Choice** DevelopmentFundCoupon_Reject
+>
+>   </div>
+>
+>   Controller: beneficiary
+>
+>   Returns: DevelopmentFundCoupon_RejectResult
+>
+>   | Field  | Type                                                                                                         | Description                      |
+>   |--------|--------------------------------------------------------------------------------------------------------------|----------------------------------|
+>   | reason | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) | Reason for rejecting the coupon. |
+>
+> - <div id="type-splice-amulet-developmentfundcouponwithdraw-58125">
+>
+>   **Choice** DevelopmentFundCoupon_Withdraw
+>
+>   </div>
+>
+>   Controller: fundManager
+>
+>   Returns: DevelopmentFundCoupon_WithdrawResult
+>
+>   | Field  | Type                                                                                                         | Description                        |
+>   |--------|--------------------------------------------------------------------------------------------------------------|------------------------------------|
+>   | reason | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) | Reason for withdrawing the coupon. |
+
+<div id="type-splice-amulet-featuredappactivitymarker-16451">
+
+**template** FeaturedAppActivityMarker
+
+</div>
+
+> A marker created by a featured application for activity generated from that app. This is used to record activity other than amulet transfers where regular AppRewardCoupons are not created directly.
+>
+> Will be converted to a AppRewardCoupon through automation run by the SVs and can then be minted as part of the normal minting process.
+>
+> Signatory: dso
+>
+> | Field       | Type                                                                                                                | Description                                                                                                                                                                                                                                                  |
+> |-------------|---------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+> | dso         | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |                                                                                                                                                                                                                                                              |
+> | provider    | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | The featured app provider that created the activity marker.                                                                                                                                                                                                  |
+> | beneficiary | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | The party that has the right to mint the reward.                                                                                                                                                                                                             |
+> | weight      | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)  | The weight of the marker. This is used to split the rewards for a single action, e.g., multiple parties collaborating to enable a transfer, by creating several FeaturedAppActivityMarkers with different beneficiaries such that the weights add up to 1.0. |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - **interface instance** FeaturedAppActivityMarker **for** FeaturedAppActivityMarker
+>
+> - **interface instance** FeaturedAppActivityMarker **for** FeaturedAppActivityMarker
+
+<div id="type-splice-amulet-featuredappright-765">
+
+**template** FeaturedAppRight
+
+</div>
+
+> The right for an application provider to earn featured app rewards.
+>
+> Signatory: dso
+>
+> | Field    | Type                                                                                                                | Description |
+> |----------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> | dso      | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> | provider | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-amulet-featuredapprightcancel-96535">
+>
+>   **Choice** FeaturedAppRight_Cancel
+>
+>   </div>
+>
+>   Controller: provider
+>
+>   Returns: FeaturedAppRight_CancelResult
+>
+>   (no fields)
+>
+> - <div id="type-splice-amulet-featuredapprightwithdraw-8217">
+>
+>   **Choice** FeaturedAppRight_Withdraw
+>
+>   </div>
+>
+>   Controller: dso
+>
+>   Returns: FeaturedAppRight_WithdrawResult
+>
+>   | Field  | Type                                                                                                         | Description |
+>   |--------|--------------------------------------------------------------------------------------------------------------|-------------|
+>   | reason | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) |             |
+>
+> - **interface instance** FeaturedAppRight **for** FeaturedAppRight
+>
+> - **interface instance** FeaturedAppRight **for** FeaturedAppRight
+
+<div id="type-splice-amulet-lockedamulet-7030">
+
+**template** LockedAmulet
+
+</div>
+
+> Signatory: (DA.Internal.Record.getField @"holders" lock), signatory amulet
+>
+> | Field  | Type     | Description |
+> |--------|----------|-------------|
+> | amulet | Amulet   |             |
+> | lock   | TimeLock |             |
+>
+> - **Choice** Archive
+>
+>   Controller: (DA.Internal.Record.getField @"holders" lock), signatory amulet
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-amulet-lockedamuletexpireamulet-28333">
+>
+>   **Choice** LockedAmulet_ExpireAmulet
+>
+>   </div>
+>
+>   Controller: (DA.Internal.Record.getField @"dso" amulet)
+>
+>   Returns: LockedAmulet_ExpireAmuletResult
+>
+>   | Field    | Type                                                                                                                                          | Description |
+>   |----------|-----------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | roundCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) OpenMiningRound |             |
+>
+> - <div id="type-splice-amulet-lockedamuletexpireamuletv2-51335">
+>
+>   **Choice** LockedAmulet_ExpireAmuletV2
+>
+>   </div>
+>
+>   Controller: (DA.Internal.Record.getField @"dso" amulet)
+>
+>   Returns: LockedAmulet_ExpireAmuletV2Result
+>
+>   | Field                        | Type                                                                                                                                                   | Description |
+>   |------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | externalPartyConfigState0Cid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ExternalPartyConfigState |             |
+>   | externalPartyConfigState1Cid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ExternalPartyConfigState |             |
+>
+> - <div id="type-splice-amulet-lockedamuletownerexpirelock-79102">
+>
+>   **Choice** LockedAmulet_OwnerExpireLock
+>
+>   </div>
+>
+>   Controller: (DA.Internal.Record.getField @"owner" amulet)
+>
+>   Returns: LockedAmulet_OwnerExpireLockResult
+>
+>   | Field        | Type                                                                                                                                          | Description |
+>   |--------------|-----------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | openRoundCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) OpenMiningRound |             |
+>
+> - <div id="type-splice-amulet-lockedamuletownerexpirelockv2-20152">
+>
+>   **Choice** LockedAmulet_OwnerExpireLockV2
+>
+>   </div>
+>
+>   Controller: (DA.Internal.Record.getField @"owner" amulet)
+>
+>   Returns: LockedAmulet_OwnerExpireLockV2Result
+>
+>   (no fields)
+>
+> - <div id="type-splice-amulet-lockedamuletunlock-59352">
+>
+>   **Choice** LockedAmulet_Unlock
+>
+>   </div>
+>
+>   Controller: (DA.Internal.Record.getField @"owner" amulet) :: (DA.Internal.Record.getField @"holders" lock)
+>
+>   Returns: LockedAmulet_UnlockResult
+>
+>   | Field        | Type                                                                                                                                          | Description |
+>   |--------------|-----------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | openRoundCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) OpenMiningRound |             |
+>
+> - <div id="type-splice-amulet-lockedamuletunlockv2-31390">
+>
+>   **Choice** LockedAmulet_UnlockV2
+>
+>   </div>
+>
+>   Controller: (DA.Internal.Record.getField @"owner" amulet) :: (DA.Internal.Record.getField @"holders" lock)
+>
+>   Returns: LockedAmulet_UnlockV2Result
+>
+>   (no fields)
+>
+> - **interface instance** Holding **for** LockedAmulet
+
+<div id="type-splice-amulet-svrewardcoupon-68580">
+
+**template** SvRewardCoupon
+
+</div>
+
+> A coupon for a beneficiary to receive part of the SV issuance for a specific SV node and round.
+>
+> Signatory: dso
+>
+> | Field       | Type                                                                                                                | Description                                                              |
+> |-------------|---------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
+> | dso         | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |                                                                          |
+> | sv          | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | The party identifying the SV node for which the reward is issued.        |
+> | beneficiary | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | The beneficiary allowed to receive the reward.                           |
+> | round       | Round                                                                                                               |                                                                          |
+> | weight      | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)          | Coupons receive a share of the SV issuance proportional to their weight. |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-amulet-svrewardcouponarchiveasbeneficiary-26109">
+>
+>   **Choice** SvRewardCoupon_ArchiveAsBeneficiary
+>
+>   </div>
+>
+>   Controller: beneficiary
+>
+>   Returns: SvRewardCoupon_ArchiveAsBeneficiaryResult
+>
+>   (no fields)
+>
+> - <div id="type-splice-amulet-svrewardcoupondsoexpire-92140">
+>
+>   **Choice** SvRewardCoupon_DsoExpire
+>
+>   </div>
+>
+>   Controller: dso
+>
+>   Returns: SvRewardCoupon_DsoExpireResult
+>
+>   | Field          | Type                                                                                                                                            | Description |
+>   |----------------|-------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | closedRoundCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ClosedMiningRound |             |
+
+<div id="type-splice-amulet-unclaimedactivityrecord-97331">
+
+**template** UnclaimedActivityRecord
+
+</div>
+
+> A record of activity that can be minted by the beneficiary. Note that these do not come out of the per-round issuance but are instead created by burning UnclaimedRewardCoupon as defined through a vote by the SVs. That's also why expiry is a separate time-based expiry instead of being tied to a round like the other activity records.
+>
+> Signatory: dso
+>
+> | Field       | Type                                                                                                                | Description                                               |
+> |-------------|---------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
+> | dso         | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |                                                           |
+> | beneficiary | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | The owner of the `Amulet` to be minted.                   |
+> | amount      | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)  | The amount of `Amulet` to be minted.                      |
+> | reason      | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        | A reason to mint the `Amulet`.                            |
+> | expiresAt   | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)   | Selected timestamp defining the lifetime of the contract. |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-amulet-unclaimedactivityrecorddsoexpire-41307">
+>
+>   **Choice** UnclaimedActivityRecord_DsoExpire
+>
+>   </div>
+>
+>   Controller: dso
+>
+>   Returns: UnclaimedActivityRecord_DsoExpireResult
+>
+>   (no fields)
+
+<div id="type-splice-amulet-unclaimeddevelopmentfundcoupon-41000">
+
+**template** UnclaimedDevelopmentFundCoupon
+
+</div>
+
+> A coupon recording an emission for the Development Fund from CIP-0082 that was not yet assigned to a specific beneficiary.
+>
+> Signatory: dso
+>
+> | Field  | Type                                                                                                                | Description                                         |
+> |--------|---------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
+> | dso    | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |                                                     |
+> | amount | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)  | The total amount of `Amulet` to mint on collection. |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+
+<div id="type-splice-amulet-unclaimedreward-7814">
+
+**template** UnclaimedReward
+
+</div>
+
+> Rewards that have not been claimed and are thus at the disposal of the foundation.
+>
+> Signatory: dso
+>
+> | Field  | Type                                                                                                                | Description |
+> |--------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> | dso    | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> | amount | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)  |             |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+
+<div id="type-splice-amulet-validatorrewardcoupon-76808">
+
+**template** ValidatorRewardCoupon
+
+</div>
+
+> A coupon for receiving validator rewards proportional to the usage fee paid by a user hosted by a validator operator.
+>
+> Signatory: dso
+>
+> | Field  | Type                                                                                                                | Description |
+> |--------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> | dso    | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> | user   | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> | amount | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)  |             |
+> | round  | Round                                                                                                               |             |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-amulet-validatorrewardcouponarchiveasvalidator-99406">
+>
+>   **Choice** ValidatorRewardCoupon_ArchiveAsValidator
+>
+>   </div>
+>
+>   This choice is used by validators to archive the burn receipt upon claiming its corresponding issuance.
+>
+>   Controller: dso, validator
+>
+>   Returns: ValidatorRewardCoupon_ArchiveAsValidatorResult
+>
+>   | Field     | Type                                                                                                                                         | Description |
+>   |-----------|----------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | validator | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                          |             |
+>   | rightCid  | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorRight |             |
+>
+> - <div id="type-splice-amulet-validatorrewardcoupondsoexpire-85552">
+>
+>   **Choice** ValidatorRewardCoupon_DsoExpire
+>
+>   </div>
+>
+>   Controller: dso
+>
+>   Returns: ValidatorRewardCoupon_DsoExpireResult
+>
+>   | Field          | Type                                                                                                                                            | Description |
+>   |----------------|-------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | closedRoundCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ClosedMiningRound |             |
+
+<div id="type-splice-amulet-validatorright-15964">
+
+**template** ValidatorRight
+
+</div>
+
+> The right to claim amulet issuances for a user's burns as their validator.
+>
+> Signatory: user, validator
+>
+> | Field     | Type                                                                                                                | Description |
+> |-----------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> | dso       | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> | user      | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> | validator | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>
+> - **Choice** Archive
+>
+>   Controller: user, validator
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-amulet-validatorrightarchiveasuser-43276">
+>
+>   **Choice** ValidatorRight_ArchiveAsUser
+>
+>   </div>
+>
+>   Controller: user
+>
+>   Returns: ValidatorRight_ArchiveAsUserResult
+>
+>   (no fields)
+>
+> - <div id="type-splice-amulet-validatorrightarchiveasvalidator-83210">
+>
+>   **Choice** ValidatorRight_ArchiveAsValidator
+>
+>   </div>
+>
+>   Controller: validator
+>
+>   Returns: ValidatorRight_ArchiveAsValidatorResult
+>
+>   (no fields)
+
+## Data Types
+
+<div id="type-splice-amulet-amuletcreatesummary-15609">
+
+**data** AmuletCreateSummary amuletContractId
+
+</div>
+
+> Result of an operation that created a new amulet, e.g., by minting a fresh amulet, or by unlocking a locked amulet.
+>
+> <div id="constr-splice-amulet-amuletcreatesummary-64070">
+>
+> AmuletCreateSummary
+>
+> </div>
+>
+> > | Field       | Type                                                                                                               | Description                                          |
+> > |-------------|--------------------------------------------------------------------------------------------------------------------|------------------------------------------------------|
+> > | amulet      | amuletContractId                                                                                                   | The new amulet that was created                      |
+> > | amuletPrice | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) | The amulet price at the round the amulet was created |
+> > | round       | Round                                                                                                              | Round for which this amulet was created.             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) amuletContractId =\> [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) (AmuletCreateSummary amuletContractId)
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) amuletContractId =\> [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) (AmuletCreateSummary amuletContractId)
+>
+> **instance** GetField "amulet" (AmuletCreateSummary amuletContractId) amuletContractId
+>
+> **instance** GetField "amuletPrice" (AmuletCreateSummary amuletContractId) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "amuletSum" LockedAmulet_OwnerExpireLockResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** GetField "amuletSum" LockedAmulet_UnlockResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** GetField "amuletSum" AmuletRules_DevNet_TapResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** GetField "amuletSum" AmuletRules_MintResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** GetField "round" (AmuletCreateSummary amuletContractId) Round
+>
+> **instance** SetField "amulet" (AmuletCreateSummary amuletContractId) amuletContractId
+>
+> **instance** SetField "amuletPrice" (AmuletCreateSummary amuletContractId) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "amuletSum" LockedAmulet_OwnerExpireLockResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** SetField "amuletSum" LockedAmulet_UnlockResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** SetField "amuletSum" AmuletRules_DevNet_TapResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** SetField "amuletSum" AmuletRules_MintResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** SetField "round" (AmuletCreateSummary amuletContractId) Round
+
+<div id="type-splice-amulet-amuletexpiresummary-4706">
+
+**data** AmuletExpireSummary
+
+</div>
+
+> <div id="constr-splice-amulet-amuletexpiresummary-31721">
+>
+> AmuletExpireSummary
+>
+> </div>
+>
+> > | Field                              | Type                                                                                                                | Description                                                     |
+> > |------------------------------------|---------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
+> > | owner                              | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |                                                                 |
+> > | round                              | Round                                                                                                               | Round for which this expiry was registered.                     |
+> > | changeToInitialAmountAsOfRoundZero | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)  |                                                                 |
+> > | changeToHoldingFeesRate            | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)  | The change of total holding fees introduced by a amulet expiry. |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) AmuletExpireSummary
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) AmuletExpireSummary
+>
+> **instance** GetField "changeToHoldingFeesRate" AmuletExpireSummary [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "changeToInitialAmountAsOfRoundZero" AmuletExpireSummary [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "expireSum" Amulet_ExpireResult AmuletExpireSummary
+>
+> **instance** GetField "expireSum" LockedAmulet_ExpireAmuletResult AmuletExpireSummary
+>
+> **instance** GetField "owner" AmuletExpireSummary [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "round" AmuletExpireSummary Round
+>
+> **instance** SetField "changeToHoldingFeesRate" AmuletExpireSummary [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "changeToInitialAmountAsOfRoundZero" AmuletExpireSummary [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "expireSum" Amulet_ExpireResult AmuletExpireSummary
+>
+> **instance** SetField "expireSum" LockedAmulet_ExpireAmuletResult AmuletExpireSummary
+>
+> **instance** SetField "owner" AmuletExpireSummary [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "round" AmuletExpireSummary Round
+
+<div id="type-splice-amulet-amuletexpirev2summary-45428">
+
+**data** AmuletExpireV2Summary
+
+</div>
+
+> <div id="constr-splice-amulet-amuletexpirev2summary-89407">
+>
+> AmuletExpireV2Summary
+>
+> </div>
+>
+> > | Field | Type                                                                                                                | Description |
+> > |-------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> > | owner | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) AmuletExpireV2Summary
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) AmuletExpireV2Summary
+>
+> **instance** GetField "expireSum" Amulet_ExpireV2Result AmuletExpireV2Summary
+>
+> **instance** GetField "expireSum" LockedAmulet_ExpireAmuletV2Result AmuletExpireV2Summary
+>
+> **instance** GetField "owner" AmuletExpireV2Summary [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "expireSum" Amulet_ExpireV2Result AmuletExpireV2Summary
+>
+> **instance** SetField "expireSum" LockedAmulet_ExpireAmuletV2Result AmuletExpireV2Summary
+>
+> **instance** SetField "owner" AmuletExpireV2Summary [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+
+<div id="type-splice-amulet-amuletexpireresult-11748">
+
+**data** Amulet_ExpireResult
+
+</div>
+
+> <div id="constr-splice-amulet-amuletexpireresult-71583">
+>
+> Amulet_ExpireResult
+>
+> </div>
+>
+> > | Field     | Type                                                                                                                                    | Description |
+> > |-----------|-----------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | expireSum | AmuletExpireSummary                                                                                                                     |             |
+> > | meta      | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) Metadata |             |
+>
+> **instance** GetField "expireSum" Amulet_ExpireResult AmuletExpireSummary
+>
+> **instance** GetField "meta" Amulet_ExpireResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) Metadata)
+>
+> **instance** SetField "expireSum" Amulet_ExpireResult AmuletExpireSummary
+>
+> **instance** SetField "meta" Amulet_ExpireResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) Metadata)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) Amulet Amulet_Expire Amulet_ExpireResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) Amulet Amulet_Expire Amulet_ExpireResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) Amulet Amulet_Expire Amulet_ExpireResult
+
+<div id="type-splice-amulet-amuletexpirev2result-68414">
+
+**data** Amulet_ExpireV2Result
+
+</div>
+
+> <div id="constr-splice-amulet-amuletexpirev2result-95029">
+>
+> Amulet_ExpireV2Result
+>
+> </div>
+>
+> > | Field     | Type                  | Description |
+> > |-----------|-----------------------|-------------|
+> > | expireSum | AmuletExpireV2Summary |             |
+> > | meta      | Metadata              |             |
+>
+> **instance** GetField "expireSum" Amulet_ExpireV2Result AmuletExpireV2Summary
+>
+> **instance** GetField "meta" Amulet_ExpireV2Result Metadata
+>
+> **instance** SetField "expireSum" Amulet_ExpireV2Result AmuletExpireV2Summary
+>
+> **instance** SetField "meta" Amulet_ExpireV2Result Metadata
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) Amulet Amulet_ExpireV2 Amulet_ExpireV2Result
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) Amulet Amulet_ExpireV2 Amulet_ExpireV2Result
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) Amulet Amulet_ExpireV2 Amulet_ExpireV2Result
+
+<div id="type-splice-amulet-apprewardcoupondsoexpireresult-15772">
+
+**data** AppRewardCoupon_DsoExpireResult
+
+</div>
+
+> <div id="constr-splice-amulet-apprewardcoupondsoexpireresult-84547">
+>
+> AppRewardCoupon_DsoExpireResult
+>
+> </div>
+>
+> > | Field    | Type                                                                                                               | Description |
+> > |----------|--------------------------------------------------------------------------------------------------------------------|-------------|
+> > | featured | [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)       |             |
+> > | amount   | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) |             |
+>
+> **instance** GetField "amount" AppRewardCoupon_DsoExpireResult [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "featured" AppRewardCoupon_DsoExpireResult [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+>
+> **instance** SetField "amount" AppRewardCoupon_DsoExpireResult [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "featured" AppRewardCoupon_DsoExpireResult [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AppRewardCoupon AppRewardCoupon_DsoExpire AppRewardCoupon_DsoExpireResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AppRewardCoupon AppRewardCoupon_DsoExpire AppRewardCoupon_DsoExpireResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AppRewardCoupon AppRewardCoupon_DsoExpire AppRewardCoupon_DsoExpireResult
+
+<div id="type-splice-amulet-developmentfundcoupondsoexpireresult-6252">
+
+**data** DevelopmentFundCoupon_DsoExpireResult
+
+</div>
+
+> <div id="constr-splice-amulet-developmentfundcoupondsoexpireresult-48451">
+>
+> DevelopmentFundCoupon_DsoExpireResult
+>
+> </div>
+>
+> > | Field                             | Type                                                                                                                                                         | Description |
+> > |-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | unclaimedDevelopmentFundCouponCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) UnclaimedDevelopmentFundCoupon |             |
+>
+> **instance** GetField "unclaimedDevelopmentFundCouponCid" DevelopmentFundCoupon_DsoExpireResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) UnclaimedDevelopmentFundCoupon)
+>
+> **instance** SetField "unclaimedDevelopmentFundCouponCid" DevelopmentFundCoupon_DsoExpireResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) UnclaimedDevelopmentFundCoupon)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) DevelopmentFundCoupon DevelopmentFundCoupon_DsoExpire DevelopmentFundCoupon_DsoExpireResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) DevelopmentFundCoupon DevelopmentFundCoupon_DsoExpire DevelopmentFundCoupon_DsoExpireResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) DevelopmentFundCoupon DevelopmentFundCoupon_DsoExpire DevelopmentFundCoupon_DsoExpireResult
+
+<div id="type-splice-amulet-developmentfundcouponrejectresult-16689">
+
+**data** DevelopmentFundCoupon_RejectResult
+
+</div>
+
+> <div id="constr-splice-amulet-developmentfundcouponrejectresult-31260">
+>
+> DevelopmentFundCoupon_RejectResult
+>
+> </div>
+>
+> > | Field                             | Type                                                                                                                                                         | Description |
+> > |-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | unclaimedDevelopmentFundCouponCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) UnclaimedDevelopmentFundCoupon |             |
+>
+> **instance** GetField "unclaimedDevelopmentFundCouponCid" DevelopmentFundCoupon_RejectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) UnclaimedDevelopmentFundCoupon)
+>
+> **instance** SetField "unclaimedDevelopmentFundCouponCid" DevelopmentFundCoupon_RejectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) UnclaimedDevelopmentFundCoupon)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) DevelopmentFundCoupon DevelopmentFundCoupon_Reject DevelopmentFundCoupon_RejectResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) DevelopmentFundCoupon DevelopmentFundCoupon_Reject DevelopmentFundCoupon_RejectResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) DevelopmentFundCoupon DevelopmentFundCoupon_Reject DevelopmentFundCoupon_RejectResult
+
+<div id="type-splice-amulet-developmentfundcouponwithdrawresult-40988">
+
+**data** DevelopmentFundCoupon_WithdrawResult
+
+</div>
+
+> <div id="constr-splice-amulet-developmentfundcouponwithdrawresult-40985">
+>
+> DevelopmentFundCoupon_WithdrawResult
+>
+> </div>
+>
+> > | Field                             | Type                                                                                                                                                         | Description |
+> > |-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | unclaimedDevelopmentFundCouponCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) UnclaimedDevelopmentFundCoupon |             |
+>
+> **instance** GetField "unclaimedDevelopmentFundCouponCid" DevelopmentFundCoupon_WithdrawResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) UnclaimedDevelopmentFundCoupon)
+>
+> **instance** SetField "unclaimedDevelopmentFundCouponCid" DevelopmentFundCoupon_WithdrawResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) UnclaimedDevelopmentFundCoupon)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) DevelopmentFundCoupon DevelopmentFundCoupon_Withdraw DevelopmentFundCoupon_WithdrawResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) DevelopmentFundCoupon DevelopmentFundCoupon_Withdraw DevelopmentFundCoupon_WithdrawResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) DevelopmentFundCoupon DevelopmentFundCoupon_Withdraw DevelopmentFundCoupon_WithdrawResult
+
+<div id="type-splice-amulet-featuredapprightcancelresult-22074">
+
+**data** FeaturedAppRight_CancelResult
+
+</div>
+
+> <div id="constr-splice-amulet-featuredapprightcancelresult-30485">
+>
+> FeaturedAppRight_CancelResult
+>
+> </div>
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) FeaturedAppRight FeaturedAppRight_Cancel FeaturedAppRight_CancelResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) FeaturedAppRight FeaturedAppRight_Cancel FeaturedAppRight_CancelResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) FeaturedAppRight FeaturedAppRight_Cancel FeaturedAppRight_CancelResult
+
+<div id="type-splice-amulet-featuredapprightwithdrawresult-98740">
+
+**data** FeaturedAppRight_WithdrawResult
+
+</div>
+
+> <div id="constr-splice-amulet-featuredapprightwithdrawresult-88987">
+>
+> FeaturedAppRight_WithdrawResult
+>
+> </div>
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) FeaturedAppRight FeaturedAppRight_Withdraw FeaturedAppRight_WithdrawResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) FeaturedAppRight FeaturedAppRight_Withdraw FeaturedAppRight_WithdrawResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) FeaturedAppRight FeaturedAppRight_Withdraw FeaturedAppRight_WithdrawResult
+
+<div id="type-splice-amulet-lockedamuletexpireamuletresult-88432">
+
+**data** LockedAmulet_ExpireAmuletResult
+
+</div>
+
+> <div id="constr-splice-amulet-lockedamuletexpireamuletresult-82939">
+>
+> LockedAmulet_ExpireAmuletResult
+>
+> </div>
+>
+> > | Field     | Type                                                                                                                                    | Description |
+> > |-----------|-----------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | expireSum | AmuletExpireSummary                                                                                                                     |             |
+> > | meta      | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) Metadata |             |
+>
+> **instance** GetField "expireSum" LockedAmulet_ExpireAmuletResult AmuletExpireSummary
+>
+> **instance** GetField "meta" LockedAmulet_ExpireAmuletResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) Metadata)
+>
+> **instance** SetField "expireSum" LockedAmulet_ExpireAmuletResult AmuletExpireSummary
+>
+> **instance** SetField "meta" LockedAmulet_ExpireAmuletResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) Metadata)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) LockedAmulet LockedAmulet_ExpireAmulet LockedAmulet_ExpireAmuletResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) LockedAmulet LockedAmulet_ExpireAmulet LockedAmulet_ExpireAmuletResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) LockedAmulet LockedAmulet_ExpireAmulet LockedAmulet_ExpireAmuletResult
+
+<div id="type-splice-amulet-lockedamuletexpireamuletv2result-81066">
+
+**data** LockedAmulet_ExpireAmuletV2Result
+
+</div>
+
+> <div id="constr-splice-amulet-lockedamuletexpireamuletv2result-89449">
+>
+> LockedAmulet_ExpireAmuletV2Result
+>
+> </div>
+>
+> > | Field     | Type                  | Description |
+> > |-----------|-----------------------|-------------|
+> > | expireSum | AmuletExpireV2Summary |             |
+> > | meta      | Metadata              |             |
+>
+> **instance** GetField "expireSum" LockedAmulet_ExpireAmuletV2Result AmuletExpireV2Summary
+>
+> **instance** GetField "meta" LockedAmulet_ExpireAmuletV2Result Metadata
+>
+> **instance** SetField "expireSum" LockedAmulet_ExpireAmuletV2Result AmuletExpireV2Summary
+>
+> **instance** SetField "meta" LockedAmulet_ExpireAmuletV2Result Metadata
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) LockedAmulet LockedAmulet_ExpireAmuletV2 LockedAmulet_ExpireAmuletV2Result
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) LockedAmulet LockedAmulet_ExpireAmuletV2 LockedAmulet_ExpireAmuletV2Result
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) LockedAmulet LockedAmulet_ExpireAmuletV2 LockedAmulet_ExpireAmuletV2Result
+
+<div id="type-splice-amulet-lockedamuletownerexpirelockresult-44583">
+
+**data** LockedAmulet_OwnerExpireLockResult
+
+</div>
+
+> <div id="constr-splice-amulet-lockedamuletownerexpirelockresult-40926">
+>
+> LockedAmulet_OwnerExpireLockResult
+>
+> </div>
+>
+> > | Field     | Type                                                                                                                                                       | Description |
+> > |-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | amuletSum | AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet) |             |
+> > | meta      | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) Metadata                    |             |
+>
+> **instance** GetField "amuletSum" LockedAmulet_OwnerExpireLockResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** GetField "meta" LockedAmulet_OwnerExpireLockResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) Metadata)
+>
+> **instance** SetField "amuletSum" LockedAmulet_OwnerExpireLockResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** SetField "meta" LockedAmulet_OwnerExpireLockResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) Metadata)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) LockedAmulet LockedAmulet_OwnerExpireLock LockedAmulet_OwnerExpireLockResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) LockedAmulet LockedAmulet_OwnerExpireLock LockedAmulet_OwnerExpireLockResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) LockedAmulet LockedAmulet_OwnerExpireLock LockedAmulet_OwnerExpireLockResult
+
+<div id="type-splice-amulet-lockedamuletownerexpirelockv2result-70273">
+
+**data** LockedAmulet_OwnerExpireLockV2Result
+
+</div>
+
+> <div id="constr-splice-amulet-lockedamuletownerexpirelockv2result-66952">
+>
+> LockedAmulet_OwnerExpireLockV2Result
+>
+> </div>
+>
+> > | Field     | Type                                                                                                                                 | Description |
+> > |-----------|--------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | amuletCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet |             |
+> > | meta      | Metadata                                                                                                                             |             |
+>
+> **instance** GetField "amuletCid" LockedAmulet_OwnerExpireLockV2Result ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet)
+>
+> **instance** GetField "meta" LockedAmulet_OwnerExpireLockV2Result Metadata
+>
+> **instance** SetField "amuletCid" LockedAmulet_OwnerExpireLockV2Result ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet)
+>
+> **instance** SetField "meta" LockedAmulet_OwnerExpireLockV2Result Metadata
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) LockedAmulet LockedAmulet_OwnerExpireLockV2 LockedAmulet_OwnerExpireLockV2Result
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) LockedAmulet LockedAmulet_OwnerExpireLockV2 LockedAmulet_OwnerExpireLockV2Result
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) LockedAmulet LockedAmulet_OwnerExpireLockV2 LockedAmulet_OwnerExpireLockV2Result
+
+<div id="type-splice-amulet-lockedamuletunlockresult-29457">
+
+**data** LockedAmulet_UnlockResult
+
+</div>
+
+> <div id="constr-splice-amulet-lockedamuletunlockresult-40430">
+>
+> LockedAmulet_UnlockResult
+>
+> </div>
+>
+> > | Field     | Type                                                                                                                                                       | Description |
+> > |-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | amuletSum | AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet) |             |
+> > | meta      | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) Metadata                    |             |
+>
+> **instance** GetField "amuletSum" LockedAmulet_UnlockResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** GetField "meta" LockedAmulet_UnlockResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) Metadata)
+>
+> **instance** SetField "amuletSum" LockedAmulet_UnlockResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** SetField "meta" LockedAmulet_UnlockResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) Metadata)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) LockedAmulet LockedAmulet_Unlock LockedAmulet_UnlockResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) LockedAmulet LockedAmulet_Unlock LockedAmulet_UnlockResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) LockedAmulet LockedAmulet_Unlock LockedAmulet_UnlockResult
+
+<div id="type-splice-amulet-lockedamuletunlockv2result-80903">
+
+**data** LockedAmulet_UnlockV2Result
+
+</div>
+
+> <div id="constr-splice-amulet-lockedamuletunlockv2result-28736">
+>
+> LockedAmulet_UnlockV2Result
+>
+> </div>
+>
+> > | Field     | Type                                                                                                                                 | Description |
+> > |-----------|--------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | amuletCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet |             |
+> > | meta      | Metadata                                                                                                                             |             |
+>
+> **instance** GetField "amuletCid" LockedAmulet_UnlockV2Result ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet)
+>
+> **instance** GetField "meta" LockedAmulet_UnlockV2Result Metadata
+>
+> **instance** SetField "amuletCid" LockedAmulet_UnlockV2Result ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet)
+>
+> **instance** SetField "meta" LockedAmulet_UnlockV2Result Metadata
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) LockedAmulet LockedAmulet_UnlockV2 LockedAmulet_UnlockV2Result
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) LockedAmulet LockedAmulet_UnlockV2 LockedAmulet_UnlockV2Result
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) LockedAmulet LockedAmulet_UnlockV2 LockedAmulet_UnlockV2Result
+
+<div id="type-splice-amulet-svrewardcouponarchiveasbeneficiaryresult-20724">
+
+**data** SvRewardCoupon_ArchiveAsBeneficiaryResult
+
+</div>
+
+> <div id="constr-splice-amulet-svrewardcouponarchiveasbeneficiaryresult-19239">
+>
+> SvRewardCoupon_ArchiveAsBeneficiaryResult
+>
+> </div>
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) SvRewardCoupon SvRewardCoupon_ArchiveAsBeneficiary SvRewardCoupon_ArchiveAsBeneficiaryResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) SvRewardCoupon SvRewardCoupon_ArchiveAsBeneficiary SvRewardCoupon_ArchiveAsBeneficiaryResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) SvRewardCoupon SvRewardCoupon_ArchiveAsBeneficiary SvRewardCoupon_ArchiveAsBeneficiaryResult
+
+<div id="type-splice-amulet-svrewardcoupondsoexpireresult-4801">
+
+**data** SvRewardCoupon_DsoExpireResult
+
+</div>
+
+> <div id="constr-splice-amulet-svrewardcoupondsoexpireresult-59696">
+>
+> SvRewardCoupon_DsoExpireResult
+>
+> </div>
+>
+> > | Field  | Type                                                                                                       | Description |
+> > |--------|------------------------------------------------------------------------------------------------------------|-------------|
+> > | weight | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261) |             |
+>
+> **instance** GetField "weight" SvRewardCoupon_DsoExpireResult [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "weight" SvRewardCoupon_DsoExpireResult [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) SvRewardCoupon SvRewardCoupon_DsoExpire SvRewardCoupon_DsoExpireResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) SvRewardCoupon SvRewardCoupon_DsoExpire SvRewardCoupon_DsoExpireResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) SvRewardCoupon SvRewardCoupon_DsoExpire SvRewardCoupon_DsoExpireResult
+
+<div id="type-splice-amulet-unclaimedactivityrecordarchiveasbeneficiaryresult-59553">
+
+**data** UnclaimedActivityRecord_ArchiveAsBeneficiaryResult
+
+</div>
+
+> <div id="constr-splice-amulet-unclaimedactivityrecordarchiveasbeneficiaryresult-59904">
+>
+> UnclaimedActivityRecord_ArchiveAsBeneficiaryResult
+>
+> </div>
+
+<div id="type-splice-amulet-unclaimedactivityrecorddsoexpireresult-73042">
+
+**data** UnclaimedActivityRecord_DsoExpireResult
+
+</div>
+
+> <div id="constr-splice-amulet-unclaimedactivityrecorddsoexpireresult-28805">
+>
+> UnclaimedActivityRecord_DsoExpireResult
+>
+> </div>
+>
+> > | Field              | Type                                                                                                                                          | Description |
+> > |--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | unclaimedRewardCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) UnclaimedReward |             |
+>
+> **instance** GetField "unclaimedRewardCid" UnclaimedActivityRecord_DsoExpireResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) UnclaimedReward)
+>
+> **instance** SetField "unclaimedRewardCid" UnclaimedActivityRecord_DsoExpireResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) UnclaimedReward)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) UnclaimedActivityRecord UnclaimedActivityRecord_DsoExpire UnclaimedActivityRecord_DsoExpireResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) UnclaimedActivityRecord UnclaimedActivityRecord_DsoExpire UnclaimedActivityRecord_DsoExpireResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) UnclaimedActivityRecord UnclaimedActivityRecord_DsoExpire UnclaimedActivityRecord_DsoExpireResult
+
+<div id="type-splice-amulet-validatorrewardcouponarchiveasvalidatorresult-41727">
+
+**data** ValidatorRewardCoupon_ArchiveAsValidatorResult
+
+</div>
+
+> <div id="constr-splice-amulet-validatorrewardcouponarchiveasvalidatorresult-51782">
+>
+> ValidatorRewardCoupon_ArchiveAsValidatorResult
+>
+> </div>
+>
+> > (no fields)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) ValidatorRewardCoupon ValidatorRewardCoupon_ArchiveAsValidator ValidatorRewardCoupon_ArchiveAsValidatorResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) ValidatorRewardCoupon ValidatorRewardCoupon_ArchiveAsValidator ValidatorRewardCoupon_ArchiveAsValidatorResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) ValidatorRewardCoupon ValidatorRewardCoupon_ArchiveAsValidator ValidatorRewardCoupon_ArchiveAsValidatorResult
+
+<div id="type-splice-amulet-validatorrewardcoupondsoexpireresult-94761">
+
+**data** ValidatorRewardCoupon_DsoExpireResult
+
+</div>
+
+> <div id="constr-splice-amulet-validatorrewardcoupondsoexpireresult-92822">
+>
+> ValidatorRewardCoupon_DsoExpireResult
+>
+> </div>
+>
+> > | Field  | Type                                                                                                               | Description |
+> > |--------|--------------------------------------------------------------------------------------------------------------------|-------------|
+> > | amount | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) |             |
+>
+> **instance** GetField "amount" ValidatorRewardCoupon_DsoExpireResult [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "amount" ValidatorRewardCoupon_DsoExpireResult [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) ValidatorRewardCoupon ValidatorRewardCoupon_DsoExpire ValidatorRewardCoupon_DsoExpireResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) ValidatorRewardCoupon ValidatorRewardCoupon_DsoExpire ValidatorRewardCoupon_DsoExpireResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) ValidatorRewardCoupon ValidatorRewardCoupon_DsoExpire ValidatorRewardCoupon_DsoExpireResult
+
+<div id="type-splice-amulet-validatorrightarchiveasuserresult-3193">
+
+**data** ValidatorRight_ArchiveAsUserResult
+
+</div>
+
+> <div id="constr-splice-amulet-validatorrightarchiveasuserresult-47620">
+>
+> ValidatorRight_ArchiveAsUserResult
+>
+> </div>
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) ValidatorRight ValidatorRight_ArchiveAsUser ValidatorRight_ArchiveAsUserResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) ValidatorRight ValidatorRight_ArchiveAsUser ValidatorRight_ArchiveAsUserResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) ValidatorRight ValidatorRight_ArchiveAsUser ValidatorRight_ArchiveAsUserResult
+
+<div id="type-splice-amulet-validatorrightarchiveasvalidatorresult-59299">
+
+**data** ValidatorRight_ArchiveAsValidatorResult
+
+</div>
+
+> <div id="constr-splice-amulet-validatorrightarchiveasvalidatorresult-93588">
+>
+> ValidatorRight_ArchiveAsValidatorResult
+>
+> </div>
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) ValidatorRight ValidatorRight_ArchiveAsValidator ValidatorRight_ArchiveAsValidatorResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) ValidatorRight ValidatorRight_ArchiveAsValidator ValidatorRight_ArchiveAsValidatorResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) ValidatorRight ValidatorRight_ArchiveAsValidator ValidatorRight_ArchiveAsValidatorResult
+
+## Functions
+
+<div id="function-splice-amulet-amuletmetadata-81241">
+
+amuletMetadata
+: Amulet -\> Metadata
+
+</div>
+
+<div id="function-splice-amulet-validateapprewardbeneficiaries-84669">
+
+validateAppRewardBeneficiaries
+: \[AppRewardBeneficiary\] -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) ()
+
+</div>
+
+<div id="function-splice-amulet-validateapprewardbeneficiariesv2-38479">
+
+validateAppRewardBeneficiariesV2
+: \[AppRewardBeneficiary\] -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) ()
+
+</div>
+
+<div id="function-splice-amulet-requireamuletexpiredforallrounds-81885">
+
+requireAmuletExpiredForAllRounds
+: [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ExternalPartyConfigState -\> [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ExternalPartyConfigState -\> Amulet -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) ()
+
+</div>
+
+{/* COPIED_END */}

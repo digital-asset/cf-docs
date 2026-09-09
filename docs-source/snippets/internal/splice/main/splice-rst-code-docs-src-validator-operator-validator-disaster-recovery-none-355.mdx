@@ -1,0 +1,32 @@
+```
+// replace YOUR_PARTY_ID by the ID of your external party
+val partyId = PartyId.tryFromProtoPrimitive("YOUR_PARTY_ID")
+val participantId = participant.id
+val synchronizerId = participant.synchronizers.id_of("global")
+
+// generate topology transaction
+val partyToParticipant = PartyToParticipant.tryCreate(
+    partyId = partyId,
+    threshold = PositiveInt.one,
+    participants = Seq(
+      HostingParticipant(
+        participantId,
+        ParticipantPermission.Confirmation,
+      )
+    ),
+  )
+
+import com.digitalasset.canton.admin.api.client.commands.TopologyAdminCommands.Write.GenerateTransactions
+val topologyTransaction = participant.topology.transactions.generate(
+  Seq(
+    GenerateTransactions.Proposal(
+      partyToParticipant,
+      TopologyStoreId.Synchronizer(synchronizerId),
+    )
+  )
+).head
+
+// Print out the hash that needs to be signed. Note that you need to sign
+// the actual bytes the hex string represents not the hex string
+topologyTransaction.hash.hash.toHexString
+```

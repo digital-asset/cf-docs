@@ -1,0 +1,28 @@
+```haskell
+toSign : Pending -> [Party]
+toSign Pending { alreadySigned, finalContract } =
+  filter (`notElem` alreadySigned) finalContract.signatories
+
+template Pending
+  with
+    finalContract: Agreement
+    alreadySigned: [Party]
+  where
+    signatory alreadySigned
+    observer finalContract.signatories
+    ensure unique alreadySigned
+
+    choice Sign : ContractId Pending with
+        signer : Party
+      controller signer
+        do
+          assert (signer `elem` toSign this)
+          create this with alreadySigned = signer :: alreadySigned
+
+    choice Finalize : ContractId Agreement with
+        signer : Party
+      controller signer
+        do
+          assert (sort alreadySigned == sort finalContract.signatories)
+          create finalContract
+```

@@ -1,0 +1,443 @@
+---
+title: "GET /v2/state/latest-pruned-offsets"
+description: "Get the latest successfully pruned ledger offsets"
+api: "GET http://localhost:7575/v2/state/latest-pruned-offsets"
+authMethod: "bearer"
+playground: "interactive"
+sidebarTitle: "/v2/state/latest-pruned-offsets"
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--operation x2mdx-ref-page--manual-api"></div>
+
+
+
+<div class="x2mdx-ref-hero">
+
+
+
+  <p class="x2mdx-ref-summary">Get the latest successfully pruned ledger offsets</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">OpenAPI</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--changed" href="#history-updated-3-5">Updated 3.5</a>
+
+</div>
+
+
+</div>
+
+
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'http://localhost:7575/v2/state/latest-pruned-offsets' \
+  --header 'Authorization: Bearer $TOKEN'
+```
+
+```python Python
+import json
+import requests
+
+url = "http://localhost:7575/v2/state/latest-pruned-offsets"
+headers = {'Authorization': 'Bearer <token>'}
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```javascript JavaScript
+const response = await fetch('http://localhost:7575/v2/state/latest-pruned-offsets', {
+  method: 'GET',
+  headers: {
+  "Authorization": "Bearer <token>"
+},
+});
+
+console.log(await response.text());
+```
+
+```php PHP
+<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => 'http://localhost:7575/v2/state/latest-pruned-offsets',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+    CURLOPT_HTTPHEADER => [
+        "Authorization: Bearer <token>"
+    ],
+]);
+
+$response = curl_exec($curl);
+echo $response;
+```
+
+```go Go
+package main
+
+import (
+  "fmt"
+  "io"
+  "net/http"
+)
+
+func main() {
+  req, _ := http.NewRequest("GET", "http://localhost:7575/v2/state/latest-pruned-offsets", nil)
+  req.Header.Set("Authorization", "Bearer <token>")
+  response, _ := http.DefaultClient.Do(req)
+  defer response.Body.Close()
+  body, _ := io.ReadAll(response.Body)
+  fmt.Println(string(body))
+}
+```
+
+```java Java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+var request = HttpRequest.newBuilder()
+    .uri(URI.create("http://localhost:7575/v2/state/latest-pruned-offsets"))
+    .header("Authorization", "Bearer <token>")
+    .method("GET", HttpRequest.BodyPublishers.noBody())
+    .build();
+var response = HttpClient.newHttpClient().send(
+    request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```ruby Ruby
+require 'net/http'
+require 'uri'
+
+uri = URI('http://localhost:7575/v2/state/latest-pruned-offsets')
+request = Net::HTTP::Get.new(uri)
+request['Authorization'] = 'Bearer <token>'
+response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+  http.request(request)
+end
+puts response.body
+```
+
+</RequestExample>
+
+
+<ResponseExample>
+
+```json 200
+{
+  "participantPrunedUpToInclusive": 123,
+  "allDivulgedContractsPrunedUpToInclusive": 123
+}
+```
+
+```text 400
+<string>
+```
+
+```json default
+{
+  "code": "<string>",
+  "cause": "<string>",
+  "correlationId": "<string>",
+  "traceId": "<string>",
+  "context": {},
+  "resources": [
+    [
+      "<string>"
+    ]
+  ],
+  "errorCategory": 123,
+  "grpcCodeValue": 123,
+  "retryInfo": "<string>",
+  "definiteAnswer": false
+}
+```
+
+</ResponseExample>
+
+
+## Authorizations
+
+
+### httpAuth
+
+
+
+
+
+
+<ParamField header="Authorization" type="string" required>
+
+
+HTTP bearer authentication. Send the token as `Authorization: Bearer &lt;token&gt;`. Ledger API standard JWT token
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+### apiKeyAuth
+
+
+
+
+
+
+<ParamField header="Sec-WebSocket-Protocol" type="string" required>
+
+
+API key authentication in the header. Ledger API standard JWT token (websocket)
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+
+
+
+## Responses
+
+
+### 200
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="participantPrunedUpToInclusive" type="integer (int64)">
+
+It will always be a non-negative integer. If positive, the absolute offset up to which the ledger has been pruned, disregarding the state of all divulged contracts pruning. If zero, the ledger has not been pruned yet. Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="allDivulgedContractsPrunedUpToInclusive" type="integer (int64)">
+
+It will always be a non-negative integer. If positive, the absolute offset up to which all divulged events have been pruned on the ledger. It can be at or before the ``participant_pruned_up_to_inclusive`` offset. For more details about all divulged events pruning, see ``PruneRequest.prune_all_divulged_contracts`` in ``participant_pruning_service.proto``. If zero, the divulged events have not been pruned yet. Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+### 400
+
+Invalid value
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">text/plain</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="value" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+### default
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="code" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="cause" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="correlationId" type="string">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="traceId" type="string">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="context" type="Map_String" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="resources" type="Tuple2_String_String[]">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="errorCategory" type="integer (int32)" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="grpcCodeValue" type="integer (int32)">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="retryInfo" type="string">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="definiteAnswer" type="boolean">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+
+
+## History
+
+<div class="x2mdx-ref-history" aria-label="Reference history">
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-3-5">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">3.5</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">The GET /v2/state/latest-pruned-offsets operation changed in this snapshot.</p>
+
+  </div>
+
+</div>

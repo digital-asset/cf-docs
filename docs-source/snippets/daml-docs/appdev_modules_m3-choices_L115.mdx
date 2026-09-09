@@ -1,0 +1,9 @@
+```haskell
+newContactCid <- submit party do
+    exerciseCmd newContactCid UpdateAddress with
+      newAddress = "1-10 Bobstreet"
+
+  Some newContact <- queryContractId owner newContactCid
+
+  assert (newContact.address == "1-10 Bobstreet")
+```

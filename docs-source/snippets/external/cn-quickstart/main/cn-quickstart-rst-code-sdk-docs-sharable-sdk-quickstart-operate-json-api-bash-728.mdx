@@ -1,0 +1,44 @@
+```bash
+   JSON_PAYLOAD=$(cat <<EOF
+   {
+     "commands": [{
+       "ExerciseCommand": {
+         "templateId": "$PACKAGE_ID:Licensing.License:License",
+         "contractId": "$LICENSE_CID",
+         "choice": "License_Renew",
+         "choiceArgument": {
+           "requestId": "$REQUEST_ID",
+           "licenseFeeInstrumentId": {
+             "admin": "$DSO_PARTY",
+             "id": "Amulet"
+           },
+           "licenseFeeAmount": "100.0",
+           "licenseExtensionDuration": {
+             "microseconds": $LICENSE_EXTENSION_MICROSECONDS
+           },
+           "requestedAt": "$REQUESTED_AT",
+           "prepareUntil": "$PREPARE_UNTIL",
+           "settleBefore": "$SETTLE_BEFORE",
+           "description": "License renewal payment"
+         }
+       }
+     }],
+     "workflowId": "renew-license",
+     "applicationId": "app-provider-app",
+     "commandId": "$COMMAND_ID",
+     "actAs": ["$APP_PROVIDER_PARTY"],
+     "readAs": [],
+     "submissionId": "renew-license",
+     "disclosedContracts": [],
+     "domainId": "",
+     "packageIdSelectionPreference": []
+   }
+   EOF
+   )
+   
+   curl -X POST "http://localhost:3975/v2/commands/submit-and-wait" \
+     -H "Authorization: Bearer $PROVIDER_TOKEN" \
+     -H "Content-Type: application/json" \
+     -d "$JSON_PAYLOAD"
+
+```

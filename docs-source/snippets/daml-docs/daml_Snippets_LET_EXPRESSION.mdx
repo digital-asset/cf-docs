@@ -1,0 +1,8 @@
+```haskell
+doubled =
+  -- let binds values or functions to be in scope beneath the expression
+  let
+    double (x : Int) = 2 * x
+    up = 5
+  in double up
+```

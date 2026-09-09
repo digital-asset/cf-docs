@@ -1,0 +1,10 @@
+```haskell
+template BilateralContract
+  with
+    partyA : Party
+    partyB : Party
+    terms : Text
+  where
+    signatory partyA, partyB
+    -- No observers: only signatories see this contract
+```

@@ -1,0 +1,8 @@
+```haskell
+choice Transfer : ContractId RestrictedPayout
+  with newReceiver : Party
+  controller receiver
+  do
+    assert (newReceiver /= blacklisted)
+    create RestrictedPayout with receiver = newReceiver; giver; blacklisted; qty
+```

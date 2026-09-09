@@ -1,0 +1,21 @@
+```haskell
+template OperatorLicense
+  with
+    owner : Party
+    operator : Party
+    allowedOperations : [Text]
+  where
+    signatory owner
+    observer operator
+
+    choice Operate : ContractId OperationResult
+      with
+        operation : Text
+      controller operator
+      do assertMsg "Operation not allowed"
+           (operation `elem` allowedOperations)
+         create OperationResult with
+           performer = operator
+           onBehalfOf = owner
+           operation
+```

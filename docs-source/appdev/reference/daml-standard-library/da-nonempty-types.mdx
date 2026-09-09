@@ -1,0 +1,107 @@
+---
+title: "DA.NonEmpty.Types"
+description: "Reference documentation for Daml module DA.NonEmpty.Types."
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--collection"></div>
+
+<span id="module-da-nonempty-types-38464"></span>
+
+
+
+<div class="x2mdx-ref-hero">
+
+  <p class="x2mdx-ref-eyebrow">Daml module</p>
+
+
+  <h1 class="x2mdx-ref-title">DA.NonEmpty.Types</h1>
+
+
+  <p class="x2mdx-ref-summary">This module contains the type for non-empty lists so we can give it a stable package id.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Daml</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--changed" href="#history-updated-3-5-1">Updated 3.5.1</a>
+
+</div>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Module</dt>
+    <dd>DA.NonEmpty.Types</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Latest release</dt>
+    <dd>3.5.7</dd>
+  </div>
+
+</dl>
+
+</div>
+
+
+
+
+
+## Data Types
+
+
+<span id="type-da-nonempty-types-nonempty-16010"></span>
+
+### `data NonEmpty a`
+
+`NonEmpty` is the type of non-empty lists. In other words, it is the type of lists
+that always contain at least one element. If `x` is a non-empty list, you can obtain
+the first element with `x.hd` and the rest of the list with `x.tl`.
+
+Constructors:
+
+<span id="constr-da-nonempty-types-nonempty-68983"></span>
+- `NonEmpty`
+
+<ResponseField name="hd" type="a" />
+
+<ResponseField name="tl" type="[a]" />
+
+Instances:
+
+- instance [`Foldable`](/appdev/reference/daml-standard-library/da-foldable#class-da-foldable-foldable-25994) [`NonEmpty`](#type-da-nonempty-types-nonempty-16010)
+- instance [`Action`](/appdev/reference/daml-standard-library/prelude#class-da-internal-prelude-action-68790) [`NonEmpty`](#type-da-nonempty-types-nonempty-16010)
+- instance [`Applicative`](/appdev/reference/daml-standard-library/prelude#class-da-internal-prelude-applicative-9257) [`NonEmpty`](#type-da-nonempty-types-nonempty-16010)
+- instance [`Semigroup`](/appdev/reference/daml-standard-library/prelude#class-da-internal-prelude-semigroup-78998) ([`NonEmpty`](#type-da-nonempty-types-nonempty-16010) `a`)
+- instance [`GetField`](/appdev/reference/daml-standard-library/da-record#class-da-internal-record-getfield-53979) `hd` ([`NonEmpty`](#type-da-nonempty-types-nonempty-16010) `a`) `a`
+- instance [`GetField`](/appdev/reference/daml-standard-library/da-record#class-da-internal-record-getfield-53979) `tl` ([`NonEmpty`](#type-da-nonempty-types-nonempty-16010) `a`) [`a`]
+- instance [`SetField`](/appdev/reference/daml-standard-library/da-record#class-da-internal-record-setfield-4311) `hd` ([`NonEmpty`](#type-da-nonempty-types-nonempty-16010) `a`) `a`
+- instance [`SetField`](/appdev/reference/daml-standard-library/da-record#class-da-internal-record-setfield-4311) `tl` ([`NonEmpty`](#type-da-nonempty-types-nonempty-16010) `a`) [`a`]
+- instance [`IsParties`](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-isparties-53750) ([`NonEmpty`](#type-da-nonempty-types-nonempty-16010) [`Party`](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932))
+- instance [`Traversable`](/appdev/reference/daml-standard-library/da-traversable#class-da-traversable-traversable-18144) [`NonEmpty`](#type-da-nonempty-types-nonempty-16010)
+- instance `Serializable` `a` => `Serializable` ([`NonEmpty`](#type-da-nonempty-types-nonempty-16010) `a`)
+- instance [`Functor`](/appdev/reference/daml-standard-library/prelude#class-ghc-base-functor-31205) [`NonEmpty`](#type-da-nonempty-types-nonempty-16010)
+- instance [`Eq`](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) `a` => [`Eq`](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) ([`NonEmpty`](#type-da-nonempty-types-nonempty-16010) `a`)
+- instance [`Ord`](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) `a` => [`Ord`](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) ([`NonEmpty`](#type-da-nonempty-types-nonempty-16010) `a`)
+- instance [`Show`](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) `a` => [`Show`](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) ([`NonEmpty`](#type-da-nonempty-types-nonempty-16010) `a`)
+
+
+
+
+## History
+
+<div class="x2mdx-ref-history" aria-label="Reference history">
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-3-5-1">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">3.5.1</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">Module declarations or documentation updated.</p>
+
+  </div>
+
+</div>

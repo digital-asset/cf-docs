@@ -1,0 +1,7 @@
+```sql
+   select ia.contract_id, ip.contract_id
+   from active('IssuerApproval', 'some_offset') ia
+   inner join active('IssuerProposal', 'some_offset') ip
+     on ia.payload->>'transferId' = ip.payload->>'transferId';
+
+```

@@ -1,0 +1,37 @@
+```tsx
+{showComments && (
+    <div className="mt-4 card p-3">
+        <h4>
+            Comments for License #
+            {licenses.find(l => l.contractId === showComments)?.licenseNum}
+        </h4>
+        {comments.length === 0 ? (
+            <p className="text-muted">No comments yet.</p>
+        ) : (
+            <ul className="list-group mb-3">
+                {comments.map((c) => (
+                    <li key={c.contractId} className="list-group-item">
+                        <strong>{c.commenter}</strong>
+                        <span className="text-muted ms-2">
+                            {formatDateTime(c.createdAt)}
+                        </span>
+                        <p className="mb-0 mt-1">{c.body}</p>
+                    </li>
+                ))}
+            </ul>
+        )}
+        <form onSubmit={handleAddComment} className="d-flex gap-2">
+            <input
+                className="form-control"
+                value={commentBody}
+                onChange={(e) => setCommentBody(e.target.value)}
+                placeholder="Add a comment..."
+            />
+            <button type="submit" className="btn btn-primary"
+                    disabled={!commentBody.trim()}>
+                Post
+            </button>
+        </form>
+    </div>
+)}
+```

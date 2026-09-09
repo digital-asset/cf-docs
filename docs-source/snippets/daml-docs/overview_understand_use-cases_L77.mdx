@@ -1,0 +1,21 @@
+```haskell
+template Security
+  with
+    issuer : Party
+    holder : Party
+    regulator : Party
+    cusip : Text
+    quantity : Decimal
+    approvedHolders : [Party]  -- Issuer maintains list of eligible holders
+  where
+    signatory issuer
+    observer holder, regulator  -- Regulator sees all holdings
+
+    choice Transfer : ContractId Security
+      with
+        newHolder : Party
+      controller holder, issuer  -- Issuer approval required for compliance
+      do
+        assert (newHolder `elem` approvedHolders)
+        create this with holder = newHolder
+```

@@ -1,0 +1,21 @@
+```bash
+curl -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
+--data-raw '{
+  "filter": {
+    "filtersByParty": {
+      "'"$BENEFICIARY_PARTY"'": {
+        "filters": [
+          {
+            "inclusive": {
+              "templateFilters": [
+                {"templateId": "#splice-wallet:Splice.Wallet.MintingDelegation:MintingDelegationProposal"}
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}' \
+"$LEDGER_API_URL/v2/state/active-contracts"
+```

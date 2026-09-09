@@ -1,0 +1,15 @@
+```haskell
+module Licensing.LicenseComment where
+
+template LicenseComment
+  with
+    provider : Party
+    user : Party
+    licenseNum : Int
+    commenter : Party
+    body : Text
+    createdAt : Time
+  where
+    signatory commenter
+    observer provider, user
+```

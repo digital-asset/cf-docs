@@ -1,0 +1,228 @@
+---
+title: "The Daml Compiler"
+description: "Daml compiler flags and invocation options."
+---
+
+{/* COPIED_START source="docs-website:docs/replicated/daml/3.4/sdk/component-howtos/smart-contracts/flags.rst" hash="24de3fac" */}
+
+# The Daml Compiler
+
+At the core of the Daml toolchain lies the Daml Compiler, also known as `damlc`. Its primary usage is to compile Daml source code, which defines smart contracts and their behaviours, into a lower-level language called Daml-LF, which Canton participants can evaluate in order to run those smart contracts.
+
+We recommend running the compiler via DPM (i.e. through `dpm build`), or alternatively, by calling `damlc` directly. When compiling code, the Daml Compiler goes through the following stages:
+
+1.  The input `.daml` files are type-checked (i.e. it is verified if they are well-formed or not)
+2.  The type-checked `` `.daml `` code is transformed to Daml-LF.
+3.  The produced Daml-LF is packaged together with its dependencies and their metadata into a `.dar` file, which essentially is an archive of Daml-LF files with metadata.
+
+Build files produced by a call to `dpm build` are stored in a `.daml` directory, local to the project in which `dpm build` was run. They can be cleaned using `dpm clean`.
+
+The Daml Compiler also offers testing functionality. It can be invoked either by first calling `dpm build` to obtain a `.dar` which is then used in a call to `daml-script` (i.e. `dpm script`), or by calling `glos-daml-test` (i.e. `dpm test`) directly.
+
+## Build & test flags<span id="daml-assistant-flags"></span>
+
+These flags are available for both `--build` as well as `--test`.
+
+- `-h`, `--help`
+
+  Prints option information when called on the commandline.
+
+- `--package-root ARG`
+
+  DPM-specific option.
+
+  Path to the root of a `glos-daml-package` containing `daml.yaml`. Using this option, you set the package to build/test. You should prefer the `DAML_PACKAGE` environment variable over this option. See `dpm-configuration` for more details.
+
+- `--project-root ARG`
+
+  DPM-specific option.
+
+  `project-root` is **deprecated**, please use `--package-root`.
+
+  Path to the root of a `glos-daml-package` containing `daml.yaml`. You should prefer the `DAML_PACKAGE` environment variable over this option. See `dpm-configuration` for more details.
+
+- `--include INCLUDE-PATH`
+
+  Path to an additional source directory to be included.
+
+- `--package-db LOC-OF-PACKAGE-DB`
+
+  Use `glos-package-database` in the given location.
+
+- `--access-token-file PATH`
+
+  **Deprecated command**\*\*, use DPM-specific instead
+
+  Path to the token-file for ledger authorization.
+
+- `--shake-profiling PROFILING-REPORT`
+
+  Directory for `glos-shake-profiling-reports`.
+
+- `--jobs THREADS`
+
+  The number of threads to run in parallel. When `-j` is not passed, 1 thread is used. If `-j` is passed, the number of threads defaults to the number of processors. Use `--jobs=N` to explicitely set the number of threads to `N`. Note that the output is not deterministic for \> 1 job.
+
+- `--debug`
+
+  Set log level to `DEBUG`.
+
+- `--log-level ARG`
+
+  Set log level. Possible values are `DEBUG`, `INFO`, `WARNING`, `ERROR`.
+
+- `--detail LEVEL`
+
+  Detail level of the pretty printed output (default: 0). A higher level of detail will pretty print more information from for example `damlc inspect` as well as printing source file locations. See `glos-damlc-detail-level`.
+
+- `--ghc-option OPTION`
+
+  Options to pass to the underlying GHC.
+
+- `-p,--test-pattern PATTERN`
+
+  Only scripts with names containing the given pattern will be executed.
+
+- `--typecheck-upgrades ARG`
+
+  Typecheck upgrades. Can be set to "yes", "no" or "auto" to select the default (True).
+
+- `--upgrades UPGRADE_DAR`
+
+  Set DAR to upgrade\>.
+
+- `-W ARG`
+
+  Turn an error into a warning with `-W<name>` or `-Wwarn=<name>` or `-Wno-error=<name>`. Turn a warning into an error with `-Werror=<name>`. Disable warnings and errors with `-Wno-<name>`. Available names are:
+
+  > - `deprecated-exceptions`
+  > - `crypto-text-is-alpha`
+  > - `upgrade-interfaces`
+  > - `upgrade-exceptions`
+  > - `upgrade-dependency-metadata`
+  > - `upgraded-template-expression-changed`
+  > - `upgraded-choice-expression-changed`
+  > - `could-not-extract-upgraded-expression`
+  > - `unused-dependency`
+  > - `upgrades-own-dependency`
+  > - `template-interface-depends-on-daml-script`
+  > - `template-has-new-interface-instance`
+
+- `--ignore-data-deps-visibility ARG`
+
+  Ignore explicit exports on `glos-data-dependencies`, and instead allow importing of all definitions from that `glos-daml-package` (this was the default behaviour before Daml 2.10). Can be set to "yes", "no" or "auto" to select the default (False).
+
+## Build flags
+
+- All build & test flags described above.
+
+- `-o,--output FILE`
+
+  Optional output file (defaults to `<PACKAGE-NAME>.dar`).
+
+- `--incremental ARG`
+
+  Enable `glos-incremental-builds`. Can be set to "yes", "no" or "auto" to select the default (False).
+
+- `--init-package-db ARG`
+
+  Initialize `glos-package-database`. Can be set to "yes", "no" or "auto" to select the default (True).
+
+- `--enable-multi-package ARG`
+
+  Enable/disable multi-package.yaml support (enabled by default). Can be set to "yes", "no" or "auto" to select the default (True).
+
+- `--all`
+
+  Build all packages in multi-package.yaml.
+
+- `--no-cache`
+
+  Disables cache checking, rebuilding all dependencies.
+
+- `--multi-package-path FILE`
+
+  Path to the multi-package.yaml file.
+
+## Test flags
+
+- All build & test flags described above.
+
+- `--files`
+
+  Only run test declarations in the specified files.
+
+- `--all`
+
+  Run tests in current `glos-daml-package` as well as dependencies
+
+- `--load-coverage-only`
+
+  Don't run any tests. Only load `glos-daml-test-coverage` results from files and write the aggregate to a single file.
+
+- `--show-coverage`
+
+  Show detailed test `glos-daml-test-coverage`.
+
+- `--color`
+
+  Colored test results\>
+
+- `--junit FILENAME`
+
+  Filename of JUnit output file. This file contains the test output in the de-facto standard for test output, JUnit XML file format. See [https://github.com/testmoapp/junitxml](https://github.com/testmoapp/junitxml).
+
+- `--package-name PACKAGE-NAME`
+
+  Create package artifacts for the given package name.
+
+- `--table-output ARG`
+
+  Filename to which table should be output. Used to render the table view of Daml Studio, but usable on the cli as well.
+
+- `--transactions-output ARG`
+
+  Filename to which the transaction list should be output. Used to render the transaction view of Daml Studio, but usable on the cli as well.
+
+- `--load-coverage ARG`
+
+  File to read prior `glos-daml-test-coverage` results from. Can be specified more than once.
+
+- `--save-coverage ARG`
+
+  File to write final aggregated `glos-daml-test-coverage` results to.
+
+- `--coverage-ignore-choice ARG`
+
+  Remove choices matching a regex from the `glos-daml-test-coverage` report. The full name of a local choice takes the format `<module>:<template name>:<choice name>`, preceded by `<package id>:` for nonlocal packages.
+
+## Test flags
+
+- `-h`, `--help`
+
+  Prints option information when called on the commandline.
+
+- `--package-root ARG`
+
+  DPM-specific option.
+
+  Path to the root of a `glos-daml-package` containing `daml.yaml`. Using this option, you set the package to clean. You should prefer the `DAML_PACKAGE` environment variable over this option. See `dpm-configuration` for more details.
+
+- `--project-root ARG`
+
+  DPM-specific option.
+
+  `project-root` is **deprecated**, please use `--package-root`.
+
+  Path to the root of a `glos-daml-package` containing `daml.yaml`. You should prefer the `DAML_PACKAGE` environment variable over this option. See `dpm-configuration` for more details.
+
+- `--multi-package-path FILE`
+
+  Path to the multi-package.yaml file.
+
+- `--all`
+
+  Clean all packages in multi-package.yaml.
+
+
+{/* COPIED_END */}

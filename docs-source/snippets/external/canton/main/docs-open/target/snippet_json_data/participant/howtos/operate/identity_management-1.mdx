@@ -1,0 +1,11 @@
+```scala
+@ val user = participant1.ledger_api.users.create(id = "myuser", actAs = Set(alice), readAs = Set(bob), primaryParty = Some(alice), participantAdmin = false, isDeactivated = false, annotations = Map("foo" -> "bar", "description" -> "This is a description"))
+    user : User = User(
+      id = "myuser",
+      primaryParty = Some(value = alice::12201ff69b1d...),
+      isDeactivated = false,
+      annotations = Map("foo" -> "bar", "description" -> "This is a description"),
+      identityProviderId = "",
+      primaryPartyAuthentication = false
+    )
+```

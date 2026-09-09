@@ -1,0 +1,18 @@
+```haskell
+template SelectivelyAuditable
+  with
+    owner : Party
+    data : SensitiveData
+    auditor : Party
+  where
+    signatory owner
+    
+    -- Non-consuming choice: reveals data without changing state
+    nonconsuming choice Audit : AuditReport
+      controller auditor
+      do
+        -- Auditor can request audit, seeing only what's returned
+        return AuditReport with 
+          timestamp = now
+          summary = summarize data  -- Controlled disclosure
+```

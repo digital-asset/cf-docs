@@ -1,0 +1,8 @@
+```bash
+# PQS latest offset (query PQS database)
+psql -h localhost -U pqs -d pqs -c "SELECT max(offset) FROM _pqs_offsets;"
+
+# Ledger end offset
+grpcurl -plaintext localhost:5001 \
+  com.daml.ledger.api.v2.StateService/GetLedgerEnd
+```

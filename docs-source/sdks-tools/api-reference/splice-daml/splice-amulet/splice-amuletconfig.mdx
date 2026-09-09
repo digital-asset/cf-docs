@@ -1,0 +1,395 @@
+---
+title: "Splice.AmuletConfig"
+description: "Documentation for Splice.AmuletConfig"
+---
+
+{/* COPIED_START source="splice:daml/splice-amulet/docs/Splice-AmuletConfig.rst" tag="0.6.4" hash="29e34f10" */}
+
+## Data Types
+
+<div id="type-splice-amuletconfig-amulet-69874">
+
+**data** Amulet
+
+</div>
+
+> Deprecated type for specifying amounts and fees in units of Amulet. Use Splice.Amulet.Amulet directly instead.
+>
+> <div id="constr-splice-amuletconfig-amulet-76435">
+>
+> Amulet
+>
+> </div>
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) Amulet
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) Amulet
+
+<div id="type-splice-amuletconfig-amuletconfig-37414">
+
+**data** AmuletConfig unit
+
+</div>
+
+> Configuration includes TransferConfig, issuance curve and tickDuration
+>
+> See Splice.Scripts.Parameters for concrete values.
+>
+> <div id="constr-splice-amuletconfig-amuletconfig-91595">
+>
+> AmuletConfig
+>
+> </div>
+>
+> > | Field                                | Type                                                                                                                                                                                                                                                  | Description                                                                                                                                                                                                                                                                                       |
+> > |--------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+> > | transferConfig                       | TransferConfig unit                                                                                                                                                                                                                                   | Configuration determining the fees and limits for Amulet transfers                                                                                                                                                                                                                                |
+> > | issuanceCurve                        | Schedule [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) IssuanceConfig                                                                                                        | Issuance curve to use.                                                                                                                                                                                                                                                                            |
+> > | decentralizedSynchronizer            | AmuletDecentralizedSynchronizerConfig                                                                                                                                                                                                                 | Configuration for the decentralized synchronizer and its fees. TODO(M4-85): the values in here are likely quite large (several URls and long synchronizerIds) and not required for executing transfers. Split this part of the config out into a separate contract as a performance optimization. |
+> > | tickDuration                         | [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)                                                                                                                                | Duration of a tick, which is the duration of half a round.                                                                                                                                                                                                                                        |
+> > | packageConfig                        | PackageConfig                                                                                                                                                                                                                                         | Configuration determining the version of each package that should be used for command submissions.                                                                                                                                                                                                |
+> > | transferPreapprovalFee               | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)     | Fee for keeping a transfer pre-approval around.                                                                                                                                                                                                                                                   |
+> > | featuredAppActivityMarkerAmount      | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)     | \$-amount used for the conversion from FeaturedAppActivityMarker -\> AppRewardCoupon                                                                                                                                                                                                              |
+> > | optDevelopmentFundManager            | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)    | Party authorized to manage and allocate minting rights from the Development Fund.                                                                                                                                                                                                                 |
+> > | externalPartyConfigStateTickDuration | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) | Half the lifetime of an `ExternalPartyConfigState` contract and the overlap between two successive contracts. Default: 24h.                                                                                                                                                                       |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) (AmuletConfig unit)
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) (AmuletConfig unit)
+>
+> **instance** GetField "baseConfig" AmuletRules_SetConfig (AmuletConfig USD)
+>
+> **instance** GetField "configSchedule" AmuletRules (Schedule [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886) (AmuletConfig USD))
+>
+> **instance** GetField "decentralizedSynchronizer" (AmuletConfig unit) AmuletDecentralizedSynchronizerConfig
+>
+> **instance** GetField "externalPartyConfigStateTickDuration" (AmuletConfig unit) ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082))
+>
+> **instance** GetField "featuredAppActivityMarkerAmount" (AmuletConfig unit) ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135))
+>
+> **instance** GetField "issuanceCurve" (AmuletConfig unit) (Schedule [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) IssuanceConfig)
+>
+> **instance** GetField "newConfig" AmuletRules_SetConfig (AmuletConfig USD)
+>
+> **instance** GetField "newScheduleItem" AmuletRules_AddFutureAmuletConfigSchedule ([Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886), AmuletConfig USD)
+>
+> **instance** GetField "optDevelopmentFundManager" (AmuletConfig unit) ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932))
+>
+> **instance** GetField "packageConfig" (AmuletConfig unit) PackageConfig
+>
+> **instance** GetField "scheduleItem" AmuletRules_UpdateFutureAmuletConfigSchedule ([Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886), AmuletConfig USD)
+>
+> **instance** GetField "tickDuration" (AmuletConfig unit) [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)
+>
+> **instance** GetField "transferConfig" (AmuletConfig unit) (TransferConfig unit)
+>
+> **instance** GetField "transferPreapprovalFee" (AmuletConfig unit) ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135))
+>
+> **instance** SetField "baseConfig" AmuletRules_SetConfig (AmuletConfig USD)
+>
+> **instance** SetField "configSchedule" AmuletRules (Schedule [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886) (AmuletConfig USD))
+>
+> **instance** SetField "decentralizedSynchronizer" (AmuletConfig unit) AmuletDecentralizedSynchronizerConfig
+>
+> **instance** SetField "externalPartyConfigStateTickDuration" (AmuletConfig unit) ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082))
+>
+> **instance** SetField "featuredAppActivityMarkerAmount" (AmuletConfig unit) ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135))
+>
+> **instance** SetField "issuanceCurve" (AmuletConfig unit) (Schedule [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) IssuanceConfig)
+>
+> **instance** SetField "newConfig" AmuletRules_SetConfig (AmuletConfig USD)
+>
+> **instance** SetField "newScheduleItem" AmuletRules_AddFutureAmuletConfigSchedule ([Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886), AmuletConfig USD)
+>
+> **instance** SetField "optDevelopmentFundManager" (AmuletConfig unit) ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932))
+>
+> **instance** SetField "packageConfig" (AmuletConfig unit) PackageConfig
+>
+> **instance** SetField "scheduleItem" AmuletRules_UpdateFutureAmuletConfigSchedule ([Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886), AmuletConfig USD)
+>
+> **instance** SetField "tickDuration" (AmuletConfig unit) [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)
+>
+> **instance** SetField "transferConfig" (AmuletConfig unit) (TransferConfig unit)
+>
+> **instance** SetField "transferPreapprovalFee" (AmuletConfig unit) ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135))
+>
+> **instance** Patchable (AmuletConfig USD)
+
+<div id="type-splice-amuletconfig-packageconfig-59903">
+
+**data** PackageConfig
+
+</div>
+
+> The package config defines for each daml package (identified by name) the package version that should be used for command submissions at that point.
+>
+> <div id="constr-splice-amuletconfig-packageconfig-69032">
+>
+> PackageConfig
+>
+> </div>
+>
+> > | Field              | Type                                                                                                         | Description |
+> > |--------------------|--------------------------------------------------------------------------------------------------------------|-------------|
+> > | amulet             | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) |             |
+> > | amuletNameService  | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) |             |
+> > | dsoGovernance      | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) |             |
+> > | validatorLifecycle | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) |             |
+> > | wallet             | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) |             |
+> > | walletPayments     | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) PackageConfig
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) PackageConfig
+>
+> **instance** GetField "amulet" PackageConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** GetField "amuletNameService" PackageConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** GetField "dsoGovernance" PackageConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** GetField "packageConfig" (AmuletConfig unit) PackageConfig
+>
+> **instance** GetField "validatorLifecycle" PackageConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** GetField "wallet" PackageConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** GetField "walletPayments" PackageConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "amulet" PackageConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "amuletNameService" PackageConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "dsoGovernance" PackageConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "packageConfig" (AmuletConfig unit) PackageConfig
+>
+> **instance** SetField "validatorLifecycle" PackageConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "wallet" PackageConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "walletPayments" PackageConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** Patchable PackageConfig
+
+<div id="type-splice-amuletconfig-transferconfig-45691">
+
+**data** TransferConfig unit
+
+</div>
+
+> Configuration determining the fees and limits for Amulet transfers granted by the AmuletRules.
+>
+> See Splice.Scripts.Parameters for concrete values.
+>
+> <div id="constr-splice-amuletconfig-transferconfig-20622">
+>
+> TransferConfig
+>
+> </div>
+>
+> > | Field                        | Type                                                                                                               | Description                                                 |
+> > |------------------------------|--------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|
+> > | createFee                    | FixedFee                                                                                                           | Fee to create a new amulet.                                 |
+> > | holdingFee                   | RatePerRound                                                                                                       | Fee for keeping an amulet around.                           |
+> > | transferFee                  | SteppedRate                                                                                                        | Fee for transferring some amount of amulet to a new owner.  |
+> > | lockHolderFee                | FixedFee                                                                                                           | Fee per lock holder of a locked amulet.                     |
+> > | extraFeaturedAppRewardAmount | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) | Extra \$-amount of reward for featured apps.                |
+> > | maxNumInputs                 | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)         | Maximum number of batch inputs for a transfer.              |
+> > | maxNumOutputs                | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)         | Maximum number of batch outputs for a transfer.             |
+> > | maxNumLockHolders            | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)         | Maximum number of lock holders allowed for a locked amulet. |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) (TransferConfig unit)
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) (TransferConfig unit)
+>
+> **instance** GetField "config" TransferContextSummary (TransferConfig Amulet)
+>
+> **instance** GetField "createFee" (TransferConfig unit) FixedFee
+>
+> **instance** GetField "extraFeaturedAppRewardAmount" (TransferConfig unit) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "holdingFee" (TransferConfig unit) RatePerRound
+>
+> **instance** GetField "lockHolderFee" (TransferConfig unit) FixedFee
+>
+> **instance** GetField "maxNumInputs" (TransferConfig unit) [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** GetField "maxNumLockHolders" (TransferConfig unit) [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** GetField "maxNumOutputs" (TransferConfig unit) [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** GetField "transferConfig" (AmuletConfig unit) (TransferConfig unit)
+>
+> **instance** GetField "transferConfigUsd" OpenMiningRound (TransferConfig USD)
+>
+> **instance** GetField "transferFee" (TransferConfig unit) SteppedRate
+>
+> **instance** SetField "config" TransferContextSummary (TransferConfig Amulet)
+>
+> **instance** SetField "createFee" (TransferConfig unit) FixedFee
+>
+> **instance** SetField "extraFeaturedAppRewardAmount" (TransferConfig unit) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "holdingFee" (TransferConfig unit) RatePerRound
+>
+> **instance** SetField "lockHolderFee" (TransferConfig unit) FixedFee
+>
+> **instance** SetField "maxNumInputs" (TransferConfig unit) [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "maxNumLockHolders" (TransferConfig unit) [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "maxNumOutputs" (TransferConfig unit) [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "transferConfig" (AmuletConfig unit) (TransferConfig unit)
+>
+> **instance** SetField "transferConfigUsd" OpenMiningRound (TransferConfig USD)
+>
+> **instance** SetField "transferFee" (TransferConfig unit) SteppedRate
+>
+> **instance** Patchable (TransferConfig USD)
+
+<div id="type-splice-amuletconfig-transferconfigv2-59993">
+
+**data** TransferConfigV2 unit
+
+</div>
+
+> Stripped down TransferConfig after CIP 78 removed fees.
+>
+> <div id="constr-splice-amuletconfig-transferconfigv2-42628">
+>
+> TransferConfigV2
+>
+> </div>
+>
+> > | Field             | Type                                                                                                       | Description |
+> > |-------------------|------------------------------------------------------------------------------------------------------------|-------------|
+> > | holdingFee        | RatePerRound                                                                                               |             |
+> > | maxNumInputs      | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261) |             |
+> > | maxNumOutputs     | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261) |             |
+> > | maxNumLockHolders | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261) |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) (TransferConfigV2 unit)
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) (TransferConfigV2 unit)
+>
+> **instance** GetField "config" TransferContextSummaryV2 (TransferConfigV2 Amulet)
+>
+> **instance** GetField "holdingFee" (TransferConfigV2 unit) RatePerRound
+>
+> **instance** GetField "maxNumInputs" (TransferConfigV2 unit) [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** GetField "maxNumLockHolders" (TransferConfigV2 unit) [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** GetField "maxNumOutputs" (TransferConfigV2 unit) [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** GetField "transferConfig" ExternalPartyConfigState (TransferConfigV2 USD)
+>
+> **instance** SetField "config" TransferContextSummaryV2 (TransferConfigV2 Amulet)
+>
+> **instance** SetField "holdingFee" (TransferConfigV2 unit) RatePerRound
+>
+> **instance** SetField "maxNumInputs" (TransferConfigV2 unit) [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "maxNumLockHolders" (TransferConfigV2 unit) [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "maxNumOutputs" (TransferConfigV2 unit) [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "transferConfig" ExternalPartyConfigState (TransferConfigV2 USD)
+
+<div id="type-splice-amuletconfig-usd-42527">
+
+**data** USD
+
+</div>
+
+> <div id="constr-splice-amuletconfig-usd-28992">
+>
+> USD
+>
+> </div>
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) USD
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) USD
+>
+> **instance** GetField "baseConfig" AmuletRules_SetConfig (AmuletConfig USD)
+>
+> **instance** GetField "configSchedule" AmuletRules (Schedule [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886) (AmuletConfig USD))
+>
+> **instance** GetField "newConfig" AmuletRules_SetConfig (AmuletConfig USD)
+>
+> **instance** GetField "newScheduleItem" AmuletRules_AddFutureAmuletConfigSchedule ([Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886), AmuletConfig USD)
+>
+> **instance** GetField "scheduleItem" AmuletRules_UpdateFutureAmuletConfigSchedule ([Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886), AmuletConfig USD)
+>
+> **instance** GetField "transferConfig" ExternalPartyConfigState (TransferConfigV2 USD)
+>
+> **instance** GetField "transferConfigUsd" OpenMiningRound (TransferConfig USD)
+>
+> **instance** SetField "baseConfig" AmuletRules_SetConfig (AmuletConfig USD)
+>
+> **instance** SetField "configSchedule" AmuletRules (Schedule [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886) (AmuletConfig USD))
+>
+> **instance** SetField "newConfig" AmuletRules_SetConfig (AmuletConfig USD)
+>
+> **instance** SetField "newScheduleItem" AmuletRules_AddFutureAmuletConfigSchedule ([Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886), AmuletConfig USD)
+>
+> **instance** SetField "scheduleItem" AmuletRules_UpdateFutureAmuletConfigSchedule ([Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886), AmuletConfig USD)
+>
+> **instance** SetField "transferConfig" ExternalPartyConfigState (TransferConfigV2 USD)
+>
+> **instance** SetField "transferConfigUsd" OpenMiningRound (TransferConfig USD)
+>
+> **instance** Patchable (AmuletConfig USD)
+>
+> **instance** Patchable (TransferConfig USD)
+
+## Functions
+
+<div id="function-splice-amuletconfig-transferconfigtotransferconfigv2-63497">
+
+transferConfigToTransferConfigV2
+: TransferConfig unit -\> TransferConfigV2 unit
+
+</div>
+
+<div id="function-splice-amuletconfig-getexternalpartyconfigstatetickduration-34672">
+
+getExternalPartyConfigStateTickDuration
+: AmuletConfig a -\> [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)
+
+</div>
+
+<div id="function-splice-amuletconfig-defaulttransferpreapprovalfee-76073">
+
+defaultTransferPreapprovalFee
+: [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+</div>
+
+<div id="function-splice-amuletconfig-validamuletconfig-8963">
+
+validAmuletConfig
+: AmuletConfig unit -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+</div>
+
+<div id="function-splice-amuletconfig-validtransferconfig-77162">
+
+validTransferConfig
+: TransferConfig unit -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+</div>
+
+<div id="function-splice-amuletconfig-validpackageconfig-27952">
+
+validPackageConfig
+: PackageConfig -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+Package configs are not constrained at the Daml level to maximize flexibility. In particular, empty packages versions might be used in the future to indicate that no version of that package should be vetted.
+
+</div>
+
+{/* COPIED_END */}

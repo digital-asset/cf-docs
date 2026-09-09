@@ -1,0 +1,959 @@
+---
+title: "POST /v2/contracts/contract-by-id"
+description: "Looking up contract data by contract ID. This endpoint is experimental / alpha, therefore no backwards compatibility is guaranteed. This endpoint must not be used to look up contracts which entered the participant via party replication or repair service."
+api: "POST http://localhost:7575/v2/contracts/contract-by-id"
+authMethod: "bearer"
+playground: "interactive"
+sidebarTitle: "/v2/contracts/contract-by-id"
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--operation x2mdx-ref-page--manual-api"></div>
+
+
+
+<div class="x2mdx-ref-hero">
+
+
+
+  <p class="x2mdx-ref-summary">Looking up contract data by contract ID. This endpoint is experimental / alpha, therefore no backwards compatibility is guaranteed. This endpoint must not be used to look up contracts which entered the participant via party replication or repair service.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">OpenAPI</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--changed" href="#history-updated-3-5">Updated 3.5</a>
+
+</div>
+
+
+</div>
+
+
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url 'http://localhost:7575/v2/contracts/contract-by-id' \
+  --header 'Authorization: Bearer $TOKEN' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "contractId": "<string>",
+  "queryingParties": [
+    "<string>"
+  ]
+}'
+```
+
+```python Python
+import json
+import requests
+
+url = "http://localhost:7575/v2/contracts/contract-by-id"
+headers = {'Authorization': 'Bearer <token>', 'Content-Type': 'application/json'}
+payload = json.loads(r'''{
+  "contractId": "<string>",
+  "queryingParties": [
+    "<string>"
+  ]
+}''')
+response = requests.request(
+    "POST", url, headers=headers, json=payload
+)
+
+print(response.text)
+```
+
+```javascript JavaScript
+const response = await fetch('http://localhost:7575/v2/contracts/contract-by-id', {
+  method: 'POST',
+  headers: {
+  "Authorization": "Bearer <token>",
+  "Content-Type": "application/json"
+},
+  body: JSON.stringify({
+  "contractId": "<string>",
+  "queryingParties": [
+    "<string>"
+  ]
+}),
+});
+
+console.log(await response.text());
+```
+
+```php PHP
+<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => 'http://localhost:7575/v2/contracts/contract-by-id',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS => <<<'JSON'
+{
+  "contractId": "<string>",
+  "queryingParties": [
+    "<string>"
+  ]
+}
+JSON,
+    CURLOPT_HTTPHEADER => [
+        "Authorization: Bearer <token>",
+        "Content-Type: application/json"
+    ],
+]);
+
+$response = curl_exec($curl);
+echo $response;
+```
+
+```go Go
+package main
+
+import (
+  "bytes"
+  "fmt"
+  "io"
+  "net/http"
+)
+
+func main() {
+  req, _ := http.NewRequest("POST", "http://localhost:7575/v2/contracts/contract-by-id", bytes.NewBufferString(`{
+  "contractId": "<string>",
+  "queryingParties": [
+    "<string>"
+  ]
+}`))
+  req.Header.Set("Authorization", "Bearer <token>")
+  req.Header.Set("Content-Type", "application/json")
+  response, _ := http.DefaultClient.Do(req)
+  defer response.Body.Close()
+  body, _ := io.ReadAll(response.Body)
+  fmt.Println(string(body))
+}
+```
+
+```java Java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+var request = HttpRequest.newBuilder()
+    .uri(URI.create("http://localhost:7575/v2/contracts/contract-by-id"))
+    .header("Authorization", "Bearer <token>")
+    .header("Content-Type", "application/json")
+    .method("POST", HttpRequest.BodyPublishers.ofString("""
+{
+  "contractId": "<string>",
+  "queryingParties": [
+    "<string>"
+  ]
+}
+"""))
+    .build();
+var response = HttpClient.newHttpClient().send(
+    request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```ruby Ruby
+require 'net/http'
+require 'uri'
+
+uri = URI('http://localhost:7575/v2/contracts/contract-by-id')
+request = Net::HTTP::Post.new(uri)
+request['Authorization'] = 'Bearer <token>'
+request['Content-Type'] = 'application/json'
+request.body = <<~JSON
+{
+  "contractId": "<string>",
+  "queryingParties": [
+    "<string>"
+  ]
+}
+JSON
+response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+  http.request(request)
+end
+puts response.body
+```
+
+</RequestExample>
+
+
+<ResponseExample>
+
+```json 200
+{
+  "createdEvent": {
+    "offset": 123,
+    "nodeId": 123,
+    "contractId": "<string>",
+    "templateId": "<string>",
+    "contractKey": "<string>",
+    "contractKeyHash": "<string>",
+    "createArgument": "<string>",
+    "createdEventBlob": "<string>",
+    "interfaceViews": [
+      {
+        "interfaceId": "<string>",
+        "viewStatus": {
+          "code": 123,
+          "message": "<string>",
+          "details": [
+            {
+              "typeUrl": "<string>",
+              "value": "<string>",
+              "unknownFields": "<object>",
+              "valueDecoded": "<string>"
+            }
+          ]
+        },
+        "viewValue": "<string>",
+        "implementationPackageId": "<string>"
+      }
+    ],
+    "witnessParties": [
+      "<string>"
+    ],
+    "signatories": [
+      "<string>"
+    ],
+    "observers": [
+      "<string>"
+    ],
+    "createdAt": "<string>",
+    "packageName": "<string>",
+    "representativePackageId": "<string>",
+    "acsDelta": false
+  }
+}
+```
+
+```text 400
+<string>
+```
+
+```json default
+{
+  "code": "<string>",
+  "cause": "<string>",
+  "correlationId": "<string>",
+  "traceId": "<string>",
+  "context": {},
+  "resources": [
+    [
+      "<string>"
+    ]
+  ],
+  "errorCategory": 123,
+  "grpcCodeValue": 123,
+  "retryInfo": "<string>",
+  "definiteAnswer": false
+}
+```
+
+</ResponseExample>
+
+
+## Authorizations
+
+
+### httpAuth
+
+
+
+
+
+
+<ParamField header="Authorization" type="string" required>
+
+
+HTTP bearer authentication. Send the token as `Authorization: Bearer &lt;token&gt;`. Ledger API standard JWT token
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+### apiKeyAuth
+
+
+
+
+
+
+<ParamField header="Sec-WebSocket-Protocol" type="string" required>
+
+
+API key authentication in the header. Ledger API standard JWT token (websocket)
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+
+
+## Body
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ParamField body="contractId" type="string" required>
+
+
+The ID of the contract. Must be a valid LedgerString (as described in ``value.proto``). Required
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="queryingParties" type="string[]">
+
+
+The list of querying parties The stakeholders of the referenced contract must have an intersection with any of these parties to return the result. If no querying_parties specified, all possible contracts could be returned. Optional: can be empty
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+
+## Responses
+
+
+### 200
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="createdEvent" type="CreatedEvent" required>
+
+Records that a contract has been created, and choices may now be exercised on it.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="offset" type="integer (int64)" required>
+
+The offset of origin, which has contextual meaning, please see description at messages that include a CreatedEvent. Offsets are managed by the participant nodes. Transactions can thus NOT be assumed to have the same offsets on different participant nodes. It is a valid absolute offset (positive integer) Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="nodeId" type="integer (int32)" required>
+
+The position of this event in the originating transaction or reassignment. The origin has contextual meaning, please see description at messages that include a CreatedEvent. Node IDs are not necessarily equal across participants, as these may see different projections/parts of transactions. Must be valid node ID (non-negative integer) Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="contractId" type="string" required>
+
+The ID of the created contract. Must be a valid LedgerString (as described in ``value.proto``). Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="templateId" type="string" required>
+
+The template of the created contract. The identifier uses the package-id reference format. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="contractKey" type="object">
+
+The key of the created contract. This will be set if and only if ``template_id`` defines a contract key. Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="contractKeyHash" type="string">
+
+The hash of contract_key. This will be set if and only if ``template_id`` defines a contract key. Optional: can be empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="createArgument" type="object" required>
+
+The arguments that have been used to create the contract. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="createdEventBlob" type="string">
+
+Opaque representation of contract create event payload intended for forwarding to an API server as a contract disclosed as part of a command submission. Optional: can be empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="interfaceViews" type="JsInterfaceView[]">
+
+Interface views specified in the transaction filter. Includes an ``InterfaceView`` for each interface for which there is a ``InterfaceFilter`` with - its party in the ``witness_parties`` of this event, - and which is implemented by the template of this event, - and which has ``include_interface_view`` set. Optional: can be empty
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="interfaceId" type="string" required>
+
+The interface implemented by the matched event. The identifier uses the package-id reference format. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="viewStatus" type="JsStatus" required>
+
+Whether the view was successfully computed, and if not, the reason for the error. The error is reported using the same rules for error codes and messages as the errors returned for API requests. Required
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="code" type="integer (int32)" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="message" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="details" type="ProtoAny[]">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="typeUrl" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="value" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="unknownFields" type="UnknownFieldSet" required>
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="fields" type="Map_Int_Field" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="valueDecoded" type="string">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="viewValue" type="object">
+
+The value of the interface&#x27;s view method on this event. Set if it was requested in the ``InterfaceFilter`` and it could be successfully computed. Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="implementationPackageId" type="string">
+
+The package defining the interface implementation used to compute the view. Can be different from the package that was used to create the contract itself, as the contract arguments can be upgraded or downgraded using smart-contract upgrading as part of computing the interface view. Populated if the view computation is successful, otherwise empty. Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="witnessParties" type="string[]" required>
+
+The parties that are notified of this event. When a ``CreatedEvent`` is returned as part of a transaction tree or ledger-effects transaction, this will include all the parties specified in the ``TransactionFilter`` that are witnesses of the event (the stakeholders of the contract and all informees of all the ancestors of this create action that this participant knows about). If served as part of a ACS delta transaction those will be limited to all parties specified in the ``TransactionFilter`` that are stakeholders of the contract (i.e. either signatories or observers). If the ``CreatedEvent`` is returned as part of an AssignedEvent, ActiveContract or IncompleteUnassigned (so the event is related to an assignment or unassignment): this will include all parties of the ``TransactionFilter`` that are stakeholders of the contract. The behavior of reading create events visible to parties not hosted on the participant node serving the Ledger API is undefined. Concretely, there is neither a guarantee that the participant node will serve all their create events on the ACS stream, nor is there a guarantee that matching archive events are delivered for such create events. For most clients this is not a problem, as they only read events for parties that are hosted on the participant node. If you need to read events for parties that may not be hosted at all times on the participant node, subscribe to the ``TopologyEvent``s for that party by setting a corresponding ``UpdateFormat``. Using these events, query the ACS as-of an offset where the party is hosted on the participant node, and ignore create events at offsets where the party is not hosted on the participant node. Required: must be non-empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="signatories" type="string[]" required>
+
+The signatories for this contract as specified by the template. Required: must be non-empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="observers" type="string[]">
+
+The observers for this contract as specified explicitly by the template or implicitly as choice controllers. This field never contains parties that are signatories. Optional: can be empty
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="createdAt" type="string" required>
+
+Ledger effective time of the transaction that created the contract. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="packageName" type="string" required>
+
+The package name of the created contract. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="representativePackageId" type="string" required>
+
+A package-id present in the participant package store that typechecks the contract&#x27;s argument. This may differ from the package-id of the template used to create the contract. For contracts created before Canton 3.4, this field matches the contract&#x27;s creation package-id. NOTE: Experimental, server internal concept, not for client consumption. Subject to change without notice. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="acsDelta" type="boolean" required>
+
+Whether this event would be part of respective ACS_DELTA shaped stream, and should therefore considered when tracking contract activeness on the client-side. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+
+
+### 400
+
+Invalid value, Invalid value for: body
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">text/plain</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="value" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+### default
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="code" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="cause" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="correlationId" type="string">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="traceId" type="string">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="context" type="Map_String" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="resources" type="Tuple2_String_String[]">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="errorCategory" type="integer (int32)" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="grpcCodeValue" type="integer (int32)">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="retryInfo" type="string">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="definiteAnswer" type="boolean">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+
+
+## History
+
+<div class="x2mdx-ref-history" aria-label="Reference history">
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-3-5">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">3.5</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">The POST /v2/contracts/contract-by-id operation changed in this snapshot.</p>
+
+  </div>
+
+</div>

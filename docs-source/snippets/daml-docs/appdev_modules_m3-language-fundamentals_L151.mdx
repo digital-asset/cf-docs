@@ -1,0 +1,8 @@
+```haskell
+uncurry1 f t = f t._1 t._2
+
+uncurry2 f t = case t of
+  (x, y) -> f x y
+
+uncurry f (x, y) = f x y
+```

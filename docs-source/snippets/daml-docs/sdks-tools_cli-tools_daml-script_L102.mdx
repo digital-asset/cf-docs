@@ -1,0 +1,7 @@
+```haskell
+-- Query all active contracts of a type visible to a party
+contracts <- query @MyTemplate alice
+
+-- Query a specific contract by ID
+optContract <- queryContractId alice cid
+```

@@ -1,0 +1,76 @@
+---
+title: 'Quickstart'
+description: 'Install the Wallet SDK, configure it, create a key pair and party, and create and submit a transfer.'
+---
+
+import DamlDocsSdksToolsSdksWalletSdkL69 from "/snippets/daml-docs/sdks-tools_sdks_wallet-sdk_L69.mdx";
+import DamlDocsSdksToolsSdksWalletSdkL93 from "/snippets/daml-docs/sdks-tools_sdks_wallet-sdk_L93.mdx";
+import DamlDocsSdksToolsSdksWalletSdkL129 from "/snippets/daml-docs/sdks-tools_sdks_wallet-sdk_L129.mdx";
+import DamlDocsSdksToolsSdksWalletSdkL144 from "/snippets/daml-docs/sdks-tools_sdks_wallet-sdk_L144.mdx";
+import DamlDocsSdksToolsSdksWalletSdkL161 from "/snippets/daml-docs/sdks-tools_sdks_wallet-sdk_L161.mdx";
+import DamlDocsSdksToolsSdksWalletSdkL205 from "/snippets/daml-docs/sdks-tools_sdks_wallet-sdk_L205.mdx";
+import DamlDocsSdksToolsSdksWalletSdkL214 from "/snippets/daml-docs/sdks-tools_sdks_wallet-sdk_L214.mdx";
+import CantonIntegrationsWalletSdkDownloadL14 from "/snippets/canton-docs/integrations_wallet_sdk-download_L14.mdx";
+import CantonIntegrationsWalletSdkDownloadL20 from "/snippets/canton-docs/integrations_wallet_sdk-download_L20.mdx";
+
+## Prerequisites
+
+- Node.js (v18+)
+- A running Canton validator node (either self-hosted or via a node-as-a-service provider). Any network validator 
+can be used -- [Splice LocalNet](/sdks-tools/development-tools/localnet) is convenient for development and testing, 
+but DevNet, TestNet, or MainNet validators work as well.
+
+## Installation
+
+The Wallet SDK is available as a package on the NPM registry. You can install it using your preferred package manager.
+
+<Tabs>
+  <Tab title="npm">
+  <CantonIntegrationsWalletSdkDownloadL14 />
+  </Tab>
+  <Tab title="yarn">
+  <CantonIntegrationsWalletSdkDownloadL20 />
+  </Tab>
+  <Tab title="pnpm">
+  ```shell
+  pnpm add @canton-network/wallet-sdk
+  ```
+  </Tab>
+</Tabs>
+
+Alternatively, to do dApp development only, the dApp SDK can be used which has a smaller bundle size and is optimized for browser usage. The dApp SDK can be installed with:
+
+    <Tabs>
+    <Tab title="npm">
+        ```shell
+        npm install @canton-network/dapp-sdk
+        ```
+    </Tab>
+    <Tab title="yarn">
+        ```shell
+        yarn add @canton-network/dapp-sdk
+        ```
+    </Tab>
+    <Tab title="pnpm">
+        ```shell
+        pnpm add @canton-network/dapp-sdk
+        ```
+    </Tab>
+</Tabs>
+
+Both SDKs use the same underlying core packages and where only partial code is needed (like for transaction visualization or hash verification) those packages can be used independently.
+
+## Configuration
+
+The SDK requires configuration for authentication, ledger access, and token standard connectivity. For local development against a Splice LocalNet, 
+you can use the built-in defaults:
+
+<DamlDocsSdksToolsSdksWalletSdkL69 />
+
+When moving to a production or non-LocalNet environment, you need custom factory functions that point to your specific endpoints. See 
+[Configuration](/sdks-tools/sdks/wallet-sdk/using-the-sdk/configuration) for details.
+
+## Next steps
+
+- [Guides](/sdks-tools/sdks/wallet-sdk/guides/creating-an-external-party) — See how to create external parties, read data, signing transactions, and more
+- [Using the SDK: Configuration](/sdks-tools/sdks/wallet-sdk/using-the-sdk/configuration) — configure the SDK for other environments

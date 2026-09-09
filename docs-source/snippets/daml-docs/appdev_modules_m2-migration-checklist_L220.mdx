@@ -1,0 +1,18 @@
+```haskell
+-- Daml Script test
+testTransfer = script do
+  alice <- allocateParty "Alice"
+  bob <- allocateParty "Bob"
+
+  -- Alice creates a token
+  tokenId <- submit alice do
+    createCmd Token with owner = alice, issuer = alice, amount = 100.0
+
+  -- Alice transfers to Bob
+  newTokenId <- submit alice do
+    exerciseCmd tokenId Transfer with newOwner = bob
+
+  -- Verify Bob owns it
+  Some token <- queryContractId bob newTokenId
+  assert (token.owner == bob)
+```

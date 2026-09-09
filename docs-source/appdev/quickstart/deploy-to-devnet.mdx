@@ -1,0 +1,723 @@
+---
+title: "Deploy Quickstart to DevNet"
+description: "Deploy the Canton Network Quickstart application from LocalNet to DevNet, including validator request, VPN setup, and end-to-end workflow verification."
+---
+
+import CantonGlobalSynchronizerDeploymentInstallationL41 from "/snippets/canton-docs/global-synchronizer_deployment_installation_L41.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash96 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-96.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash174 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-174.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash233 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-233.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash245 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-245.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash265 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-265.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash291 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-291.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash310 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-310.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash345 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-345.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash390 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-390.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetText396 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-text-396.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash424 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-424.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash430 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-430.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash436 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-436.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetText442 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-text-442.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash451 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-451.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash465 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-465.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash475 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-475.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash489 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-489.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash503 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-503.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash509 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-509.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash569 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-569.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash577 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-577.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash586 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-586.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash595 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-595.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash607 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-607.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash618 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-618.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash625 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-625.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash635 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-635.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash642 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-642.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash649 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-649.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash659 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-659.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash666 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-666.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetYaml689 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-yaml-689.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash728 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-728.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash737 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-737.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash744 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-744.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash761 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-761.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash770 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-770.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash776 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-776.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash785 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-785.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetText789 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-text-789.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash794 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-794.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash805 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-805.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash811 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-811.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash817 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-817.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash837 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-837.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash843 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-843.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash849 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-849.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash855 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-855.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash866 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-866.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash877 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-877.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash886 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-886.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash892 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-892.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash905 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-905.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash911 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-911.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash920 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-920.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash926 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-926.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash932 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-932.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash938 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-938.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash945 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-bash-945.mdx";
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetText954 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-text-954.mdx";
+
+{/* COPIED_START source="docs-website:docs/replicated/quickstart/3.5/sdk/quickstart/operate/deploy-quickstart-to-devnet.rst" hash="d9f5e11c" */}
+
+## Overview
+
+In this guide, you'll deploy the Quickstart app from LocalNet to DevNet.
+You'll deploy the original DAR, deploy to the backend, frontend and test
+the workflow.
+
+You should have the Quickstart application
+*installed* and understand the
+[Project Structure](/appdev/quickstart/project-structure) guide.
+
+## DevNet validator prerequisite
+
+You must have successfully submitted a validator request to successfully
+complete this guide.
+
+Submit your request at:
+[https://canton.foundation/apply-to-set-up-a-validator-node/](https://canton.foundation/apply-to-set-up-a-validator-node/)
+
+Visit the global synchronizer docs to learn more about the validator
+onboarding process and how to deploy a validator with Docker Compose.
+
+You can find up-to-date Canton Foundation DevNet Super Validator Node
+Information at: [https://canton.foundation/sv-network-status/](https://canton.foundation/sv-network-status/)
+
+## Architectural overview
+
+The Quickstart DevNet deployment splits across two components:
+
+-   **splice-node**: Provides the validator infrastructure (participant,
+    validator, wallet-ui, ans-ui)
+-   **cn-quickstart**: Provides the application layer (keycloak, pqs,
+    backend-service, frontend)
+
+```mermaid
+flowchart TB
+    subgraph SN["splice-node"]
+        direction LR
+        P["Participant<br/>:8080"]
+        V["Validator<br/>:5012"]
+        W["Wallet-UI<br/>:3000"]
+        A["ANS-UI<br/>:3000"]
+    end
+    subgraph CQ["cn-quickstart"]
+        direction LR
+        K["Keycloak<br/>:8082"]
+        PQ["PQS<br/>(scribe)"]
+        B["Backend<br/>:8089"]
+        F["Frontend<br/>:5173"]
+    end
+    P -->|Ledger API| B
+    V -->|Registry API| B
+```
+
+{/* LOCAL_MODIFICATION: the architectural overview diagram was converted from ASCII box-drawing to mermaid for consistency with other diagrams in the project. The upstream snippet (cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-deploy-quickstart-to-devnet-text-37.mdx) contains the original ASCII art. */}
+
+`splice-node` ports are internal container ports and routed via nginx by
+hostname. `cn-quickstart` ports are directly exposed.
+
+The frontend communicates with the backend via HTTP REST calls to
+`/api/*` endpoints. The Vite development server proxies these requests
+to the backend, which translates them into Ledger API calls. For a
+detailed explanation of this fully mediated architecture, see
+[Project Structure](/appdev/quickstart/project-structure).
+
+## Quickstart configuration for DevNet
+
+Quickstart environment variables are set for `LocalNet` usage by
+default, but ledger connections differ between `LocalNet` and `DevNet`
+configurations. For example:
+
+| Variable      | LocalNet Value | DevNet Value                |
+|---------------|----------------|-----------------------------|
+| `LEDGER_HOST` | `localhost`    | `grpc-ledger-api.localhost` |
+| `LEDGER_PORT` | `5001`         | `80` or `8080`              |
+
+## Configure Host entries
+
+`nginx.conf` uses virtual hosting to route requests to backend services.
+As a result, nginx inspects your `Host` HTTP header to determine backend
+routing. Add explicit host entires for reliable routing.
+
+Add these entries to `/etc/hosts`:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash96 />
+
+You only need to complete this step one time.
+
+| Host Entry                  | URL                                   | Purpose                                      |
+|-------------------|--------------------------------|----------------------|
+| `json-ledger-api.localhost` | `http://json-ledger-api.localhost/`   | JSON Ledger API (REST commands, DAR uploads) |
+| `grpc-ledger-api.localhost` | `http://grpc-ledger-api.localhost/`   | gRPC Ledger API (backend's `LEDGER_HOST`)    |
+| `validator.localhost`       | `http://validator.localhost/`         | Validator application API                    |
+| `wallet.localhost`          | `http://wallet.localhost/`            | Canton Wallet web interface                  |
+| `app-provider.localhost`    | `http://app-provider.localhost:5173/` | Quickstart frontend web interface            |
+| `participant.localhost`     | `http://participant.localhost/`       | Participant admin/metrics                    |
+| `ans.localhost`             | `http://ans.localhost/`               | Canton Name Service (ANS) web interface      |
+| `keycloak.localhost`        | `http://keycloak.localhost:8082/`     | OAuth2/OIDC provider                         |
+
+DevNet Host Entries
+
+The nginx proxy routes based on hostname. Default port is 80. MacOS
+users may need to change the validator port from 80 to 8080 to avoid
+`vmnetd` errors. See `vmnetd-error` in the Troubleshooting section.
+
+## Download the Splice node release bundle
+
+In `DevNet`, your Splice node validator runs locally and connects to the `DevNet` synchronizer.
+Download and extract the Splice node bundle by following the Requirements
+step in the [Docker Compose Validator Deployment guide](/global-synchronizer/deployment/validator-docker-compose#requirements).
+
+The extracted `splice-node` directory and `cn-quickstart` should be
+siblings to one another:
+
+```bash
+.
+└── Canton_Network_App_Dev
+    ├── cn-quickstart
+    └── splice-node
+```
+
+<Note>
+Find the most recent Splice release on the [canton-network/splice releases page](https://github.com/canton-network/splice/releases).
+</Note>
+
+## Navigate to the validator's Docker Compose directory
+
+<CantonGlobalSynchronizerDeploymentInstallationL41 />
+
+## Connect to a Canton Network Validator Node
+
+Navigate to your OS's VPN settings, then connect to your sponsoring
+validator node.
+
+VPN access is required for `DevNet`. Contact your sponsoring SV for VPN
+credentials.
+
+### Mac OS
+
+Settings \> VPN
+
+![Mac OS VPN settings](/images/quickstart-devnet/devnet-settings-menu-mac-os.png)
+
+Enable your Canton Network VPN
+
+<img src="/images/quickstart-devnet/devnet-settings-vpn-mac-os.png" width="400"
+alt="Enable VPN" />
+
+### Linux
+
+Network \> VPN
+
+<img src="/images/quickstart-devnet/devnet-linux-vpn-settings.png" width="400"
+alt="Linux VPN settings" />
+
+## Clean Docker
+
+Clear Docker If this is not your first time connecting to `DevNet` so
+that stale containers do not interfere.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash233 />
+
+## Get network information
+
+### Retrieve DevNet migration ID and Splice version
+
+In terminal, from the `/validator` directory run:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash245 />
+
+Verify that the Splice version matches the splice-node version that you
+recently downloaded and unzipped. Minor Splice versions change on a
+regular basis. You may elect to hard code `SPLICE_VERSION` rather than
+saving the most recent version, e.g. `SPLICE_VERSION=0.6.4`
+
+### Get the onboarding secret
+
+You may use the following Super Validator URL if you are connected to
+the Canton Network Global Synchronizer. If not, your sponsoring SV will
+provide the appropriate URL. In this case, you must replace the provided
+`SPONSOR_SV_URL` with your provided URL.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash265 />
+
+<div class="tip" markdown="1">
+
+<div class="title" markdown="1">
+
+Tip
+
+</div>
+
+The onboarding secret is only good for 1 hour. If containers ever show
+unhealthy, try requesting a new onboarding secret as your first step in
+troubleshooting.
+
+</div>
+
+### Party Hint
+
+Set a Party Hint. The party hint must match the expected hint that is
+established when running `make setup` from `cn-quickstart/quickstart`.
+
+If you don't remember your party hint, you can open a terminal and
+navigate to `cn-quickstart/quickstart/`, then run `make setup`.
+
+The default party hint is `quickstart-USERNAME-1`
+
+Return to the terminal in the `validator` directory. Set `PARTY_HINT`.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash291 />
+
+This value must match the expected party hint.
+
+## Authentication
+
+<div class="note" markdown="1">
+
+<div class="title" markdown="1">
+
+Note
+
+</div>
+
+If you would like to connect to `DevNet` without authentication, you may
+skip this section and initiate the `start.sh` script without the `-a`
+flag.
+
+</div>
+
+Update authentication variables in
+`splice-node/docker-compose/validator/.env` using Quickstart's
+pre-configured Keycloak values. The following Authentication values can
+be found in `cn-quickstart`'s keycloak `env`, realm and user JSON files.
+Files include
+`quickstart/quickstart/docker/modules/keycloak/compose.env`,
+`AppProvider-realm.json`, and `AppProvider-users-0.json`.
+
+`splice-node/docker-compose/validator/.env`
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash310 />
+
+<div class="note" markdown="1">
+
+<div class="title" markdown="1">
+
+Note
+
+</div>
+
+These are development secrets and should be changed for production.
+
+</div>
+
+## Start the validator with the start.sh script.
+
+Verify that you are in the `validator` directory, then run this command
+to connect to `DevNet`:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash345 />
+
+### Flag descriptions
+
+| Flag | Description                                |
+|------|--------------------------------------------|
+| `-s` | Sponsor SV URL                             |
+| `-o` | Onboarding secret                          |
+| `-p` | Your unique party hint                     |
+| `-m` | Migration ID (a non-negative integer)      |
+| `-w` | Wait for validator to be fully operational |
+| `-a` | Enable authentication                      |
+
+<div class="note" markdown="1">
+
+<div class="title" markdown="1">
+
+Note
+
+</div>
+
+You can omit the `-a` flag to skip authentication setup. This may make
+initial testing easier, but you should enable authentication for
+production use.
+
+</div>
+
+While `DevNet` is starting, move on to the next step. (You'll need to
+complete the next step before `DevNet` is able to connect).
+
+## Spin up the Quickstart DevNet
+
+In a second terminal, navigate to the Quickstart `DevNet` Docker Compose
+directory.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash390 />
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetText396 />
+
+`DevNet` connects shortly after spinning up the docker containers. A
+successful connection shows healthy containers.
+
+<img src="/images/quickstart-devnet/devnet-validator-start-complete.png" width="1000"
+alt="Healthy containers" />
+
+<div class="note" markdown="1">
+
+<div class="title" markdown="1">
+
+Note
+
+</div>
+
+See the Troubleshooting section if you experience a `vmnetd` error.
+
+</div>
+
+## Build and upload the DAR
+
+Return to the `/quickstart` directory.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash424 />
+
+Then build the Daml code.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash430 />
+
+Verify that the `DAR` was created.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash436 />
+
+If successful, this command returns the `DAR` file.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetText442 />
+
+## Upload the DAR to your DevNet validator
+
+Get a token from Keycloak to make an authenticated request:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash451 />
+
+(Note that the `client_secret` matches the `app-provider-validator`'s
+`secret` in Keycloak's `AppProvider-realm.json`).
+
+From the `/quickstart` directory, upload the `DAR` to your `DevNet`
+validator (MacOS users replace `${LEDGER_PORT}` with `8080`):
+
+### MacOS
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash465 />
+
+### Linux
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash475 />
+
+An empty response of `{}` indicates a successful upload.
+
+## Build the Backend
+
+Build the backend from the `/quickstart` directory:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash489 />
+
+## Configure Quickstart frontend for DevNet
+
+The frontend communicates with the backend via HTTP REST calls to
+`/api/*` endpoints. The Vite development server proxies these requests
+to the backend, which translates them into Ledger API calls to the
+`DevNet` participant. Review `vite.config.ts` for details.
+
+Build the frontend from the `/quickstart` directory:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash503 />
+
+Start the Vite development server.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash509 />
+
+The frontend runs on `port 5173`. Open your browser to:
+
+[http://app-provider.localhost:5173](http://app-provider.localhost:5173)
+
+It's extremely important to prepend `localhost` with `app-provider` in
+order to successfully log in through Keycloak.
+
+Select AppProvider
+
+<img src="/images/quickstart-devnet/devnet-app-provider-localhost-login.png" width="400"
+alt="Select AppProvider" />
+
+Login as `app-provider` with password `abc123`
+
+<img src="/images/quickstart-devnet/devnet-app-provider.png" width="400"
+alt="Login screen" />
+
+You sign in to the App Provider's Quickstart homepage. Congratulations!
+You've launched Quickstart to `DevNet`!
+
+<img src="/images/quickstart-devnet/devnet-app-provider-on-devnet-home.png" width="800"
+alt="Quickstart homepage" />
+
+<div class="note" markdown="1">
+
+<div class="title" markdown="1">
+
+Note
+
+</div>
+
+Quickstart won't immediately operate as it does on `LocalNet`. You'll
+need to refactor to resolve connectivity issues. Perhaps begin with
+`make create-app-install-request`.
+
+</div>
+
+## Appendix
+### Recipes
+#### Start and stop scripts
+In the future, use the provided `start.sh` and `stop.sh` scripts to
+quickly start and stop Quickstart `DevNet` Docker containers.
+
+Use `./start.sh` to run a live log stream in terminal. (exit with
+ctrl+c) Opt for `./start.sh -d` to spin up the containers without a log
+stream.
+
+Stop all of the Quickstart `DevNet` Docker containers with `./stop.sh`.
+You may also remove the volumes with `./stop.sh -v`.
+
+#### Health check
+You can check that Docker services are connected by checking
+`docker ps`. To check a specific service use grep. e.g.
+`docker ps | grep backend-service`.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash569 />
+
+Via, CURL, get a token and then ping the service.
+
+Get an auth token:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash577 />
+
+Call the service of your choice:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash586 />
+
+#### Super validator connectivity check
+You may make a connectivity check to the `DevNet` super validator at
+anytime:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash595 />
+
+![Super validator connectivity check](/images/quickstart-devnet/devnet-canton-network-devnet-connectivity-check.png)
+
+#### View tables
+You can explore the container schema by querying the list of tables.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash607 />
+
+#### Confirm current migration ID
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash618 />
+
+#### Find DSO fingerprint
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash625 />
+
+### Docker
+#### Read docker logs
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash635 />
+
+#### Kill running containers
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash642 />
+
+#### Stop gracefully
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash649 />
+
+`docker ps -q` lists the container IDs of running containers `$()`
+passes those IDs to the kill or stop command
+
+#### Remove containers after stopping
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash659 />
+
+#### One command
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash666 />
+
+### Troubleshooting
+#### Resolve vmnetd errorIf you experience a `vmnetd` error response then the most
+straightforward solution is to update the validator compose port from 80
+to 8080.
+
+![vmnetd error](/images/quickstart-devnet/devnet-vmnetd-error-message.png)
+
+If necessary, to resolve "vmnetd running errors", find `nginx` service
+in `splice-node/docker-compose/validator/compose.yaml`. It is currently
+at line 163. Change port `80:80` in `"${HOST_BIND_IP:-127.0.0.1}:80:80"`
+to `8080:80`.
+
+`splice-node/docker-compose/validator/compose.yaml`
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetYaml689 />
+
+#### Troubleshoot frontend JavaScript mapping errors
+##### Switch BACKEND_PORT from 8080 to 8089
+Open `cn-quickstart/quickstart/.env` in a text editor and change
+`BACKEND_PORT=8080` to `BACKEND_PORT=8089`.
+
+##### Update proxyReq in vite configuration
+Change line 35 in `vite.config.ts` from
+`proxyReq.setHeader('host', 'app-provider.localhost')` to
+`proxyReq.setHeader('host', 'app-provider.localhost:5173')`.
+
+##### Ping app-provider.localhost
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash728 />
+
+If successful, navigate to the app at
+[http://app-provider.localhost:5173](http://app-provider.localhost:5173) and login.
+
+##### Check backend-service logs for errors
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash737 />
+
+##### Find the login options
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash744 />
+
+##### Get token for backend API access
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash577 />
+
+##### Verify token was retrieved
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash761 />
+
+##### Query data from PQS
+Query app install requests
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash770 />
+
+Query license data
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash776 />
+
+#### Error port is already in use
+If terminal shows `Error: Port 5173 is already in use` identify and kill
+the associated node process, then run your command again.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash785 />
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetText789 />
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash794 />
+
+#### Restart unhealthy Docker containers
+If you have trouble connecting to healthy containers, restart the Docker
+containers and capture full logs.
+
+Stop the container
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash805 />
+
+Start fresh and capture the logs
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash811 />
+
+Read logs in terminal:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash817 />
+
+Replace `splice-validator-validator-1` with the desired container.
+
+#### Keycloak
+<div class="note" markdown="1">
+
+<div class="title" markdown="1">
+
+Note
+
+</div>
+
+You can login to the Keycloak admin GUI at
+`http://host.docker.internal:8082/` Use `admin` for the username and
+password.
+
+</div>
+
+<img src="/images/quickstart-devnet/devnet-keycloak-admin-login.png" width="400"
+alt="Keycloak admin GUI" />
+
+Check Keycloak logs:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash837 />
+
+Check PostgreSQL:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash843 />
+
+Check the OIDC discovery endpoint:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash849 />
+
+Get an OAuth2 `AppProvider realm` token:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash855 />
+
+Get an OAuth2 `AppUser realm` token:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash866 />
+
+Check Keycloak's public key location:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash877 />
+
+Expected response is
+`"http://host.docker.internal:8082/realms/AppProvider"`
+
+#### Unable to login to Keycloak as admin
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash886 />
+
+The following command disables the SSL requirements for the master realm
+and allows you to login as admin at `localhost:8082`.
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash892 />
+
+#### Splice-onboarding troubleshooting
+Find specific env values:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash905 />
+
+Restart the `splice-onboarding` container:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash911 />
+
+Watch the logs:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash920 />
+
+Query `splice-onboarding` networks:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash926 />
+
+Check which network the `splice-validator-nginx` is on:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash932 />
+
+Then inspect that container to see its network:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash938 />
+
+Check if `splice-onboarding` is initialized:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetBash945 />
+
+#### Splice-onboarding connection issue
+If you run `splice-onboarding` logs and see:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateDeployQuickstartToDevnetText954 />
+
+Then there is likely an error in `LEDGER_HOST` or `LEDGER_PORT`. Unset
+the variables or quit and restart terminal.
+
+{/* COPIED_END */}

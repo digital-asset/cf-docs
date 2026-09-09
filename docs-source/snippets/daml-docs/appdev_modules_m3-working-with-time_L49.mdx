@@ -1,0 +1,10 @@
+```haskell
+template TransferProposal
+  with
+    coin: Coin
+    newOwner: Party
+  where
+    signatory coin.owner
+    signatory coin.issuer
+    observer newOwner
+```

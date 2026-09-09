@@ -1,0 +1,17 @@
+```typescript
+import {
+    WalletSDKImpl,
+    localNetAuthDefault,
+    localNetLedgerDefault,
+    localNetTokenStandardDefault,
+    localValidatorDefault,
+} from '@canton-network/wallet-sdk'
+
+const sdk = new WalletSDKImpl().configure({
+    logger: console,
+    authFactory: localNetAuthDefault,
+    ledgerFactory: localNetLedgerDefault,
+    tokenStandardFactory: localNetTokenStandardDefault,
+    validatorFactory: localValidatorDefault,
+})
+```

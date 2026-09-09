@@ -1,0 +1,21 @@
+```haskell
+template Token
+  with
+    owner : Party
+    issuer : Party
+    amount : Decimal
+  where
+    signatory issuer
+    observer owner
+
+    choice Transfer : ContractId Token
+      with
+        newOwner : Party
+        transferAmount : Decimal
+      controller owner
+      do
+        -- This contract will be archived
+        -- Create new contracts for the split
+        create Token with owner = newOwner, issuer, amount = transferAmount
+        create this with amount = amount - transferAmount
+```

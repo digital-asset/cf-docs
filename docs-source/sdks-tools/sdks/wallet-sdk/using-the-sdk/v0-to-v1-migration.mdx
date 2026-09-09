@@ -1,0 +1,229 @@
+---
+title: "SDK v0 to v1 Migration Guide"
+description: "Migrate the Wallet SDK from v0 to v1."
+---
+
+Wallet SDK v1 is not backwards compatible with v0.
+
+**Quick links**
+
+- [Configuration](/sdks-tools/sdks/wallet-sdk/using-the-sdk/configuration) — Detailed configuration guide
+- [Preparing and signing a transaction](/sdks-tools/sdks/wallet-sdk/guides/preparing-and-signing-a-transaction) — Preparing and signing transactions
+- [Migration cheat sheet](/sdks-tools/sdks/wallet-sdk/using-the-sdk/v0-to-v1-migration/migration-cheat-sheet) — Full v0 → v1 method lookup
+
+We have removed the configure() and connect() pattern in favor of passing in a static configuration or a provider with ledger api capabilities.
+
+Static configuration initialization where we supply an auth config and a ledgerClientUrl:
+
+```typescript
+import { SDK, localNetStaticConfig } from "@canton-network/wallet-sdk";
+
+export default async function () {
+  const sdk = await SDK.create({
+    auth: {
+      method: "self_signed",
+      issuer: "unsafe-auth",
+      credentials: {
+        clientId: "ledger-api-user",
+        clientSecret: "unsafe",
+        audience: "https://canton.network.global",
+        scope: "",
+      },
+    },
+    ledgerClientUrl: new URL("http://localhost:2975"),
+    token: {
+      registries: [
+        new URL("http://localhost:2000/api/validator/v0/scan-proxy"),
+      ],
+      auth: global.TOKEN_PROVIDER_CONFIG_DEFAULT,
+    },
+    amulet: {
+      scanApiUrl: localNetStaticConfig.LOCALNET_SCAN_API_URL,
+      auth: TOKEN_PROVIDER_CONFIG_DEFAULT,
+      registryUrl: localNetStaticConfig.LOCALNET_REGISTRY_API_URL,
+    },
+    asset: {
+      registries: [localNetStaticConfig.LOCALNET_REGISTRY_API_URL],
+      auth: TOKEN_PROVIDER_CONFIG_DEFAULT,
+    },
+  });
+
+  const myParty = global.EXISTING_PARTY_1;
+
+  await sdk.token.utxos.list({ partyId: myParty });
+
+  await sdk.amulet.traffic.status();
+
+  // OR, you can defer loading config by calling .extend()
+
+  const basicSDK = await SDK.create({
+    auth: {
+      method: "self_signed",
+      issuer: "unsafe-auth",
+      credentials: {
+        clientId: "ledger-api-user",
+        clientSecret: "unsafe",
+        audience: "https://canton.network.global",
+        scope: "",
+      },
+    },
+    ledgerClientUrl: new URL("http://localhost:2975"),
+  });
+
+  // Extend with token namespace
+  const tokenExtendedSDK = await basicSDK.extend({
+    token: {
+      validatorUrl: new URL("http://localhost:2000/api/validator"),
+      registries: [
+        new URL("http://localhost:2000/api/validator/v0/scan-proxy"),
+      ],
+      auth: global.TOKEN_PROVIDER_CONFIG_DEFAULT,
+    },
+  });
+
+  // Now token namespace is available
+  await tokenExtendedSDK.token.utxos.list({ partyId: myParty });
+
+  // Can extend further with more namespaces
+  const fullyExtendedSDK = await tokenExtendedSDK.extend({
+    amulet: {
+      validatorUrl: localNetStaticConfig.LOCALNET_APP_VALIDATOR_URL,
+      scanApiUrl: localNetStaticConfig.LOCALNET_SCAN_API_URL,
+      auth: global.TOKEN_PROVIDER_CONFIG_DEFAULT,
+      registryUrl: localNetStaticConfig.LOCALNET_REGISTRY_API_URL,
+    },
+  });
+
+  // Now both token and amulet are available
+  await fullyExtendedSDK.token.utxos.list({ partyId: myParty });
+  await fullyExtendedSDK.amulet.traffic.status();
+}
+```
+
+Provider intialization: The provider is an abstraction that ultimately interacts with the Ledger (JSON LAPI). This can be implemented for either a dApp consumer, direct ledger user, or alternative transport channels such as Wallet Connect.
+
+```javascript
+// Notice that `auth` and `ledgerClientUrl` are no longer needed
+// when supplying sdk with custom provider
+const sdk = await SDK.create(config, provider);
+```
+
+## Namespace changes
+
+We have removed the controllers and replaced them with namespaces to appropriately segregate the service layer in terms of business context. When the sdk is initialized, it has access to the users, keys, ledger, and party namespaces. The amulet, token, asset, and events namespaces can be initialized with a separate config via the `.extend()` method.
+
+## Find your migration path
+
+Jump to the page that matches the work you are migrating:
+
+<CardGroup cols={2}>
+  <Card
+    title="Allocate or list parties"
+    icon="users"
+    href="/sdks-tools/sdks/wallet-sdk/using-the-sdk/v0-to-v1-migration/party"
+  >
+    Internal and external parties, offline signing, and replacing `setPartyId`.
+  </Card>
+  <Card
+    title="Transfers, holdings, UTXOs, allocations"
+    icon="arrow-right-arrow-left"
+    href="/sdks-tools/sdks/wallet-sdk/using-the-sdk/v0-to-v1-migration/token"
+  >
+    Replace `tokenStandard` transfer, holding, UTXO, and allocation APIs.
+  </Card>
+  <Card
+    title="Users and rights"
+    icon="user-gear"
+    href="/sdks-tools/sdks/wallet-sdk/using-the-sdk/v0-to-v1-migration/user"
+  >
+    Create users and grant rights without separate admin/user ledger
+    controllers.
+  </Card>
+  <Card
+    title="Canton Coin, traffic, preapprovals, tap"
+    icon="coins"
+    href="/sdks-tools/sdks/wallet-sdk/using-the-sdk/v0-to-v1-migration/amulet"
+  >
+    Migrate amulet-specific traffic, preapproval, featured-app, and tap flows.
+  </Card>
+  <Card
+    title="Prepare, sign, execute, ACS, DARs"
+    icon="file-signature"
+    href="/sdks-tools/sdks/wallet-sdk/using-the-sdk/v0-to-v1-migration/ledger"
+  >
+    Replace `prepareSignExecuteAndWaitFor` with the prepare/sign/execute chain.
+  </Card>
+  <Card
+    title="Discover assets and instruments"
+    icon="magnifying-glass"
+    href="/sdks-tools/sdks/wallet-sdk/using-the-sdk/v0-to-v1-migration/asset"
+  >
+    List and find instruments through the dedicated asset namespace.
+  </Card>
+  <Card
+    title="Keys and events"
+    icon="key"
+    href="/sdks-tools/sdks/wallet-sdk/using-the-sdk/v0-to-v1-migration#keys-and-events"
+  >
+    Key generation and ledger update/completion subscriptions.
+  </Card>
+  <Card
+    title="Full method cheat sheet"
+    icon="table"
+    href="/sdks-tools/sdks/wallet-sdk/using-the-sdk/v0-to-v1-migration/migration-cheat-sheet"
+  >
+    Searchable v0 controller → v1 namespace method mapping table.
+  </Card>
+</CardGroup>
+
+## Removed functionality
+
+The following methods have been removed:
+
+`sdk.connect()` No longer needed, SDK is connected on creation `sdk.connectAdmin()` No longer needed, admin operations are available in the ledger namespace and rights are extracted from the token. `sdk.connectTopology()` No longer needed, the grpc endpoints have been removed and replaced with ledger api endpoints. `sdk.setPartyId()` Pass `partyId` explicitly to each operation
+
+<div className="before-after">
+
+```javascript
+sdk.setPartyId(myPartyId);
+const holdingTransactionsmyPartyId =
+  await sdk.tokenStandard?.listHoldingTransactions();
+sdk.setPartyId(myPartyId2);
+const holdingTransactionsmyPartyId2 =
+  await sdk.tokenStandard?.listHoldingTransactions();
+```
+
+---
+
+```javascript
+const holdingTransactionsmyPartyId = await token.holdings(myPartyId);
+const holdingTransactionsmyPartyId2 = await token.holdings(myPartyId2);
+```
+
+</div>
+
+In v0, the controllers and sdk were stateful. In v1, party information should be passed explicitly to each function. This enables acting as multiple parties and allows for thread safety in concurrent use.
+
+## Keys and events
+
+The **keys** namespace is always available on the basic SDK. Use it instead of standalone key-pair helpers:
+
+| v0                | v1                    |
+| ----------------- | --------------------- |
+| `createKeyPair()` | `sdk.keys.generate()` |
+
+The **events** namespace replaces ledger update and completion subscriptions from `userLedger`. Like `amulet`, `token`, and `asset`, it is an extended namespace that you configure at creation time or via `.extend()`:
+
+| v0                                      | v1                       |
+| --------------------------------------- | ------------------------ |
+| `sdk.userLedger.subscribeToUpdates`     | `sdk.events.updates`     |
+| `sdk.userLedger.subscribeToCompletions` | `sdk.events.completions` |
+
+For the complete method map across all namespaces, see the [migration cheat sheet](/sdks-tools/sdks/wallet-sdk/using-the-sdk/v0-to-v1-migration/migration-cheat-sheet).
+
+## See also
+
+- [Configuration](/sdks-tools/sdks/wallet-sdk/using-the-sdk/configuration)
+- [User management](/sdks-tools/sdks/wallet-sdk/using-the-sdk/user-management)
+- [Preparing and signing a transaction](/sdks-tools/sdks/wallet-sdk/guides/preparing-and-signing-a-transaction)
+- [Creating an external party](/sdks-tools/sdks/wallet-sdk/guides/creating-an-external-party)

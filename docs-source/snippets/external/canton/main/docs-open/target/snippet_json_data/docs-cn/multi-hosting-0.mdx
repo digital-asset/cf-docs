@@ -1,0 +1,19 @@
+```scala
+@ participant1.topology.party_to_participant_mappings.propose(partyId, newParticipants = Seq((participant1.id, ParticipantPermission.Confirmation), (participant2.id, ParticipantPermission.Confirmation)), store = synchronizerId)
+    res1: SignedTopologyTransaction[TopologyChangeOp, PartyToParticipant] = SignedTopologyTransaction(
+      TopologyTransaction(
+        PartyToParticipant(
+          partyId = Alice::12201ff69b1d...,
+          participants = Map(
+            PAR::participant1::12201ff69b1d... -> Confirmation,
+            PAR::participant2::1220a4d7463b... -> Confirmation
+          )
+        ),
+        serial = 2,
+        operation = Replace,
+        hash = SHA-256:f77e8ccd88df...
+      ),
+      signatures = 12201ff69b1d...,
+      proposal
+    )
+```

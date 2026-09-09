@@ -1,0 +1,22 @@
+```haskell
+-- Contract held by Alice
+template Asset with owner : Party where
+  signatory owner
+
+-- Alice uses her Asset in a transaction with Bob
+template Trade
+  with
+    seller : Party  -- Alice
+    buyer : Party   -- Bob
+    assetId : ContractId Asset
+  where
+    signatory seller, buyer
+    
+    choice Execute : ()
+      controller buyer
+      do
+        -- Bob sees the Asset contract through divulgence
+        asset <- fetch assetId
+        archive assetId
+        -- ... transfer logic
+```

@@ -1,0 +1,1273 @@
+---
+title: "@daml/types"
+description: "TypeScript and JavaScript language bindings for Canton."
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--collection"></div>
+
+<div class="x2mdx-ref-hero">
+
+  <p class="x2mdx-ref-eyebrow">TypeScript package</p>
+
+
+  <h1 class="x2mdx-ref-title">@daml/types</h1>
+
+
+  <p class="x2mdx-ref-summary">TypeScript and JavaScript language bindings for Canton.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">TypeScript</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--changed" href="#history-updated-3-4-9">Updated 3.4.9</a>
+
+</div>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Package</dt>
+    <dd>@daml/types</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Current release</dt>
+    <dd>3.5.2</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Compared releases</dt>
+    <dd>7</dd>
+  </div>
+
+</dl>
+
+</div>
+
+Generated from published `@daml/types` TypeDoc snapshots.
+
+## Table of Contents
+
+| Name | Kind | Summary | Introduced | Changed | Deprecated | Removed |
+| --- | --- | --- | --- | --- | --- | --- |
+| [`Choice`](#interface-choice) | Interface | Interface for objects representing Daml choices. | `3.4.8` | - | - | - |
+| [`ChoiceFrom`](#interface-choicefrom) | Interface | The origin companion that contained a [[Choice]]. | `3.4.8` | - | - | - |
+| [`ContractTypeCompanion`](#interface-contracttypecompanion) | Interface | Companion objects for templates and interfaces, containing their choices. | `3.4.8` | `3.4.9`: members added: `templateIdWithPackageId` | - | - |
+| [`FromTemplate`](#interface-fromtemplate) | Interface | A mixin for [[InterfaceCompanion]].  This supplies the basis<br/>for the methods of [[ToInterface]].<br/><br/>Even interfaces that retroactively implement for no templates implement this,<br/>because forward implementations still require this marker to work. | `3.4.8` | - | - | - |
+| [`Map`](#interface-map) | Interface | The counterpart of Daml's ``DA.Map.Map K V`` type.<br/><br/>This is an immutable map which compares keys via deep equality. The order of<br/>iteration is unspecified; the only guarantee is that the order in ``keys`` and<br/>``values`` match, i.e. ``m.get(k)`` is (deep-, value-based) equal to<br/>``[...m.values()][[...m.keys()].findIndex((l) =&gt; _.isEqual(k, l))]`` | `3.4.8` | - | - | - |
+| [`Serializable`](#interface-serializable) | Interface | Interface for companion objects of serializable types. Its main purpose is<br/>to serialize and deserialize values between raw JSON and typed values. | `3.4.8` | - | - | - |
+| [`Template`](#interface-template) | Interface | Interface for objects representing Daml templates. It is similar to the<br/>``Template`` type class in Daml. | `3.4.8` | `3.4.9`: members added: `templateIdWithPackageId` | - | - |
+| [`ToInterface`](#interface-tointerface) | Interface | A mixin for [[Template]] that provides the ``toInterface`` and<br/>``unsafeFromInterface`` contract ID conversion functions.<br/><br/>Even templates that directly implement no interfaces implement this, because<br/>this also permits conversion with interfaces that supply retroactive<br/>implementations to this template. | `3.4.8` | - | - | - |
+| [`Unit`](#interface-unit) | Interface | The counterpart of Daml's ``()`` type. | `3.4.8` | - | - | - |
+| [`Bool`](#type-alias-bool) | Type Alias | The counterpart of Daml's ``Bool`` type. | `3.4.8` | - | - | - |
+| [`ContractId`](#type-alias-contractid) | Type Alias | The counterpart of Daml's ``ContractId T`` type.<br/><br/>We represent ``ContractId``s as strings. Their exact format of these strings depends on the ledger<br/>the Daml application is running on.<br/><br/>The purpose of the intersection with ``{ [ContractIdBrand]: T }`` is to<br/>prevent accidental use of a ``ContractId&lt;T&gt;`` when a ``ContractId&lt;U&gt;`` is<br/>needed (unless ``T`` is a subtype of ``U``). This technique is known as<br/>"branding" in the TypeScript community. | `3.4.8` | - | - | - |
+| [`Date`](#type-alias-date) | Type Alias | The counterpart of Daml's ``Date`` type.<br/><br/>We represent ``Date``s as strings with format ``YYYY-MM-DD``. | `3.4.8` | - | - | - |
+| [`Decimal`](#type-alias-decimal) | Type Alias | The counterpart of Daml's ``Decimal`` type.<br/><br/>In Daml, Decimal's are the same as Numeric with precision 10. | `3.4.8` | - | - | - |
+| [`DisclosedContract`](#type-alias-disclosedcontract) | Type Alias | A disclosed contract that can be passed on a command submission. | `3.4.8` | - | - | - |
+| [`Int`](#type-alias-int) | Type Alias | The counterpart of Daml's ``Int`` type.<br/><br/>We represent ``Int``s as string in order to avoid a loss of precision. | `3.4.8` | - | - | - |
+| [`Interface`](#type-alias-interface) | Type Alias | An interface type, for use with contract IDs. | `3.4.8` | - | - | - |
+| [`InterfaceCompanion`](#type-alias-interfacecompanion) | Type Alias | Interface for objects representing Daml interfaces. | `3.4.8` | - | - | - |
+| [`List`](#type-alias-list) | Type Alias | The counterpart of Daml's ``[T]`` list type.<br/><br/>We represent lists using arrays. | `3.4.8` | - | - | - |
+| [`Numeric`](#type-alias-numeric) | Type Alias | The counterpart of Daml's ``Numeric`` type.<br/><br/>We represent ``Numeric``s as string in order to avoid a loss of precision. The string must match<br/>the regular expression ``-?(?:0\|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?``. | `3.4.8` | - | - | - |
+| [`Optional`](#type-alias-optional) | Type Alias | The counterpart of Daml's ``Optional T`` type. | `3.4.8` | - | - | - |
+| [`Party`](#type-alias-party) | Type Alias | The counterpart of Daml's ``Party`` type.<br/><br/>We represent ``Party``s as strings matching the regular expression ``[A-Za-z0-9:_\- ]+``. | `3.4.8` | - | - | - |
+| [`TemplateOrInterface`](#type-alias-templateorinterface) | Type Alias | - | `3.4.8` | `3.4.9`: signature updated; type parameter renamed: `I` -&gt; `Id` | - | - |
+| [`Text`](#type-alias-text) | Type Alias | The counterpart of Daml's ``Text`` type. | `3.4.8` | - | - | - |
+| [`TextMap`](#type-alias-textmap) | Type Alias | The counterpart of Daml's ``TextMap T`` type.<br/><br/>We represent ``TextMap``s as dictionaries. | `3.4.8` | - | - | - |
+| [`Time`](#type-alias-time) | Type Alias | The counterpart of Daml's ``Time`` type.<br/><br/>We represent ``Times``s as strings with format ``YYYY-MM-DDThh:mm:ss[.ssssss]Z``. | `3.4.8` | - | - | - |
+| [`Bool`](#variable-bool) | Variable | Companion object of the [[Bool]] type. | `3.4.8` | - | - | - |
+| [`Date`](#variable-date) | Variable | Companion object of the [[Date]] type. | `3.4.8` | - | - | - |
+| [`Decimal`](#variable-decimal) | Variable | Companion object of the [[Decimal]] type. | `3.4.8` | - | - | - |
+| [`Int`](#variable-int) | Variable | Companion object of the [[Int]] type. | `3.4.8` | - | - | - |
+| [`Party`](#variable-party) | Variable | Companion object of the [[Party]] type. | `3.4.8` | - | - | - |
+| [`Text`](#variable-text) | Variable | Companion object of the [[Text]] type. | `3.4.8` | - | - | - |
+| [`Time`](#variable-time) | Variable | Companion object of the [[Time]] type. | `3.4.8` | - | - | - |
+| [`Unit`](#variable-unit) | Variable | Companion object of the [[Unit]] type. | `3.4.8` | - | - | - |
+| [`ContractId`](#function-contractid) | Function | Companion object of the [[ContractId]] type. | `3.4.8` | - | - | - |
+| [`emptyMap`](#function-emptymap) | Function | - | `3.4.8` | - | - | - |
+| [`List`](#function-list) | Function | Companion object of the [[List]] type. | `3.4.8` | - | - | - |
+| [`Map`](#function-map) | Function | Companion function of the [[GenMap]] type. | `3.4.8` | - | - | - |
+| [`Numeric`](#function-numeric) | Function | Companion function of the [[Numeric]] type. | `3.4.8` | - | - | - |
+| [`Optional`](#function-optional) | Function | Companion function of the [[Optional]] type. | `3.4.8` | - | - | - |
+| [`TextMap`](#function-textmap) | Function | Companion object of the [[TextMap]] type. | `3.4.8` | - | - | - |
+
+## Reference
+
+### Interfaces
+
+<span id="interface-choice"></span>
+
+#### Choice
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Interface</span>
+
+</div>
+
+- Kind: `Interface`
+- Source: `index.d.ts:113`
+
+**Signature**
+
+```ts
+interface Choice<T extends object = void, C extends void = void, R extends void = void, K extends void = unknown> extends ChoiceFrom<TemplateOrInterface<T, K>>
+```
+
+Interface for objects representing Daml choices.
+
+**Type Parameters**
+
+| Name | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `T` | `object` | - | The template type. |
+| `C` | - | - | The choice type. |
+| `R` | - | - | The choice return type. |
+| `K` | - | `unknown` | The contract key type. |
+
+**Members**
+
+| Member | Type | Description |
+| --- | --- | --- |
+| `choiceName` | `string` | The choice name. |
+| `template` | `() => TemplateOrInterface` | Returns the template to which this choice belongs. |
+
+<span id="interface-choicefrom"></span>
+
+#### ChoiceFrom
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Interface</span>
+
+</div>
+
+- Kind: `Interface`
+- Source: `index.d.ts:140`
+
+**Signature**
+
+```ts
+interface ChoiceFrom<O extends void = void>
+```
+
+The origin companion that contained a [[Choice]].
+
+**Type Parameters**
+
+| Name | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `O` | - | - | The type of the template or interface of which<br/>           this [[Choice]] is a member. |
+
+**Members**
+
+| Member | Type | Description |
+| --- | --- | --- |
+| `template` | `() => O` | Returns the template to which this choice belongs. |
+
+<span id="interface-contracttypecompanion"></span>
+
+#### ContractTypeCompanion
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Interface</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--changed" href="#history-updated-3-4-9">Updated 3.4.9</a>
+
+</div>
+
+- Kind: `Interface`
+- Source: `index.d.ts:25`
+
+**Signature**
+
+```ts
+interface ContractTypeCompanion<T extends object = void, K extends void = void, I extends string = void>
+```
+
+Companion objects for templates and interfaces, containing their choices.
+
+**Type Parameters**
+
+| Name | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `T` | `object` | - | The template payload format or interface view. |
+| `K` | - | - | The contract key type. |
+| `I` | `string` | - | The template or interface id. |
+
+**Members**
+
+| Member | Type | Description |
+| --- | --- | --- |
+| `templateId` | `I` | - |
+| `templateIdWithPackageId` | `string` | - |
+
+<span id="interface-fromtemplate"></span>
+
+#### FromTemplate
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Interface</span>
+
+</div>
+
+- Kind: `Interface`
+- Source: `index.d.ts:101`
+
+**Signature**
+
+```ts
+interface FromTemplate<If extends void = void, TX extends void = void>
+```
+
+A mixin for [[InterfaceCompanion]].  This supplies the basis
+for the methods of [[ToInterface]].
+
+Even interfaces that retroactively implement for no templates implement this,
+because forward implementations still require this marker to work.
+
+**Type Parameters**
+
+| Name | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `If` | - | - | The interface type. |
+| `TX` | - | - | The intersection of template types this interface retroactively<br/>              implements, or ``unknown`` if there are none. |
+
+**Members**
+
+| Member | Type | Description |
+| --- | --- | --- |
+| `[FromTemplateBrand]` | `[If, TX]` | - |
+
+<span id="interface-map"></span>
+
+#### Map
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Interface</span>
+
+</div>
+
+- Kind: `Interface`
+- Source: `index.d.ts:340`
+
+**Signature**
+
+```ts
+interface Map<K extends void = void, V extends void = void>
+```
+
+The counterpart of Daml's ``DA.Map.Map K V`` type.
+
+This is an immutable map which compares keys via deep equality. The order of
+iteration is unspecified; the only guarantee is that the order in ``keys`` and
+``values`` match, i.e. ``m.get(k)`` is (deep-, value-based) equal to
+``[...m.values()][[...m.keys()].findIndex((l) =&gt; _.isEqual(k, l))]``
+
+**Type Parameters**
+
+| Name | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `K` | - | - | The type of the map keys. |
+| `V` | - | - | The type of the map values. |
+
+**Members**
+
+| Member | Type | Description |
+| --- | --- | --- |
+| `delete` | `(k: K) => Map<K, V>` | - |
+| `entries` | `() => Iterator<[K, V], undefined, undefined>` | - |
+| `entriesArray` | `() => [K, V][]` | - |
+| `forEach` | `(f: (value: V, key: K, map: Map<K, V>) => T, u?: U) => void` | - |
+| `get` | `(k: K) => undefined \| V` | - |
+| `has` | `(k: K) => boolean` | - |
+| `keys` | `() => Iterator<K, undefined, undefined>` | - |
+| `set` | `(k: K, v: V) => Map<K, V>` | - |
+| `values` | `() => Iterator<V, undefined, undefined>` | - |
+
+<span id="interface-serializable"></span>
+
+#### Serializable
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Interface</span>
+
+</div>
+
+- Kind: `Interface`
+- Source: `index.d.ts:8`
+
+**Signature**
+
+```ts
+interface Serializable<T extends void = void>
+```
+
+Interface for companion objects of serializable types. Its main purpose is
+to serialize and deserialize values between raw JSON and typed values.
+
+**Type Parameters**
+
+| Name | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `T` | - | - | The template type. |
+
+<span id="interface-template"></span>
+
+#### Template
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Interface</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--changed" href="#history-updated-3-4-9">Updated 3.4.9</a>
+
+</div>
+
+- Kind: `Interface`
+- Source: `index.d.ts:50`
+
+**Signature**
+
+```ts
+interface Template<T extends object = void, K extends void = unknown, I extends string = string> extends ContractTypeCompanion<T, K, I>, Serializable<T>
+```
+
+Interface for objects representing Daml templates. It is similar to the
+``Template`` type class in Daml.
+
+**Type Parameters**
+
+| Name | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `T` | `object` | - | The template type. |
+| `K` | - | `unknown` | The contract key type. |
+| `I` | `string` | `string` | The template id type. |
+
+**Members**
+
+| Member | Type | Description |
+| --- | --- | --- |
+| `Archive` | `Choice<T, {}, {}, K> & ChoiceFrom<Template<T, K, I>>` | - |
+| `templateId` | `I` | - |
+| `templateIdWithPackageId` | `string` | - |
+
+<span id="interface-tointerface"></span>
+
+#### ToInterface
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Interface</span>
+
+</div>
+
+- Kind: `Interface`
+- Source: `index.d.ts:69`
+
+**Signature**
+
+```ts
+interface ToInterface<T extends object = void, IfU extends void = void>
+```
+
+A mixin for [[Template]] that provides the ``toInterface`` and
+``unsafeFromInterface`` contract ID conversion functions.
+
+Even templates that directly implement no interfaces implement this, because
+this also permits conversion with interfaces that supply retroactive
+implementations to this template.
+
+**Type Parameters**
+
+| Name | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `T` | `object` | - | The template type. |
+| `IfU` | - | - | The union of implemented interfaces, or ``never`` for templates<br/>           that directly implement no interface. |
+
+**Members**
+
+| Member | Type | Description |
+| --- | --- | --- |
+| `toInterface` | `void` | - |
+| `unsafeFromInterface` | `void` | - |
+
+<span id="interface-unit"></span>
+
+#### Unit
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Interface</span>
+
+</div>
+
+- Kind: `Interface`
+- Source: `index.d.ts:181`
+
+**Signature**
+
+```ts
+interface Unit
+```
+
+The counterpart of Daml's ``()`` type.
+
+### Type Aliases
+
+<span id="type-alias-bool"></span>
+
+#### Bool
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Type Alias</span>
+
+</div>
+
+- Kind: `Type Alias`
+- Source: `index.d.ts:190`
+
+**Signature**
+
+```ts
+type Bool = boolean
+```
+
+The counterpart of Daml's ``Bool`` type.
+
+<span id="type-alias-contractid"></span>
+
+#### ContractId
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Type Alias</span>
+
+</div>
+
+- Kind: `Type Alias`
+- Source: `index.d.ts:294`
+
+**Signature**
+
+```ts
+type ContractId<T extends void = void> = string & { [ContractIdBrand]: T }
+```
+
+The counterpart of Daml's ``ContractId T`` type.
+
+We represent ``ContractId``s as strings. Their exact format of these strings depends on the ledger
+the Daml application is running on.
+
+The purpose of the intersection with ``{ [ContractIdBrand]: T }`` is to
+prevent accidental use of a ``ContractId&lt;T&gt;`` when a ``ContractId&lt;U&gt;`` is
+needed (unless ``T`` is a subtype of ``U``). This technique is known as
+"branding" in the TypeScript community.
+
+**Type Parameters**
+
+| Name | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `T` | - | - | The contract template. |
+
+<span id="type-alias-date"></span>
+
+#### Date
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Type Alias</span>
+
+</div>
+
+- Kind: `Type Alias`
+- Source: `index.d.ts:272`
+
+**Signature**
+
+```ts
+type Date = string
+```
+
+The counterpart of Daml's ``Date`` type.
+
+We represent ``Date``s as strings with format ``YYYY-MM-DD``.
+
+<span id="type-alias-decimal"></span>
+
+#### Decimal
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Type Alias</span>
+
+</div>
+
+- Kind: `Type Alias`
+- Source: `index.d.ts:218`
+
+**Signature**
+
+```ts
+type Decimal = Numeric
+```
+
+The counterpart of Daml's ``Decimal`` type.
+
+In Daml, Decimal's are the same as Numeric with precision 10.
+
+<span id="type-alias-disclosedcontract"></span>
+
+#### DisclosedContract
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Type Alias</span>
+
+</div>
+
+- Kind: `Type Alias`
+- Source: `index.d.ts:362`
+
+**Signature**
+
+```ts
+type DisclosedContract = { contractId: ContractId<unknown>; createdEventBlob: string; templateId: string }
+```
+
+A disclosed contract that can be passed on a command submission.
+
+<span id="type-alias-int"></span>
+
+#### Int
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Type Alias</span>
+
+</div>
+
+- Kind: `Type Alias`
+- Source: `index.d.ts:200`
+
+**Signature**
+
+```ts
+type Int = string
+```
+
+The counterpart of Daml's ``Int`` type.
+
+We represent ``Int``s as string in order to avoid a loss of precision.
+
+<span id="type-alias-interface"></span>
+
+#### Interface
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Type Alias</span>
+
+</div>
+
+- Kind: `Type Alias`
+- Source: `index.d.ts:81`
+
+**Signature**
+
+```ts
+type Interface<IfId extends void = void> = { readonly [InterfaceBrand]: IfId }
+```
+
+An interface type, for use with contract IDs.
+
+**Type Parameters**
+
+| Name | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `IfId` | - | - | The interface ID as a constant string. |
+
+<span id="type-alias-interfacecompanion"></span>
+
+#### InterfaceCompanion
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Type Alias</span>
+
+</div>
+
+- Kind: `Type Alias`
+- Source: `index.d.ts:87`
+
+**Signature**
+
+```ts
+type InterfaceCompanion<T extends object = void, K extends void = void, I extends string = string> = ContractTypeCompanion<T, K, I>
+```
+
+Interface for objects representing Daml interfaces.
+
+**Type Parameters**
+
+| Name | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `T` | `object` | - | - |
+| `K` | - | - | - |
+| `I` | `string` | `string` | - |
+
+<span id="type-alias-list"></span>
+
+#### List
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Type Alias</span>
+
+</div>
+
+- Kind: `Type Alias`
+- Source: `index.d.ts:262`
+
+**Signature**
+
+```ts
+type List<T extends void = void> = T[]
+```
+
+The counterpart of Daml's ``[T]`` list type.
+
+We represent lists using arrays.
+
+**Type Parameters**
+
+| Name | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `T` | - | - | The type of the list values. |
+
+<span id="type-alias-numeric"></span>
+
+#### Numeric
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Type Alias</span>
+
+</div>
+
+- Kind: `Type Alias`
+- Source: `index.d.ts:211`
+
+**Signature**
+
+```ts
+type Numeric = string
+```
+
+The counterpart of Daml's ``Numeric`` type.
+
+We represent ``Numeric``s as string in order to avoid a loss of precision. The string must match
+the regular expression ``-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?``.
+
+<span id="type-alias-optional"></span>
+
+#### Optional
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Type Alias</span>
+
+</div>
+
+- Kind: `Type Alias`
+- Source: `index.d.ts:306`
+
+**Signature**
+
+```ts
+type Optional<T extends void = void> = null | OptionalInner<T>
+```
+
+The counterpart of Daml's ``Optional T`` type.
+
+**Type Parameters**
+
+| Name | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `T` | - | - | The type of the optionally present value. |
+
+<span id="type-alias-party"></span>
+
+#### Party
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Type Alias</span>
+
+</div>
+
+- Kind: `Type Alias`
+- Source: `index.d.ts:250`
+
+**Signature**
+
+```ts
+type Party = string
+```
+
+The counterpart of Daml's ``Party`` type.
+
+We represent ``Party``s as strings matching the regular expression ``[A-Za-z0-9:_\- ]+``.
+
+<span id="type-alias-templateorinterface"></span>
+
+#### TemplateOrInterface
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Type Alias</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--changed" href="#history-updated-3-4-9">Updated 3.4.9</a>
+
+</div>
+
+- Kind: `Type Alias`
+- Source: `index.d.ts:88`
+
+**Signature**
+
+```ts
+type TemplateOrInterface<T extends object = void, K extends void = unknown, Id extends string = string> = Template<T, K, Id> | InterfaceCompanion<T, K, Id>
+```
+
+**Type Parameters**
+
+| Name | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `T` | `object` | - | - |
+| `K` | - | `unknown` | - |
+| `Id` | `string` | `string` | - |
+
+<span id="type-alias-text"></span>
+
+#### Text
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Type Alias</span>
+
+</div>
+
+- Kind: `Type Alias`
+- Source: `index.d.ts:230`
+
+**Signature**
+
+```ts
+type Text = string
+```
+
+The counterpart of Daml's ``Text`` type.
+
+<span id="type-alias-textmap"></span>
+
+#### TextMap
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Type Alias</span>
+
+</div>
+
+- Kind: `Type Alias`
+- Source: `index.d.ts:322`
+
+**Signature**
+
+```ts
+type TextMap<T extends void = void> = {}
+```
+
+The counterpart of Daml's ``TextMap T`` type.
+
+We represent ``TextMap``s as dictionaries.
+
+**Type Parameters**
+
+| Name | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `T` | - | - | The type of the map values. |
+
+<span id="type-alias-time"></span>
+
+#### Time
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Type Alias</span>
+
+</div>
+
+- Kind: `Type Alias`
+- Source: `index.d.ts:240`
+
+**Signature**
+
+```ts
+type Time = string
+```
+
+The counterpart of Daml's ``Time`` type.
+
+We represent ``Times``s as strings with format ``YYYY-MM-DDThh:mm:ss[.ssssss]Z``.
+
+### Variables
+
+<span id="variable-bool"></span>
+
+#### Bool
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Variable</span>
+
+</div>
+
+- Kind: `Variable`
+- Source: `index.d.ts:190`
+
+**Signature**
+
+```ts
+const Bool: Serializable<boolean>
+```
+
+Companion object of the [[Bool]] type.
+
+<span id="variable-date"></span>
+
+#### Date
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Variable</span>
+
+</div>
+
+- Kind: `Variable`
+- Source: `index.d.ts:272`
+
+**Signature**
+
+```ts
+const Date: Serializable<string>
+```
+
+Companion object of the [[Date]] type.
+
+<span id="variable-decimal"></span>
+
+#### Decimal
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Variable</span>
+
+</div>
+
+- Kind: `Variable`
+- Source: `index.d.ts:218`
+
+**Signature**
+
+```ts
+const Decimal: Serializable<string>
+```
+
+Companion object of the [[Decimal]] type.
+
+<span id="variable-int"></span>
+
+#### Int
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Variable</span>
+
+</div>
+
+- Kind: `Variable`
+- Source: `index.d.ts:200`
+
+**Signature**
+
+```ts
+const Int: Serializable<string>
+```
+
+Companion object of the [[Int]] type.
+
+<span id="variable-party"></span>
+
+#### Party
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Variable</span>
+
+</div>
+
+- Kind: `Variable`
+- Source: `index.d.ts:250`
+
+**Signature**
+
+```ts
+const Party: Serializable<string>
+```
+
+Companion object of the [[Party]] type.
+
+<span id="variable-text"></span>
+
+#### Text
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Variable</span>
+
+</div>
+
+- Kind: `Variable`
+- Source: `index.d.ts:230`
+
+**Signature**
+
+```ts
+const Text: Serializable<string>
+```
+
+Companion object of the [[Text]] type.
+
+<span id="variable-time"></span>
+
+#### Time
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Variable</span>
+
+</div>
+
+- Kind: `Variable`
+- Source: `index.d.ts:240`
+
+**Signature**
+
+```ts
+const Time: Serializable<string>
+```
+
+Companion object of the [[Time]] type.
+
+<span id="variable-unit"></span>
+
+#### Unit
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Variable</span>
+
+</div>
+
+- Kind: `Variable`
+- Source: `index.d.ts:181`
+
+**Signature**
+
+```ts
+const Unit: Serializable<Unit>
+```
+
+Companion object of the [[Unit]] type.
+
+### Functions
+
+<span id="function-contractid"></span>
+
+#### ContractId
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Function</span>
+
+</div>
+
+- Kind: `Function`
+- Source: `index.d.ts:294`
+
+**Signature**
+
+```ts
+ContractId<T extends void = void>(_t: Serializable<T> | TemplateOrInterface<T & object, unknown, string>): Serializable<ContractId<T>>
+```
+
+Companion object of the [[ContractId]] type.
+
+**Call Signatures**
+
+```ts
+ContractId<T extends void = void>(_t: Serializable<T> | TemplateOrInterface<T & object, unknown, string>): Serializable<ContractId<T>>
+```
+
+| Type Parameter | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `T` | - | - | - |
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `_t` | `Serializable<T> \| TemplateOrInterface<T & object, unknown, string>` | yes | - |
+
+Returns: `Serializable<ContractId<T>>`
+
+<span id="function-emptymap"></span>
+
+#### emptyMap
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Function</span>
+
+</div>
+
+- Kind: `Function`
+- Source: `index.d.ts:351`
+
+**Signature**
+
+```ts
+emptyMap<K extends void = void, V extends void = void>(): Map<K, V>
+```
+
+**Call Signatures**
+
+```ts
+emptyMap<K extends void = void, V extends void = void>(): Map<K, V>
+```
+
+| Type Parameter | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `K` | - | - | - |
+| `V` | - | - | - |
+
+Returns: `Map<K, V>`
+
+<span id="function-list"></span>
+
+#### List
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Function</span>
+
+</div>
+
+- Kind: `Function`
+- Source: `index.d.ts:262`
+
+**Signature**
+
+```ts
+List<T extends void = void>(t: Serializable<T>): Serializable<T[]>
+```
+
+Companion object of the [[List]] type.
+
+**Call Signatures**
+
+```ts
+List<T extends void = void>(t: Serializable<T>): Serializable<T[]>
+```
+
+| Type Parameter | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `T` | - | - | - |
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `t` | `Serializable<T>` | yes | - |
+
+Returns: `Serializable<T[]>`
+
+<span id="function-map"></span>
+
+#### Map
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Function</span>
+
+</div>
+
+- Kind: `Function`
+- Source: `index.d.ts:340`
+
+**Signature**
+
+```ts
+Map<K extends void = void, V extends void = void>(kd: Serializable<K>, vd: Serializable<V>): Serializable<Map<K, V>>
+```
+
+Companion function of the [[GenMap]] type.
+
+**Call Signatures**
+
+```ts
+Map<K extends void = void, V extends void = void>(kd: Serializable<K>, vd: Serializable<V>): Serializable<Map<K, V>>
+```
+
+| Type Parameter | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `K` | - | - | - |
+| `V` | - | - | - |
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `kd` | `Serializable<K>` | yes | - |
+| `vd` | `Serializable<V>` | yes | - |
+
+Returns: `Serializable<Map<K, V>>`
+
+<span id="function-numeric"></span>
+
+#### Numeric
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Function</span>
+
+</div>
+
+- Kind: `Function`
+- Source: `index.d.ts:211`
+
+**Signature**
+
+```ts
+Numeric(_: number): Serializable<string>
+```
+
+Companion function of the [[Numeric]] type.
+
+**Call Signatures**
+
+```ts
+Numeric(_: number): Serializable<string>
+```
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `_` | `number` | yes | - |
+
+Returns: `Serializable<string>`
+
+<span id="function-optional"></span>
+
+#### Optional
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Function</span>
+
+</div>
+
+- Kind: `Function`
+- Source: `index.d.ts:306`
+
+**Signature**
+
+```ts
+Optional<T extends void = void>(t: Serializable<T>): Serializable<Optional<T>>
+```
+
+Companion function of the [[Optional]] type.
+
+**Call Signatures**
+
+```ts
+Optional<T extends void = void>(t: Serializable<T>): Serializable<Optional<T>>
+```
+
+| Type Parameter | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `T` | - | - | - |
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `t` | `Serializable<T>` | yes | - |
+
+Returns: `Serializable<Optional<T>>`
+
+<span id="function-textmap"></span>
+
+#### TextMap
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Function</span>
+
+</div>
+
+- Kind: `Function`
+- Source: `index.d.ts:322`
+
+**Signature**
+
+```ts
+TextMap<T extends void = void>(t: Serializable<T>): Serializable<TextMap<T>>
+```
+
+Companion object of the [[TextMap]] type.
+
+**Call Signatures**
+
+```ts
+TextMap<T extends void = void>(t: Serializable<T>): Serializable<TextMap<T>>
+```
+
+| Type Parameter | Constraint | Default | Description |
+| --- | --- | --- | --- |
+| `T` | - | - | - |
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `t` | `Serializable<T>` | yes | - |
+
+Returns: `Serializable<TextMap<T>>`
+
+## History
+
+<div class="x2mdx-ref-history" aria-label="Reference history">
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-3-4-9">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">3.4.9</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">ContractTypeCompanion: members added: templateIdWithPackageId</p>
+
+    <p class="x2mdx-ref-history-event-detail">Template: members added: templateIdWithPackageId</p>
+
+    <p class="x2mdx-ref-history-event-detail">TemplateOrInterface: signature updated; type parameter renamed: I -&gt; Id</p>
+
+  </div>
+
+</div>

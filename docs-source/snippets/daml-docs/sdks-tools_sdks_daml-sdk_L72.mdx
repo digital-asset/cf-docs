@@ -1,0 +1,15 @@
+```haskell
+template Asset
+  with
+    owner : Party
+    issuer : Party
+    description : Text
+  where
+    signatory issuer
+    observer owner
+
+    choice Transfer : ContractId Asset
+      with newOwner : Party
+      controller owner
+      do create this with owner = newOwner
+```

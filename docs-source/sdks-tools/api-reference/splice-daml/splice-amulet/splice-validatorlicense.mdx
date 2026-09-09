@@ -1,0 +1,513 @@
+---
+title: "Splice.ValidatorLicense"
+description: "Documentation for Splice.ValidatorLicense"
+---
+
+{/* COPIED_START source="splice:daml/splice-amulet/docs/Splice-ValidatorLicense.rst" tag="0.6.4" hash="7cb05ace" */}
+
+## Templates
+
+<div id="type-splice-validatorlicense-validatorfaucetcoupon-19254">
+
+**template** ValidatorFaucetCoupon
+
+</div>
+
+> **Deprecated**: use `ValidatorLicense_RecordValidatorLivenessActivity` instead, as that one can be expired without requiring a confirmation from the validator node.
+>
+> Signatory: dso, validator
+>
+> | Field     | Type                                                                                                                | Description |
+> |-----------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> | dso       | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> | validator | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> | round     | Round                                                                                                               |             |
+>
+> - **Choice** Archive
+>
+>   Controller: dso, validator
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-validatorlicense-validatorfaucetcoupondsoexpire-65722">
+>
+>   **Choice** ValidatorFaucetCoupon_DsoExpire
+>
+>   </div>
+>
+>   Controller: dso
+>
+>   Returns: ValidatorFaucetCoupon_DsoExpireResult
+>
+>   | Field          | Type                                                                                                                                            | Description |
+>   |----------------|-------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | closedRoundCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ClosedMiningRound |             |
+
+<div id="type-splice-validatorlicense-validatorlicense-33456">
+
+**template** ValidatorLicense
+
+</div>
+
+> The existence of a validator license is what makes a validator an (onboarded) validator.
+>
+> Signatory: dso
+>
+> | Field        | Type                                                                                                                                                                                                                                             | Description                                                                                                       |
+> |--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+> | validator    | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                              | The validator (party) that this license is about.                                                                 |
+> | sponsor      | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                              | The SV node that sponsored the onboarding.                                                                        |
+> | dso          | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                              | The party representing the operations of the decentralized synchronizer.                                          |
+> | faucetState  | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) FaucetState                                                                                                       |                                                                                                                   |
+> | metadata     | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ValidatorLicenseMetadata                                                                                          |                                                                                                                   |
+> | lastActiveAt | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886) | Last time this validator was active. Tracked to get a view on the set of validator nodes that are up and running. |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-validatorlicense-validatorlicensecancel-74620">
+>
+>   **Choice** ValidatorLicense_Cancel
+>
+>   </div>
+>
+>   Controller: validator
+>
+>   Returns: ValidatorLicense_CancelResult
+>
+>   | Field  | Type                                                                                                         | Description |
+>   |--------|--------------------------------------------------------------------------------------------------------------|-------------|
+>   | reason | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) |             |
+>
+> - <div id="type-splice-validatorlicense-validatorlicensereceivefaucetcoupon-91156">
+>
+>   **Choice** ValidatorLicense_ReceiveFaucetCoupon
+>
+>   </div>
+>
+>   Controller: validator
+>
+>   Returns: ValidatorLicense_ReceiveFaucetCouponResult
+>
+>   | Field        | Type                                                                                                                                          | Description |
+>   |--------------|-----------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | openRoundCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) OpenMiningRound |             |
+>
+> - <div id="type-splice-validatorlicense-validatorlicenserecordvalidatorlivenessactivity-79262">
+>
+>   **Choice** ValidatorLicense_RecordValidatorLivenessActivity
+>
+>   </div>
+>
+>   Controller: validator
+>
+>   Returns: ValidatorLicense_RecordValidatorLivenessActivityResult
+>
+>   | Field        | Type                                                                                                                                          | Description |
+>   |--------------|-----------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | openRoundCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) OpenMiningRound |             |
+>
+> - <div id="type-splice-validatorlicense-validatorlicensereportactive-46832">
+>
+>   **Choice** ValidatorLicense_ReportActive
+>
+>   </div>
+>
+>   Choice for validators with disabled wallets to report themselves as active. Validators that receive amulets will report through ReceiveFaucetCoupon.
+>
+>   Controller: validator
+>
+>   Returns: ValidatorLicense_ReportActiveResult
+>
+>   (no fields)
+>
+> - <div id="type-splice-validatorlicense-validatorlicenseupdatemetadata-65458">
+>
+>   **Choice** ValidatorLicense_UpdateMetadata
+>
+>   </div>
+>
+>   Controller: validator
+>
+>   Returns: ValidatorLicense_UpdateMetadataResult
+>
+>   | Field        | Type                                                                                                         | Description |
+>   |--------------|--------------------------------------------------------------------------------------------------------------|-------------|
+>   | version      | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) |             |
+>   | contactPoint | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) |             |
+>
+> - <div id="type-splice-validatorlicense-validatorlicensewithdraw-63410">
+>
+>   **Choice** ValidatorLicense_Withdraw
+>
+>   </div>
+>
+>   Controller: dso
+>
+>   Returns: ValidatorLicense_WithdrawResult
+>
+>   | Field  | Type                                                                                                         | Description |
+>   |--------|--------------------------------------------------------------------------------------------------------------|-------------|
+>   | reason | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) |             |
+
+<div id="type-splice-validatorlicense-validatorlivenessactivityrecord-17293">
+
+**template** ValidatorLivenessActivityRecord
+
+</div>
+
+> A copy of the ValidatorFaucetCoupon template with the only difference being that the validator is an observer instead of signatory. This is to allow to expire the coupon without the validator's involvement.
+>
+> Signatory: dso
+>
+> | Field     | Type                                                                                                                | Description |
+> |-----------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> | dso       | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> | validator | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> | round     | Round                                                                                                               |             |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-validatorlicense-validatorlivenessactivityrecorddsoexpire-78737">
+>
+>   **Choice** ValidatorLivenessActivityRecord_DsoExpire
+>
+>   </div>
+>
+>   Controller: dso
+>
+>   Returns: ValidatorLivenessActivityRecord_DsoExpireResult
+>
+>   | Field          | Type                                                                                                                                            | Description |
+>   |----------------|-------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | closedRoundCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ClosedMiningRound |             |
+
+## Data Types
+
+<div id="type-splice-validatorlicense-faucetstate-67607">
+
+**data** FaucetState
+
+</div>
+
+> <div id="constr-splice-validatorlicense-faucetstate-48340">
+>
+> FaucetState
+>
+> </div>
+>
+> > | Field            | Type                                                                                                       | Description                                            |
+> > |------------------|------------------------------------------------------------------------------------------------------------|--------------------------------------------------------|
+> > | firstReceivedFor | Round                                                                                                      | The first round for which a coupon was received.       |
+> > | lastReceivedFor  | Round                                                                                                      | The last round for which a coupon was received.        |
+> > | numCouponsMissed | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261) | The number of rounds for which no coupon was received. |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) FaucetState
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) FaucetState
+>
+> **instance** GetField "faucetState" ValidatorLicense ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) FaucetState)
+>
+> **instance** GetField "firstReceivedFor" FaucetState Round
+>
+> **instance** GetField "lastReceivedFor" FaucetState Round
+>
+> **instance** GetField "numCouponsMissed" FaucetState [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "faucetState" ValidatorLicense ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) FaucetState)
+>
+> **instance** SetField "firstReceivedFor" FaucetState Round
+>
+> **instance** SetField "lastReceivedFor" FaucetState Round
+>
+> **instance** SetField "numCouponsMissed" FaucetState [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+
+<div id="type-splice-validatorlicense-validatorfaucetcoupondsoexpireresult-29807">
+
+**data** ValidatorFaucetCoupon_DsoExpireResult
+
+</div>
+
+> <div id="constr-splice-validatorlicense-validatorfaucetcoupondsoexpireresult-83728">
+>
+> ValidatorFaucetCoupon_DsoExpireResult
+>
+> </div>
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) ValidatorFaucetCoupon ValidatorFaucetCoupon_DsoExpire ValidatorFaucetCoupon_DsoExpireResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) ValidatorFaucetCoupon ValidatorFaucetCoupon_DsoExpire ValidatorFaucetCoupon_DsoExpireResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) ValidatorFaucetCoupon ValidatorFaucetCoupon_DsoExpire ValidatorFaucetCoupon_DsoExpireResult
+
+<div id="type-splice-validatorlicense-validatorlicensemetadata-6055">
+
+**data** ValidatorLicenseMetadata
+
+</div>
+
+> <div id="constr-splice-validatorlicense-validatorlicensemetadata-35622">
+>
+> ValidatorLicenseMetadata
+>
+> </div>
+>
+> > | Field         | Type                                                                                                              | Description                                                                                                                                                             |
+> > |---------------|-------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+> > | lastUpdatedAt | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886) | The last time the validator metadata was updated                                                                                                                        |
+> > | version       | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)      | The version the validator is currently on                                                                                                                               |
+> > | contactPoint  | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)      | A contact point that can be used to reach the operator of the validator in case there are issues with the validator. This can be an email address or a slack user name. |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) ValidatorLicenseMetadata
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) ValidatorLicenseMetadata
+>
+> **instance** GetField "contactPoint" ValidatorLicenseMetadata [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** GetField "lastUpdatedAt" ValidatorLicenseMetadata [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)
+>
+> **instance** GetField "metadata" ValidatorLicense ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ValidatorLicenseMetadata)
+>
+> **instance** GetField "version" ValidatorLicenseMetadata [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "contactPoint" ValidatorLicenseMetadata [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "lastUpdatedAt" ValidatorLicenseMetadata [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)
+>
+> **instance** SetField "metadata" ValidatorLicense ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ValidatorLicenseMetadata)
+>
+> **instance** SetField "version" ValidatorLicenseMetadata [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+
+<div id="type-splice-validatorlicense-validatorlicensecancelresult-12117">
+
+**data** ValidatorLicense_CancelResult
+
+</div>
+
+> <div id="constr-splice-validatorlicense-validatorlicensecancelresult-95954">
+>
+> ValidatorLicense_CancelResult
+>
+> </div>
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) ValidatorLicense ValidatorLicense_Cancel ValidatorLicense_CancelResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) ValidatorLicense ValidatorLicense_Cancel ValidatorLicense_CancelResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) ValidatorLicense ValidatorLicense_Cancel ValidatorLicense_CancelResult
+
+<div id="type-splice-validatorlicense-validatorlicensereceivefaucetcouponresult-11121">
+
+**data** ValidatorLicense_ReceiveFaucetCouponResult
+
+</div>
+
+> <div id="constr-splice-validatorlicense-validatorlicensereceivefaucetcouponresult-52224">
+>
+> ValidatorLicense_ReceiveFaucetCouponResult
+>
+> </div>
+>
+> > | Field      | Type                                                                                                                                                | Description |
+> > |------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | licenseCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorLicense      |             |
+> > | couponCid  | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorFaucetCoupon |             |
+>
+> **instance** GetField "couponCid" ValidatorLicense_ReceiveFaucetCouponResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorFaucetCoupon)
+>
+> **instance** GetField "licenseCid" ValidatorLicense_ReceiveFaucetCouponResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorLicense)
+>
+> **instance** SetField "couponCid" ValidatorLicense_ReceiveFaucetCouponResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorFaucetCoupon)
+>
+> **instance** SetField "licenseCid" ValidatorLicense_ReceiveFaucetCouponResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorLicense)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) ValidatorLicense ValidatorLicense_ReceiveFaucetCoupon ValidatorLicense_ReceiveFaucetCouponResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) ValidatorLicense ValidatorLicense_ReceiveFaucetCoupon ValidatorLicense_ReceiveFaucetCouponResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) ValidatorLicense ValidatorLicense_ReceiveFaucetCoupon ValidatorLicense_ReceiveFaucetCouponResult
+
+<div id="type-splice-validatorlicense-validatorlicenserecordvalidatorlivenessactivityresult-68079">
+
+**data** ValidatorLicense_RecordValidatorLivenessActivityResult
+
+</div>
+
+> <div id="constr-splice-validatorlicense-validatorlicenserecordvalidatorlivenessactivityresult-77154">
+>
+> ValidatorLicense_RecordValidatorLivenessActivityResult
+>
+> </div>
+>
+> > | Field      | Type                                                                                                                                                          | Description |
+> > |------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | licenseCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorLicense                |             |
+> > | couponCid  | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorLivenessActivityRecord |             |
+>
+> **instance** GetField "couponCid" ValidatorLicense_RecordValidatorLivenessActivityResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorLivenessActivityRecord)
+>
+> **instance** GetField "licenseCid" ValidatorLicense_RecordValidatorLivenessActivityResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorLicense)
+>
+> **instance** SetField "couponCid" ValidatorLicense_RecordValidatorLivenessActivityResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorLivenessActivityRecord)
+>
+> **instance** SetField "licenseCid" ValidatorLicense_RecordValidatorLivenessActivityResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorLicense)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) ValidatorLicense ValidatorLicense_RecordValidatorLivenessActivity ValidatorLicense_RecordValidatorLivenessActivityResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) ValidatorLicense ValidatorLicense_RecordValidatorLivenessActivity ValidatorLicense_RecordValidatorLivenessActivityResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) ValidatorLicense ValidatorLicense_RecordValidatorLivenessActivity ValidatorLicense_RecordValidatorLivenessActivityResult
+
+<div id="type-splice-validatorlicense-validatorlicensereportactiveresult-44973">
+
+**data** ValidatorLicense_ReportActiveResult
+
+</div>
+
+> <div id="constr-splice-validatorlicense-validatorlicensereportactiveresult-39594">
+>
+> ValidatorLicense_ReportActiveResult
+>
+> </div>
+>
+> > | Field      | Type                                                                                                                                           | Description |
+> > |------------|------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | licenseCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorLicense |             |
+>
+> **instance** GetField "licenseCid" ValidatorLicense_ReportActiveResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorLicense)
+>
+> **instance** SetField "licenseCid" ValidatorLicense_ReportActiveResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorLicense)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) ValidatorLicense ValidatorLicense_ReportActive ValidatorLicense_ReportActiveResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) ValidatorLicense ValidatorLicense_ReportActive ValidatorLicense_ReportActiveResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) ValidatorLicense ValidatorLicense_ReportActive ValidatorLicense_ReportActiveResult
+
+<div id="type-splice-validatorlicense-validatorlicenseupdatemetadataresult-84967">
+
+**data** ValidatorLicense_UpdateMetadataResult
+
+</div>
+
+> <div id="constr-splice-validatorlicense-validatorlicenseupdatemetadataresult-7568">
+>
+> ValidatorLicense_UpdateMetadataResult
+>
+> </div>
+>
+> > | Field      | Type                                                                                                                                           | Description |
+> > |------------|------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | licenseCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorLicense |             |
+>
+> **instance** GetField "licenseCid" ValidatorLicense_UpdateMetadataResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorLicense)
+>
+> **instance** SetField "licenseCid" ValidatorLicense_UpdateMetadataResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorLicense)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) ValidatorLicense ValidatorLicense_UpdateMetadata ValidatorLicense_UpdateMetadataResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) ValidatorLicense ValidatorLicense_UpdateMetadata ValidatorLicense_UpdateMetadataResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) ValidatorLicense ValidatorLicense_UpdateMetadata ValidatorLicense_UpdateMetadataResult
+
+<div id="type-splice-validatorlicense-validatorlicensewithdrawresult-32027">
+
+**data** ValidatorLicense_WithdrawResult
+
+</div>
+
+> <div id="constr-splice-validatorlicense-validatorlicensewithdrawresult-54540">
+>
+> ValidatorLicense_WithdrawResult
+>
+> </div>
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) ValidatorLicense ValidatorLicense_Withdraw ValidatorLicense_WithdrawResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) ValidatorLicense ValidatorLicense_Withdraw ValidatorLicense_WithdrawResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) ValidatorLicense ValidatorLicense_Withdraw ValidatorLicense_WithdrawResult
+
+<div id="type-splice-validatorlicense-validatorlivenessactivityrecorddsoexpireresult-68284">
+
+**data** ValidatorLivenessActivityRecord_DsoExpireResult
+
+</div>
+
+> <div id="constr-splice-validatorlicense-validatorlivenessactivityrecorddsoexpireresult-79751">
+>
+> ValidatorLivenessActivityRecord_DsoExpireResult
+>
+> </div>
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) ValidatorLivenessActivityRecord ValidatorLivenessActivityRecord_DsoExpire ValidatorLivenessActivityRecord_DsoExpireResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) ValidatorLivenessActivityRecord ValidatorLivenessActivityRecord_DsoExpire ValidatorLivenessActivityRecord_DsoExpireResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) ValidatorLivenessActivityRecord ValidatorLivenessActivityRecord_DsoExpire ValidatorLivenessActivityRecord_DsoExpireResult
+
+## Functions
+
+<div id="function-splice-validatorlicense-metadataupdatemininterval-59469">
+
+metadataUpdateMinInterval
+: [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)
+
+</div>
+
+<div id="function-splice-validatorlicense-activityreportmininterval-78854">
+
+activityReportMinInterval
+: [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)
+
+</div>
+
+<div id="function-splice-validatorlicense-metadataupdateallowed-42050">
+
+metadataUpdateAllowed
+: [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886) -\> [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886) -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+</div>
+
+<div id="function-splice-validatorlicense-activityreportallowed-34361">
+
+activityReportAllowed
+: [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886) -\> [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886) -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+</div>
+
+<div id="function-splice-validatorlicense-validvalidatorlicense-11839">
+
+validValidatorLicense
+: ValidatorLicense -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+</div>
+
+<div id="function-splice-validatorlicense-maxidentifierlength-1659">
+
+maxIdentifierLength
+: [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+
+</div>
+
+<div id="function-splice-validatorlicense-validvalidatorlicensemetadata-75992">
+
+validValidatorLicenseMetadata
+: ValidatorLicenseMetadata -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+</div>
+
+{/* COPIED_END */}

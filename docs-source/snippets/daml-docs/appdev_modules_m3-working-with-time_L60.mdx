@@ -1,0 +1,6 @@
+```haskell
+choice AcceptTransfer : ContractId Coin
+      controller newOwner
+      do
+        create coin with owner = newOwner
+```

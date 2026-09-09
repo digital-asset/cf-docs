@@ -1,0 +1,21 @@
+```haskell
+template IouSender
+  with
+    sender : Party
+    receiver : Party
+  where
+    signatory receiver
+    observer sender
+
+    nonconsuming choice Send_Iou
+      : ContractId Iou
+      with
+        iouCid : ContractId Iou
+      controller sender
+      do
+        iou <- fetch iouCid
+        assert (iou.cash.amount > 0.0)
+        assert (sender == iou.owner)
+        exercise iouCid Mutual_Transfer with
+          newOwner = receiver
+```

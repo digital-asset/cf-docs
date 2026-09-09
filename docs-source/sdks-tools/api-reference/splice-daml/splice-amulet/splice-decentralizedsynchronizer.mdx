@@ -1,0 +1,226 @@
+---
+title: "Splice.DecentralizedSynchronizer"
+description: "Documentation for Splice.DecentralizedSynchronizer"
+---
+
+{/* COPIED_START source="splice:daml/splice-amulet/docs/Splice-DecentralizedSynchronizer.rst" tag="0.6.4" hash="26258f35" */}
+
+Types and contracts for managing synchronizer fees
+
+## Templates
+
+<div id="type-splice-decentralizedsynchronizer-membertraffic-74049">
+
+**template** MemberTraffic
+
+</div>
+
+> The state of the extra synchronizer traffic purchases of a sequencer sv.
+>
+> Signatory: dso
+>
+> | Field          | Type                                                                                                                | Description                                                                                   |
+> |----------------|---------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+> | dso            | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |                                                                                               |
+> | memberId       | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        | The id of the sequencer member (participant or mediator) for which traffic has been purchased |
+> | synchronizerId | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        | The id of the synchronizer for which this contract tracks purchased extra traffic             |
+> | migrationId    | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)          | The migration id of the synchronizer for which this contract tracks purchased extra traffic   |
+> | totalPurchased | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)          | The number of bytes of extra traffic purchased                                                |
+> | numPurchases   | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)          | Number of times extra traffic has been purchased                                              |
+> | amuletSpent    | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)  | Total Amulet spent on extra traffic                                                           |
+> | usdSpent       | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)  | Total USD spent on extra traffic                                                              |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+
+## Data Types
+
+<div id="type-splice-decentralizedsynchronizer-amuletdecentralizedsynchronizerconfig-15126">
+
+**data** AmuletDecentralizedSynchronizerConfig
+
+</div>
+
+> The configuration of the logical concept of a decentralized synchronizer, which consists over its lifetime of a series of actual synchronizers, which are introduced for handling the (rare) occasions of switching to a new synchronizer protocol version.
+>
+> <div id="constr-splice-decentralizedsynchronizer-amuletdecentralizedsynchronizerconfig-80511">
+>
+> AmuletDecentralizedSynchronizerConfig
+>
+> </div>
+>
+> > | Field                 | Type                                                                                                                                                                                                                      | Description                                                                                                                                                                      |
+> > |-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+> > | requiredSynchronizers | Set [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) | The synchronizer-ids of all synchronizers that Amulet and ANS users should be connected to.                                                                                      |
+> > | activeSynchronizer    | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)                                                                                                              | The synchronizer-id of the synchronizer on which the SVs accepts transactions involving the AmuletRules and related contracts, which must be one of the `requiredSynchronizers`. |
+> > | fees                  | SynchronizerFeesConfig                                                                                                                                                                                                    | The fees charged for using the decentralized synchronizer. We use the same fees across all active decentralized synchronizers.                                                   |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) AmuletDecentralizedSynchronizerConfig
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) AmuletDecentralizedSynchronizerConfig
+>
+> **instance** GetField "activeSynchronizer" AmuletDecentralizedSynchronizerConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** GetField "decentralizedSynchronizer" (AmuletConfig unit) AmuletDecentralizedSynchronizerConfig
+>
+> **instance** GetField "fees" AmuletDecentralizedSynchronizerConfig SynchronizerFeesConfig
+>
+> **instance** GetField "requiredSynchronizers" AmuletDecentralizedSynchronizerConfig (Set [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952))
+>
+> **instance** SetField "activeSynchronizer" AmuletDecentralizedSynchronizerConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "decentralizedSynchronizer" (AmuletConfig unit) AmuletDecentralizedSynchronizerConfig
+>
+> **instance** SetField "fees" AmuletDecentralizedSynchronizerConfig SynchronizerFeesConfig
+>
+> **instance** SetField "requiredSynchronizers" AmuletDecentralizedSynchronizerConfig (Set [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952))
+>
+> **instance** Patchable AmuletDecentralizedSynchronizerConfig
+
+<div id="type-splice-decentralizedsynchronizer-baseratetrafficlimits-64372">
+
+**data** BaseRateTrafficLimits
+
+</div>
+
+> The limits defining the free base rate delivered by the synchronizer. It defines the base rate as allowing at most burstAmount of sequencing traffic within a window of burstWindow seconds.
+>
+> <div id="constr-splice-decentralizedsynchronizer-baseratetrafficlimits-1937">
+>
+> BaseRateTrafficLimits
+>
+> </div>
+>
+> > | Field       | Type                                                                                                                   | Description                                                                         |
+> > |-------------|------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+> > | burstAmount | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)             | The total burstAmount in bytes of sequencing traffic delivered over the burstWindow |
+> > | burstWindow | [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) | Time window within which the burstAmount must not be exceeded                       |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) BaseRateTrafficLimits
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) BaseRateTrafficLimits
+>
+> **instance** GetField "baseRateTrafficLimits" SynchronizerFeesConfig BaseRateTrafficLimits
+>
+> **instance** GetField "burstAmount" BaseRateTrafficLimits [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** GetField "burstWindow" BaseRateTrafficLimits [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)
+>
+> **instance** SetField "baseRateTrafficLimits" SynchronizerFeesConfig BaseRateTrafficLimits
+>
+> **instance** SetField "burstAmount" BaseRateTrafficLimits [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "burstWindow" BaseRateTrafficLimits [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)
+>
+> **instance** Patchable BaseRateTrafficLimits
+
+<div id="type-splice-decentralizedsynchronizer-formembertraffic-62879">
+
+**data** ForMemberTraffic
+
+</div>
+
+> <div id="constr-splice-decentralizedsynchronizer-formembertraffic-24640">
+>
+> ForMemberTraffic
+>
+> </div>
+>
+> > | Field          | Type                                                                                                                | Description |
+> > |----------------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> > | dso            | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> > | memberId       | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        |             |
+> > | synchronizerId | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        |             |
+> > | migrationId    | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)          |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) ForMemberTraffic
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) ForMemberTraffic
+>
+> **instance** GetField "dso" ForMemberTraffic [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "memberId" ForMemberTraffic [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** GetField "migrationId" ForMemberTraffic [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** GetField "synchronizerId" ForMemberTraffic [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "dso" ForMemberTraffic [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "memberId" ForMemberTraffic [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "migrationId" ForMemberTraffic [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "synchronizerId" ForMemberTraffic [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** HasCheckedFetch MemberTraffic ForMemberTraffic
+
+<div id="type-splice-decentralizedsynchronizer-synchronizerfeesconfig-12142">
+
+**data** SynchronizerFeesConfig
+
+</div>
+
+> Synchronizer fees related configuration to be tracked on the DsoRules contract
+>
+> <div id="constr-splice-decentralizedsynchronizer-synchronizerfeesconfig-16293">
+>
+> SynchronizerFeesConfig
+>
+> </div>
+>
+> > | Field                    | Type                                                                                                               | Description                                                                                                                                                                                                                                                                                                                                               |
+> > |--------------------------|--------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+> > | baseRateTrafficLimits    | BaseRateTrafficLimits                                                                                              | Configuration limits for base rate traffic                                                                                                                                                                                                                                                                                                                |
+> > | extraTrafficPrice        | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) | The price of extra traffic denominated in \$/MB                                                                                                                                                                                                                                                                                                           |
+> > | readVsWriteScalingFactor | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)         | How much the sending of a message to its recipient costs in terms of bytes written to the synchronizer. This factor is specified in parts per 10,000 (or per 10 mille) We charge for sending messages depending on the number of recipients, as delivering the message incurs a cost as well, albeit usually a much smaller one than the cost of a write. |
+> > | minTopupAmount           | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)         | The minimum amount of extra traffic (in bytes) that must be bought when buying extra traffic. This ensures that the SVs can amortize the cost of executing that transaction.                                                                                                                                                                              |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) SynchronizerFeesConfig
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) SynchronizerFeesConfig
+>
+> **instance** GetField "baseRateTrafficLimits" SynchronizerFeesConfig BaseRateTrafficLimits
+>
+> **instance** GetField "extraTrafficPrice" SynchronizerFeesConfig [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "fees" AmuletDecentralizedSynchronizerConfig SynchronizerFeesConfig
+>
+> **instance** GetField "minTopupAmount" SynchronizerFeesConfig [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** GetField "readVsWriteScalingFactor" SynchronizerFeesConfig [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "baseRateTrafficLimits" SynchronizerFeesConfig BaseRateTrafficLimits
+>
+> **instance** SetField "extraTrafficPrice" SynchronizerFeesConfig [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "fees" AmuletDecentralizedSynchronizerConfig SynchronizerFeesConfig
+>
+> **instance** SetField "minTopupAmount" SynchronizerFeesConfig [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "readVsWriteScalingFactor" SynchronizerFeesConfig [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** Patchable SynchronizerFeesConfig
+
+## Functions
+
+<div id="function-splice-decentralizedsynchronizer-validamuletdecentralizedsynchronizerconfig-57759">
+
+validAmuletDecentralizedSynchronizerConfig
+: AmuletDecentralizedSynchronizerConfig -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+</div>
+
+<div id="function-splice-decentralizedsynchronizer-initialmembertraffic-49736">
+
+initialMemberTraffic
+: [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261) -\> MemberTraffic
+
+</div>
+
+{/* COPIED_END */}

@@ -1,0 +1,24 @@
+---
+title: "1.2.1"
+description: "Wallet SDK 1.2.1 release notes."
+---
+
+{/* GENERATED_RELEASE_NOTES target="wallet-sdk" format="split-release" version="1.2.1" source="158b3ff4c316ba7a5d6c89a6099a5303b76d4f77" */}
+
+# 1.2.1
+
+**Released on May 13th, 2026**
+
+- fixes for Wallet SDK type inference
+
+*a typing issue around optional `extend` options and SDK initialization was fixed to improve TypeScript inference and reduce false-positive
+type errors in consumer projects.*
+
+- improved compatibility with unknown Canton versions
+
+*when a newer/unknown Canton version is detected, the SDK stack now warns and falls back to a compatible client version instead of failing
+immediately, making forward-compatibility smoother while still surfacing the warning.*
+
+- hardened unauthenticated connection error handling
+
+*minor exception handling edge cases in unauthenticated connection detection were fixed to avoid misleading failures.*

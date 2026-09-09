@@ -1,0 +1,10 @@
+```scala
+@ source.parties
+    .export_party_acs(
+      party = alice,
+      synchronizerId = synchronizerId,
+      targetParticipantId = target.id,
+      beginOffsetExclusive = beforeActivationOffset,
+      exportFilePath = "party_replication.alice.acs.gz",
+    )
+```

@@ -1,0 +1,13 @@
+```bash
+# Install the SDK version from daml.yaml
+`dpm install` <<version>>
+
+# Compile Daml to DAR
+dpm build
+
+# Generate Java bindings
+dpm codegen-java .daml/dist/<<your-project.dar>> -o <<output-directory>>
+
+# Generate TypeScript bindings (if needed)
+dpm codegen-js .daml/dist/<<your-project.dar>> -o <<output directory>>
+```

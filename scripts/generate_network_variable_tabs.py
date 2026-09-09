@@ -10,9 +10,9 @@ from typing import Any
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DOCS_MAIN = REPO_ROOT / "docs-main"
-NETWORK_DATA_PATH = DOCS_MAIN / "snippets" / "generated" / "version-dashboard-data.mdx"
-NETWORKVARS_ROOT = DOCS_MAIN / "snippets" / "networkvars"
+DOCS_SOURCE = REPO_ROOT / "docs-source"
+DOCS_OUTPUT = REPO_ROOT / "docs-main"
+NETWORK_DATA_PATH = DOCS_SOURCE / "snippets" / "generated" / "version-dashboard-data.mdx"
 NETWORK_ORDER = ["devnet", "testnet", "mainnet"]
 
 IMPORT_RE = re.compile(
@@ -28,13 +28,7 @@ NETWORK_DATA_IMPORT_RE = re.compile(
     re.MULTILINE,
 )
 NETWORKVARS_BLOCK_RE = re.compile(
-    r"<NetworkVariables(?P<attrs>[^>]*)>(?P<body>.*?)</NetworkVariables>",
-    re.DOTALL,
-)
-GENERATED_BLOCK_RE = re.compile(
-    r"\{/\*\s*NETWORKVARS_START\s+source=\"(?P<source>[^\"]+)\"\s*\*/\}"
-    r".*?"
-    r"\{/\*\s*NETWORKVARS_END\s*\*/\}",
+    r"<NetworkVariables\b(?P<attrs>[^>]*)>(?P<body>.*?)</NetworkVariables>",
     re.DOTALL,
 )
 TOKEN_RE = re.compile(r"\|([A-Za-z0-9_]+)\|")
@@ -49,7 +43,6 @@ class ImportRef:
 
 
 def load_network_data(path: Path = NETWORK_DATA_PATH) -> dict[str, Any]:
-    source = path.read_text(encoding="utf-8")
     node_script = """
 const fs = require('fs');
 const source = fs.readFileSync(process.argv[1], 'utf8');
@@ -68,27 +61,27 @@ process.stdout.write(JSON.stringify(networkData));
     return json.loads(result.stdout)
 
 
-def resolve_mdx_import(import_path: str, docs_main: Path = DOCS_MAIN) -> Path:
+def resolve_mdx_import(import_path: str, docs_source: Path = DOCS_SOURCE) -> Path:
     if import_path.startswith("/"):
-        return docs_main / import_path.removeprefix("/")
-    return docs_main / import_path
+        return docs_source / import_path.removeprefix("/")
+    return docs_source / import_path
 
 
-def find_imports(text: str, docs_main: Path = DOCS_MAIN) -> dict[str, ImportRef]:
+def find_imports(text: str, docs_source: Path = DOCS_SOURCE) -> dict[str, ImportRef]:
     imports: dict[str, ImportRef] = {}
     for match in IMPORT_RE.finditer(text):
         import_path = match.group("path")
         imports[match.group("name")] = ImportRef(
             name=match.group("name"),
             import_path=import_path,
-            file_path=resolve_mdx_import(import_path, docs_main),
+            file_path=resolve_mdx_import(import_path, docs_source),
             line=match.group(0),
         )
     return imports
 
 
-def split_source_imports(text: str, docs_main: Path = DOCS_MAIN) -> tuple[dict[str, ImportRef], str]:
-    imports = find_imports(text, docs_main)
+def split_source_imports(text: str, docs_source: Path = DOCS_SOURCE) -> tuple[dict[str, ImportRef], str]:
+    imports = find_imports(text, docs_source)
     body = IMPORT_RE.sub("", text).strip()
     return imports, body
 
@@ -99,15 +92,6 @@ def imported_components_used(body: str, imports: dict[str, ImportRef]) -> list[I
         if re.search(rf"<{re.escape(name)}(?:\s*/|\s|>)", body):
             used.append(ref)
     return used
-
-
-def source_snippet_path(page_path: Path, block_index: int, docs_main: Path = DOCS_MAIN) -> Path:
-    rel = page_path.relative_to(docs_main).with_suffix("")
-    return docs_main / "snippets" / "networkvars" / rel.parent / f"{rel.name}-{block_index}.mdx"
-
-
-def source_ref_for_path(source_path: Path, docs_main: Path = DOCS_MAIN) -> str:
-    return "/" + source_path.relative_to(docs_main).as_posix()
 
 
 def network_label(network_key: str, network: dict[str, Any]) -> str:
@@ -166,7 +150,7 @@ def prefix_lines(text: str, prefix: str) -> str:
 def inline_imported_components(
     text: str,
     imports: dict[str, ImportRef],
-    docs_main: Path = DOCS_MAIN,
+    docs_source: Path = DOCS_SOURCE,
     stack: tuple[Path, ...] = (),
 ) -> str:
     rendered = text
@@ -177,11 +161,11 @@ def inline_imported_components(
             cycle = " -> ".join(path.as_posix() for path in (*stack, ref.file_path))
             raise ValueError(f"Recursive network variable snippet import: {cycle}")
         imported_text = ref.file_path.read_text(encoding="utf-8").strip()
-        nested_imports, imported_body = split_source_imports(imported_text, docs_main)
+        nested_imports, imported_body = split_source_imports(imported_text, docs_source)
         imported_body = inline_imported_components(
             imported_body,
             nested_imports,
-            docs_main,
+            docs_source,
             (*stack, ref.file_path),
         )
         rendered = re.sub(
@@ -204,9 +188,9 @@ def render_network_body(
     imports: dict[str, ImportRef],
     network_key: str,
     network: dict[str, Any],
-    docs_main: Path = DOCS_MAIN,
+    docs_source: Path = DOCS_SOURCE,
 ) -> str:
-    body = inline_imported_components(source_body, imports, docs_main)
+    body = inline_imported_components(source_body, imports, docs_source)
     body = expand_network_only_blocks(body, network_key)
     body = replace_tokens(body, network_key, network)
     return body.strip()
@@ -216,15 +200,15 @@ def render_generated_block(
     source_ref: str,
     source_text: str,
     network_data: dict[str, Any],
-    docs_main: Path = DOCS_MAIN,
+    docs_source: Path = DOCS_SOURCE,
 ) -> str:
-    imports, source_body = split_source_imports(source_text, docs_main)
+    imports, source_body = split_source_imports(source_text, docs_source)
     tabs: list[str] = [f'{{/* NETWORKVARS_START source="{source_ref}" */}}', "<Tabs>"]
     for network_key in NETWORK_ORDER:
         network = network_data.get(network_key)
         if not network or not network.get("substitutions"):
             continue
-        body = render_network_body(source_body, imports, network_key, network, docs_main)
+        body = render_network_body(source_body, imports, network_key, network, docs_source)
         tabs.extend(
             [
                 "",
@@ -262,84 +246,91 @@ def clean_unused_imports(text: str) -> str:
     return text
 
 
-def bootstrap_page(page_path: Path, network_data: dict[str, Any], docs_main: Path = DOCS_MAIN) -> bool:
-    text = page_path.read_text(encoding="utf-8")
-    if "<NetworkVariables" not in text:
-        return False
-
-    page_imports = find_imports(text, docs_main)
-    changed = False
-    block_index = 0
+def render_page(text: str, source_ref: str, network_data: dict[str, Any], docs_source: Path) -> str:
+    """Expand authored blocks without modifying the source page or its imports."""
+    if not NETWORKVARS_BLOCK_RE.search(text):
+        return text
+    imports = find_imports(text, docs_source)
 
     def replace_block(match: re.Match[str]) -> str:
-        nonlocal block_index, changed
-        block_index += 1
-        changed = True
         body = match.group("body").strip()
-        used_imports = imported_components_used(body, page_imports)
-        source_path = source_snippet_path(page_path, block_index, docs_main)
-        source_path.parent.mkdir(parents=True, exist_ok=True)
-        import_lines = "\n".join(ref.line for ref in used_imports)
-        source_text = f"{import_lines}\n\n{body}\n" if import_lines else f"{body}\n"
-        if not source_path.exists():
-            source_path.write_text(source_text, encoding="utf-8")
-        source_ref = source_ref_for_path(source_path, docs_main)
-        return render_generated_block(source_ref, source_path.read_text(encoding="utf-8"), network_data, docs_main)
+        used_imports = imported_components_used(body, imports)
+        snippet = "\n".join(ref.line for ref in used_imports) + "\n\n" + body
+        return render_generated_block(source_ref, snippet, network_data, docs_source)
 
-    text = NETWORKVARS_BLOCK_RE.sub(replace_block, text)
-    text = clean_unused_imports(text)
-    if changed:
-        page_path.write_text(text, encoding="utf-8")
-    return changed
+    return clean_unused_imports(NETWORKVARS_BLOCK_RE.sub(replace_block, text))
 
 
-def update_page(page_path: Path, network_data: dict[str, Any], docs_main: Path = DOCS_MAIN) -> bool:
-    text = page_path.read_text(encoding="utf-8")
-    if not GENERATED_BLOCK_RE.search(text):
-        return False
-
-    def replace_block(match: re.Match[str]) -> str:
-        source_ref = match.group("source")
-        source_path = resolve_mdx_import(source_ref, docs_main)
-        source_text = source_path.read_text(encoding="utf-8")
-        return render_generated_block(source_ref, source_text, network_data, docs_main)
-
-    updated = GENERATED_BLOCK_RE.sub(replace_block, text)
-    updated = clean_unused_imports(updated)
-    if updated != text:
-        page_path.write_text(updated, encoding="utf-8")
-    return updated != text
+IGNORED_NAMES = {".DS_Store", ".git", ".mintlify", ".internal", "node_modules", "__pycache__"}
 
 
-def iter_pages(docs_main: Path = DOCS_MAIN) -> list[Path]:
-    return sorted(
-        path
-        for path in docs_main.rglob("*.mdx")
-        if "/snippets/" not in path.as_posix()
+def corpus_files(root: Path) -> dict[Path, Path]:
+    return {
+        path.relative_to(root): path
+        for path in sorted(root.rglob("*"))
+        if path.is_file() and not any(part in IGNORED_NAMES for part in path.relative_to(root).parts)
+    }
+
+
+def generate_site(
+    docs_source: Path = DOCS_SOURCE,
+    docs_output: Path = DOCS_OUTPUT,
+    *,
+    check: bool = False,
+) -> list[Path]:
+    """Copy the entire corpus, rendering network blocks only in published pages.
+
+    Check mode compares bytes and the complete file set without writing anything.
+    Rendering completes before output is touched so a broken input cannot leave a
+    partially regenerated site.
+    """
+    source_root, output_root = docs_source.resolve(), docs_output.resolve()
+    if source_root == output_root or source_root in output_root.parents or output_root in source_root.parents:
+        raise ValueError("Source and output must be separate, non-overlapping directories")
+    if not (docs_source / "docs.json").is_file():
+        raise FileNotFoundError(f"Missing source site configuration: {docs_source / 'docs.json'}")
+    files = corpus_files(docs_source)
+    network_data = load_network_data(docs_source / "snippets/generated/version-dashboard-data.mdx")
+    expected: dict[Path, bytes] = {}
+    for relative, path in files.items():
+        content = path.read_bytes()
+        if path.suffix in {".md", ".mdx"} and relative.parts[0] != "snippets":
+            content = render_page(content.decode("utf-8"), "/" + relative.as_posix(), network_data, docs_source).encode("utf-8")
+        expected[relative] = content
+
+    current = corpus_files(docs_output)
+    changed = sorted(
+        relative for relative, content in expected.items()
+        if relative not in current or current[relative].read_bytes() != content
     )
+    removed = sorted(current.keys() - expected.keys())
+    if not check:
+        # Remove obsolete files first, including file-to-directory renames.
+        for relative in removed:
+            current[relative].unlink()
+        for directory in sorted(docs_output.rglob("*"), reverse=True):
+            if directory.is_dir() and not any(directory.iterdir()):
+                directory.rmdir()
+        for relative in changed:
+            destination = docs_output / relative
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_bytes(expected[relative])
+    return [docs_output / relative for relative in sorted(set(changed + removed))]
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Generate static Mintlify tabs for network variable snippets.")
-    parser.add_argument("--bootstrap", action="store_true", help="Extract existing NetworkVariables blocks into source snippets before regenerating.")
-    parser.add_argument("--check", action="store_true", help="Fail if generated output is not up to date.")
+    parser = argparse.ArgumentParser(description="Copy docs-source to docs-main and render static network variable tabs.")
+    parser.add_argument("--check", action="store_true", help="Check every output file without changing source or output.")
     args = parser.parse_args()
-
-    network_data = load_network_data()
-    changed_pages: list[Path] = []
-    for page_path in iter_pages():
-        changed = bootstrap_page(page_path, network_data) if args.bootstrap else update_page(page_path, network_data)
-        if changed:
-            changed_pages.append(page_path)
-
-    if args.check and changed_pages:
-        changed_list = "\n".join(path.relative_to(REPO_ROOT).as_posix() for path in changed_pages)
-        raise SystemExit(f"network variable tabs are out of date:\n{changed_list}")
-
-    if changed_pages:
-        print(f"Updated {len(changed_pages)} page(s).")
+    changed = generate_site(check=args.check)
+    if args.check and changed:
+        changed_list = "\n".join(path.relative_to(REPO_ROOT).as_posix() for path in changed)
+        raise SystemExit(f"Network variable tabs are stale. Run `npm run generate:network-variable-tabs` "
+                         f"and commit docs-source and docs-main.\n{changed_list}")
+    if changed:
+        print(f"Updated {len(changed)} output file(s).")
     else:
-        print("Network variable tabs are up to date.")
+        print("Network variable tabs are rendered and up to date.")
 
 
 if __name__ == "__main__":

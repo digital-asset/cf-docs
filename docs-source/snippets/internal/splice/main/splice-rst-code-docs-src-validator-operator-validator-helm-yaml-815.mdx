@@ -1,0 +1,9 @@
+```yaml
+extraInitContainers:
+    - name: chown-domain-upgrade-dump
+      image: busybox:1.37.0
+      command: ["sh", "-c", "chown -R 1001:1001 /domain-upgrade-dump"]
+      volumeMounts:
+        - name: domain-upgrade-dump-volume
+          mountPath: /domain-upgrade-dump
+```

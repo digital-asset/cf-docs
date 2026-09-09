@@ -1,0 +1,65 @@
+```scala
+@ val newTarget = participant3
+    newTarget : com.digitalasset.canton.console.LocalParticipantReference = Participant 'participant3'
+```
+
+```scala
+@ val hostingParticipants = Seq(source, target, newTarget)
+    hostingParticipants : Seq[com.digitalasset.canton.console.LocalParticipantReference] = List(Participant 'participant1', Participant 'participant2', Participant 'participant3')
+```
+
+```scala
+@ source.topology.party_to_participant_mappings
+    .propose(
+      alice,
+      newParticipants = hostingParticipants.map(_.id -> ParticipantPermission.Confirmation),
+      threshold = PositiveInt.three,
+      store = synchronizerId,
+    )
+    res9: SignedTopologyTransaction[TopologyChangeOp, PartyToParticipant] = SignedTopologyTransaction(
+      TopologyTransaction(
+        PartyToParticipant(
+          partyId = Alice::12201ff69b1d...,
+          threshold = 3,
+          participants = Map(
+            PAR::participant1::12201ff69b1d... -> Confirmation,
+            PAR::participant2::1220a4d7463b... -> Confirmation,
+            PAR::participant3::1220d6908163... -> Confirmation
+          )
+        ),
+        serial = 3,
+        operation = Replace,
+        hash = SHA-256:7249f1511e32...
+      ),
+      signatures = 12201ff69b1d...,
+      proposal
+    )
+```
+
+```scala
+@ newTarget.topology.party_to_participant_mappings
+    .propose(
+      alice,
+      newParticipants = hostingParticipants.map(_.id -> ParticipantPermission.Confirmation),
+      threshold = PositiveInt.three,
+      store = synchronizerId,
+    )
+    res10: SignedTopologyTransaction[TopologyChangeOp, PartyToParticipant] = SignedTopologyTransaction(
+      TopologyTransaction(
+        PartyToParticipant(
+          partyId = Alice::12201ff69b1d...,
+          threshold = 3,
+          participants = Map(
+            PAR::participant1::12201ff69b1d... -> Confirmation,
+            PAR::participant2::1220a4d7463b... -> Confirmation,
+            PAR::participant3::1220d6908163... -> Confirmation
+          )
+        ),
+        serial = 3,
+        operation = Replace,
+        hash = SHA-256:7249f1511e32...
+      ),
+      signatures = 1220d6908163...,
+      proposal
+    )
+```

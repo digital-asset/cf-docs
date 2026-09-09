@@ -1,0 +1,57 @@
+---
+title: "Splice APIs"
+description: "Reference documentation for the Scan, Validator, SV, and Daml APIs that run on Canton Network nodes."
+---
+
+Splice nodes expose REST APIs that are separate from the [Ledger API](/sdks-tools/api-reference/ledger-api) and the [Admin API](/sdks-tools/api-reference/admin-api). These APIs are served by the Splice application layer running on top of Canton and provide access to Canton Network-specific functionality: querying network state, managing wallets, operating validators, and governing the network as a Super Validator (SV).
+
+## Sub-pages
+
+- [Splice APIs Overview](/sdks-tools/api-reference/splice-overview) — entry point and how the APIs fit together
+- [Splice HTTP APIs](/sdks-tools/api-reference/splice-http-apis) — the HTTP/REST APIs at a glance
+- [Splice Daml APIs](/sdks-tools/api-reference/splice-daml-apis) — Daml choice-based APIs exposed by the Splice DARs
+- [Splice Daml Models](/sdks-tools/api-reference/splice-daml-models) — the Daml model packages shipped with Splice
+
+### Scan APIs (read-only, public)
+
+- [Scan APIs](/sdks-tools/api-reference/splice-scan-api) — introduction and scan endpoint surface
+- [Scan Aggregates API](/sdks-tools/api-reference/splice-scan-aggregates-api)
+- [Scan Bulk Data API](/sdks-tools/api-reference/splice-scan-bulk-data-api)
+- [Scan Canton Coin Reference Data API](/sdks-tools/api-reference/splice-scan-cc-reference-data-api)
+- [Scan API for Current State of CC and Synchronizer Traffic](/sdks-tools/api-reference/splice-scan-current-state-api)
+- [Scan Global Synchronizer Connectivity API](/sdks-tools/api-reference/splice-scan-gs-connectivity-api)
+- [Scan Global Synchronizer Operations API](/sdks-tools/api-reference/splice-scan-gs-operations-api)
+- [Scan Open API Reference](/sdks-tools/api-reference/splice-scan-openapi)
+
+### Validator-side APIs
+
+- [Validator APIs](/sdks-tools/api-reference/splice-validator-api) — wallet, user management, external signing, and validator administration
+
+## Authentication
+
+All Splice APIs except the public Scan API require a JWT token passed as an [OAuth2 Bearer token](https://datatracker.ietf.org/doc/html/rfc6750#section-2.1):
+
+```
+Authorization: Bearer <your-token>
+```
+
+The Scan API is publicly accessible and does not require authentication.
+
+## OpenAPI Specifications
+
+The full set of OpenAPI specifications is published in the [Splice repository](https://github.com/canton-network/splice):
+
+- [scan.yaml](https://github.com/canton-network/splice/blob/main/apps/scan/src/main/openapi/scan.yaml) — Scan API
+- [wallet-external.yaml](https://github.com/canton-network/splice/blob/main/apps/wallet/src/main/openapi/wallet-external.yaml) — Wallet API (external)
+- [ans-external.yaml](https://github.com/canton-network/splice/blob/main/apps/validator/src/main/openapi/ans-external.yaml) — ANS API (external)
+- [validator-internal.yaml](https://github.com/canton-network/splice/blob/main/apps/validator/src/main/openapi/validator-internal.yaml) — Validator API (internal)
+- [sv-internal.yaml](https://github.com/canton-network/splice/blob/main/apps/sv/src/main/openapi/sv-internal.yaml) — SV API (internal)
+- [scan-proxy.yaml](https://github.com/canton-network/splice/blob/main/apps/validator/src/main/openapi/scan-proxy.yaml) — Scan Proxy API
+
+Endpoints in files named `*-external` carry backwards compatibility guarantees. Endpoints in `*-internal` files may change between releases without notice.
+
+## Related Pages
+
+- [Ledger API](/sdks-tools/api-reference/ledger-api) — gRPC API for submitting commands and reading the transaction stream
+- [Admin API](/sdks-tools/api-reference/admin-api) — Canton node administration
+- [JSON API](/sdks-tools/api-reference/json-api) — HTTP/REST wrapper for the Ledger API

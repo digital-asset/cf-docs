@@ -1,0 +1,434 @@
+---
+title: "POST /v0/entry/create"
+description: "Requests the creation of a new ANS entry. ANS entries need to be paid and renewed via subscription payments. Upon requesting the creation of the ANS entry, a subscription request is created. The user may accept the subscription request via their wallet by offering the initial payment. Once the subscription request is accepted, the DSO automation burns the payment and creates the ANS entry."
+api: "POST https://example.com/api/validator/v0/entry/create"
+authMethod: "bearer"
+playground: "interactive"
+sidebarTitle: "/v0/entry/create"
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--operation x2mdx-ref-page--manual-api"></div>
+
+
+
+<div class="x2mdx-ref-hero">
+
+
+
+  <p class="x2mdx-ref-summary">Requests the creation of a new ANS entry. ANS entries need to be paid and renewed via subscription payments. Upon requesting the creation of the ANS entry, a subscription request is created. The user may accept the subscription request via their wallet by offering the initial payment. Once the subscription request is accepted, the DSO automation burns the payment and creates the ANS entry.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">OpenAPI</span>
+
+</div>
+
+
+</div>
+
+
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url 'https://example.com/api/validator/v0/entry/create' \
+  --header 'Authorization: Bearer $TOKEN' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "name": "<string>",
+  "url": "<string>",
+  "description": "<string>"
+}'
+```
+
+```python Python
+import json
+import requests
+
+url = "https://example.com/api/validator/v0/entry/create"
+headers = {'Authorization': 'Bearer <token>', 'Content-Type': 'application/json'}
+payload = json.loads(r'''{
+  "name": "<string>",
+  "url": "<string>",
+  "description": "<string>"
+}''')
+response = requests.request(
+    "POST", url, headers=headers, json=payload
+)
+
+print(response.text)
+```
+
+```javascript JavaScript
+const response = await fetch('https://example.com/api/validator/v0/entry/create', {
+  method: 'POST',
+  headers: {
+  "Authorization": "Bearer <token>",
+  "Content-Type": "application/json"
+},
+  body: JSON.stringify({
+  "name": "<string>",
+  "url": "<string>",
+  "description": "<string>"
+}),
+});
+
+console.log(await response.text());
+```
+
+```php PHP
+<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => 'https://example.com/api/validator/v0/entry/create',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS => <<<'JSON'
+{
+  "name": "<string>",
+  "url": "<string>",
+  "description": "<string>"
+}
+JSON,
+    CURLOPT_HTTPHEADER => [
+        "Authorization: Bearer <token>",
+        "Content-Type: application/json"
+    ],
+]);
+
+$response = curl_exec($curl);
+echo $response;
+```
+
+```go Go
+package main
+
+import (
+  "bytes"
+  "fmt"
+  "io"
+  "net/http"
+)
+
+func main() {
+  req, _ := http.NewRequest("POST", "https://example.com/api/validator/v0/entry/create", bytes.NewBufferString(`{
+  "name": "<string>",
+  "url": "<string>",
+  "description": "<string>"
+}`))
+  req.Header.Set("Authorization", "Bearer <token>")
+  req.Header.Set("Content-Type", "application/json")
+  response, _ := http.DefaultClient.Do(req)
+  defer response.Body.Close()
+  body, _ := io.ReadAll(response.Body)
+  fmt.Println(string(body))
+}
+```
+
+```java Java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+var request = HttpRequest.newBuilder()
+    .uri(URI.create("https://example.com/api/validator/v0/entry/create"))
+    .header("Authorization", "Bearer <token>")
+    .header("Content-Type", "application/json")
+    .method("POST", HttpRequest.BodyPublishers.ofString("""
+{
+  "name": "<string>",
+  "url": "<string>",
+  "description": "<string>"
+}
+"""))
+    .build();
+var response = HttpClient.newHttpClient().send(
+    request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```ruby Ruby
+require 'net/http'
+require 'uri'
+
+uri = URI('https://example.com/api/validator/v0/entry/create')
+request = Net::HTTP::Post.new(uri)
+request['Authorization'] = 'Bearer <token>'
+request['Content-Type'] = 'application/json'
+request.body = <<~JSON
+{
+  "name": "<string>",
+  "url": "<string>",
+  "description": "<string>"
+}
+JSON
+response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+  http.request(request)
+end
+puts response.body
+```
+
+</RequestExample>
+
+
+<ResponseExample>
+
+```json 200
+{
+  "entryContextCid": "<string>",
+  "subscriptionRequestCid": "<string>",
+  "name": "<string>",
+  "url": "<string>",
+  "description": "<string>"
+}
+```
+
+```json 400
+{
+  "error": "<string>"
+}
+```
+
+```json 500
+{
+  "error": "<string>"
+}
+```
+
+</ResponseExample>
+
+
+## Authorizations
+
+
+### userAuth
+
+
+
+
+
+
+<ParamField header="Authorization" type="string" required>
+
+
+HTTP bearer authentication. Send the token as `Authorization: Bearer &lt;token&gt;`. Bearer format: `JWT`. JWT token as described by the `spliceAppBearerAuth` security scheme. The subject of the token must be ledger API user of the user affected by the endpoint.
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+
+
+## Body
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ParamField body="name" type="string" required>
+
+
+The name of the ANS entry. It must end with `.unverified.&lt;ans&gt;` where `&lt;ans&gt;` is the ANS acronym chosen by the DSO.
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="url" type="string" required>
+
+
+A valid URL or an empty string. Use this to link to a website, such as the homepage of an application provided by the owner of this entry. Must not be longer than 255 characters.
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="description" type="string" required>
+
+
+A human readable description of the ANS entry. May be empty. Must not be longer than 140 characters.
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+
+## Responses
+
+
+### 200
+
+ok
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="entryContextCid" type="ContractId" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="subscriptionRequestCid" type="ContractId" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="name" type="string" required>
+
+The name of the ANS entry, as specified in the request.
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="url" type="string" required>
+
+The URL of the ANS entry, as specified in the request.
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="description" type="string" required>
+
+The description of the ANS entry, as specified in the request.
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+### 400
+
+Invalid request, check the error response for details.
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="error" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+### 500
+
+internal server error
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="error" type="string" required>
+
+
+
+
+
+
+</ResponseField>

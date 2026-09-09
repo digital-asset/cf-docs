@@ -1,0 +1,277 @@
+---
+title: "Splice.Api.Token.HoldingV2"
+description: "Reference documentation for Daml module Splice.Api.Token.HoldingV2."
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--collection"></div>
+
+<span id="module-splice-api-token-holdingv2-15657"></span>
+
+
+
+<div class="x2mdx-ref-hero">
+
+  <p class="x2mdx-ref-eyebrow">Daml module</p>
+
+
+  <h1 class="x2mdx-ref-title">Splice.Api.Token.HoldingV2</h1>
+
+
+  <p class="x2mdx-ref-summary">Types and interfaces for retrieving an investor&#x27;s holdings.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Daml</span>
+
+</div>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Module</dt>
+    <dd>Splice.Api.Token.HoldingV2</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Latest release</dt>
+    <dd>0.8.0</dd>
+  </div>
+
+</dl>
+
+</div>
+
+
+
+
+
+## Interfaces
+
+
+<span id="type-splice-api-token-holdingv2-holding-65433"></span>
+
+### Interface `Holding`
+
+Holding interface.
+
+View Type: [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978)
+
+Choices:
+
+#### Choice `Archive`
+
+Controllers: `Signatories of implementing template`
+
+Returns: ()
+
+
+
+## Data Types
+
+
+<span id="type-splice-api-token-holdingv2-account-52093"></span>
+
+### `data Account`
+
+A data type to represent an on-chain managed account,
+
+For example a traditional accounting structure, or simply a delegation to
+a provider to perform some services.
+
+Constructors:
+
+<span id="constr-splice-api-token-holdingv2-account-85680"></span>
+- `Account`
+
+<ResponseField name="owner" type="Optional Party">
+The party that owns the account, which MUST be set for regular accounts.
+
+`None` is reserved for special accounts managed by the instrument
+
+admin. Special accounts are for example used to represent the source
+
+account for mints and the target account for burns.
+</ResponseField>
+
+<ResponseField name="provider" type="Optional Party">
+The provider of the account.
+
+Account providers MUST have visibility on all asset movements
+
+and holdings. Asset implementations are free to determine how
+
+authorization for asset movements is split between providers and
+
+owners. For example, providers MAY have to authorize all movements
+
+requested by the owner.
+</ResponseField>
+
+<ResponseField name="id" type="Text">
+Account number or similar.
+
+Use the empty string ("") as the default account identifier.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`Account`](#type-splice-api-token-holdingv2-account-52093)
+- instance `Ord` [`Account`](#type-splice-api-token-holdingv2-account-52093)
+- instance `Show` [`Account`](#type-splice-api-token-holdingv2-account-52093)
+- instance `GetField` `account` [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978) [`Account`](#type-splice-api-token-holdingv2-account-52093)
+- instance `GetField` `id` [`Account`](#type-splice-api-token-holdingv2-account-52093) `Text`
+- instance `GetField` `owner` [`Account`](#type-splice-api-token-holdingv2-account-52093) (`Optional` `Party`)
+- instance `GetField` `provider` [`Account`](#type-splice-api-token-holdingv2-account-52093) (`Optional` `Party`)
+- instance `SetField` `account` [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978) [`Account`](#type-splice-api-token-holdingv2-account-52093)
+- instance `SetField` `id` [`Account`](#type-splice-api-token-holdingv2-account-52093) `Text`
+- instance `SetField` `owner` [`Account`](#type-splice-api-token-holdingv2-account-52093) (`Optional` `Party`)
+- instance `SetField` `provider` [`Account`](#type-splice-api-token-holdingv2-account-52093) (`Optional` `Party`)
+
+
+<span id="type-splice-api-token-holdingv2-holdingview-66978"></span>
+
+### `data HoldingView`
+
+View for `Holding`.
+
+Constructors:
+
+<span id="constr-splice-api-token-holdingv2-holdingview-87327"></span>
+- `HoldingView`
+
+<ResponseField name="account" type="Account">
+Account in which the holding is held.
+</ResponseField>
+
+<ResponseField name="instrumentId" type="InstrumentId">
+Instrument being held.
+</ResponseField>
+
+<ResponseField name="amount" type="Decimal">
+Size of the holding.
+</ResponseField>
+
+<ResponseField name="lock" type="Optional Lock">
+Lock on the holding.
+
+Registries SHOULD allow holdings with expired locks as inputs to
+
+transfers to enable a combined unlocking + use choice.
+</ResponseField>
+
+<ResponseField name="meta" type="Metadata">
+Metadata.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978)
+- instance `Show` [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978)
+- instance `HasFromAnyView` [`Holding`](#type-splice-api-token-holdingv2-holding-65433) [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978)
+- instance `HasInterfaceView` [`Holding`](#type-splice-api-token-holdingv2-holding-65433) [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978)
+- instance `GetField` `account` [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978) [`Account`](#type-splice-api-token-holdingv2-account-52093)
+- instance `GetField` `amount` [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978) `Decimal`
+- instance `GetField` `instrumentId` [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978) [`InstrumentId`](#type-splice-api-token-holdingv2-instrumentid-91751)
+- instance `GetField` `lock` [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978) (`Optional` [`Lock`](#type-splice-api-token-holdingv2-lock-18966))
+- instance `GetField` `meta` [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978) `Metadata`
+- instance `SetField` `account` [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978) [`Account`](#type-splice-api-token-holdingv2-account-52093)
+- instance `SetField` `amount` [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978) `Decimal`
+- instance `SetField` `instrumentId` [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978) [`InstrumentId`](#type-splice-api-token-holdingv2-instrumentid-91751)
+- instance `SetField` `lock` [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978) (`Optional` [`Lock`](#type-splice-api-token-holdingv2-lock-18966))
+- instance `SetField` `meta` [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978) `Metadata`
+
+
+<span id="type-splice-api-token-holdingv2-instrumentid-91751"></span>
+
+### `data InstrumentId`
+
+A globally unique identifier for instruments.
+
+Constructors:
+
+<span id="constr-splice-api-token-holdingv2-instrumentid-6896"></span>
+- `InstrumentId`
+
+<ResponseField name="admin" type="Party">
+The party representing the registry app that administers the instrument.
+</ResponseField>
+
+<ResponseField name="id" type="Text">
+The identifier used for the instrument by the instrument admin.
+
+This identifier MUST be unique and unambiguous per instrument admin.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`InstrumentId`](#type-splice-api-token-holdingv2-instrumentid-91751)
+- instance `Ord` [`InstrumentId`](#type-splice-api-token-holdingv2-instrumentid-91751)
+- instance `Show` [`InstrumentId`](#type-splice-api-token-holdingv2-instrumentid-91751)
+- instance `GetField` `admin` [`InstrumentId`](#type-splice-api-token-holdingv2-instrumentid-91751) `Party`
+- instance `GetField` `id` [`InstrumentId`](#type-splice-api-token-holdingv2-instrumentid-91751) `Text`
+- instance `GetField` `instrumentId` [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978) [`InstrumentId`](#type-splice-api-token-holdingv2-instrumentid-91751)
+- instance `SetField` `admin` [`InstrumentId`](#type-splice-api-token-holdingv2-instrumentid-91751) `Party`
+- instance `SetField` `id` [`InstrumentId`](#type-splice-api-token-holdingv2-instrumentid-91751) `Text`
+- instance `SetField` `instrumentId` [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978) [`InstrumentId`](#type-splice-api-token-holdingv2-instrumentid-91751)
+
+
+<span id="type-splice-api-token-holdingv2-lock-18966"></span>
+
+### `data Lock`
+
+Details of a lock.
+
+Constructors:
+
+<span id="constr-splice-api-token-holdingv2-lock-95297"></span>
+- `Lock`
+
+<ResponseField name="holders" type="[Party]">
+Unique list of parties which are locking the contract.
+
+(Represented as a list, as that has the better JSON encoding.)
+</ResponseField>
+
+<ResponseField name="expiresAt" type="Optional Time">
+Absolute, inclusive deadline as of which the lock expires.
+</ResponseField>
+
+<ResponseField name="expiresAfter" type="Optional RelTime">
+Duration after which the created lock expires. Measured relative
+
+to the ledger time that the locked holding contract was created.
+
+If both `expiresAt` and `expiresAfter` are set, the lock expires at
+
+the earlier of the two times.
+</ResponseField>
+
+<ResponseField name="context" type="Optional Text">
+Short, human-readable description of the context of the lock.
+
+Used by wallets to enable users to understand the reason for the lock.
+
+Note that the visibility of the content in this field might be wider
+
+than the visibility of the contracts in the context. You should thus
+
+carefully decide what information is safe to put in the lock context.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`Lock`](#type-splice-api-token-holdingv2-lock-18966)
+- instance `Ord` [`Lock`](#type-splice-api-token-holdingv2-lock-18966)
+- instance `Show` [`Lock`](#type-splice-api-token-holdingv2-lock-18966)
+- instance `GetField` `context` [`Lock`](#type-splice-api-token-holdingv2-lock-18966) (`Optional` `Text`)
+- instance `GetField` `expiresAfter` [`Lock`](#type-splice-api-token-holdingv2-lock-18966) (`Optional` `RelTime`)
+- instance `GetField` `expiresAt` [`Lock`](#type-splice-api-token-holdingv2-lock-18966) (`Optional` `Time`)
+- instance `GetField` `holders` [`Lock`](#type-splice-api-token-holdingv2-lock-18966) [`Party`]
+- instance `GetField` `lock` [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978) (`Optional` [`Lock`](#type-splice-api-token-holdingv2-lock-18966))
+- instance `SetField` `context` [`Lock`](#type-splice-api-token-holdingv2-lock-18966) (`Optional` `Text`)
+- instance `SetField` `expiresAfter` [`Lock`](#type-splice-api-token-holdingv2-lock-18966) (`Optional` `RelTime`)
+- instance `SetField` `expiresAt` [`Lock`](#type-splice-api-token-holdingv2-lock-18966) (`Optional` `Time`)
+- instance `SetField` `holders` [`Lock`](#type-splice-api-token-holdingv2-lock-18966) [`Party`]
+- instance `SetField` `lock` [`HoldingView`](#type-splice-api-token-holdingv2-holdingview-66978) (`Optional` [`Lock`](#type-splice-api-token-holdingv2-lock-18966))

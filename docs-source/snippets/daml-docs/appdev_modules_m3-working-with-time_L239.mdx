@@ -1,0 +1,12 @@
+```daml
+template SimpleIou
+  with
+    issuer : Party
+    owner : Party
+    cash : Cash
+  where
+    signatory issuer
+    observer owner
+
+    ensure cash.amount > 0.0
+```

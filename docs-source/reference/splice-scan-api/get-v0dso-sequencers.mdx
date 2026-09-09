@@ -1,0 +1,317 @@
+---
+title: "GET /v0/dso-sequencers"
+description: "Retrieve Canton sequencer configuration for all SVs, grouped by connected synchronizer ID"
+api: "GET https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/dso-sequencers"
+playground: "interactive"
+sidebarTitle: "/v0/dso-sequencers"
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--operation x2mdx-ref-page--manual-api"></div>
+
+
+
+<div class="x2mdx-ref-hero">
+
+
+
+  <p class="x2mdx-ref-summary">Retrieve Canton sequencer configuration for all SVs, grouped by connected synchronizer ID</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">OpenAPI</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--changed" href="#history-updated-0-6-0">Updated 0.6.0</a>
+
+</div>
+
+
+</div>
+
+
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/dso-sequencers'
+```
+
+```python Python
+import json
+import requests
+
+url = "https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/dso-sequencers"
+response = requests.request("GET", url)
+
+print(response.text)
+```
+
+```javascript JavaScript
+const response = await fetch('https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/dso-sequencers', {
+  method: 'GET',
+});
+
+console.log(await response.text());
+```
+
+```php PHP
+<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => 'https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/dso-sequencers',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+]);
+
+$response = curl_exec($curl);
+echo $response;
+```
+
+```go Go
+package main
+
+import (
+  "fmt"
+  "io"
+  "net/http"
+)
+
+func main() {
+  req, _ := http.NewRequest("GET", "https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/dso-sequencers", nil)
+  response, _ := http.DefaultClient.Do(req)
+  defer response.Body.Close()
+  body, _ := io.ReadAll(response.Body)
+  fmt.Println(string(body))
+}
+```
+
+```java Java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+var request = HttpRequest.newBuilder()
+    .uri(URI.create("https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/dso-sequencers"))
+    .method("GET", HttpRequest.BodyPublishers.noBody())
+    .build();
+var response = HttpClient.newHttpClient().send(
+    request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```ruby Ruby
+require 'net/http'
+require 'uri'
+
+uri = URI('https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/dso-sequencers')
+request = Net::HTTP::Get.new(uri)
+response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+  http.request(request)
+end
+puts response.body
+```
+
+</RequestExample>
+
+
+<ResponseExample>
+
+```json 200
+{
+  "domainSequencers": [
+    {
+      "domainId": "<string>",
+      "sequencers": [
+        {
+          "migrationId": 123,
+          "synchronizerSerial": 123,
+          "id": "<string>",
+          "url": "<string>",
+          "svName": "<string>",
+          "availableAfter": "2026-01-01T00:00:00Z"
+        }
+      ]
+    }
+  ]
+}
+```
+
+</ResponseExample>
+
+
+
+
+## Responses
+
+
+### 200
+
+ok
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="domainSequencers" type="DomainSequencers[]" required>
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="domainId" type="string" required>
+
+the synchronizer ID for the associated sequencers
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="sequencers" type="DsoSequencer[]" required>
+
+the sequencers associated with the synchronizer
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="migrationId" type="integer (int64)" required>
+
+The synchronizer migration id corresponding to this sequencer. Set to -1 if serial is set.
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="synchronizerSerial" type="integer (int64)">
+
+The synchronizer serial corresponding to this sequencer. One of migrationId or serialId will be set.
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="id" type="string" required>
+
+The id of the sequencer.
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="url" type="string" required>
+
+The public accessible url of the sequencer.
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="svName" type="string" required>
+
+The sequencer&#x27;s operating SV name.
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="availableAfter" type="string (date-time)" required>
+
+Any participant should subscribe to this sequencer after this time.
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+
+
+
+
+## History
+
+<div class="x2mdx-ref-history" aria-label="Reference history">
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-0-6-0">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">0.6.0</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">The GET /v0/dso-sequencers operation changed in this snapshot.</p>
+
+  </div>
+
+</div>

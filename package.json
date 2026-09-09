@@ -27,7 +27,8 @@
     "validate:splice-mintlify-openapi-nav": "python3 scripts/validate_splice_mintlify_openapi_nav.py",
     "test:external-snippets": "python3 -m pytest tests/test_generate_external_snippets.py",
     "generate:typescript-bindings-reference": "python3 scripts/generate_typescript_bindings_reference.py",
-    "dev": "cd docs-main && mintlify dev"
+    "dev": "npm run build && cd docs-main && mintlify dev",
+    "build": "python3 scripts/generate_network_variable_tabs.py"
   },
   "dependencies": {
     "20": "^3.1.9",

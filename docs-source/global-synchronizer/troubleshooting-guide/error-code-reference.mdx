@@ -1,0 +1,56 @@
+---
+title: "Common Error Codes"
+description: "Common Canton and Splice error codes with causes and resolution steps"
+---
+
+Canton and Splice log and return errors in the form `ERROR_CODE_ID(category,correlation-id): message`, for example `TRANSACTION_NOT_FOUND(11,12345): Transaction not found, or not visible.` The category number identifies the error's category, which determines the log level, the gRPC status code, and whether the error is retryable. The correlation ID is the first eight characters of the request's submission ID and can help you find related log lines when contacting support.
+
+This page lists error codes relevant to validator operators, with their cause and how to resolve them.
+
+## Mediator Errors
+
+### MEDIATOR_SAYS_TX_TIMED_OUT
+
+- **Cause:** The mediator rejected the transaction because it did not receive enough confirmations within the confirmation response timeout. The `unresponsiveParties` field in the error context lists the parties that failed to respond in time.
+- **Resolution:** Check that all involved participants are available and not overloaded.
+
+### MEDIATOR_INVALID_MESSAGE
+
+- **Cause:** The mediator received an invalid request or response and discarded it; the underlying request may be rejected as a result, but this does not corrupt the ledger. This is expected after a mediator restart or failover.
+- **Resolution:** Address the cause of the error and let the submitter retry the command.
+
+## Sequencer Errors
+
+### SEQUENCER_SUBSCRIPTION_LOST
+
+- **Cause:** A sequencer subscription was interrupted. The client keeps retrying to reconnect indefinitely.
+- **Resolution:** Monitor the situation. Contact the synchronizer operator if the subscription does not recover on its own.
+
+## ACS Commitment Errors
+
+### ACS_COMMITMENT_MISMATCH
+
+- **Cause:** Your validator's Active Contract Set (ACS) commitment does not match a counter-participant's commitment for the same period. Between honest participants this should never happen; it can result from misbehavior, bugs, or manual changes made through the repair service.
+- **Resolution:** Work with the counter-participant's operator to inspect the mismatch and determine its cause, then repair the affected participant store(s).
+
+### ACS_COMMITMENT_DEGRADATION
+
+- **Cause:** Your participant has fallen behind one or more counter-participants in commitment computation, often due to heavy load, and has entered catch-up mode. Counter-participants may blacklist a degraded participant to unblock their own pruning, which weakens non-repudiation guarantees while it lasts.
+- **Resolution:** Catch-up mode is enabled by default and the participant should recover on its own. If degradation persists, check your participant's load and database performance.
+
+## General Errors
+
+### GENERIC_CONFIG_ERROR
+
+- **Cause:** A catch-all for miscellaneous configuration problems. A common cause is an unknown configuration key (for example a typo like `bort` instead of `port`), or a valid key placed at the wrong level of the configuration hierarchy — for example, `canton.participants.participant2.replication.enabled` rather than `canton.participants.replication.enabled`.
+- **Resolution:** Check the specific key named in the error message against your configuration files. See the [Canton configuration guide](/global-synchronizer/reference/canton-configuration-guide) for the correct hierarchy.
+
+### DB_STORAGE_DEGRADATION
+
+- **Cause:** A database task was rejected, typically because the storage task queue is too small. The task is automatically retried after a delay.
+- **Resolution:** If this occurs frequently, increase the storage task queue size (the `storage.config.queueSize` configuration parameter).
+
+### PACKAGE_SELECTION_FAILED
+
+- **Cause:** Topology-aware package selection could not find a valid set of vetted packages for the command being submitted.
+- **Resolution:** Inspect the error message and adjust either the topology state (vet the missing package) or the submitted command.

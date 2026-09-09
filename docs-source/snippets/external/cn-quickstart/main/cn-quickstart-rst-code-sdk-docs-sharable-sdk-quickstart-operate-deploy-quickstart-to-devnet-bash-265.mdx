@@ -1,0 +1,9 @@
+```bash
+   # GSF Sponsor SV URL for DevNet
+   SPONSOR_SV_URL="https://sv.sv-1.dev.global.canton.network.sync.global"
+
+   # Request and store the onboarding secret
+   ONBOARDING_SECRET=$(curl -s -X POST "$SPONSOR_SV_URL/api/sv/v0/devnet/onboard/validator/prepare")
+   echo $ONBOARDING_SECRET
+
+```

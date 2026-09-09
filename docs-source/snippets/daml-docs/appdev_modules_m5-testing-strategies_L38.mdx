@@ -1,0 +1,23 @@
+```haskell
+testTokenTransfer : Script ()
+testTokenTransfer = do
+  alice <- allocateParty "Alice"
+  bob <- allocateParty "Bob"
+
+  -- Alice creates a token
+  tokenCid <- submit alice do
+    createCmd Token with
+      owner = alice
+      issuer = alice
+      amount = 100.0
+
+  -- Alice transfers to Bob
+  submit alice do
+    exerciseCmd tokenCid Transfer with
+      newOwner = bob
+      transferAmount = 50.0
+
+  -- Verify Bob received the token
+  bobTokens <- query @Token bob
+  assertMsg "Bob should have one token contract" (length bobTokens == 1)
+```

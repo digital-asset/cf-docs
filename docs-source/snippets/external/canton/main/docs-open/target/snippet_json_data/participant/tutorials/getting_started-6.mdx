@@ -1,0 +1,11 @@
+```scala
+@ bootstrap.synchronizer(
+      synchronizerName = "da",
+      sequencers = Seq(sequencer1),
+      mediators = Seq(mediator1),
+      synchronizerOwners = Seq(sequencer1, mediator1),
+      synchronizerThreshold = 2,
+      staticSynchronizerParameters = StaticSynchronizerParameters.defaults(ProtocolVersion.forSynchronizer),
+    )
+    res8: PhysicalSynchronizerId = da::1220a82692ab...::35-0
+```

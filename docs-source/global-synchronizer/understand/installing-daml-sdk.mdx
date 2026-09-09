@@ -1,0 +1,27 @@
+---
+title: "Installing a Compatible Daml SDK"
+description: "How to install a Daml SDK version compatible with the current Splice release"
+---
+
+import ExternalSpliceMainSpliceRstCodeDocsSrcAppDevOverviewVersionInformationBash42 from "/snippets/internal/splice/main/splice-rst-code-docs-src-app-dev-overview-version-information-bash-42.mdx";
+
+{/* COPIED_START source="splice:docs/src/app_dev/overview/version_information.rst#installing-a-compatible-daml-sdk" hash="2149e7a4" */}
+
+You are not required to install the exact same Daml SDK versions used to build this Splice release. These versions are provided for reference only. `.dar` files built by older 3.x Daml SDKs are generally compatible with the Canton version used in this Splice release.
+
+For testing the interaction of your app with a Validator Node, we do recommend to use the Canton version used in this Splice release, which is the case if you deploy your Validator Node using the validator deployment instructions.
+
+To profit from the most recent features and bug fixes of the Daml SDK, we recommend to use a recent Daml SDK release that has the *same major and minor version* as the Canton version used in this Splice release.
+
+Follow these steps to install a recent, compatible OSS Daml SDK version:
+
+1.  Select the most recent stable release with the same major and minor version as above.
+
+2.  Install that release using
+
+    <ExternalSpliceMainSpliceRstCodeDocsSrcAppDevOverviewVersionInformationBash42 />
+
+For more information about installing the Daml SDK, see the [DPM installation guide](/sdks-tools/cli-tools/dpm).
+
+
+{/* COPIED_END */}

@@ -1,0 +1,6 @@
+```bash
+   # 3. Extract the user ID from the result
+   APP_USER_ID=$(curl -s "http://localhost:2975/v2/users" \
+     -H "Authorization: Bearer $USER_ADMIN_TOKEN" | jq -r '.users[] | select(.metadata.annotations.username == "app-user") | .id')
+
+```

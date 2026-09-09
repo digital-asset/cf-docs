@@ -1,0 +1,12 @@
+```haskell
+import Daml.Script
+import DA.Assert
+
+optionalIntegerToText (x : Optional Int) : Text =
+  case x of
+    None -> "Box is empty"
+    Some val -> "The content of the box is " <> show val
+
+optionalIntegerToTextTest =
+  script do
+```

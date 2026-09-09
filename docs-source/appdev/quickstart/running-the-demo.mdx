@@ -1,0 +1,417 @@
+---
+title: "Running the Demo"
+description: "Start the Canton Network QuickStart demo and walk through the licensing workflow"
+---
+
+import ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateExploreTheDemoBash104 from "/snippets/external/cn-quickstart/main/cn-quickstart-rst-code-sdk-docs-sharable-sdk-quickstart-operate-explore-the-demo-bash-104.mdx";
+
+{/* COPIED_START source="docs-website:docs/replicated/quickstart/3.4/sdk/quickstart/operate/explore-the-demo.rst" hash="e3cafd0e" */}
+
+# Explore the Canton Network Application Quickstart demo
+
+## Business case
+
+The Canton Network (CN) Quickstart is scaffolding to support development efforts to build, test, and deploy CN applications. It resolves infrastructure problems that every CN application must solve. Use the CN Quickstart Application so you and your team can focus on building your application, instead of build systems, deployment configurations, and testing infrastructure.
+
+### Core business operations
+
+The Quickstart features a sample licensing app to demonstrate Canton development patterns. In the app, providers sell time-based access to their services. Users pay with Canton Coin (CC) and manage payments through a Canton Wallet.
+
+The app involves four parties:
+
+- The **Application Provider** who sells licenses.
+- The **Application User** who buys licenses.
+- The underlying **Amulet** token system that handles payments, using [CC](https://www.canton.network/blog/canton-coin-a-canton-network-native-payment-application).
+- The **DSO Party**, the Decentralized Synchronizer Operations Party who operates the Amulet payment system. In CN, this is the Super Validators.
+
+The application issues licenses using the following process:
+
+#### Issuing a license
+
+The provider creates a new license for an onboarded user. The license starts expired and needs to be renewed before use.
+
+#### Requesting a license renewal
+
+The provider creates a renewal request, generating a payment request for the user. A matching CC payment request is created on the ledger.
+
+#### Paying for a license renewal
+
+The user approves the payment through their Canton Wallet, which creates an accepted payment contract on the ledger.
+
+#### Renewing the license
+
+The provider processes the accepted payment and updates the license with a new expiration date.
+
+## Overview
+
+This section helps you become familiar with a Canton Network (CN) business operation within the CN App Quickstart. The App Quickstart application is intended to be extended by your team to meet your business needs. When you are familiar with the App Quickstart, review the technology choices and application design to determine what changes are needed. Technology and design decisions are ultimately up to you.
+
+If you find errors, please contact your representative at Canton Network.
+
+## Prerequisites
+
+Install the [CN App Quickstart](/appdev/quickstart/prerequisites) before beginning this demonstration.
+
+## Walkthrough
+
+The CN App Quickstart can run with or without authorization, based on your business needs. Toggle authorization with the `make setup` command in the `quickstart` subdirectory. `make setup` asks to enable Observability, OAUTH2, and specify a party hint. In this demo, we disable `TEST MODE`, use the default party hint, and show OAUTH2 as enabled and disabled. When OAUTH2 makes a difference, we display both paths, one after the other. You can follow your path and ignore the other. You may enable Observability, but it is not required for this demo.
+
+**Choose your adventure:**
+
+`make setup` **without** OAUTH2:
+
+![Make setup no auth](/images/docs_website/make-setup-noauth.png)
+
+`make setup` **with** OAUTH2:
+
+![Make setup with auth](/images/docs_website/make-setup-with-oauth.png)
+
+### Build Quickstart
+
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/xsuMDLED6gI"
+  title="Build Quickstart"
+  frameBorder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+/>
+
+Build and start App Quickstart:
+
+<ExternalCnQuickstartMainCnQuickstartRstCodeSdkDocsSharableSdkQuickstartOperateExploreTheDemoBash104 />
+
+Open an incognito browser and navigate to:
+
+    app-provider.localhost:3000
+
+Alternatively, in the terminal, from quickstart/ run:
+
+```bash
+make open-app-ui
+```
+
+<Note>
+Safari users may need to manually map the `app-provider` subdomain in `/etc/hosts`. Use the terminal command `sudo nano /etc/hosts` to add:
+
+`127.0.0.1       app-provider.localhost`
+
+This tells your system to resolve `app-provider.localhost` to your local machine. Then save and close the file. Restart Safari.
+</Note>
+
+### Login
+
+**OAUTH2 disabled**
+
+When OAUTH2 is **disabled**, the homepage presents a simple login field. Begin by logging in as the `AppProvider` by entering "app-provider" in the User field.
+
+![CN App Quickstart Login screen without Auth](/images/docs_website/01-login-app-qs-noauth.png)
+
+**OAUTH2 enabled**
+
+When OAUTH2 is **enabled**, the homepage prompts to login with Keycloak's OAuth 2.0 portal:
+
+![CN App Quickstart Login screen with Auth](/images/docs_website/01-login-app-qs-auth.png)
+
+Make a mental note that `AppProvider`’s username is “app-provider” and the password is "abc123" (all lowercase).
+
+Login with `app-provider` with keycloak.
+
+Fill in the login credentials: username: app-provider, password: abc123
+
+![AppProvider login screen](/images/docs_website/login-app-provider-view.png)
+
+### The App Installs Menu
+
+Once you are logged in select **AppInstalls** in the menu.
+
+![App Installs view](/images/docs_website/qs-demo-app-installs-view.png)
+
+Open a terminal to create an app install request.
+
+From `/quickstart/` run:
+
+    make create-app-install-request
+
+This command creates an App Installation Request on behalf of the Participant.
+
+![App Install Request](/images/docs_website/04-create-install-req.png)
+
+<Note>
+If your machine is not powerful enough to host `LocalNet` or if the docker containers are not responsive then the response may show a failure with status code 404 or 000 (as shown in the image below). Increasing Docker memory limit to at least 8 GB should allow the `LocalNet` containers to operate properly.
+</Note>
+
+![App Install Request error](/images/docs_website/05-error-app-install.png)
+
+Return to the browser.
+
+### AppInstallRequest
+
+The install request appears in the list.
+
+Click **Accept**.
+
+![accept request](/images/docs_website/accept-awaiting-request.png)
+
+The `AppInstallRequest` is Accepted.
+
+![accepted request](/images/docs_website/success-accepted-appinstallrequest.png)
+
+The actions update to Cancel and Create license.
+
+### Create a license
+
+Click **Create License**. The license is created and the “# Licenses” field is updated.
+
+![create license](/images/docs_website/created-license.png)
+
+Next, navigate to the Licenses menu and select **Renewals**.
+
+![Licenses view](/images/docs_website/new-license-select-renewals.png)
+
+A "License Renewal Request” modal opens with an option to renew a license.
+
+![license renewal request modal](/images/docs_website/license-renewal-request-modal.png)
+
+Click **New** to open the "Renew License" modal.
+
+![renew license modal](/images/docs_website/renew-license-modal.png)
+
+In the modal, set the number of days to renew the license, the fee, time to prepare the license, and time to settle the license. You must add a description to proceed.
+
+"Prepare in" is an indication for the sender (app-user) that they are expected to accept allocation before that time. "Settle in" is a time that the provider has to `completeRenewal`. After that, the allocation will be expired.
+
+Click **Issue License Renewal Request**.
+
+![new license renewal request](/images/docs_website/new-license-renewal-request.png)
+
+Per the Daml contract, licenses are created in an expired state. To activate the license, a renewal payment request must be issued.
+
+### Make a payment
+
+To make payment, navigate to the Canton Wallet at [http://wallet.localhost:2000/allocations](http://wallet.localhost:2000/allocations) and log in as `app-user` if prompted.
+
+You can find the wallet's location by:
+
+1.  Reading the [LocalNet Application UIs reference](/sdks-tools/development-tools/localnet#application-uis).
+2.  Navigating to the App Provider's "Tenants" menu.
+
+![AppProvider Tenants menu](/images/docs_website/app-provider-tenants.png)
+
+3.  Logging into the app as `app-user`, navigating to the Licenses menu, then clicking the **Renewals** action.
+
+![AppUser Licenses menu](/images/docs_website/app-user-licenses-menu.png)
+
+If prompted, log in to the CC Wallet as `app-user`.
+
+![Canton Coin Wallet login](/images/docs_website/canton-coin-wallet-app-user-log-in.png)
+
+If your wallet does not have CC then enter an amount and click **TAP**. After a moment, the available balance will automatically update.
+
+![Tap for CC](/images/docs_website/tap-canton-wallet.png)
+
+Once your CC wallet is loaded, navigate to the "Allocations" menu and accept the "Allocation Request" before the "Allocate before" time expires.
+
+![CC Wallet accept allocation](/images/docs_website/canton-coin-wallet-allocations-menu.png)
+
+If the allocation request is accepted, a new "Allocations" section appears. This section shows the `licenseFeePayment` information.
+
+![CC Wallet accepted allocation](/images/docs_website/canton-coin-wallet-accepted-allocation.png)
+
+### Renew the license
+
+Return to the Quickstart as the `AppProvider`. In the Licenses menu, select **Renewals**. This opens the License Renewals Request modal. Click the green **Complete Renewal** button.
+
+![complete renewal after payment](/images/docs_website/app-provider-complete-renewal-after-payment.png)
+
+A confirmation appears that the license renewal completed successfully.
+
+![renewal success after payment](/images/docs_website/license-renewal-completed-successfully.png)
+
+Log out from the `AppProvider` and log in as `AppUser`.
+
+**OAUTH2 disabled**
+
+If OAUTH2 is disabled, simply log in as `app-user`.
+
+![AppUser login screen without Auth](/images/docs_website/login-app-user-noauth.png)
+
+**OAUTH2 enabled**
+
+When OAUTH2 is enabled, you log in using the app-user username and password.
+
+![login screen](/images/docs_website/01-login-app-qs-auth.png)
+
+Login as `AppUser` with “app-user" as the username and the password is “abc123”.
+
+![AppUser login screen](/images/docs_website/appuser-auth-login-view.png)
+
+The AppInstall now shows as accepted.
+
+![accepted AppInstall](/images/docs_website/accepted-app-install.png)
+
+The license shows as active.
+
+![logout AppProvider](/images/docs_website/app-user-license-active.png)
+
+Congratulations. You’ve successfully created and activated a license with a payment allocation in Canton wallet!
+
+## Canton Console
+
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/zADHja_8TSg"
+  title="Canton Console"
+  frameBorder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+/>
+
+The Canton Console connects to the running application ledger. The console allows a developer to bypass the UI to interact with the CN in a more direct manner. For example, in Canton Console you can connect to the Participant to see the location of the Participant and their synchronizer domain.
+
+Activate the Canton Console in a terminal from the `quickstart/` directory. Run:
+
+    make canton-console
+
+After the console initiates, run the `participants` and `participants.all` commands, respectively.
+
+    participants
+
+Returns a detailed categorization of participants.
+
+![Participant location in the ledger](/images/docs_website/canton-console-participants.png)
+
+    participants.all
+
+Shows a list of all participant references.
+
+![Participant synchronizer](/images/docs_website/canton-console-participants-all.png)
+
+On `LocalNet`, you can connect to any of the listed participants. Connect to the app user's validator with
+
+    `app-user`
+
+![App User](/images/docs_website/app-user.png)
+
+If you receive an error, double check that you used the backticks.
+
+The app provider can be connected with:
+
+    `app-provider`
+
+![App Provider](/images/docs_website/app-provider.png)
+
+Connect to the Super Valdiator that is simulating the Global Synchronizer using:
+
+    `sv`
+
+![super validator](/images/docs_website/sv.png)
+
+Canton Console also provides a diagnostic tool that displays the health of Canton Network validators:
+
+    health.status
+
+![Ping yourself](/images/docs_website/health-status.png)
+
+## Daml Shell
+
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/bwUyYEFCo5w"
+  title="Daml Shell"
+  frameBorder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+/>
+
+Daml Shell connects to the running PQS database of the application provider’s Participant. In the Shell, the assets and their details are available in real time.
+
+Run the shell from quickstart/ in the terminal with:
+
+    make shell
+
+Run the following commands to see the data:
+
+    active
+
+Shows unique identifiers and the asset count:
+
+![Active identifiers](/images/docs_website/28-shell-ids.png)
+
+    active quickstart-licensing:Licensing.License:License
+
+List the license details.
+
+![License details](/images/docs_website/29-license-details.png)
+
+    active quickstart-licensing:Licensing.License:LicenseRenewalRequest
+
+Displays license renewal request details.
+
+![License renewal request details](/images/docs_website/active-quickstart-appinstallrequest.png)
+
+    archives quickstart-licensing:Licensing.AppInstall:AppInstallRequest
+
+Shows any archived license(s).
+
+![Archived licenses](/images/docs_website/30-archive-licenses.png)
+
+## Canton Coin Scan
+
+Explore the CC Scan Web UI at [http://scan.localhost:4000/](http://scan.localhost:4000/).
+
+The default activity view shows the total CC balance and the Validator rewards.
+
+![CC balance](/images/docs_website/36-cc-balance.png)
+
+Select the **Network Info** menu to view SV identification.
+
+![Active SVs](/images/docs_website/34-active-svs.png)
+
+The Validators menu shows that the local validator has been registered with the SV.
+
+![Registered validator](/images/docs_website/37-registered-validator.png)
+
+## Observability Dashboard
+
+<Note>
+Observability may no longer work while App Quickstart is under revisions.
+</Note>
+
+In a web browser, navigate to [http://localhost:3030/dashboards](http://localhost:3030/dashboards) to view the observability dashboards. Select **Quickstart - consolidated logs**.
+
+![observability dashboard](/images/docs_website/38-obs-dash.png)
+
+The default view shows a running stream of all services.
+
+![service stream](/images/docs_website/39-service-stream.png)
+
+Change the services filter from “All” to “participant” to view participant logs. Select any log entry to view its details.
+
+![log entry details](/images/docs_website/40-log-entry-details.png)
+
+## SV UIs
+
+Navigate to [http://sv.localhost:4000/](http://sv.localhost:4000/) for the SV Web UI. The SV view displays data directly from the validator in a GUI that is straightforward to navigate.
+
+Login as ‘sv’.
+
+![SV UI login](/images/docs_website/33-sv-ui-login.png)
+
+The UI shows information about the SV and lists the active SVs.
+
+![Active SVs](/images/docs_website/34-active-svs.png)
+
+The Validator Onboarding menu allows for the creation of validator onboarding secrets.
+
+![Validator onboarding](/images/docs_website/35-validator-onboarding.png)
+
+## Next steps
+
+You've completed a business operation in the CN App Quickstart and have been introduced to the basics of the Canton Console and Daml Shell. We encourage you to explore the CN App Quickstart codebase and modify it to meet your business needs. You might be interested in learning more about the [App Quickstart project structure](/appdev/quickstart/project-structure) or the application development modules in [Module 4: Building Applications](/appdev/modules/m4-building-apps-intro).
+
+
+{/* COPIED_END */}

@@ -1,0 +1,30 @@
+```haskell
+module MyTests where
+
+import Daml.Script
+import Licensing.License
+
+testCreateAndTransfer : Script ()
+testCreateAndTransfer = do
+  -- Allocate test parties
+  alice <- allocateParty "Alice"
+  bob <- allocateParty "Bob"
+
+  -- Create a contract
+  licenseCid <- submit alice do
+    createCmd License with
+      owner = alice
+      issuer = alice
+      description = "Test License"
+
+  -- Exercise a choice
+  newLicenseCid <- submit alice do
+    exerciseCmd licenseCid Transfer with
+      newOwner = bob
+
+  -- Query and assert
+  Some license <- queryContractId bob newLicenseCid
+  assert (license.owner == bob)
+
+  pure ()
+```

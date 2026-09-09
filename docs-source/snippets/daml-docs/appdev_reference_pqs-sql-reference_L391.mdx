@@ -1,0 +1,8 @@
+```sql
+call create_index_for_contract(
+  'token_wallet_holder',
+  'Token',
+  '(payload->''wallet''->>''holder'')',
+  'hash'
+);
+```

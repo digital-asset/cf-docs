@@ -1,0 +1,319 @@
+---
+title: "Ledger Namespace"
+description: "Migrate prepare/sign/execute, ACS, and DAR operations from v0 to v1."
+---
+
+{/* COPIED_START source="splice-wallet-kernel:docs/wallet-integration-guide/src/wallet-sdk-v1-migration-guide/ledger.rst" hash="2d397a68" */}
+
+
+The ledger namespace is used for preparing, signing, and executing transactions and other Ledger API operations.
+
+## Availability
+
+The ledger namespace is always available as part of the basic SDK interface. It's initialized automatically when you create an SDK instance and doesn't require additional configuration via `extend()`.
+
+``` typescript
+import { localNetStaticConfig, SDK } from '@canton-network/wallet-sdk'
+
+export default async function () {
+    const sdk = await SDK.create({
+        auth: global.TOKEN_PROVIDER_CONFIG_DEFAULT,
+        ledgerClientUrl: localNetStaticConfig.LOCALNET_APP_USER_LEDGER_URL,
+        amulet: global.AMULET_NAMESPACE_CONFIG,
+    })
+
+    const partyId = EXISTING_PARTY_1
+    const privateKey = EXISTING_PARTY_1_KEYS.privateKey
+
+    const [commands, disclosedContracts] = await sdk.amulet.tap(partyId, '200')
+
+    // ledger namespace is immediately available
+    await sdk.ledger
+        .prepare({ partyId, commands, disclosedContracts })
+        .sign(privateKey)
+        .execute({ partyId })
+}
+```
+
+## Key changes from v0 to v1
+
+v0 used the `userLedger` or `adminLedger` controller with implicit party context set via `sdk.setPartyId()`.
+
+v1 uses the `ledger` namespace where you:
+
+- Pass `partyId` explicitly to each operation
+- Have an explicit lifecycle with `prepare/sign/execute` chain instead of a single method
+- Access operations through logical groupings (`external`, `internal`, `dar`, and `acs`)
+
+**Prepare, signing, and executing transactions**
+
+Previously, a single method would handle everything.
+
+<div className="before-after">
+
+``` javascript
+await sdk.userLedger.prepareSignExecuteAndWaitFor(
+   commands,
+   privateKey,
+   workFlowId,
+   disclosedContracts
+)
+```
+
+---
+
+``` javascript
+await sdk.ledger
+      .prepare({
+         partyId: partyId,
+         commands: [...],
+      })
+      .sign(privateKey)
+      .execute({
+         partyId: partyId,
+      })
+```
+
+</div>
+
+Each step in lifecycle is clearer, workflowIds are generated automatically and there is better typesafety at each step.
+
+The below example demonstrates how offline signing works.
+
+``` javascript title="Full example: online and offline signing" expandable
+import {
+    localNetStaticConfig,
+    SDK,
+    signTransactionHash,
+} from '@canton-network/wallet-sdk'
+import { pino } from 'pino'
+import { v4 } from 'uuid'
+import {
+    TOKEN_NAMESPACE_CONFIG,
+    TOKEN_PROVIDER_CONFIG_DEFAULT,
+    AMULET_NAMESPACE_CONFIG,
+} from './utils/index.js'
+
+const logger = pino({ name: 'v1-01-ping-localnet', level: 'info' })
+
+const sdk = await SDK.create({
+    auth: TOKEN_PROVIDER_CONFIG_DEFAULT,
+    ledgerClientUrl: localNetStaticConfig.LOCALNET_APP_USER_LEDGER_URL,
+    token: TOKEN_NAMESPACE_CONFIG,
+    amulet: AMULET_NAMESPACE_CONFIG,
+})
+
+const senderKeys = sdk.keys.generate()
+
+const sender = await sdk.party.external
+    .create(senderKeys.publicKey, {
+        partyHint: 'v1-01-alice',
+    })
+    .sign(senderKeys.privateKey)
+    .execute()
+
+const senderFingerprint = await sdk.keys.fingerprint(senderKeys.publicKey)
+
+logger.info({ sender, senderFingerprint }, 'Sender party representation:')
+
+if (sender.publicKeyFingerprint !== senderFingerprint)
+    throw Error('Inconsistent fingerprints')
+
+const receiverKeys = sdk.keys.generate()
+
+const receiverPartyCreation = sdk.party.external.create(
+    receiverKeys.publicKey,
+    {
+        partyHint: 'v1-01-bob',
+    }
+)
+
+const unsignedReceiver = await receiverPartyCreation.topology()
+
+// external signing simulation
+const receiverPartySignature = signTransactionHash(
+    unsignedReceiver.multiHash,
+    receiverKeys.privateKey
+)
+
+const signedReceiverParty = await receiverPartyCreation.execute(
+    receiverPartySignature
+)
+
+logger.info({ signedReceiverParty }, 'Receiver party representation:')
+
+const pingCommand = [
+    {
+        CreateCommand: {
+            templateId:
+                '#canton-builtin-admin-workflow-ping:Canton.Internal.Ping:Ping',
+            createArguments: {
+                id: v4(),
+                initiator: sender.partyId,
+                responder: sender.partyId,
+            },
+        },
+    },
+]
+
+logger.info({ pingCommand }, 'Ping command to be submitted:')
+
+await sdk.ledger
+    .prepare({
+        partyId: sender.partyId,
+        commands: pingCommand,
+        disclosedContracts: [],
+    })
+    .sign(senderKeys.privateKey)
+    .execute({ partyId: sender.partyId })
+
+logger.info('Ping command submitted with online signing')
+
+/*
+offline signing example
+*/
+
+const preparedPingCommand = sdk.ledger.prepare({
+    partyId: sender.partyId,
+    commands: pingCommand,
+    disclosedContracts: [],
+})
+
+const { response: preparedPingCommandResponse } =
+    await preparedPingCommand.toJSON()
+
+logger.info({ preparedPingCommand }, 'Prepared ping command:')
+
+/*
+Note: The following code uses the @canton-network/core-signing-lib as the 'custodian' of the private key to sign the prepared transaction hash,
+but in a real scenario, the signing could be done using any compatible signing mechanism, such as a hardware wallet or an external signing service.
+*/
+const signature = signTransactionHash(
+    preparedPingCommandResponse.preparedTransactionHash,
+    senderKeys.privateKey
+)
+
+const signed = sdk.ledger.fromSignature(preparedPingCommandResponse, signature)
+
+await sdk.ledger.execute(signed, { partyId: sender.partyId })
+
+logger.info('Ping command submitted with offline signing')
+
+const [amuletTapCommand, amuletTapDisclosedContracts] = await sdk.amulet.tap(
+    sender.partyId,
+    '10000'
+)
+
+const result = await sdk.ledger
+    .prepare({
+        partyId: sender.partyId,
+        commands: amuletTapCommand,
+        disclosedContracts: amuletTapDisclosedContracts,
+    })
+    .sign(senderKeys.privateKey)
+    .execute({ partyId: sender.partyId })
+
+const senderUtxos = await sdk.token.utxos.list({ partyId: sender.partyId })
+
+const tapTransaction = await sdk.token.transactionsById({
+    updateId: result.updateId,
+    partyId: sender.partyId,
+})
+
+const mintEvent = tapTransaction.events.find(
+    (tokenStandardEvent) =>
+        tokenStandardEvent.label.type === 'Mint' &&
+        tokenStandardEvent.unlockedHoldingsChange.creates.find(
+            (h) => h.amount === '10000.0000000000'
+        )
+)
+
+if (mintEvent) {
+    logger.info('Found token standard event with type Mint')
+} else {
+    throw new Error(`Couldn't find tap transaction by updateId`)
+}
+const senderAmuletUtxos = senderUtxos.filter((utxo) => {
+    return (
+        utxo.interfaceViewValue.amount === '10000.0000000000' &&
+        utxo.interfaceViewValue.instrumentId.id === 'Amulet'
+    )
+})
+
+if (senderAmuletUtxos.length === 0) {
+    throw new Error('No UTXOs found for Sender')
+}
+
+logger.info('Tap command for Amulet for Sender submitted and UTXO received')
+```
+
+**Active Contract Set (ACS) queries**
+
+<div className="before-after">
+
+``` javascript
+const contracts = await sdk.userLedger.activeContracts({
+   offset,
+   templateIds: [...],
+   parties: [],
+   filterByParty: true
+})
+
+const contractId = LedgerController.getActiveContractCid(contracts?.[0]?.contractEntry!)
+```
+
+---
+
+``` javascript
+const contracts = await sdk.ledger.acs.read({
+   parties: [...],
+   templateIds: [...],
+   filterByParty: true
+})
+
+const contractId = contracts[0].contractId
+```
+
+</div>
+
+No need to manually enter get the ledger end for the offset and there is direct extraction of the activeContracts. However, we still have an `acs.readRaw` method for unfiltered results.
+
+**DAR management**
+
+<div className="before-after">
+
+``` javascript
+const isPackageUploaded = await sdk.userLedger.isPackageUploaded(PACKAGED_ID)
+
+if(!isPackageUploaded){
+   await sdk.adminLedger.uploadDar(darBytes)
+}
+```
+
+---
+
+``` javascript
+//automatically checks if uploaded and skips if present
+await sdk.ledger.dar.upload(darBytes, packageId)
+```
+
+</div>
+
+## Migration reference
+
+| v0 method                                     | v1 method                                                                                       |
+|-----------------------------------------------|-------------------------------------------------------------------------------------------------|
+| `sdk.userLedger.prepareSignExecuteAndWaitFor` | `sdk.ledger.prepare({partyId, commands, disclosedContracts}).sign(privateKey).execute(partyId)` |
+| `sdk.userLedger.activeContracts`              | `sdk.ledger.acs.read`                                                                           |
+| `sdk.adminLedger.uploadDar`                   | `sdk.ledger.dar.upload`                                                                         |
+| `sdk.userLedger.isPackageUploaded`            | `sdk.ledger.dar.check`                                                                          |
+
+
+## See also
+
+- [v0 to v1 migration overview](/sdks-tools/sdks/wallet-sdk/using-the-sdk/v0-to-v1-migration)
+- [Migration cheat sheet](/sdks-tools/sdks/wallet-sdk/using-the-sdk/v0-to-v1-migration/migration-cheat-sheet)
+- [Configuration](/sdks-tools/sdks/wallet-sdk/using-the-sdk/configuration) — SDK configuration
+- [Preparing and signing a transaction](/sdks-tools/sdks/wallet-sdk/guides/preparing-and-signing-a-transaction) — Transaction lifecycle
+
+{/* COPIED_END */}

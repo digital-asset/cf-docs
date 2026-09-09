@@ -1,0 +1,341 @@
+---
+title: "GET /v0/validators/validator-faucets"
+description: "For every argument that is a valid onboarded validator, return statistics on its liveness activity, according to on-ledger state at the time of the request."
+api: "GET https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/validators/validator-faucets"
+playground: "interactive"
+sidebarTitle: "/v0/validators/validator-faucets"
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--operation x2mdx-ref-page--manual-api"></div>
+
+
+
+<div class="x2mdx-ref-hero">
+
+
+
+  <p class="x2mdx-ref-summary">For every argument that is a valid onboarded validator, return statistics on its liveness activity, according to on-ledger state at the time of the request.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">OpenAPI</span>
+
+</div>
+
+
+</div>
+
+
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/validators/validator-faucets'
+```
+
+```python Python
+import json
+import requests
+
+url = "https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/validators/validator-faucets"
+response = requests.request("GET", url)
+
+print(response.text)
+```
+
+```javascript JavaScript
+const response = await fetch('https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/validators/validator-faucets', {
+  method: 'GET',
+});
+
+console.log(await response.text());
+```
+
+```php PHP
+<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => 'https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/validators/validator-faucets',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+]);
+
+$response = curl_exec($curl);
+echo $response;
+```
+
+```go Go
+package main
+
+import (
+  "fmt"
+  "io"
+  "net/http"
+)
+
+func main() {
+  req, _ := http.NewRequest("GET", "https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/validators/validator-faucets", nil)
+  response, _ := http.DefaultClient.Do(req)
+  defer response.Body.Close()
+  body, _ := io.ReadAll(response.Body)
+  fmt.Println(string(body))
+}
+```
+
+```java Java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+var request = HttpRequest.newBuilder()
+    .uri(URI.create("https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/validators/validator-faucets"))
+    .method("GET", HttpRequest.BodyPublishers.noBody())
+    .build();
+var response = HttpClient.newHttpClient().send(
+    request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```ruby Ruby
+require 'net/http'
+require 'uri'
+
+uri = URI('https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/validators/validator-faucets')
+request = Net::HTTP::Get.new(uri)
+response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+  http.request(request)
+end
+puts response.body
+```
+
+</RequestExample>
+
+
+<ResponseExample>
+
+```json 200
+{
+  "validatorsReceivedFaucets": [
+    {
+      "validator": "<string>",
+      "numRoundsCollected": 123,
+      "numRoundsMissed": 123,
+      "firstCollectedInRound": 123,
+      "lastCollectedInRound": 123
+    }
+  ]
+}
+```
+
+```json 400
+{
+  "error": "<string>"
+}
+```
+
+```json 404
+{
+  "error": "<string>"
+}
+```
+
+</ResponseExample>
+
+
+
+## Query parameters
+
+
+
+
+
+
+
+
+<ParamField query="validator_ids" type="string[]" required>
+
+
+A list of validator party IDs, one per specification of the parameter. Any party IDs not matching onboarded validators will be ignored
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+
+## Responses
+
+
+### 200
+
+ok
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="validatorsReceivedFaucets" type="ValidatorReceivedFaucets[]" required>
+
+Statistics for any party ID arguments found to have valid onboarding licenses; the order in the response is unrelated to argument order.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="validator" type="string" required>
+
+The party ID of the onboarded validator
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="numRoundsCollected" type="integer (int64)" required>
+
+how many rounds the validator has received a faucet for; guaranteed that collected + missed = last - first + 1
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="numRoundsMissed" type="integer (int64)" required>
+
+how many rounds between firstCollected and lastCollected in which the validator failed to collect (i.e. was not active or available); can at most be max(0, lastCollected - firstCollected - 1).
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="firstCollectedInRound" type="integer (int64)" required>
+
+the round number when this validator started collecting faucets; the validator definitely recorded liveness in this round
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="lastCollectedInRound" type="integer (int64)" required>
+
+The most recent round number in which the validator collected a faucet; the validator definitely recorded liveness in this round. Will equal `firstCollected` if the validator has collected in only one round
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+
+
+### 400
+
+bad request
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="error" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+### 404
+
+not found
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="error" type="string" required>
+
+
+
+
+
+
+</ResponseField>

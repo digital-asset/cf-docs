@@ -1,0 +1,11 @@
+```haskell
+choice AcceptTransfer
+      : ContractId Coin
+      with token: ContractId CoinOwnerAuthorization
+      controller newOwner
+      do
+        t <- fetch token
+        assert (coin.issuer == t.issuer)
+        assert (newOwner == t.owner)
+        create coin with owner = newOwner
+```

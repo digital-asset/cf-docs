@@ -1,0 +1,22 @@
+```haskell
+template Asset
+  with
+    owner : Party
+    delegate : Optional Party  -- Optional delegate
+  where
+    signatory owner
+
+    choice Transfer : ContractId Asset
+      with newOwner : Party
+      controller case delegate of
+        Some d -> d        -- Delegate can act if set
+        None -> owner      -- Otherwise owner acts
+      do
+        create this with owner = newOwner
+
+    choice SetDelegate : ContractId Asset
+      with newDelegate : Party
+      controller owner
+      do
+        create this with delegate = Some newDelegate
+```

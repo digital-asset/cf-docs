@@ -1,0 +1,8 @@
+```daml
+data Foo = Foo with
+  amount : Decimal
+
+instance HasQuantity Foo Decimal where
+  getQuantity foo = foo.amount
+  setQuantity amount foo = foo with amount
+```

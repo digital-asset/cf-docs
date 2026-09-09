@@ -1,0 +1,139 @@
+```haskell
+-- Copyright (c) 2026 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+module Test where
+
+import Daml.Script
+import DA.Assert
+import DA.ContractKeys
+import DA.Optional
+
+template WithKey
+  with
+    p : Party
+    payload : Text
+  where
+    signatory p
+    key p : Party
+    maintainer key
+    nonconsuming choice GetText : Text
+      with
+        party : Party
+      controller party
+      do pure payload
+
+template Helper
+  with
+    p : Party
+  where
+    signatory p
+
+    choice PerformLookupByKey : Optional (ContractId WithKey)
+      controller p
+      do lookupByKey @WithKey p
+    
+    choice PerformFetchByKey : (ContractId WithKey, WithKey)
+      controller p
+      do fetchByKey @WithKey p
+    
+    choice PerformExerciseByKey : Text
+      controller p
+      do exerciseByKey @WithKey p GetText with party = p
+    
+    choice PerformLookupNByKey : [(ContractId WithKey, WithKey)]
+      with n : Int
+      controller p
+      do lookupNByKey @WithKey n p
+    
+    choice CreateThenPerformLookupNByKey : [(ContractId WithKey, WithKey)]
+      with 
+        payload : Text
+        n : Int
+      controller p
+      do create (WithKey p payload)
+         lookupNByKey @WithKey n p
+
+-- Demonstrates basic key operations: lookupByKey, fetchByKey, exerciseByKey
+useKeyOperations : Script ()
+useKeyOperations = script do
+  alice <- allocateParty "alice"
+
+  -- Create a contract with a key
+  cid <- alice `submit` createCmd (WithKey alice "hello")
+
+  -- lookupByKey returns Some if a contract with the key exists
+  mcid <- alice `submit`
+    createAndExerciseCmd (Helper alice) PerformLookupByKey
+  assert (isSome mcid)
+
+  -- fetchByKey returns the contract ID and data
+  (kcid, contract) <- alice `submit`
+    createAndExerciseCmd (Helper alice) PerformFetchByKey
+  kcid === cid
+  contract.payload === "hello"
+
+  -- exerciseByKey exercises a choice on the contract with the key
+  result <- alice `submit`
+    createAndExerciseCmd (Helper alice) PerformExerciseByKey
+  result === "hello"
+
+-- Demonstrates non-unique keys: multiple contracts can share a key.
+-- lookupByKey and fetchByKey return the first contract per lookup order;
+-- lookupNByKey (from DA.ContractKeys) returns up to n contracts.
+multipleContractsPerKey : Script ()
+multipleContractsPerKey = script do
+  alice <- allocateParty "alice"
+
+  -- Create multiple contracts with the same key
+  cid1 <- alice `submit` createCmd (WithKey alice "first")
+  cid2 <- alice `submit` createCmd (WithKey alice "second")
+  cid3 <- alice `submit` createCmd (WithKey alice "third")
+
+  let contracts = [(cid1, "first"), (cid2, "second"), (cid3, "third")]
+
+  -- fetchByKey returns one of the created contracts
+  (kcid, contract) <- alice `submit`
+    createAndExerciseCmd (Helper alice) PerformFetchByKey
+  assert ((kcid, contract.payload) `elem` contracts)
+
+  -- lookupNByKey returns up to n contracts (any 2 of 3, in any order)
+  result <- alice `submit`
+    createAndExerciseCmd (Helper alice) PerformLookupNByKey with n = 2
+  let results = [(cid, c.payload) | (cid, c) <- result]
+  length results === 2
+  let [r1, r2] = results
+  assert (r1 `elem` contracts)
+  assert (r2 `elem` contracts)
+  r1 =/= r2
+
+  -- lookupNByKey returns:
+  --   - local contracts in recency order
+  --   - then disclosures in command-specified order
+  --   - then contracts known to the participant in any order
+  Some disclosure <- alice `queryDisclosure` cid1
+  result <- submit (actAs alice <> disclose disclosure) do
+    createAndExerciseCmd (Helper alice) CreateThenPerformLookupNByKey with
+      payload = "fourth"
+      n = 3
+  let results = [(cid, c.payload) | (cid, c) <- result]
+  length results === 3
+  let [r1, r2, r3] = results
+  r1._2 === "fourth"
+  r2 === (cid1, "first")
+  r3._1 =/= cid1
+  r3._2 =/= "fourth"
+  assert (r3 `elem` contracts)
+
+-- Demonstrates exerciseByKeyCmd in a submit block
+exerciseByKeyCmdExample : Script ()
+exerciseByKeyCmdExample = script do
+  alice <- allocateParty "alice"
+
+  alice `submit` createCmd (WithKey alice "payload")
+
+  -- exerciseByKeyCmd is a Commands action used inside submit
+  result <- alice `submit` do
+    exerciseByKeyCmd @WithKey alice GetText with party = alice
+  result === "payload"
+```

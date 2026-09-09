@@ -1,0 +1,68 @@
+---
+title: Ledger API
+description: "Overview of the Canton Ledger API: the gRPC and JSON interfaces a participant exposes for command submission, transaction reads, and party management."
+---
+
+The **Ledger API** is the primary programmatic interface to a Canton participant node. Applications use it to submit commands (create contracts, exercise choices), read the transaction stream, and manage parties and packages.
+
+The Ledger API is exposed in two protocol bindings — gRPC and JSON over HTTP — that wrap the same underlying services. Pick the binding that fits your stack.
+
+## Quick reference
+
+| Property | gRPC | JSON |
+|----------|------|------|
+| Protocol | HTTP/2 + Protocol Buffers | HTTP/1.1 + JSON over REST |
+| Default port | 5001 | 7575 |
+| API version | v2 (Canton 3.x) | v2 (Canton 3.x) |
+| Authentication | JWT (RS256) via OIDC | JWT (RS256) via OIDC |
+| Best for | Java, Scala, high-throughput backends | TypeScript, browser clients, scripting |
+
+## gRPC Ledger API
+
+Use gRPC when you need:
+
+- The full surface of streaming services (`UpdateService`, `CommandCompletionService`, `StateService`).
+- Type-safe code generation via `protoc` for Java, Scala, or other gRPC-supported languages.
+- Lowest latency for high-frequency command submission and event subscriptions.
+
+For the full service-by-service reference (proto definitions, request/response schemas, package history), see the **[gRPC Ledger API Reference](/api-reference)** under the API Reference dropdown.
+
+Proto definitions live in the [Canton repository](https://github.com/digital-asset/canton/tree/main/community/ledger-api-proto/src/main/protobuf/com/daml/ledger/api/v2).
+
+## JSON Ledger API
+
+Use JSON when you need:
+
+- HTTP/REST access from a browser or Node.js application without a gRPC client.
+- Convenient request/response shapes for ad-hoc tooling and scripting.
+- Streaming via WebSocket (the JSON API exposes equivalents of the gRPC streaming services).
+
+For the OpenAPI reference of every endpoint, see the **[JSON Ledger API Reference](/api-reference)** under the API Reference dropdown. The AsyncAPI reference for streaming endpoints lives in the same dropdown.
+
+A walkthrough of the JSON API end-to-end (auth, party allocation, contract create, query) is in [Module 4 — Canton and the JSON Ledger API](/appdev/modules/m4-json-api-tutorial).
+
+## Key services
+
+The same logical service surface is available on both bindings:
+
+- **CommandService** — Submit commands and wait for completion (synchronous).
+- **CommandSubmissionService** + **CommandCompletionService** — Submit commands asynchronously and consume completion events.
+- **UpdateService** — Stream ledger updates (transactions, reassignments).
+- **StateService** — Query the active contract set (ACS).
+- **InteractiveSubmissionService** — Prepare transactions for external signing.
+- **PartyManagementService** — Allocate and list parties (under the Admin API in 3.x; not exposed on the Ledger API).
+- **PackageService** — Upload and query DAR packages.
+
+## Code generation
+
+Code generation tools live with the language bindings, not the API:
+
+- **Java codegen** — see [Java Codegen](/sdks-tools/language-bindings/java).
+- **JavaScript / TypeScript codegen** — see [JavaScript Codegen](/sdks-tools/language-bindings/javascript).
+- **Java client libraries** (high-level wrappers over the gRPC bindings) — see [Java LAPI Bindings](/sdks-tools/language-bindings/java-client-libraries).
+
+## Related pages
+
+- [API Reference](/api-reference) — central hub for all generated API documentation, including the gRPC Ledger API, JSON Ledger API, AsyncAPI, Protobuf history, and Splice APIs.
+- [Admin API](/sdks-tools/api-reference/admin-api) — node administration (separate from the Ledger API).
+- [Splice APIs](/sdks-tools/api-reference/splice-apis) — REST APIs for Scan, Validator, and SV applications.

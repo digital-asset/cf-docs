@@ -1,0 +1,11 @@
+```haskell
+-- Daml: Individual contracts per holding
+template TokenHolding
+  with
+    owner : Party
+    issuer : Party
+    amount : Decimal
+  where
+    signatory issuer
+    observer owner
+```

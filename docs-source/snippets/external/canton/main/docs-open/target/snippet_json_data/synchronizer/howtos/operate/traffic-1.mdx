@@ -1,0 +1,18 @@
+```scala
+@ import com.digitalasset.canton.config.RequireTypes.{NonNegativeNumeric, PositiveNumeric}
+  import com.digitalasset.canton.config.PositiveFiniteDuration
+  import com.digitalasset.canton.admin.api.client.data.TrafficControlParameters
+  val trafficControlParameters = TrafficControlParameters(
+    enforceRateLimiting = true,
+    maxBaseTrafficAmount = NonNegativeNumeric.tryCreate(20000L),
+    readVsWriteScalingFactor = PositiveNumeric.tryCreate(200),
+    maxBaseTrafficAccumulationDuration = PositiveFiniteDuration.ofSeconds(10L),
+    setBalanceRequestSubmissionWindowSize = PositiveFiniteDuration.ofMinutes(5L),
+    baseEventCost = NonNegativeNumeric.tryCreate(500L),
+    freeConfirmationResponses = false,
+  )
+  sequencer1.topology.synchronizer_parameters.propose_update(
+    synchronizerId = sequencer1.synchronizer_id,
+    _.update(trafficControl = Some(trafficControlParameters)),
+  )
+```

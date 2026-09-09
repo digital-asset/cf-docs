@@ -1,0 +1,16 @@
+```haskell
+template AuthorizedAgent
+  with
+    principal : Party
+    agent : Party
+    scope : Text
+  where
+    signatory principal
+    observer agent
+
+    choice ActOnBehalf : ()
+      controller agent
+      do assertMsg "Action not in scope"
+           (scope == "transfer")
+         pure ()
+```

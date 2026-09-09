@@ -1,0 +1,6 @@
+```sql
+-- Index on a payload field you filter by often
+CREATE INDEX idx_license_owner
+ON active_contracts ((payload->>'owner'))
+WHERE template_id = 'Licensing:License';
+```

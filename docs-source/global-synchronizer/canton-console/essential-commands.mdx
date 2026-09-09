@@ -1,0 +1,163 @@
+---
+title: "Essential Commands"
+description: "Key Canton Console commands for health checks, party management, package management, and topology inspection"
+---
+
+import CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_0 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/docs-cn/global-synchronizer-canton-console-essential-commands-0.mdx";
+import CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_1 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/docs-cn/global-synchronizer-canton-console-essential-commands-1.mdx";
+import CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_2 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/docs-cn/global-synchronizer-canton-console-essential-commands-2.mdx";
+import CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_3 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/docs-cn/global-synchronizer-canton-console-essential-commands-3.mdx";
+import CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_4 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/docs-cn/global-synchronizer-canton-console-essential-commands-4.mdx";
+import CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_5 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/docs-cn/global-synchronizer-canton-console-essential-commands-5.mdx";
+import CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_6 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/docs-cn/global-synchronizer-canton-console-essential-commands-6.mdx";
+import CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_7 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/docs-cn/global-synchronizer-canton-console-essential-commands-7.mdx";
+import CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_8 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/docs-cn/global-synchronizer-canton-console-essential-commands-8.mdx";
+import CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_9 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/docs-cn/global-synchronizer-canton-console-essential-commands-9.mdx";
+import CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_10 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/docs-cn/global-synchronizer-canton-console-essential-commands-10.mdx";
+import CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_11 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/docs-cn/global-synchronizer-canton-console-essential-commands-11.mdx";
+import CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_12 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/docs-cn/global-synchronizer-canton-console-essential-commands-12.mdx";
+import CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_13 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/docs-cn/global-synchronizer-canton-console-essential-commands-13.mdx";
+import CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_14 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/docs-cn/global-synchronizer-canton-console-essential-commands-14.mdx";
+import CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_15 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/docs-cn/global-synchronizer-canton-console-essential-commands-15.mdx";
+
+
+This reference covers the most commonly used Canton Console commands, organized by task. All examples assume you're connected to a participant console unless otherwise noted.
+
+When the Canton Console starts, it reads the configuration file and automatically binds a variable for each configured node. For example, if your configuration defines a participant node, the console makes it available as the `participant` variable (or whatever name you gave it in the config). You can use this variable directly to call commands like `participant.health.status` without any additional setup.
+
+## Health and Status
+
+Check whether the node is healthy and connected to the synchronizer:
+
+
+
+<CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_0 />
+
+
+For sequencer nodes:
+
+
+
+<CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_1 />
+
+
+## Party Management
+
+### Listing Parties
+
+
+
+<CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_2 />
+
+
+### Party Details
+
+
+
+<CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_3 />
+
+
+## Package Management
+
+### Listing Packages
+
+
+
+<CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_4 />
+
+
+### Uploading Packages
+
+
+
+<CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_5 />
+
+
+### Package Vetting
+
+
+
+<CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_6 />
+
+
+## Topology Inspection
+
+Topology commands show the current state of party-to-participant mappings, package vetting, and other network-wide configuration.
+
+### Party-to-Participant Mappings
+
+
+
+<CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_7 />
+
+
+### Synchronizer Parameters
+
+
+
+<CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_8 />
+
+
+### Namespace Delegations
+
+
+
+<CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_9 />
+
+
+## Synchronizer Operations
+
+### Listing Connected Synchronizers
+
+
+
+<CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_10 />
+
+
+### Reconnecting to a Synchronizer
+
+
+
+<CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_11 />
+
+
+## Querying the Ledger
+
+### Active Contract Set (ACS)
+
+
+
+<CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_12 />
+
+
+<Note>
+The `testing.acs_search` command is intended for debugging, not production queries. For production read access, use PQS.
+</Note>
+
+## Common Patterns
+
+### Getting the Participant ID
+
+
+
+<CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_13 />
+
+
+### Getting a Party ID
+
+
+
+<CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_14 />
+
+
+### Getting the Synchronizer ID
+
+
+
+<CANTON_DOCS_CN_GS_CANTON_CONSOLE_ESSENTIAL_COMMANDS_15 />
+
+
+## Next Steps
+
+- [Debugging Workflows](/global-synchronizer/canton-console/debugging-workflows) — Using these commands in diagnostic scenarios
+- [Canton Console Reference](/global-synchronizer/reference/canton-console-reference) — How to start the console

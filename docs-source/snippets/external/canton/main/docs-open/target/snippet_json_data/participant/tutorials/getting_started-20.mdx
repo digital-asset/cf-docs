@@ -1,0 +1,9 @@
+```scala
+@ val aliceAsStr = alice.toProtoPrimitive
+    aliceAsStr : String = "Alice::12201ff69b1d24edbf0ee2028a304ea702ee8536790dab1a31e7136e6d90ff6d473c"
+```
+
+```scala
+@ val aliceParsed = PartyId.tryFromProtoPrimitive(aliceAsStr)
+    aliceParsed : PartyId = Alice::12201ff69b1d...
+```

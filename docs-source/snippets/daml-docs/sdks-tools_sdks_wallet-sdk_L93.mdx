@@ -1,0 +1,25 @@
+```typescript
+import {
+    WalletSDKImpl,
+    createKeyPair,
+    localNetAuthDefault,
+    localNetLedgerDefault,
+    localNetStaticConfig,
+} from '@canton-network/wallet-sdk'
+
+const sdk = new WalletSDKImpl().configure({
+    logger: console,
+    authFactory: localNetAuthDefault,
+    ledgerFactory: localNetLedgerDefault,
+})
+await sdk.connect()
+await sdk.connectTopology(localNetStaticConfig.LOCALNET_SCAN_PROXY_API_URL)
+
+const key = createKeyPair()
+const partyHint = 'my-wallet-1'
+
+const party = await sdk.userLedger?.signAndAllocateExternalParty(
+    key.privateKey,
+    partyHint
+)
+```

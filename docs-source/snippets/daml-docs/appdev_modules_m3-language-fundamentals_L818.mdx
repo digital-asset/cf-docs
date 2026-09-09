@@ -1,0 +1,53 @@
+```daml
+{-
+-- Commented out as `Either` is defined in the standard library.
+data Either a b
+  = Left a
+  | Right b
+-}
+
+variant_access_test = script do
+  let
+    l : Either Int Text = Left 1
+    r : Either Int Text = Right "r"
+
+    -- If we know that `l` is a `Left`, we can error on the `Right` case.
+    l_value = case l of
+      Left i -> i
+      Right i -> error "Expecting Left"
+    -- Comment out at your own peril
+    {-
+    r_value = case r of
+      Left i -> i
+      Right i -> error "Expecting Left"
+    -}
+
+    -- If we are unsure, we can return an `Optional` in both cases
+    ol_value = case l of
+      Left i -> Some i
+      Right i -> None
+    or_value = case r of
+      Left i -> Some i
+      Right i -> None
+
+    -- If we don't care about values or even constructors, we can use wildcards
+    l_value2 = case l of
+      Left i -> i
+      Right _ -> error "Expecting Left"
+    l_value3 = case l of
+      Left i -> i
+      _ -> error "Expecting Left"
+
+    day = Sunday
+    weekend = case day of
+      Saturday -> True
+      Sunday -> True
+      _ -> False
+
+  assert (l_value == 1)
+  assert (l_value2 == 1)
+  assert (l_value3 == 1)
+  assert (ol_value == Some 1)
+  assert (or_value == None)
+  assert weekend
+```

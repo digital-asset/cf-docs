@@ -1,0 +1,5 @@
+```java
+String commandId = "renew-license-" + licenseNum + "-" + requestNonce;
+ledger.exerciseAndGetResult(contractId, renewChoice, commandId).join();
+// Safe to retry with the same commandId if the response is lost
+```

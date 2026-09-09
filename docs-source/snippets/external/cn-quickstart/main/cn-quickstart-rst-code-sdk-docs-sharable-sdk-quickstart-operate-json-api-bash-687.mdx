@@ -1,0 +1,7 @@
+```bash
+   REQUEST_ID=$(uuidgen)
+   REQUESTED_AT=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+   PREPARE_UNTIL=$(date -u -v+60M +"%Y-%m-%dT%H:%M:%SZ")
+   SETTLE_BEFORE=$(date -u -v+90M +"%Y-%m-%dT%H:%M:%SZ")
+
+```

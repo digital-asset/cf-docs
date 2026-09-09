@@ -1,0 +1,28 @@
+```bash
+   curl -X POST "http://localhost:2975/v2/commands/submit-and-wait" \
+     -H "Authorization: Bearer $USER_TOKEN" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "commands": [{
+         "CreateCommand": {
+           "templateId": "'"$PACKAGE_ID"':Licensing.AppInstall:AppInstallRequest",
+           "createArguments": {
+             "provider": "'"$APP_PROVIDER_PARTY"'",
+             "user": "'"$APP_USER_PARTY"'",
+             "meta": {"values": {}}
+           }
+         }
+       }],
+       "workflowId": "install-request",
+       "applicationId": "'"$APP_USER_ID"'",
+       "commandId": "req-'"$(date +%s%N)"'",
+       "deduplicationPeriod": {"Empty": {}},
+       "actAs": ["'"$APP_USER_PARTY"'"],
+       "readAs": [],
+       "submissionId": "install-request",
+       "disclosedContracts": [],
+       "domainId": "",
+       "packageIdSelectionPreference": []
+     }'
+
+```

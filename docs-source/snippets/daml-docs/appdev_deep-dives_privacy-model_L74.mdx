@@ -1,0 +1,11 @@
+```haskell
+template RegulatedLoan
+  with
+    lender : Party
+    borrower : Party
+    regulator : Party
+    principal : Decimal
+  where
+    signatory lender, borrower
+    observer regulator
+```

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 import shutil
 import subprocess
 from pathlib import Path
@@ -8,6 +9,25 @@ from pathlib import Path
 import pytest
 
 from scripts import generate_external_snippets as generator
+from scripts.generate_network_variable_tabs import generate_site
+
+
+def test_canton_docs_cn_imports_have_manifest_destinations() -> None:
+    """Historical snippet names must survive a move of the site root."""
+    config = json.loads(generator.config_path(generator.REPOS["canton"]).read_text())
+    destinations = {snippet["snippetName"] for snippet in config["snippets"]}
+    imports = {
+        name
+        for page in (generator.CF_DOCS_ROOT / "docs-source").rglob("*.mdx")
+        for name in re.findall(
+            r"from [\"']/snippets/external/canton/main/"
+            r"(docs-open/target/snippet_json_data/docs-cn/[^\"']+)\.mdx[\"']",
+            page.read_text(encoding="utf-8"),
+        )
+    }
+
+    assert imports
+    assert not imports - destinations
 
 
 def test_copy_helper_and_config_copies_helper(tmp_path: Path) -> None:
@@ -57,7 +77,7 @@ def test_validate_inputs_reports_missing_helper(
     assert "generateOutputDocs.js" in str(error.value)
 
 
-def test_copy_output_targets_docs_main_snippets(
+def test_copy_output_targets_docs_source_snippets(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     source_dir = tmp_path / "splice"
@@ -76,7 +96,7 @@ def test_copy_output_targets_docs_main_snippets(
         dry_run=False,
     )
 
-    assert target == fake_root / "docs-main" / "snippets" / "external" / "splice" / "main"
+    assert target == fake_root / "docs-source" / "snippets" / "external" / "splice" / "main"
     assert (target / "example.mdx").read_text(encoding="utf-8") == "content"
     assert not (fake_root / "snippets").exists()
 
@@ -141,6 +161,19 @@ def test_wrapper_copies_helper_runs_extraction_and_copies_output(
         "```text\nhello\n```"
     )
     assert (target / "example.mdx").read_text(encoding="utf-8") == "```text\nhello\n```"
+
+    docs_source = fake_root / "docs-source"
+    (docs_source / "docs.json").write_text("{}", encoding="utf-8")
+    dashboard = docs_source / "snippets/generated/version-dashboard-data.mdx"
+    dashboard.parent.mkdir(parents=True)
+    dashboard.write_text("export const networkData = {};", encoding="utf-8")
+    docs_output = fake_root / "docs-main"
+
+    generate_site(docs_source, docs_output)
+
+    published = docs_output / "snippets/external/test/main/example.mdx"
+    assert published.read_text(encoding="utf-8") == "```text\nhello\n```"
+    assert generate_site(docs_source, docs_output, check=True) == []
 
 
 def _write_string_marker_fixture(

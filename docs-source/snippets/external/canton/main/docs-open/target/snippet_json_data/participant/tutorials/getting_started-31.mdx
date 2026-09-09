@@ -1,0 +1,8 @@
+```scala
+@ participant1.ledger_api.commands.submit(Seq(alice), Seq(createIouCmd))
+    ERROR com.digitalasset.canton.integration.EnvironmentDefinition$$anon$3:GettingStartedDocumentationIntegrationTest - Request failed for participant1.
+      GrpcClientError: INVALID_ARGUMENT/DAML_AUTHORIZATION_ERROR(8,169442be): Interpretation error: Error: node NodeId(0) (2b4b62a3503e321acd9736013530de57e028d67c9390f3af7c630f60bd816eba:Iou:Iou) requires authorizers Bank::1220a4d7463bd34b2ba3704401b48ab41d8f88cdcbe512fc1ef071aad97fef106161, but only Alice::12201ff69b1d24edbf0ee2028a304ea702ee8536790dab1a31e7136e6d90ff6d473c were given
+      Request: SubmitAndWaitTransaction(actAs = Alice::12201ff69b1d..., readAs = Seq(), commandId = '', workflowId = '', submissionId = '', deduplicationPeriod = None(), commands = ...)
+      DecodedCantonError(
+    ..
+```

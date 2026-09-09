@@ -1,0 +1,42 @@
+```scala
+@ participant1.ledger_api.completions.list(myParty, atLeastNumCompletions = 1, beginOffsetExclusive = 0L)
+    res3: Seq[com.daml.ledger.api.v2.completion.Completion] = List(
+      Completion(
+        commandId = "fd7130f4-c3be-48f4-bea8-b749c72b3c7c",
+        status = Some(
+          value = Status(
+            code = 0,
+            message = "",
+            details = Vector(),
+            unknownFields = UnknownFieldSet(fields = Map())
+          )
+        ),
+        updateId = "1220e7bcb77aeda40038baec5e42737bf3ded06b9ae8b96fe7bfacb5ef0982fea2fe",
+        userId = "CantonConsole",
+        actAs = Vector("MyParty::12201ff69b1d24edbf0ee2028a304ea702ee8536790dab1a31e7136e6d90ff6d473c"),
+        submissionId = "5077bc60-b201-46a6-be9d-4b5aae5a7d05",
+        deduplicationPeriod = DeduplicationOffset(value = 0L),
+        traceContext = Some(
+          value = TraceContext(
+            traceparent = Some(value = "00-df3927b8da9feb088a981bdf8dc41bf8-53e353ddde16dd05-03"),
+            tracestate = None
+          )
+        ),
+        offset = 12L,
+        synchronizerTime = Some(
+          value = SynchronizerTime(
+            synchronizerId = "da::122032922613929d67857e621fb13e3da49ec13883e24908404520319eee6d31fb4d",
+            recordTime = Some(
+              value = Timestamp(
+                seconds = 1782822793L,
+                nanos = 849861000,
+                unknownFields = UnknownFieldSet(fields = Map())
+              )
+            )
+          )
+        ),
+        paidTrafficCost = 0L,
+        transactionHash = None
+      )
+    )
+```

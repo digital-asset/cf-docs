@@ -1,0 +1,429 @@
+---
+title: "GET /v0/internal/reward-accounting-process/rounds/:round_number/activity-totals"
+description: "SV node internal API (CIP-0104, subject to change). Return the CIP-0104 per-round activity totals for the specified round number."
+api: "GET https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/internal/reward-accounting-process/rounds/{round_number}/activity-totals"
+playground: "interactive"
+sidebarTitle: "/v0/internal/reward-accounting-process/rounds/:round_number/activity-totals"
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--operation x2mdx-ref-page--manual-api"></div>
+
+
+
+<div class="x2mdx-ref-hero">
+
+
+
+  <p class="x2mdx-ref-summary">SV node internal API (CIP-0104, subject to change). Return the CIP-0104 per-round activity totals for the specified round number.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">OpenAPI</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--added" href="#history-added-0-6-0">Added 0.6.0</a>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--changed" href="#history-updated-0-6-9">Updated 0.6.9</a>
+
+</div>
+
+
+</div>
+
+
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/internal/reward-accounting-process/rounds/{round_number}/activity-totals'
+```
+
+```python Python
+import json
+import requests
+
+url = "https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/internal/reward-accounting-process/rounds/{round_number}/activity-totals"
+response = requests.request("GET", url)
+
+print(response.text)
+```
+
+```javascript JavaScript
+const response = await fetch('https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/internal/reward-accounting-process/rounds/{round_number}/activity-totals', {
+  method: 'GET',
+});
+
+console.log(await response.text());
+```
+
+```php PHP
+<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => 'https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/internal/reward-accounting-process/rounds/{round_number}/activity-totals',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+]);
+
+$response = curl_exec($curl);
+echo $response;
+```
+
+```go Go
+package main
+
+import (
+  "fmt"
+  "io"
+  "net/http"
+)
+
+func main() {
+  req, _ := http.NewRequest("GET", "https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/internal/reward-accounting-process/rounds/{round_number}/activity-totals", nil)
+  response, _ := http.DefaultClient.Do(req)
+  defer response.Body.Close()
+  body, _ := io.ReadAll(response.Body)
+  fmt.Println(string(body))
+}
+```
+
+```java Java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+var request = HttpRequest.newBuilder()
+    .uri(URI.create("https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/internal/reward-accounting-process/rounds/{round_number}/activity-totals"))
+    .method("GET", HttpRequest.BodyPublishers.noBody())
+    .build();
+var response = HttpClient.newHttpClient().send(
+    request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```ruby Ruby
+require 'net/http'
+require 'uri'
+
+uri = URI('https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/internal/reward-accounting-process/rounds/{round_number}/activity-totals')
+request = Net::HTTP::Get.new(uri)
+response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+  http.request(request)
+end
+puts response.body
+```
+
+</RequestExample>
+
+
+<ResponseExample>
+
+```json 200
+{
+  "status": "<string>",
+  "round_number": 123,
+  "total_app_activity_weight": 123,
+  "active_parties_count": 123,
+  "activity_records_count": 123,
+  "total_app_reward_minting_allowance": "<string>",
+  "total_app_reward_thresholded": "<string>",
+  "total_app_reward_unclaimed": "<string>",
+  "rewarded_app_provider_parties_count": 123
+}
+```
+
+</ResponseExample>
+
+
+
+## Path parameters
+
+
+
+
+
+
+
+
+<ParamField path="round_number" type="number" required>
+OpenAPI type: <code>integer (int64)</code>.
+
+
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+
+## Responses
+
+
+### 200
+
+ok
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="value" type="GetRewardAccountingActivityTotalsResponse" required>
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="RewardAccountingActivityTotalsOk" type="RewardAccountingActivityTotalsOk">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="status" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="round_number" type="integer (int64)" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="total_app_activity_weight" type="integer (int64)" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="active_parties_count" type="integer (int64)" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="activity_records_count" type="integer (int64)" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="total_app_reward_minting_allowance" type="string" required>
+
+The total of all minting allowances granted to app providers in this round.
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="total_app_reward_thresholded" type="string" required>
+
+Total amount of minting allowances that fell below the configured app reward threshold and was thus burned.
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="total_app_reward_unclaimed" type="string" required>
+
+Total amount of app rewards which could not be attributed to app providers in this round because of limit on app rewards per activity (aka the app rewards cap).
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="rewarded_app_provider_parties_count" type="integer (int64)" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="RewardAccountingActivityTotalsUndetermined" type="RewardAccountingActivityTotalsUndetermined">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="status" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="RewardAccountingActivityTotalsCannotProvide" type="RewardAccountingActivityTotalsCannotProvide">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="status" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+
+
+
+
+## History
+
+<div class="x2mdx-ref-history" aria-label="Reference history">
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-0-6-9">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">0.6.9</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">The GET /v0/internal/reward-accounting-process/rounds/&#123;round_number&#125;/activity-totals operation changed in this snapshot.</p>
+
+  </div>
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-0-6-5">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">0.6.5</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">The operation moved from GET /v0/reward-accounting-process/rounds/&#123;round_number&#125;/activity-totals to GET /v0/internal/reward-accounting-process/rounds/&#123;round_number&#125;/activity-totals.</p>
+
+  </div>
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--introduced" id="history-added-0-6-0">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Added</span>
+      <code class="x2mdx-ref-history-event-version">0.6.0</code>
+    </div>
+
+  </div>
+
+</div>

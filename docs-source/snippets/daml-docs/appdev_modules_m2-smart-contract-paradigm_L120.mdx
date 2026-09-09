@@ -1,0 +1,16 @@
+```haskell
+-- Record type (like struct)
+data Asset = Asset with
+  owner : Party
+  value : Decimal
+  isLocked : Bool
+
+-- Sum type (algebraic data type)
+data AssetState
+  = Pending
+  | Active with activatedAt : Time
+  | Completed with result : Text
+
+-- Optional (explicit null handling)
+data MaybeApprover = Some Party | None
+```

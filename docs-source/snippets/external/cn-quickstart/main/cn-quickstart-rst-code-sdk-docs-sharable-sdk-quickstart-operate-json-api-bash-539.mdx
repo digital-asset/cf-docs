@@ -1,0 +1,8 @@
+```bash
+   APP_PROVIDER_USER_ID=$(curl -s "http://localhost:3975/v2/users" \
+     -H "Authorization: Bearer $PROVIDER_ADMIN_TOKEN" | \
+     jq -r '.users[] | select(.metadata.annotations.username == "app-provider") | .id')
+   
+   echo "APP_PROVIDER_USER_ID: $APP_PROVIDER_USER_ID"
+
+```

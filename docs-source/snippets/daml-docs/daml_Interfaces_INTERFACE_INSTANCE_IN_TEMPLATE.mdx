@@ -1,0 +1,10 @@
+```haskell
+interface instance MyInterface for NameOfTemplate where
+  view = MyInterfaceViewType "NameOfTemplate" 100
+  method1 = field1
+  method2 = field2
+  method3 False _ _ = 0
+  method3 True x y
+    | x > 0 = x + y
+    | otherwise = y
+```

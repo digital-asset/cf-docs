@@ -1,0 +1,12 @@
+```yaml
+   services:
+     validator:
+       environment:
+          - |
+             ADDITIONAL_CONFIG_AUTO_ACCEPT_TRANSFERS=
+               canton.validator-apps.validator_backend.auto-accept-transfers {
+                 "<receiverPartyId>" {
+                   from-parties = ["<senderPartyId1>", "<senderPartyId2>"]
+                 }
+               }
+```

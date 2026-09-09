@@ -1,0 +1,582 @@
+---
+title: "Splice.Wallet.Payment"
+description: "Documentation for Splice.Wallet.Payment"
+---
+
+{/* COPIED_START source="splice:daml/splice-wallet-payments/docs/Splice-Wallet-Payment.rst" tag="0.6.4" hash="6c338ed0" */}
+
+## Templates
+
+<div id="type-splice-wallet-payment-acceptedapppayment-18193">
+
+**template** AcceptedAppPayment
+
+</div>
+
+> Signatory: sender, provider, map (\\ r -\> (DA.Internal.Record.getField @"receiver" r)) amuletReceiverAmounts
+>
+> | Field                 | Type                                                                                                                                            | Description                                                                                                         |
+> |-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
+> | sender                | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                             |                                                                                                                     |
+> | amuletReceiverAmounts | \[ReceiverAmuletAmount\]                                                                                                                        |                                                                                                                     |
+> | provider              | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                             |                                                                                                                     |
+> | dso                   | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                             |                                                                                                                     |
+> | lockedAmulet          | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) LockedAmulet      |                                                                                                                     |
+> | round                 | Round                                                                                                                                           | The round in which the locked amulet was created, added as an extra field so we can avoid ingesting locked amulets. |
+> | reference             | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AppPaymentRequest | The contract id of the original payment request to correlate it. Note that the contract will no longer be active.   |
+>
+> - <div id="type-splice-wallet-payment-acceptedapppaymentcollect-62282">
+>
+>   **Choice** AcceptedAppPayment_Collect
+>
+>   </div>
+>
+>   Controller: signatory this
+>
+>   Returns: AcceptedAppPayment_CollectResult
+>
+>   | Field   | Type               | Description |
+>   |---------|--------------------|-------------|
+>   | context | AppTransferContext |             |
+>
+> - <div id="type-splice-wallet-payment-acceptedapppaymentexpire-51092">
+>
+>   **Choice** AcceptedAppPayment_Expire
+>
+>   </div>
+>
+>   Controller: sender
+>
+>   Returns: AcceptedAppPayment_ExpireResult
+>
+>   | Field   | Type               | Description |
+>   |---------|--------------------|-------------|
+>   | context | AppTransferContext |             |
+>
+> - <div id="type-splice-wallet-payment-acceptedapppaymentreject-83760">
+>
+>   **Choice** AcceptedAppPayment_Reject
+>
+>   </div>
+>
+>   Controller: map (\\ r -\> (DA.Internal.Record.getField @"receiver" r)) amuletReceiverAmounts
+>
+>   Returns: AcceptedAppPayment_RejectResult
+>
+>   | Field   | Type               | Description |
+>   |---------|--------------------|-------------|
+>   | context | AppTransferContext |             |
+>
+> - **Choice** Archive
+>
+>   Controller: sender, provider, map (\\ r -\> (DA.Internal.Record.getField @"receiver" r)) amuletReceiverAmounts
+>
+>   Returns: ()
+>
+>   (no fields)
+
+<div id="type-splice-wallet-payment-apppaymentrequest-31524">
+
+**template** AppPaymentRequest
+
+</div>
+
+> Signatory: sender, appPaymentRequest_receivers this, provider
+>
+> | Field           | Type                                                                                                                | Description                                                                         |
+> |-----------------|---------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+> | sender          | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | The party that should pay.                                                          |
+> | receiverAmounts | \[ReceiverAmount\]                                                                                                  | Pairs of (party, amount) requesting to be paid.                                     |
+> | provider        | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | The app provider; receives usage rewards.                                           |
+> | dso             | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | The DSO party of the amulet that should be used to make the payment.                |
+> | expiresAt       | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)   | When the payment request expires.                                                   |
+> | description     | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        | Human readable description of the reason / good for which the payment is requested. |
+>
+> - <div id="type-splice-wallet-payment-apppaymentrequestaccept-83530">
+>
+>   **Choice** AppPaymentRequest_Accept
+>
+>   </div>
+>
+>   Controller: sender, walletProvider
+>
+>   Returns: AppPaymentRequest_AcceptResult
+>
+>   | Field          | Type                                                                                                                | Description |
+>   |----------------|---------------------------------------------------------------------------------------------------------------------|-------------|
+>   | inputs         | \[TransferInput\]                                                                                                   |             |
+>   | context        | PaymentTransferContext                                                                                              |             |
+>   | walletProvider | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>
+> - <div id="type-splice-wallet-payment-apppaymentrequestexpire-10515">
+>
+>   **Choice** AppPaymentRequest_Expire
+>
+>   </div>
+>
+>   Controller: actor
+>
+>   Returns: AppPaymentRequest_ExpireResult
+>
+>   | Field | Type                                                                                                                | Description |
+>   |-------|---------------------------------------------------------------------------------------------------------------------|-------------|
+>   | actor | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>
+> - <div id="type-splice-wallet-payment-apppaymentrequestreject-66391">
+>
+>   **Choice** AppPaymentRequest_Reject
+>
+>   </div>
+>
+>   Controller: sender
+>
+>   Returns: AppPaymentRequest_RejectResult
+>
+>   (no fields)
+>
+> - <div id="type-splice-wallet-payment-apppaymentrequestwithdraw-31618">
+>
+>   **Choice** AppPaymentRequest_Withdraw
+>
+>   </div>
+>
+>   Controller: appPaymentRequest_receivers this
+>
+>   Returns: AppPaymentRequest_WithdrawResult
+>
+>   (no fields)
+>
+> - **Choice** Archive
+>
+>   Controller: sender, appPaymentRequest_receivers this, provider
+>
+>   Returns: ()
+>
+>   (no fields)
+
+<div id="type-splice-wallet-payment-terminatedapppayment-49143">
+
+**template** TerminatedAppPayment
+
+</div>
+
+> Instead of just archiving payments (e.g. when the request is accepted) we create an TerminatedAppPayment contract. This allows the coordinating workflow to archive its own contracts once the app-payment workflow terminated.
+>
+> Signatory: sender, provider, receivers
+>
+> | Field     | Type                                                                                                                                            | Description |
+> |-----------|-------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> | sender    | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                             |             |
+> | provider  | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                             |             |
+> | receivers | \[[Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)\]                         |             |
+> | reference | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AppPaymentRequest |             |
+>
+> - **Choice** Archive
+>
+>   Controller: sender, provider, receivers
+>
+>   Returns: ()
+>
+>   (no fields)
+
+## Data Types
+
+<div id="type-splice-wallet-payment-acceptedapppaymentcollectresult-5751">
+
+**data** AcceptedAppPayment_CollectResult
+
+</div>
+
+> <div id="constr-splice-wallet-payment-acceptedapppaymentcollectresult-53822">
+>
+> AcceptedAppPayment_CollectResult
+>
+> </div>
+>
+> > | Field           | Type                                                                                                                                                                                                                                                            | Description |
+> > |-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | receiverAmulets | \[([Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932), [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet)\] |             |
+>
+> **instance** GetField "receiverAmulets" AcceptedAppPayment_CollectResult \[([Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932), [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet)\]
+>
+> **instance** SetField "receiverAmulets" AcceptedAppPayment_CollectResult \[([Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932), [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet)\]
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AcceptedAppPayment AcceptedAppPayment_Collect AcceptedAppPayment_CollectResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AcceptedAppPayment AcceptedAppPayment_Collect AcceptedAppPayment_CollectResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AcceptedAppPayment AcceptedAppPayment_Collect AcceptedAppPayment_CollectResult
+
+<div id="type-splice-wallet-payment-acceptedapppaymentexpireresult-93793">
+
+**data** AcceptedAppPayment_ExpireResult
+
+</div>
+
+> <div id="constr-splice-wallet-payment-acceptedapppaymentexpireresult-95234">
+>
+> AcceptedAppPayment_ExpireResult
+>
+> </div>
+>
+> > | Field  | Type                                                                                                                                                       | Description |
+> > |--------|------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | amulet | AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet) |             |
+>
+> **instance** GetField "amulet" AcceptedAppPayment_ExpireResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** SetField "amulet" AcceptedAppPayment_ExpireResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AcceptedAppPayment AcceptedAppPayment_Expire AcceptedAppPayment_ExpireResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AcceptedAppPayment AcceptedAppPayment_Expire AcceptedAppPayment_ExpireResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AcceptedAppPayment AcceptedAppPayment_Expire AcceptedAppPayment_ExpireResult
+
+<div id="type-splice-wallet-payment-acceptedapppaymentrejectresult-56853">
+
+**data** AcceptedAppPayment_RejectResult
+
+</div>
+
+> <div id="constr-splice-wallet-payment-acceptedapppaymentrejectresult-75142">
+>
+> AcceptedAppPayment_RejectResult
+>
+> </div>
+>
+> > | Field  | Type                                                                                                                                                       | Description |
+> > |--------|------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | amulet | AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet) |             |
+>
+> **instance** GetField "amulet" AcceptedAppPayment_RejectResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** SetField "amulet" AcceptedAppPayment_RejectResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AcceptedAppPayment AcceptedAppPayment_Reject AcceptedAppPayment_RejectResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AcceptedAppPayment AcceptedAppPayment_Reject AcceptedAppPayment_RejectResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AcceptedAppPayment AcceptedAppPayment_Reject AcceptedAppPayment_RejectResult
+
+<div id="type-splice-wallet-payment-apppaymentrequestacceptresult-82387">
+
+**data** AppPaymentRequest_AcceptResult
+
+</div>
+
+> <div id="constr-splice-wallet-payment-apppaymentrequestacceptresult-79598">
+>
+> AppPaymentRequest_AcceptResult
+>
+> </div>
+>
+> > | Field              | Type                                                                                                                                                                                                                                                                  | Description |
+> > |--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | acceptedPayment    | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AcceptedAppPayment                                                                                                                      |             |
+> > | senderChangeAmulet | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet) |             |
+>
+> **instance** GetField "acceptedPayment" AppPaymentRequest_AcceptResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AcceptedAppPayment)
+>
+> **instance** GetField "senderChangeAmulet" AppPaymentRequest_AcceptResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** SetField "acceptedPayment" AppPaymentRequest_AcceptResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AcceptedAppPayment)
+>
+> **instance** SetField "senderChangeAmulet" AppPaymentRequest_AcceptResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AppPaymentRequest AppPaymentRequest_Accept AppPaymentRequest_AcceptResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AppPaymentRequest AppPaymentRequest_Accept AppPaymentRequest_AcceptResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AppPaymentRequest AppPaymentRequest_Accept AppPaymentRequest_AcceptResult
+
+<div id="type-splice-wallet-payment-apppaymentrequestexpireresult-63922">
+
+**data** AppPaymentRequest_ExpireResult
+
+</div>
+
+> <div id="constr-splice-wallet-payment-apppaymentrequestexpireresult-76475">
+>
+> AppPaymentRequest_ExpireResult
+>
+> </div>
+>
+> > | Field                | Type                                                                                                                                               | Description |
+> > |----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | terminatedAppPayment | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedAppPayment |             |
+>
+> **instance** GetField "terminatedAppPayment" AppPaymentRequest_ExpireResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedAppPayment)
+>
+> **instance** SetField "terminatedAppPayment" AppPaymentRequest_ExpireResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedAppPayment)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AppPaymentRequest AppPaymentRequest_Expire AppPaymentRequest_ExpireResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AppPaymentRequest AppPaymentRequest_Expire AppPaymentRequest_ExpireResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AppPaymentRequest AppPaymentRequest_Expire AppPaymentRequest_ExpireResult
+
+<div id="type-splice-wallet-payment-apppaymentrequestrejectresult-75838">
+
+**data** AppPaymentRequest_RejectResult
+
+</div>
+
+> <div id="constr-splice-wallet-payment-apppaymentrequestrejectresult-65943">
+>
+> AppPaymentRequest_RejectResult
+>
+> </div>
+>
+> > | Field                | Type                                                                                                                                               | Description |
+> > |----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | terminatedAppPayment | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedAppPayment |             |
+>
+> **instance** GetField "terminatedAppPayment" AppPaymentRequest_RejectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedAppPayment)
+>
+> **instance** SetField "terminatedAppPayment" AppPaymentRequest_RejectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedAppPayment)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AppPaymentRequest AppPaymentRequest_Reject AppPaymentRequest_RejectResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AppPaymentRequest AppPaymentRequest_Reject AppPaymentRequest_RejectResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AppPaymentRequest AppPaymentRequest_Reject AppPaymentRequest_RejectResult
+
+<div id="type-splice-wallet-payment-apppaymentrequestwithdrawresult-19567">
+
+**data** AppPaymentRequest_WithdrawResult
+
+</div>
+
+> <div id="constr-splice-wallet-payment-apppaymentrequestwithdrawresult-24638">
+>
+> AppPaymentRequest_WithdrawResult
+>
+> </div>
+>
+> > | Field                | Type                                                                                                                                               | Description |
+> > |----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | terminatedAppPayment | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedAppPayment |             |
+>
+> **instance** GetField "terminatedAppPayment" AppPaymentRequest_WithdrawResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedAppPayment)
+>
+> **instance** SetField "terminatedAppPayment" AppPaymentRequest_WithdrawResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedAppPayment)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) AppPaymentRequest AppPaymentRequest_Withdraw AppPaymentRequest_WithdrawResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) AppPaymentRequest AppPaymentRequest_Withdraw AppPaymentRequest_WithdrawResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) AppPaymentRequest AppPaymentRequest_Withdraw AppPaymentRequest_WithdrawResult
+
+<div id="type-splice-wallet-payment-paymentamount-12698">
+
+**data** PaymentAmount
+
+</div>
+
+> <div id="constr-splice-wallet-payment-paymentamount-44729">
+>
+> PaymentAmount
+>
+> </div>
+>
+> > | Field  | Type                                                                                                               | Description |
+> > |--------|--------------------------------------------------------------------------------------------------------------------|-------------|
+> > | amount | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) |             |
+> > | unit   | Unit                                                                                                               |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) PaymentAmount
+>
+> **instance** [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) PaymentAmount
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) PaymentAmount
+>
+> **instance** GetField "amount" PaymentAmount [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "amount" ReceiverAmount PaymentAmount
+>
+> **instance** GetField "paymentAmount" SubscriptionPayData PaymentAmount
+>
+> **instance** GetField "unit" PaymentAmount Unit
+>
+> **instance** SetField "amount" PaymentAmount [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "amount" ReceiverAmount PaymentAmount
+>
+> **instance** SetField "paymentAmount" SubscriptionPayData PaymentAmount
+>
+> **instance** SetField "unit" PaymentAmount Unit
+
+<div id="type-splice-wallet-payment-receiveramount-43100">
+
+**data** ReceiverAmount
+
+</div>
+
+> <div id="constr-splice-wallet-payment-receiveramount-91649">
+>
+> ReceiverAmount
+>
+> </div>
+>
+> > | Field    | Type                                                                                                                | Description |
+> > |----------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> > | receiver | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> > | amount   | PaymentAmount                                                                                                       |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) ReceiverAmount
+>
+> **instance** [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) ReceiverAmount
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) ReceiverAmount
+>
+> **instance** GetField "amount" ReceiverAmount PaymentAmount
+>
+> **instance** GetField "receiver" ReceiverAmount [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "receiverAmounts" AppPaymentRequest \[ReceiverAmount\]
+>
+> **instance** SetField "amount" ReceiverAmount PaymentAmount
+>
+> **instance** SetField "receiver" ReceiverAmount [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "receiverAmounts" AppPaymentRequest \[ReceiverAmount\]
+
+<div id="type-splice-wallet-payment-receiveramulet-61330">
+
+**data** ReceiverAmulet
+
+</div>
+
+> <div id="constr-splice-wallet-payment-receiveramulet-72427">
+>
+> ReceiverAmulet
+>
+> </div>
+>
+> > | Field        | Type                                                                                                                                       | Description |
+> > |--------------|--------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | receiver     | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                        |             |
+> > | lockedAmulet | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) LockedAmulet |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) ReceiverAmulet
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) ReceiverAmulet
+>
+> **instance** GetField "lockedAmulet" ReceiverAmulet ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) LockedAmulet)
+>
+> **instance** GetField "receiver" ReceiverAmulet [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "lockedAmulet" ReceiverAmulet ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) LockedAmulet)
+>
+> **instance** SetField "receiver" ReceiverAmulet [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+
+<div id="type-splice-wallet-payment-receiveramuletamount-72096">
+
+**data** ReceiverAmuletAmount
+
+</div>
+
+> <div id="constr-splice-wallet-payment-receiveramuletamount-97653">
+>
+> ReceiverAmuletAmount
+>
+> </div>
+>
+> > | Field        | Type                                                                                                                | Description |
+> > |--------------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> > | receiver     | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> > | amuletAmount | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)  |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) ReceiverAmuletAmount
+>
+> **instance** [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) ReceiverAmuletAmount
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) ReceiverAmuletAmount
+>
+> **instance** GetField "amuletAmount" ReceiverAmuletAmount [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "amuletReceiverAmounts" AcceptedAppPayment \[ReceiverAmuletAmount\]
+>
+> **instance** GetField "receiver" ReceiverAmuletAmount [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "amuletAmount" ReceiverAmuletAmount [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "amuletReceiverAmounts" AcceptedAppPayment \[ReceiverAmuletAmount\]
+>
+> **instance** SetField "receiver" ReceiverAmuletAmount [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+
+<div id="type-splice-wallet-payment-unit-67175">
+
+**data** Unit
+
+</div>
+
+> <div id="constr-splice-wallet-payment-usdunit-55511">
+>
+> USDUnit
+>
+> </div>
+>
+> <div id="constr-splice-wallet-payment-amuletunit-84830">
+>
+> AmuletUnit
+>
+> </div>
+>
+> <div id="constr-splice-wallet-payment-extunit-45462">
+>
+> ExtUnit
+>
+> </div>
+>
+> > Extension constructor to work around the current lack of upgrading for variants in Daml 3.0. Will serve as the default value in a containing record in case of an extension.
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) Unit
+>
+> **instance** [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) Unit
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) Unit
+>
+> **instance** GetField "unit" PaymentAmount Unit
+>
+> **instance** SetField "unit" PaymentAmount Unit
+
+## Functions
+
+<div id="function-splice-wallet-payment-paymentamounttoamulet-10099">
+
+paymentAmountToAmulet
+: [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> OpenMiningRound -\> PaymentAmount -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+</div>
+
+<div id="function-splice-wallet-payment-receiveramounttoamuletreceiveramount-72316">
+
+receiverAmountToAmuletReceiverAmount
+: [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> OpenMiningRound -\> ReceiverAmount -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) ReceiverAmuletAmount
+
+</div>
+
+<div id="function-splice-wallet-payment-apppaymentrequestreceivers-97989">
+
+appPaymentRequest_receivers
+: AppPaymentRequest -\> \[[Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)\]
+
+</div>
+
+<div id="function-splice-wallet-payment-unzipreceiveramulets-38827">
+
+unzipReceiverAmulets
+: \[ReceiverAmulet\] -\> (\[[Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)\], \[[ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) LockedAmulet\])
+
+</div>
+
+<div id="function-splice-wallet-payment-mkreceiveroutput-26465">
+
+mkReceiverOutput
+: ReceiverAmuletAmount -\> TransferOutput
+
+</div>
+
+{/* COPIED_END */}

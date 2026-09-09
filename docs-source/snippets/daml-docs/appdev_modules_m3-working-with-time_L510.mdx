@@ -1,0 +1,7 @@
+```daml
+nonPerformedError = script do
+  let causeError = False
+  let failingComputation = errPow 1 (-1)
+  let successfulComputation = errPow 1 1
+  return if causeError then failingComputation else successfulComputation
+```

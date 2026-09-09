@@ -1,0 +1,29 @@
+```bash
+  SUBMISSION_ID=$(uuidgen)
+ 
+  grpcurl -emit-defaults -plaintext \
+    -H "Authorization: Bearer $LEDGER_TOKEN" \
+    -d '{
+      "prepared_transaction": '"$PREPARED_TRANSACTION"',
+      "hashing_scheme_version": "HASHING_SCHEME_VERSION_V2",
+      "user_id": "ledger-api-user",
+      "submission_id": "'"$SUBMISSION_ID"'",
+      "party_signatures": {
+        "signatures": [
+          {
+            "party": "'"$PARTY_ID"'",
+            "signatures": [
+              {
+                "format": "SIGNATURE_FORMAT_CONCAT",
+                "signature": "'"$SIGNATURE"'",
+                "signing_algorithm_spec": "SIGNING_ALGORITHM_SPEC_ED25519",
+                "signed_by": "'"$KEY_FINGERPRINT"'"
+              }
+            ]
+          }
+        ]
+      }
+    }' localhost:2901 \
+    com.daml.ledger.api.v2.interactive.InteractiveSubmissionService/ExecuteSubmission
+
+```

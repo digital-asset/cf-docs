@@ -1,0 +1,9 @@
+```bash
+   INFO_URL="https://docs.dev.global.canton.network.sync.global/info"
+   SPLICE_VERSION=$(curl -s "$INFO_URL" | jq -r '.synchronizer?.active?.version')
+   MIGRATION_ID=$(curl -s "$INFO_URL" | jq -r '.synchronizer?.active?.migration_id')
+
+   echo "Splice Version: $SPLICE_VERSION"
+   echo "Migration ID: $MIGRATION_ID"
+
+```

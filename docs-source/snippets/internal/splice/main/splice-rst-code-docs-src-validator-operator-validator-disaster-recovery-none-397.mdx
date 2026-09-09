@@ -1,0 +1,20 @@
+```
+import com.digitalasset.canton.util.HexString
+// Replace HASH_SIGNATURE_HEXSTRING with the signed topology transaction hash
+val signature = Signature.fromExternalSigning(SignatureFormat.Raw, HexString.parseToByteString("HASH_SIGNATURE_HEXSTRING").get, partyId.namespace.fingerprint, SigningAlgorithmSpec.Ed25519)
+val topologyTxSignedByParty = SignedTopologyTransaction.create(
+  topologyTransaction,
+  NonEmpty(Set, SingleTransactionSignature(topologyTransaction.hash, signature): TopologyTransactionSignature),
+  isProposal = false,
+  ProtocolVersion.v35,
+).fold(err => sys.error(err), identity)
+val topologyTxSignedByBoth = participant.topology.transactions.sign(
+  topologyTxSignedByParty,
+  TopologyStoreId.Synchronizer(synchronizerId),
+  signedBy = Seq(participantId.namespace.fingerprint)
+)
+participant.topology.transactions.load(
+  topologyTxSignedByBoth,
+  TopologyStoreId.Synchronizer(synchronizerId),
+)
+```

@@ -1,0 +1,322 @@
+---
+title: "Splice.Api.Token.TransferEventsV2"
+description: "Reference documentation for Daml module Splice.Api.Token.TransferEventsV2."
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--collection"></div>
+
+<span id="module-splice-api-token-transfereventsv2-53771"></span>
+
+
+
+<div class="x2mdx-ref-hero">
+
+  <p class="x2mdx-ref-eyebrow">Daml module</p>
+
+
+  <h1 class="x2mdx-ref-title">Splice.Api.Token.TransferEventsV2</h1>
+
+
+  <p class="x2mdx-ref-summary">Interface to log events for token standard transfers.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Daml</span>
+
+</div>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Module</dt>
+    <dd>Splice.Api.Token.TransferEventsV2</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Latest release</dt>
+    <dd>0.8.0</dd>
+  </div>
+
+</dl>
+
+</div>
+
+
+
+
+
+## Interfaces
+
+
+<span id="type-splice-api-token-transfereventsv2-eventlog-71599"></span>
+
+### Interface `EventLog`
+
+An interface for templates that can be used to report token standard v2 events.
+
+The non-consuming choice of this interface is used by the instrument admin to
+report token transfers. Make sure to only consider events from the instrument
+admin as token transfer events for a token.
+
+View Type: [`EventLogView`](#type-splice-api-token-transfereventsv2-eventlogview-52356)
+
+Choices:
+
+#### Choice `Archive`
+
+Controllers: `Signatories of implementing template`
+
+Returns: ()
+
+<span id="type-splice-api-token-transfereventsv2-eventlogholdingschange-79855"></span>
+
+#### Choice `EventLog_HoldingsChange`
+
+Signal a change in the holdings of an account to the observers.
+
+Asset admins MUST ensure that these events explain:
+  1. All changes to the holdings of all regular accounts, including holdings that
+     were created and archived within a single transaction.
+  2. All incoming and outgoing transfers for all regular accounts.
+
+Controllers: `admin`
+
+Returns: [`EventLog_HoldingsChangeResult`](#type-splice-api-token-transfereventsv2-eventlogholdingschangeresult-2898)
+
+Arguments:
+
+<ResponseField name="admin" type="Party">
+Instrument admin reporting the change in holdings.
+</ResponseField>
+
+<ResponseField name="account" type="Account">
+The account for which the change in holdings occurred.
+</ResponseField>
+
+<ResponseField name="inputHoldingCids" type="[ContractId Holding]">
+The holdings of the account that were consumed.
+
+They MUST be archived in the same transaction and they MUST be owned
+
+by the `account` specified in this change.
+
+Note that these MAY include holdings that were created and archived
+
+within the same transaction. Such holding contract ids will occur
+
+in both the input and output list of holdings.
+</ResponseField>
+
+<ResponseField name="transferLegSides" type="[TransferLegSide]">
+The transfers that caused the change in holdings.
+
+Their net balance changes MUST match the change in holdings of the account.
+
+Both sides of a transfer MUST be reported, and their ids must match.
+
+Transfer leg ids MUST be unique for different transfer legs.
+
+Note that the settlement of transfers whose net balance change is
+
+zero MAY result in events that do have empty input and output
+
+holdings.
+
+Note also that merging and splitting of holdings MAY be reported with
+
+an empty list of transfer legs, as the merge and split actions may not
+
+be related to a (self-)transfer of tokens.
+</ResponseField>
+
+<ResponseField name="outputHoldingCids" type="[ContractId Holding]">
+The newly created holdings of the account.
+</ResponseField>
+
+<ResponseField name="observers" type="[Party]">
+Parties that should be notified about the change in holdings.
+
+MUST include at least the account parties.
+</ResponseField>
+
+<ResponseField name="extraArgs" type="ExtraArgs">
+Arguments storing both metadata and additional context information about the event.
+
+Use `splice.lfdecentralizedtrust.org/reason` to explain the reason for the overall change
+
+in holdings.
+
+The `ChoiceContext` is provided to allow storing extra links to contract-ids, which is
+
+not possible using `Metadata` alone, as contract-ids cannot be stored as `Text`.
+</ResponseField>
+
+Methods:
+
+#### Method `eventLog_holdingsChangeImpl`
+
+Type: `ContractId` [`EventLog`](#type-splice-api-token-transfereventsv2-eventlog-71599) -> [`EventLog_HoldingsChange`](#type-splice-api-token-transfereventsv2-eventlogholdingschange-79855) -> `Update` [`EventLog_HoldingsChangeResult`](#type-splice-api-token-transfereventsv2-eventlogholdingschangeresult-2898)
+
+
+
+## Data Types
+
+
+<span id="type-splice-api-token-transfereventsv2-eventlogview-52356"></span>
+
+### `data EventLogView`
+
+View of an `EventLog` contract.
+
+Note that `EventLog` contracts do not support public fetching, as they are intended to
+be used by the instrument admin or app provider only.
+
+Constructors:
+
+<span id="constr-splice-api-token-transfereventsv2-eventlogview-70213"></span>
+- `EventLogView`
+
+<ResponseField name="admin" type="Party">
+Instrument admin reporting the change in holdings.
+</ResponseField>
+
+<ResponseField name="meta" type="Metadata">
+Additional metadata about the event log, used for extensibility.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`EventLogView`](#type-splice-api-token-transfereventsv2-eventlogview-52356)
+- instance `Show` [`EventLogView`](#type-splice-api-token-transfereventsv2-eventlogview-52356)
+- instance `HasFromAnyView` [`EventLog`](#type-splice-api-token-transfereventsv2-eventlog-71599) [`EventLogView`](#type-splice-api-token-transfereventsv2-eventlogview-52356)
+- instance `HasInterfaceView` [`EventLog`](#type-splice-api-token-transfereventsv2-eventlog-71599) [`EventLogView`](#type-splice-api-token-transfereventsv2-eventlogview-52356)
+- instance `GetField` `admin` [`EventLogView`](#type-splice-api-token-transfereventsv2-eventlogview-52356) `Party`
+- instance `GetField` `meta` [`EventLogView`](#type-splice-api-token-transfereventsv2-eventlogview-52356) `Metadata`
+- instance `SetField` `admin` [`EventLogView`](#type-splice-api-token-transfereventsv2-eventlogview-52356) `Party`
+- instance `SetField` `meta` [`EventLogView`](#type-splice-api-token-transfereventsv2-eventlogview-52356) `Metadata`
+
+
+<span id="type-splice-api-token-transfereventsv2-eventlogholdingschangeresult-2898"></span>
+
+### `data EventLog_HoldingsChangeResult`
+
+Result of logging a change in holdings event. Provided for extensibility
+in a future where interfaces are upgradeable.
+
+Constructors:
+
+<span id="constr-splice-api-token-transfereventsv2-eventlogholdingschangeresult-32585"></span>
+- `EventLog_HoldingsChangeResult`
+
+(no fields)
+
+Instances:
+
+- instance `HasMethod` [`EventLog`](#type-splice-api-token-transfereventsv2-eventlog-71599) `eventLog_holdingsChangeImpl` (`ContractId` [`EventLog`](#type-splice-api-token-transfereventsv2-eventlog-71599) -> [`EventLog_HoldingsChange`](#type-splice-api-token-transfereventsv2-eventlogholdingschange-79855) -> `Update` [`EventLog_HoldingsChangeResult`](#type-splice-api-token-transfereventsv2-eventlogholdingschangeresult-2898))
+- instance `HasExercise` [`EventLog`](#type-splice-api-token-transfereventsv2-eventlog-71599) [`EventLog_HoldingsChange`](#type-splice-api-token-transfereventsv2-eventlogholdingschange-79855) [`EventLog_HoldingsChangeResult`](#type-splice-api-token-transfereventsv2-eventlogholdingschangeresult-2898)
+- instance `HasExerciseGuarded` [`EventLog`](#type-splice-api-token-transfereventsv2-eventlog-71599) [`EventLog_HoldingsChange`](#type-splice-api-token-transfereventsv2-eventlogholdingschange-79855) [`EventLog_HoldingsChangeResult`](#type-splice-api-token-transfereventsv2-eventlogholdingschangeresult-2898)
+- instance `HasFromAnyChoice` [`EventLog`](#type-splice-api-token-transfereventsv2-eventlog-71599) [`EventLog_HoldingsChange`](#type-splice-api-token-transfereventsv2-eventlogholdingschange-79855) [`EventLog_HoldingsChangeResult`](#type-splice-api-token-transfereventsv2-eventlogholdingschangeresult-2898)
+- instance `HasToAnyChoice` [`EventLog`](#type-splice-api-token-transfereventsv2-eventlog-71599) [`EventLog_HoldingsChange`](#type-splice-api-token-transfereventsv2-eventlogholdingschange-79855) [`EventLog_HoldingsChangeResult`](#type-splice-api-token-transfereventsv2-eventlogholdingschangeresult-2898)
+
+
+<span id="type-splice-api-token-transfereventsv2-transferlegside-2800"></span>
+
+### `data TransferLegSide`
+
+A side of a transfer of holdings between two parties.
+
+Used to report transfer events on the affected accounts.
+
+Constructors:
+
+<span id="constr-splice-api-token-transfereventsv2-transferlegside-86915"></span>
+- `TransferLegSide`
+
+<ResponseField name="transferLegId" type="Text">
+An identifier for the transfer leg intended to correlate the sender
+
+and receiver sides.
+</ResponseField>
+
+<ResponseField name="side" type="TransferSide">
+The side of the transfer that this leg refers to.
+</ResponseField>
+
+<ResponseField name="otherside" type="Account">
+The account on the other side of the transfer leg; i.e., the sender
+
+in case of `side == ReceiverSide`, and the receiver in case of
+
+`side == SenderSide`.
+</ResponseField>
+
+<ResponseField name="amount" type="Decimal">
+The amount to transfer.
+</ResponseField>
+
+<ResponseField name="instrumentId" type="Text">
+The instrument identifier used by the instrument admin.
+</ResponseField>
+
+<ResponseField name="meta" type="Metadata">
+Additional metadata about the transfer leg, used for extensibility.
+</ResponseField>
+
+Instances:
+
+- instance `Eq` [`TransferLegSide`](#type-splice-api-token-transfereventsv2-transferlegside-2800)
+- instance `Ord` [`TransferLegSide`](#type-splice-api-token-transfereventsv2-transferlegside-2800)
+- instance `Show` [`TransferLegSide`](#type-splice-api-token-transfereventsv2-transferlegside-2800)
+- instance `GetField` `amount` [`TransferLegSide`](#type-splice-api-token-transfereventsv2-transferlegside-2800) `Decimal`
+- instance `GetField` `instrumentId` [`TransferLegSide`](#type-splice-api-token-transfereventsv2-transferlegside-2800) `Text`
+- instance `GetField` `meta` [`TransferLegSide`](#type-splice-api-token-transfereventsv2-transferlegside-2800) `Metadata`
+- instance `GetField` `otherside` [`TransferLegSide`](#type-splice-api-token-transfereventsv2-transferlegside-2800) `Account`
+- instance `GetField` `side` [`TransferLegSide`](#type-splice-api-token-transfereventsv2-transferlegside-2800) [`TransferSide`](#type-splice-api-token-transfereventsv2-transferside-32397)
+- instance `GetField` `transferLegId` [`TransferLegSide`](#type-splice-api-token-transfereventsv2-transferlegside-2800) `Text`
+- instance `GetField` `transferLegSides` [`EventLog_HoldingsChange`](#type-splice-api-token-transfereventsv2-eventlogholdingschange-79855) [[`TransferLegSide`](#type-splice-api-token-transfereventsv2-transferlegside-2800)]
+- instance `SetField` `amount` [`TransferLegSide`](#type-splice-api-token-transfereventsv2-transferlegside-2800) `Decimal`
+- instance `SetField` `instrumentId` [`TransferLegSide`](#type-splice-api-token-transfereventsv2-transferlegside-2800) `Text`
+- instance `SetField` `meta` [`TransferLegSide`](#type-splice-api-token-transfereventsv2-transferlegside-2800) `Metadata`
+- instance `SetField` `otherside` [`TransferLegSide`](#type-splice-api-token-transfereventsv2-transferlegside-2800) `Account`
+- instance `SetField` `side` [`TransferLegSide`](#type-splice-api-token-transfereventsv2-transferlegside-2800) [`TransferSide`](#type-splice-api-token-transfereventsv2-transferside-32397)
+- instance `SetField` `transferLegId` [`TransferLegSide`](#type-splice-api-token-transfereventsv2-transferlegside-2800) `Text`
+- instance `SetField` `transferLegSides` [`EventLog_HoldingsChange`](#type-splice-api-token-transfereventsv2-eventlogholdingschange-79855) [[`TransferLegSide`](#type-splice-api-token-transfereventsv2-transferlegside-2800)]
+
+
+<span id="type-splice-api-token-transfereventsv2-transferside-32397"></span>
+
+### `data TransferSide`
+
+A side of a transfer.
+
+Constructors:
+
+<span id="constr-splice-api-token-transfereventsv2-senderside-1408"></span>
+- `SenderSide`
+
+The outbound side of a transfer, i.e., the sending of assets.
+<span id="constr-splice-api-token-transfereventsv2-receiverside-40022"></span>
+- `ReceiverSide`
+
+The inbound direction, i.e., the receipt of assets.
+
+Instances:
+
+- instance `Eq` [`TransferSide`](#type-splice-api-token-transfereventsv2-transferside-32397)
+- instance `Ord` [`TransferSide`](#type-splice-api-token-transfereventsv2-transferside-32397)
+- instance `Show` [`TransferSide`](#type-splice-api-token-transfereventsv2-transferside-32397)
+- instance `GetField` `side` [`TransferLegSide`](#type-splice-api-token-transfereventsv2-transferlegside-2800) [`TransferSide`](#type-splice-api-token-transfereventsv2-transferside-32397)
+- instance `SetField` `side` [`TransferLegSide`](#type-splice-api-token-transfereventsv2-transferlegside-2800) [`TransferSide`](#type-splice-api-token-transfereventsv2-transferside-32397)
+
+
+
+## Functions
+
+
+<span id="function-splice-api-token-transfereventsv2-eventlogholdingschangeimpl-8173"></span>
+
+### `eventLog_holdingsChangeImpl`
+
+`eventLog_holdingsChangeImpl` : [`EventLog`](#type-splice-api-token-transfereventsv2-eventlog-71599) -> `ContractId` [`EventLog`](#type-splice-api-token-transfereventsv2-eventlog-71599) -> [`EventLog_HoldingsChange`](#type-splice-api-token-transfereventsv2-eventlogholdingschange-79855) -> `Update` [`EventLog_HoldingsChangeResult`](#type-splice-api-token-transfereventsv2-eventlogholdingschangeresult-2898)

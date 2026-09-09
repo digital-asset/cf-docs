@@ -1,0 +1,7 @@
+```daml
+errPow : Int -> Int -> Int
+errPow base exponent
+ | exponent == 0 = 1
+ | exponent > 0 = base * errPow base (exponent - 1)
+ | otherwise = error "Negative exponent not supported"
+```

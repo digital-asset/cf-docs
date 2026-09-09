@@ -44,9 +44,9 @@ DEFAULT_SOURCE_CONFIG = (
 DEFAULT_CACHE_DIR = (
     REPO_ROOT / ".internal" / "cache" / "mintlify-openapi" / "splice-openapi"
 )
-DEFAULT_DOCS_JSON = REPO_ROOT / "docs-main" / "docs.json"
+DEFAULT_DOCS_JSON = REPO_ROOT / "docs-source" / "docs.json"
 DEFAULT_HISTORY_REPORT = (
-    REPO_ROOT / "docs-main" / "openapi" / "splice" / "history-report.json"
+    REPO_ROOT / "docs-source" / "openapi" / "splice" / "history-report.json"
 )
 HTTP_METHODS = {"get", "put", "post", "delete", "options", "head", "patch", "trace"}
 SCAN_OPENAPI_PLACEHOLDER_SERVER = "https://example.com/api/scan"
@@ -1090,7 +1090,7 @@ def update_docs_navigation(
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Publish configured Splice OpenAPI specs into docs-main/openapi, generate "
+            "Publish configured Splice OpenAPI specs into docs-source/openapi, generate "
             "checked-in manual operation pages with release history, and wire enabled "
             "spec groups into docs.json."
         )

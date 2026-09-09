@@ -1,0 +1,10 @@
+```bash
+   RESPONSE=$(curl -s -v -X POST "$ENDPOINT?commandId=$COMMAND_ID" \
+     -H "Authorization: Bearer $PROVIDER_TOKEN" \
+     -H "Content-Type: application/json" \
+     -d "$REQUEST_BODY")
+   
+   
+   echo "$RESPONSE" | jq .
+
+```

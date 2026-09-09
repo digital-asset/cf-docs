@@ -1,0 +1,40 @@
+---
+title: "Splice Metrics Reference"
+description: "Reference for monitoring metrics exposed by Canton Network validator and super validator nodes"
+---
+
+{/* COPIED_START source="splice:docs/src/deployment/observability/validator_health.rst" hash="eed61697" */}
+
+You can check your validator's health using the readiness endpoints. All CN applications provide the `/readyz` and `/livez` endpoints, which are used for readiness and liveness probes.
+
+- **Checking readiness**
+
+  - In Kubernetes: readiness and liveness probes are already configured.
+
+    You can also manually check validator readiness with the following command:
+
+    ```yaml
+    kubectl exec <pod-name> -n <namespace> -- curl -v http://localhost:5003/api/validator/readyz
+    ```
+
+  - In Docker: run for example this command to check validator liveness inside a container:
+
+    ```yaml
+    docker exec <container-name> -- curl -v http://localhost:5003/api/validator/livez
+    ```
+
+  You should expect in both case HTTP status code 200 if the validator is ready and live.
+
+- **Using [Metrics](/global-synchronizer/production-operations/splice-metrics-overview)**
+
+  The `splice_store_last_ingested_record_time_ms` metric represents the last ingested record time in each validator store. It can be used to track general activity of the node:
+
+  {/* DIVERGENCE: updated locally to reflect CIP-0096 (validator liveness rewards discontinued, $0 cap effective 2026-04-30); upstream splice source (docs/src/deployment/observability/validator_health.rst, hash eed61697) still describes liveness rewards as an active mechanism. See cf-docs issue #1049. */}
+
+  - If this value continues to increase over time, your node is active and stays in sync with the network. Note that it only advances if your node actually ingests new transactions. Previously, validator liveness rewards guaranteed a mint transaction every round, keeping this lag under 20min for any live validator. Since [CIP-0096](https://github.com/canton-foundation/cips/blob/main/cip-0096/cip-0096.md) discontinued liveness rewards effective 2026-04-30, a validator with no other transaction activity may no longer ingest a transaction every round -- use this metric to confirm activity rather than assuming a fixed lag bound.
+  - If it remains static, further investigation may be required.
+
+  For more details and to visualize this metric on its dedicated dashboard `Splice Store Last Ingested Record Time`, refer to the documentation about Metrics.
+
+
+{/* COPIED_END */}

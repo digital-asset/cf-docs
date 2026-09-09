@@ -1,0 +1,41 @@
+```scala
+@ participant.synchronizers.list_connected()
+    res4: Seq[ListConnectedSynchronizersResult] = Vector(
+      ListConnectedSynchronizersResult(
+        synchronizerAlias = Synchronizer 'private-sync',
+        physicalSynchronizerId = private-sync::122032922613...::35-0,
+        healthy = true
+      )
+    )
+```
+
+```scala
+@ participant.synchronizers.list_registered()
+    res5: Seq[(SynchronizerConnectionConfig, com.digitalasset.canton.admin.api.client.data.ConfiguredPhysicalSynchronizerId, Boolean)] = Vector(
+      (
+        SynchronizerConnectionConfig(
+          synchronizer = Synchronizer 'private-sync',
+          sequencerConnections = SequencerConnections(
+            connections = Sequencer 'sequencer1' -> GrpcSequencerConnection(
+              sequencerAlias = Sequencer 'sequencer1',
+              sequencerId = SEQ::sequencer1::1220cb0a22fb...,
+              endpoints = http://127.0.0.1:30187
+            ),
+            sequencer trust threshold = 1,
+            sequencer liveness margin = 0,
+            submission request amplification = SubmissionRequestAmplification(factor = 1, patience = 0s),
+            sequencer connection pool delays = SequencerConnectionPoolDelays(
+              minRestartDelay = 0.01s,
+              maxRestartDelay = 10s,
+              warnValidationDelay = 20s,
+              subscriptionRequestDelay = 1s
+            ),
+            subscription liveness limits = SubscriptionLivenessLimits(maxTimestampDelta = 2m, maxOrdinalDelta = 50)
+          ),
+          manualConnect = false
+        ),
+        private-sync::122032922613929d67857e621fb13e3da49ec13883e24908404520319eee6d31fb4d::35-0,
+        true
+      )
+    )
+```

@@ -1,0 +1,12 @@
+```typescript
+const expireLicense = useCallback(
+    withErrorHandling(`Archiving License`)(async (contractId: string, meta: Metadata) => {
+        const client: Client = await api.getClient();
+        const commandId = generateCommandId();
+        await client.expireLicense({ contractId, commandId }, { meta });
+        await fetchLicenses();
+        toast.displaySuccess('License archived successfully');
+    }),
+    [withErrorHandling, fetchLicenses, toast]
+);
+```

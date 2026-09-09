@@ -1,0 +1,8 @@
+```bash
+  # Get the synchronizer ID from connected synchronizers
+  SYNCHRONIZER_ID=$(curl -f -sS -L http://localhost:2975/v2/state/connected-synchronizers \
+    -H "Authorization: Bearer $LEDGER_TOKEN" | jq -r ".connectedSynchronizers[0].synchronizerId")
+ 
+  echo "Synchronizer ID: $SYNCHRONIZER_ID"
+
+```

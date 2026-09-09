@@ -1,0 +1,6 @@
+```haskell
+-- Avoid: creates N contracts in one transaction
+choice ProcessBatch : [ContractId Item]
+  controller processor
+  do mapA (\item -> create Item with ...) items
+```

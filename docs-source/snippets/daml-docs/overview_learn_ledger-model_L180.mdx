@@ -1,0 +1,13 @@
+```haskell
+-- Consuming: archives the contract
+choice Transfer : ContractId Asset
+  controller owner
+  do
+    create this with owner = newOwner
+
+-- Non-consuming: contract remains
+nonconsuming choice GetBalance : Decimal
+  controller owner
+  do
+    return balance
+```

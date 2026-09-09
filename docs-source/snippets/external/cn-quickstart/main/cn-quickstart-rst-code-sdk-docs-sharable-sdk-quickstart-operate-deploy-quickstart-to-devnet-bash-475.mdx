@@ -1,0 +1,7 @@
+```bash
+   curl -X POST "http://json-ledger-api.localhost:${LEDGER_PORT}/v2/dars?vetAllPackages=true" \
+     -H "Authorization: Bearer $TOKEN" \
+     -H 'Content-Type: application/octet-stream' \
+     --data-binary @daml/licensing/.daml/dist/quickstart-licensing-0.0.1.dar
+
+```

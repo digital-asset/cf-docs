@@ -1,0 +1,10 @@
+```bash
+# DNS resolution
+dig +short sequencer.sync.global
+
+# TCP connectivity
+nc -zv sequencer.sync.global 443
+
+# Full TLS handshake
+openssl s_client -connect sequencer.sync.global:443 -servername sequencer.sync.global </dev/null
+```

@@ -1,0 +1,187 @@
+---
+title: "Frontend Development"
+description: "Build a React frontend for Canton applications with TypeScript bindings and wallet integration"
+---
+
+import DamlDocsAppdevModulesM4FrontendDevL14 from "/snippets/daml-docs/appdev_modules_m4-frontend-dev_L14.mdx";
+import DamlDocsAppdevModulesM4FrontendDevL30 from "/snippets/daml-docs/appdev_modules_m4-frontend-dev_L30.mdx";
+import DamlDocsAppdevModulesM4FrontendDevL43 from "/snippets/daml-docs/appdev_modules_m4-frontend-dev_L43.mdx";
+import DamlDocsAppdevModulesM4FrontendDevL56 from "/snippets/daml-docs/appdev_modules_m4-frontend-dev_L56.mdx";
+import DamlDocsAppdevModulesM4FrontendDevL71 from "/snippets/daml-docs/appdev_modules_m4-frontend-dev_L71.mdx";
+import DamlDocsAppdevModulesM4FrontendDevL105 from "/snippets/daml-docs/appdev_modules_m4-frontend-dev_L105.mdx";
+import DamlDocsAppdevModulesM4FrontendDevL129 from "/snippets/daml-docs/appdev_modules_m4-frontend-dev_L129.mdx";
+import DamlDocsAppdevModulesM4FrontendDevL181 from "/snippets/daml-docs/appdev_modules_m4-frontend-dev_L181.mdx";
+import DamlDocsAppdevModulesM4FrontendDevL200 from "/snippets/daml-docs/appdev_modules_m4-frontend-dev_L200.mdx";
+import DamlDocsAppdevModulesM4FrontendDevL262 from "/snippets/daml-docs/appdev_modules_m4-frontend-dev_L262.mdx";
+import DamlDocsAppdevModulesM4FrontendDevL269 from "/snippets/daml-docs/appdev_modules_m4-frontend-dev_L269.mdx";
+import DamlDocsAppdevModulesM4FrontendDevL275 from "/snippets/daml-docs/appdev_modules_m4-frontend-dev_L275.mdx";
+import DamlDocsAppdevModulesM4FrontendDevL319 from "/snippets/daml-docs/appdev_modules_m4-frontend-dev_L319.mdx";
+import DamlDocsAppdevModulesM4FrontendDevL329 from "/snippets/daml-docs/appdev_modules_m4-frontend-dev_L329.mdx";
+import DamlDocsAppdevModulesM4FrontendDevL389 from "/snippets/daml-docs/appdev_modules_m4-frontend-dev_L389.mdx";
+import DamlDocsAppdevModulesM4FrontendDevL404 from "/snippets/daml-docs/appdev_modules_m4-frontend-dev_L404.mdx";
+import DamlDocsAppdevModulesM4FrontendDevL415 from "/snippets/daml-docs/appdev_modules_m4-frontend-dev_L415.mdx";
+import DamlDocsAppdevModulesM4FrontendDevL427 from "/snippets/daml-docs/appdev_modules_m4-frontend-dev_L427.mdx";
+import DamlDocsAppdevModulesM4FrontendDevL471 from "/snippets/daml-docs/appdev_modules_m4-frontend-dev_L471.mdx";
+import DamlDocsAppdevModulesM4FrontendDevL479 from "/snippets/daml-docs/appdev_modules_m4-frontend-dev_L479.mdx";
+
+
+The frontend is the user-facing layer of your Canton application. This page uses [cn-quickstart](https://github.com/digital-asset/cn-quickstart) as a running example. cn-quickstart is a full-stack reference application that implements a software licensing workflow on Canton Network. The [cn-quickstart frontend](https://github.com/digital-asset/cn-quickstart/tree/main/quickstart/frontend) is a React application built with TypeScript and Vite. It communicates with the backend over HTTP using types generated from a shared OpenAPI schema. The patterns shown here — connecting to the backend, displaying contract data, handling authentication — apply to any Canton frontend, but the code samples are drawn directly from cn-quickstart so you can see them in a working context.
+
+## Connecting to the Backend
+
+In cn-quickstart, the frontend does not talk to the Ledger API directly — all ledger interactions go through the backend's REST endpoints. Canton does provide a [JSON API](/sdks-tools/api-reference/json-api) that frontends can use for direct ledger access, but the cn-quickstart architecture routes everything through the backend for separation of concerns.
+
+The API client is configured in [`api.ts`](https://github.com/digital-asset/cn-quickstart/blob/main/quickstart/frontend/src/api.ts) using the `openapi-client-axios` library, which reads the OpenAPI schema and produces a typed HTTP client:
+
+<DamlDocsAppdevModulesM4FrontendDevL14 />
+
+The shared [`common/openapi.yaml`](https://github.com/digital-asset/cn-quickstart/blob/main/quickstart/common/openapi.yaml) defines every endpoint, request body, and response shape. The `openapi-client-axios` library generates a typed `Client` interface from this spec at build time, so every API call in the frontend is type-checked against the backend's contract:
+
+<DamlDocsAppdevModulesM4FrontendDevL30 />
+
+If the backend API changes, the frontend build breaks rather than failing silently at runtime.
+
+## TypeScript Code Generation
+
+The cn-quickstart frontend generates its TypeScript types from the OpenAPI spec using the `gen:openapi` script in [`package.json`](https://github.com/digital-asset/cn-quickstart/blob/main/quickstart/frontend/package.json):
+
+<DamlDocsAppdevModulesM4FrontendDevL43 />
+
+The `build` script runs type generation before compilation, so the TypeScript types always match the OpenAPI schema.
+
+Separately, `dpm codegen-js` generates TypeScript types from your compiled DAR file. These types mirror your Daml templates, choices, and data types:
+
+<DamlDocsAppdevModulesM4FrontendDevL56 />
+
+Whether you use DAR-generated types depends on your architecture:
+
+- **Fully mediated** (cn-quickstart default) -- The frontend uses OpenAPI-generated types from the backend's REST schema. The Daml-generated TypeScript types are not needed in the frontend because the backend translates between ledger concepts and REST DTOs.
+- **Direct ledger access via JSON API** -- The frontend submits commands through the [JSON API](/sdks-tools/api-reference/json-api) using the Daml-generated TypeScript bindings. This gives tighter integration with the ledger but requires the frontend to handle party IDs, contract IDs, and command submission directly.
+
+For most applications, the fully mediated approach is simpler. The JSON API approach makes sense when you want a thin or no backend layer.
+
+## Application Structure
+
+The cn-quickstart frontend uses React Context providers for state management. [`App.tsx`](https://github.com/digital-asset/cn-quickstart/blob/main/quickstart/frontend/src/App.tsx) composes them at the top level:
+
+<DamlDocsAppdevModulesM4FrontendDevL71 />
+
+Each domain has its own store under [`stores/`](https://github.com/digital-asset/cn-quickstart/tree/main/quickstart/frontend/src/stores) that wraps a React Context with the API calls and state for that domain. The stores use the typed `Client` from the OpenAPI schema for all backend communication.
+
+## Displaying Contract Data
+
+The frontend fetches contract data from the backend's GET endpoints and renders it in React components. The [`licenseStore`](https://github.com/digital-asset/cn-quickstart/blob/main/quickstart/frontend/src/stores/licenseStore.tsx) manages license state and API calls:
+
+<DamlDocsAppdevModulesM4FrontendDevL105 />
+
+[`LicensesView.tsx`](https://github.com/digital-asset/cn-quickstart/blob/main/quickstart/frontend/src/views/LicensesView.tsx) consumes this store and renders the data with periodic polling to keep the UI current:
+
+<DamlDocsAppdevModulesM4FrontendDevL129 />
+
+Because the backend handles all ledger translation, the frontend works with plain JSON objects. Fields like `contractId`, `expiresAt`, and `licenseNum` appear as simple strings and numbers in the `License` type — not ledger-specific types.
+
+## Exercising Choices via the Backend
+
+When the user takes an action (renew a license, expire a license), the frontend posts to the backend's REST API. Each request includes a unique command ID that the backend passes to the Ledger API for deduplication. From the license store:
+
+<DamlDocsAppdevModulesM4FrontendDevL181 />
+
+The [`generateCommandId()`](https://github.com/digital-asset/cn-quickstart/blob/main/quickstart/frontend/src/utils/commandId.ts) utility produces a UUID using the browser's `crypto.randomUUID()` API. The backend forwards this ID to the Ledger API, which uses it to prevent duplicate command submission if the user retries an action.
+
+## Authentication
+
+Canton applications typically use OAuth2 / OpenID Connect (OIDC) for user authentication. On LocalNet, cn-quickstart uses Keycloak as the identity provider. The backend handles the OAuth2 flow, and the frontend manages session state through the [`userStore`](https://github.com/digital-asset/cn-quickstart/blob/main/quickstart/frontend/src/stores/userStore.tsx):
+
+<DamlDocsAppdevModulesM4FrontendDevL200 />
+
+The `AuthenticatedUser` type (from the OpenAPI spec) includes the user's name, whether they're an admin, and their wallet URL. Components use this to conditionally render admin-only features and to link to the Splice wallet. The backend handles all authorization decisions — the frontend is responsible only for checking whether the user is logged in and displaying the appropriate UI.
+
+## Wallet Integration
+
+Applications that involve Canton Coin payments integrate with a wallet component in the frontend. In cn-quickstart, the license renewal flow triggers a payment through the Splice wallet system:
+
+1. The user clicks "Renew License" in the UI
+2. The frontend calls `client.renewLicense()`, which posts to the backend
+3. The backend exercises the `License_Renew` choice, creating a `LicenseRenewalRequest` on the ledger that implements the Splice `AllocationRequest` interface
+4. The Splice wallet detects the allocation request and creates an `AppPaymentRequest` for the user to approve
+5. Once payment is confirmed, the provider calls `completeLicenseRenewal()` to create the renewed license
+
+The `LicensesView` tracks renewal state by polling. Each license object includes its `renewalRequests` array, and the UI shows the count of pending and accepted renewals. The user's wallet URL comes from the `AuthenticatedUser` object and is used to link to the Splice wallet for payment approval.
+
+## Development Workflow
+
+When developing the frontend iteratively:
+
+<DamlDocsAppdevModulesM4FrontendDevL262 />
+
+For faster iteration, run the Vite dev server directly against a running LocalNet backend:
+
+<DamlDocsAppdevModulesM4FrontendDevL269 />
+
+The Vite dev server proxies API requests to the backend. The proxy configuration in [`vite.config.ts`](https://github.com/digital-asset/cn-quickstart/blob/main/quickstart/frontend/vite.config.ts) routes `/api`, `/login`, and `/oauth2` paths to the backend:
+
+<DamlDocsAppdevModulesM4FrontendDevL275 />
+
+The `ViteYaml` plugin allows importing the OpenAPI YAML file directly as a JavaScript module, which is how `api.ts` loads the schema at build time.
+
+## Exercise: Add License Comments UI
+
+<Note>
+This exercise builds on the backend exercise in [Backend Development](/appdev/modules/m4-backend-dev#exercise-add-license-comments). Complete that first — you need the `LicenseComment` Daml template, the OpenAPI endpoints, and the backend implementation before the frontend can use them.
+</Note>
+
+You'll add a comment list and comment form to the licenses view, following the same store/view patterns that cn-quickstart uses for licenses.
+
+### Step 1: Regenerate TypeScript Types
+
+The backend exercise added `LicenseComment`, `AddCommentRequest`, and two new endpoints to `openapi.yaml`. Regenerate the frontend types so the typed client picks them up:
+
+<DamlDocsAppdevModulesM4FrontendDevL319 />
+
+This runs `openapicmd typegen` against the shared `openapi.yaml` and overwrites `src/openapi.d.ts`. After this, your `Client` type will include `listLicenseComments()` and `addLicenseComment()` methods with the correct parameter and return types.
+
+### Step 2: Create a Comment Store
+
+Create a new store at `quickstart/frontend/src/stores/commentStore.tsx`. Follow the same Context + Provider pattern used by [`licenseStore.tsx`](https://github.com/digital-asset/cn-quickstart/blob/main/quickstart/frontend/src/stores/licenseStore.tsx):
+
+<DamlDocsAppdevModulesM4FrontendDevL329 />
+
+The structure mirrors `licenseStore.tsx`: a React Context holds the state, each API call is wrapped with `withErrorHandling` (which displays toast messages on HTTP errors) and `useCallback`, and the typed `Client` provides compile-time checking against the OpenAPI spec. The `addComment` function generates a command ID for deduplication — the same pattern `expireLicense` and `renewLicense` use.
+
+Register the provider in `App.tsx` alongside the existing providers:
+
+<DamlDocsAppdevModulesM4FrontendDevL389 />
+
+### Step 3: Add the Comment UI
+
+Add a comment section to [`LicensesView.tsx`](https://github.com/digital-asset/cn-quickstart/blob/main/quickstart/frontend/src/views/LicensesView.tsx). You'll need to import the comment store and add some local state:
+
+<DamlDocsAppdevModulesM4FrontendDevL404 />
+
+Add an effect that polls for comments when a license's comment panel is open. This follows the same 5-second `setInterval` pattern `LicensesView` already uses for the license list:
+
+<DamlDocsAppdevModulesM4FrontendDevL415 />
+
+Add a "Comments" toggle button in each license row's actions column, and render the comment panel below the license table. The panel shows existing comments and a form for new ones:
+
+<DamlDocsAppdevModulesM4FrontendDevL427 />
+
+The `showComments` state tracks which license's contract ID is currently expanded. The `formatDateTime` utility is already imported in `LicensesView` for the expiration column. The `handleAddComment` handler calls `addComment` from the store, then clears the input.
+
+### Step 4: Build and Test
+
+Rebuild both the backend (to pick up the OpenAPI changes and new Java code) and the frontend:
+
+<DamlDocsAppdevModulesM4FrontendDevL471 />
+
+Or for faster frontend iteration with hot reload:
+
+<DamlDocsAppdevModulesM4FrontendDevL479 />
+
+Open the app, navigate to the Licenses page, click the "Comments" button on a license, and try posting a comment. The comment should appear in the list within 5 seconds (or immediately after the POST completes, since `addComment` calls `fetchComments` after success).
+
+## Next Steps
+
+- [Canton Coin and Traffic](/appdev/modules/m4-canton-coin) -- How CC and traffic affect your application
+- [Backend Development](/appdev/modules/m4-backend-dev) -- The backend that the frontend communicates with
+- [cn-quickstart frontend source](https://github.com/digital-asset/cn-quickstart/tree/main/quickstart/frontend) -- Full working frontend implementation

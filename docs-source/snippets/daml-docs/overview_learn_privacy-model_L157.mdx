@@ -1,0 +1,18 @@
+```haskell
+template RegulatedAsset
+  with
+    owner : Party
+    issuer : Party
+    regulator : Party
+    value : Decimal
+  where
+    signatory issuer
+    observer owner, regulator
+
+    choice Transfer : ContractId RegulatedAsset
+      with
+        newOwner : Party
+      controller owner  -- owner can transfer unilaterally
+      do
+        create this with owner = newOwner
+```

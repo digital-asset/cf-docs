@@ -1,0 +1,35 @@
+```haskell
+choice Split
+      : SplitResult
+      with
+        splitQuantity : Decimal
+      controller owner
+      do
+        splitAsset <- create this with
+          quantity = splitQuantity
+        remainder <- create this with
+          quantity = quantity - splitQuantity
+        return SplitResult with
+          splitAsset
+          remainder
+
+    choice Merge
+      : ContractId Asset
+      with
+        otherCid : ContractId Asset
+      controller owner
+      do
+        other <- fetch otherCid
+        assertMsg
+          "Merge failed: issuer does not match"
+          (issuer == other.issuer)
+        assertMsg
+          "Merge failed: owner does not match"
+          (owner == other.owner)
+        assertMsg
+          "Merge failed: symbol does not match"
+          (symbol == other.symbol)
+        archive otherCid
+        create this with
+          quantity = quantity + other.quantity
+```

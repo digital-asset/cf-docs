@@ -1,0 +1,9 @@
+```haskell
+-- Daml
+choice Transfer : ContractId TokenHolding
+  with
+    newOwner : Party
+  controller owner
+  do
+    create this with owner = newOwner
+```

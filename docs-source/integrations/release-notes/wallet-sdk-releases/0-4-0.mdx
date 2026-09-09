@@ -1,0 +1,54 @@
+---
+title: "0.4.0"
+description: "Wallet SDK 0.4.0 release notes."
+---
+
+{/* GENERATED_RELEASE_NOTES target="wallet-sdk" format="split-release" version="0.4.0" source="158b3ff4c316ba7a5d6c89a6099a5303b76d4f77" */}
+
+# 0.4.0
+
+**Released on September 10th, 2025**
+
+- Range filter for `listHoldingTransactions(afterOffset?: string,beforeOffset?: string)`
+- Transfer pre-approval support:
+
+```javascript
+const sdk = new WalletSDKImpl().configure({
+    logger,
+    authFactory: localNetAuthDefault,
+    ledgerFactory: localNetLedgerDefault,
+    topologyFactory: localNetTopologyDefault,
+    tokenStandardFactory: localNetTokenStandardDefault,
+    validatorFactory: localValidatorDefault, //Extend SDK with new validator factory
+})
+
+//set the party
+sdk.validator?.setPartyId(receiver?.partyId!)
+
+//provide private key to sign the pre-approval
+await sdk.validator?.externalPartyPreApprovalSetup(keyPairReceiver.privateKey)
+```
+
+- Support added for 2-step transfers (propose / accept)
+
+```javascript
+const [acceptTransferCommand, disclosedContracts3] =
+    await sdk.tokenStandard!.exerciseTransferInstructionChoice(
+        transferCid, //cid of the transfer instruction
+        'Accept' // or 'Reject'
+    )
+```
+
+- `listHoldingsUtxo` has been extended to only `nonLocked` UTXOs
+
+```javascript
+//new optional parameter, default is true (to be backwards compatible
+const usableUtxos = await sdk.tokenStandard?.listHoldingUtxos(false)
+
+//this include locked UTXOs
+const allUtxos = await sdk.tokenStandard?.listHoldingUtxos()
+```
+
+- Include some small bug fixes. The most noteable are:
+    - `Contract not found` error when listing holdings (https://github.com/canton-network/wallet/issues/357)
+    - Requirements to have extra import (like @protobuf-ts/runtime-rpc) resolved

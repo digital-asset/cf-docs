@@ -1,0 +1,9 @@
+```sql
+select m.template_id_qualified_name, m.reward_party, min(m.reward_round) from (
+  select c.reward_party, c.reward_round, c.template_id_qualified_name from dso_acs_store c
+  join dso_acs_store r
+  on r.mining_round = c.reward_round
+  and r.mining_round > UPGRADE_ROUND
+  and r.template_id_qualified_name = 'Splice.Round:ClosedMiningRound'
+) as m group by (template_id_qualified_name, reward_party);
+```

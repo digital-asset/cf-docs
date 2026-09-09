@@ -1,0 +1,14 @@
+```haskell
+template Asset
+  with
+    issuer : Party
+    owner : Party
+    symbol : Text
+    quantity : Decimal
+    observers : [Party]
+  where
+    signatory issuer, owner
+    ensure quantity > 0.0
+
+    observer observers
+```

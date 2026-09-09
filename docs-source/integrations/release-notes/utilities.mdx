@@ -1,0 +1,178 @@
+---
+title: "Canton Network Utilities Release Notes"
+description: "Release notes for the 0.12 release line of Canton Network Utilities (Registry App)."
+---
+
+{/* COPIED_START source="docs-website:docs/manual/utilities/releases/0.12.rst" hash="d98b766c" */}
+
+
+## 0.12.9
+
+- Fixes copying transfer details for proof of transfer.
+
+## 0.12.8
+
+- Fixes accepting free credentials. Removes unnecessary call to the validator scan proxy when accepting free credentials.
+
+## 0.12.7
+
+- Fix login screen layout for narrow viewports.
+- Change naming of the app from Canton to Registry. Replaces old Canton logo with DA logo.
+- Fixes `useIsPackageAvailable` hook when in dapp mode.
+
+## 0.12.6
+
+- Add support for dapp.
+
+## 0.12.5
+
+- Add support for specifying custom token scopes to the frontend.
+
+## 0.12.4
+
+### Backend
+
+- Thread the existing scope parameter to darsyncer and scribe.
+- Bumped darsyncer base image version to 2.9.3 to support specifying custom token scopes.
+- Upticked DPM version to 1.0.12.
+
+## 0.12.3
+
+This patch release contains no user-facing changes.
+
+### Backend
+
+- Bumped participant-query-store version to 3.4.5 in scribe containers.
+- Updated darsyncer base image to address security vulnerabilities.
+
+## 0.12.2
+
+This patch release contains no user-facing changes.
+
+## 0.12.1
+
+### Synchronizer ID Migration
+
+With the update of `utility.yaml` from 2.0.0 to 2.1.0, we have introduced `synchronizerId` to our utility endpoints. This new field uses the identical value as the existing `domainId`, which is now deprecated but remains available for backwards compatibility. We recommend that all users transition to `synchronizerId`.
+
+### Documentation
+
+Updates the existing How-To Tutorials in the docs to align with version 0.12.x.
+
+### Independent Transaction Validation
+
+Introduced a new verification API that allows participants to submit an UpdateID and Transfer Object to independently confirm asset transfer outcomes on registry assets. The service provides standardized Success, Failure, Pending statuses, or invalid input.
+
+### Historical Transfer Verification
+
+Enhanced the Transfer Proof API to retrieve proof data for pruned transactions, ensuring users can verify historical transfers even after ledger data has been archived.
+
+## 0.12.0
+
+### New Dars
+
+**New Dars in 0.12.0**
+
+| Package | Version | Hash |
+|---------|---------|------|
+| utility-commercials-v0 | 0.4.1 | fa5b1cc5c8368dff7c2e6a74aa2af9d520d755e2a508f44acd17343326e41839 |
+| utility-credential-app-v0 | 0.4.1 | e9a3b7df354dfd2f15c7d015328c34256308c90ba96f86f185dad58ffca8299b |
+| utility-registry-app-v0 | 0.7.0 | 7a75ef6e69f69395a4e60919e228528bb8f3881150ccfde3f31bcc73864b18ab |
+| utility-registry-v0 | 0.6.0 | a236e8e22a3b5f199e37d5554e82bafd2df688f901de02b00be3964bdfa8c1ab |
+| utility-registry-holding-v0 | 0.2.1 | 8107899ac4723ce986bf7d27416534e576e54b92161e46150a595fb78ff3d3a1 |
+
+New Dars in 0.12.0
+
+### New Registry App Features
+
+#### Batched Featured App Markers
+
+The Registry Daml workflows no longer create featured app activity markers. They are now generated through a batched app marker automation operated by Digital Asset.
+
+The automation ensures that the optimal number of app markers for Asset Issuers (Registry Providers) is applied in accordance with the latest tokenomics guidelines.
+
+In order to delegate the respective marker creation for your featured party to the DA operator, you need to opt in to that service. This can be done in the UI on the Registry Onboarding tab (click on Delegate Marker Creation which will create a `DelegatedBatchedMarkersProxy` instance).
+
+For users who continue to utilize the backward-compatible Registry workflows (versions 0.10 and 0.11), please note that the Utility Operator Backend API will no longer provide the context required to create activity markers. This is in order to adhere to the latest Tokenomics guidelines.
+
+Additionally, this change is instrumental in reducing transaction costs incurred by the submitters of Registry transactions (detailed below).
+
+#### Additional Transaction Cost Reduction
+
+All registry workflows have undergone optimizations, leading to significant cost reductions across the board. The table below indicates the expected cost reduction for various workflows, assuming no third-party credentials and the minimal number of input holdings:
+
+**Additional Transaction Cost Reduction**
+
+| Workflow | Choice | Template | Approx.<br />Cost<br />(in USD) | Approx.<br />Cost<br />Reduct.<br />(vs 0.11) |
+|----------|--------|----------|---------------------------------|-----------------------------------------------|
+| **Direct Transfer** | TransferFactory_Transfer | TransferPreapproval | $ 0.5 | 70% |
+| **2-Step Transfer** | TransferFactory_Transfer | AllocationFactory | $ 0.5 | 50% |
+|  | TransferInstruction_Accept | TransferOffer | $ 0.4 | 50% |
+| **Merge** | TransferFactory_Transfer | AllocationFactory | $ 0.5 | 40% |
+| **BurnMint** | BurnMintFactory_BurnMint | AllocationFactory | $ 0.5 | 60% |
+| **Allocation** | AllocationFactory_Allocate | AllocationFactory | $ 0.5 | 50% |
+|  | AllocationFactory_ExecuteTransfer | DvpLegAllocation | $ 0.4 | 50% |
+| **Burn Request** | AllocationFactory_RequestBurn | AllocationFactory | $ 0.3 | 60% |
+|  | BurnRequest_Accept | BurnRequest | $ 0.3 | 60% |
+| **Burn Offer** | AllocationFactory_OfferBurn | AllocationFactory | $ 0.3 | 50% |
+|  | BurnOffer_Accept | BurnOffer | $ 0.3 | 60% |
+| **Mint Request** | AllocationFactory_RequestMint | AllocationFactory | $ 0.3 | 30% |
+|  | MintRequest_Accept | MintRequest | $ 0.3 | 60% |
+| **Mint Offer** | AllocationFactory_OfferMint | AllocationFactory | $ 0.3 | 50% |
+|  | MintOffer_Accept | MintOffer | $ 0.3 | 60% |
+
+Additional Transaction Cost Reduction
+
+Note that the proportional cost reduction becomes even more pronounced as the number of input holdings increases. For instance, merging several UTXOs is now significantly cheaper than before.
+
+#### ExecutedTransfer and other Result Contracts
+
+- **Batch Archival:** A choice was added to the `RegistrarService` to allow for more cost-efficient batched archival of `ExecutedTransfer` and `RejectedTransfer` contracts.
+- **Observer Removal:** The operator has been removed as an observer on all result contracts, including `ExecutedTransfer`, `RejectedTransfer`, and all other Executed\* and Rejected\* contracts.
+
+#### Allocations and the TransferRule
+
+The execution of allocations now leverages the `TransferRule` via the newly introduced `TransferRule_ExecuteAllocation` choice. Consequently, a TransferRule instance of the token admin (or registrar) must exist for the execution to be successful.
+
+Furthermore, the TransferRule has been updated with dedicated choices to better distinguish the capacity in which the rule is invoked:
+
+- `TransferRule_TwoStepTransfer`
+- `TransferRule_DirectTransfer`
+
+This is a prerequisite for further planned enhancements of the TransferRule validation logic.
+
+### UX Improvements
+
+- The UX for self-issuing credentials was improved (this is typically used for Registry allowlists).
+- The deprecated `HolderService` is no longer visible in the UI. The `holderCredentialRequirements` field in `ProviderServiceConfiguration` is now hidden if empty and is zeroed out whenever the configuration is modified.
+
+### Other Changes
+
+Splice dependencies were upgraded to splice-amulet-0.1.16.
+
+### Deprecation and Supported Versions
+
+This DA Apps version removes support for the 0.9.x release line. All users must be running the Daml models shipped with at least the 0.10.x release line.
+
+The `HolderService` has been deprecated since version 0.8.0. Providers with active `HolderService` instances are encouraged to archive them and zero out the corresponding holder requirements on their `RegistrarConfiguration` (this can be done swiftly via the UI). In the next release, it is planned to fully disable HolderServices in Daml via ensure false clauses.
+
+The legacy 3-step mint and burn flows have been disabled in Daml.
+
+### Integration Guide and Backwards Compatibility
+
+#### Tokenizers
+
+- For the purpose of batched app marker creation, featured providers should delegate app marker creation to the operator via the newly introduced `DelegatedBatchedMarkersProxy` template at their earliest convenience. In the UI, go to the Registry Onboarding tab and click on the Delegate Marker Creation button (once the operator has deployed the packages which enable the release). To ensure uninterrupted marker creation until this is in place, the operator’s featured app right will be used as an interim solution.
+- Additionally, Tokenizers should be following the Canton Foundation’s Validator release schedule and ensure they are on a recent version of Splice to ensure uninterrupted marker creation.
+- In order for executions of allocations to be successful, token administrators (or registrars) need to ensure the token has a corresponding `TransferRule` instance, otherwise the transaction will fail.
+
+#### Wallet Providers
+
+Wallet providers that support Utility assets need to ensure they can successfully parse transfers for the purpose of showing transaction history. Two-step transfers have transitioned from using the `TransferRule_DirectTransfer` choice to the newly introduced, dedicated `TransferRule_TwoStepTransfer` choice.
+
+#### Third-Party Applications
+
+All other third-party applications (such as exchanges composing with the Utility over the Token Standard Allocation workflow) should upload and vet the latest Daml packages. There are no additional steps required.
+
+
+{/* COPIED_END */}

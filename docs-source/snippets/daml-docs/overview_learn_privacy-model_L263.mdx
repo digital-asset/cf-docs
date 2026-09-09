@@ -1,0 +1,11 @@
+```haskell
+-- BAD: Adding unnecessary observers
+template OverShared
+  with
+    owner : Party
+    counterparty : Party
+    allUsers : [Party]  -- Why do all users need to see this?
+  where
+    signatory owner
+    observer counterparty, allUsers  -- Privacy leak!
+```

@@ -1,0 +1,131 @@
+---
+title: "Splice.Schedule"
+description: "Documentation for Splice.Schedule"
+---
+
+{/* COPIED_START source="splice:daml/splice-amulet/docs/Splice-Schedule.rst" tag="0.6.4" hash="208c08b7" */}
+
+## Data Types
+
+<div id="type-splice-schedule-schedule-35504">
+
+**data** Schedule t a
+
+</div>
+
+> A schedule of values that change over time.
+>
+> <div id="constr-splice-schedule-schedule-12101">
+>
+> Schedule
+>
+> </div>
+>
+> > | Field        | Type       | Description                                                    |
+> > |--------------|------------|----------------------------------------------------------------|
+> > | initialValue | a          | Initial value to use until the future values come into effect. |
+> > | futureValues | \[(t, a)\] | sorted in ascending order                                      |
+>
+> **instance** [Functor](/appdev/reference/daml-standard-library/prelude#class-ghc-base-functor-31205) (Schedule t)
+>
+> **instance** ([Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) a, [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) t) =\> [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) (Schedule t a)
+>
+> **instance** ([Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) a, [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) t) =\> [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) (Schedule t a)
+>
+> **instance** GetField "configSchedule" AmuletRules (Schedule [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886) (AmuletConfig USD))
+>
+> **instance** GetField "futureValues" (Schedule t a) \[(t, a)\]
+>
+> **instance** GetField "initialValue" (Schedule t a) a
+>
+> **instance** GetField "issuanceCurve" (AmuletConfig unit) (Schedule [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) IssuanceConfig)
+>
+> **instance** SetField "configSchedule" AmuletRules (Schedule [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886) (AmuletConfig USD))
+>
+> **instance** SetField "futureValues" (Schedule t a) \[(t, a)\]
+>
+> **instance** SetField "initialValue" (Schedule t a) a
+>
+> **instance** SetField "issuanceCurve" (AmuletConfig unit) (Schedule [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) IssuanceConfig)
+>
+> **instance** (Patchable t, Patchable a, [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) t, [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) a) =\> Patchable (Schedule t a)
+
+## Functions
+
+<div id="function-splice-schedule-getvalueasof-1611">
+
+getValueAsOf
+: [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) t =\> t -\> Schedule t a -\> a
+
+Get the value as of a specific time
+
+</div>
+
+<div id="function-splice-schedule-getvalueasofledgertime-35649">
+
+getValueAsOfLedgerTime
+: Schedule [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886) a -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) a
+
+Variant of `getValueAsOf` that communicates workflow-level bounds.
+
+</div>
+
+<div id="function-splice-schedule-validschedule-3679">
+
+validSchedule
+: [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) t =\> Schedule t a -\> (a -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)) -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+Check the validity of a schedule given a function to check the validity of its values
+
+</div>
+
+<div id="function-splice-schedule-allvalues-28049">
+
+allValues
+: Schedule t a -\> \[a\]
+
+</div>
+
+<div id="function-splice-schedule-nextchangescheduledat-43849">
+
+nextChangeScheduledAt
+: Schedule t a -\> [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) t
+
+</div>
+
+<div id="function-splice-schedule-prune-18462">
+
+prune
+: [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) t =\> t -\> Schedule t a -\> Schedule t a
+
+</div>
+
+<div id="function-splice-schedule-splitattime-35540">
+
+splitAtTime
+: [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) t =\> \[(t, a)\] -\> t -\> (\[(t, a)\], [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) (t, a), \[(t, a)\])
+
+</div>
+
+<div id="function-splice-schedule-insert-53714">
+
+insert
+: [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) t =\> (t, a) -\> Schedule t a -\> Schedule t a
+
+</div>
+
+<div id="function-splice-schedule-remove-70441">
+
+remove
+: [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) t =\> t -\> Schedule t a -\> Schedule t a
+
+</div>
+
+<div id="function-splice-schedule-update-39134">
+
+update
+: [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) t =\> (t, a) -\> Schedule t a -\> Schedule t a
+
+</div>
+
+{/* COPIED_END */}

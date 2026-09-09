@@ -1,0 +1,15 @@
+```haskell
+template Asset
+  with
+    owner : Party
+    issuer : Party
+    regulator : Party
+  where
+    signatory issuer      -- Must authorize; always sees
+    observer owner, regulator  -- Can see
+
+    choice Transfer : ContractId Asset
+      with newOwner : Party
+      controller owner    -- Only owner can execute the Transfer choice
+      do create this with owner = newOwner
+```

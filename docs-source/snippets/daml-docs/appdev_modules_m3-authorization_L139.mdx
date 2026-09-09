@@ -1,0 +1,13 @@
+```haskell
+iouProposal <- submit alice do
+    createCmd IouProposal with
+      iou = Iou with
+        issuer = alice
+        owner = bob
+        cash = Cash with
+          amount = 100.0
+          currency = "USD"
+
+  submit bob do
+    exerciseCmd iouProposal IouProposal_Accept
+```

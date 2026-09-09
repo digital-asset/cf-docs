@@ -1,0 +1,8 @@
+```sql
+   select *
+   from the_source
+   where the_key > prev_page_last_key
+   order by the_key
+   limit page_size;
+
+```

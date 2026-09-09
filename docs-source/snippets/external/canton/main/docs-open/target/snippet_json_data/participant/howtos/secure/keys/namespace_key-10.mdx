@@ -1,0 +1,11 @@
+```shell
+./prepare-cert.sh --delegation-restrictions PARTY_TO_PARTICIPANT,PARTY_TO_KEY_MAPPING --root-pub-key "/tmp/canton/certs/root_public_key.der" --canton-target-pub-key "/tmp/canton/certs/restricted_key.pub" --output "/tmp/canton/certs/restricted_key_namespace"
+```
+
+```shell
+openssl pkeyutl -rawin -inkey "/tmp/canton/certs/root_private_key.der" -keyform DER -sign -in "/tmp/canton/certs/restricted_key_namespace.hash" -out "/tmp/canton/certs/restricted_key_namespace.signature"
+```
+
+```shell
+./assemble-cert.sh --prepared-transaction "/tmp/canton/certs/restricted_key_namespace.prep" --signature "/tmp/canton/certs/restricted_key_namespace.signature" --signature-algorithm "ed25519" --output "/tmp/canton/certs/restricted_key_namespace"
+```

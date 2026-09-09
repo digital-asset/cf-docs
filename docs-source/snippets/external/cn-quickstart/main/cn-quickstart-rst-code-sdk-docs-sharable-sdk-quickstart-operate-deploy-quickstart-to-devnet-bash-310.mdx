@@ -1,0 +1,26 @@
+```bash
+   # Authentication
+
+   # OIDC Provider URLs
+   AUTH_URL="http://keycloak.localhost:8082"
+   AUTH_JWKS_URL="http://host.docker.internal:8082/realms/AppProvider/protocol/openid-connect/certs"
+   AUTH_WELLKNOWN_URL="http://host.docker.internal:8082/realms/AppProvider/.well-known/openid-configuration"
+
+   # Audiences
+   LEDGER_API_AUTH_AUDIENCE="https://canton.network.global"
+   LEDGER_API_AUTH_SCOPE=""       # Optional, leave empty
+   VALIDATOR_AUTH_AUDIENCE="https://canton.network.global"
+
+   # Validator client credentials
+   VALIDATOR_AUTH_CLIENT_ID="app-provider-validator"
+   VALIDATOR_AUTH_CLIENT_SECRET="AL8648b9SfdTFImq7FV56Vd0KHifHBuC"
+
+   # Admin users 
+   LEDGER_API_ADMIN_USER="service-account-app-provider-validator"
+   WALLET_ADMIN_USER="app-provider"
+
+   # UI Clients
+   WALLET_UI_CLIENT_ID="app-provider-wallet"
+   ANS_UI_CLIENT_ID="app-provider-ans"
+
+```
