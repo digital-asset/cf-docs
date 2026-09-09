@@ -12,27 +12,23 @@
       "dappSdk": "npm latest dist-tag for @canton-network/dapp-sdk.",
       "walletGateway": "Latest stable @canton-network/wallet-gateway-remote GitHub release from canton-network/wallet.",
       "pqs": "Read org.opencontainers.image.version from the public Artifact Registry Scribe component image europe-docker.pkg.dev/da-images/public/components/scribe:3.5. If the floating release-line tag resolves to a prerelease, retain the previous stable dashboard value.",
-      "minProtocolVersion": "Manual/fallback until a public live source is identified.",
-      "darVersions": "Latest stable package rows for splice-amulet, splice-amulet-name-service, splice-dso-governance, splice-validator-lifecycle, splice-wallet, splice-wallet-payments from each network's observed Splice release-line daml/dars.lock."
+      "minProtocolVersion": "Manual/fallback until a public live source is identified."
     },
     "networkSources": {
       "mainnet": {
         "infoUrl": "https://docs.global.canton.network.sync.global/info",
         "indexUrl": "https://docs.global.canton.network.sync.global/index.html",
-        "cantonSourcesUrl": "https://github.com/canton-network/splice/blob/release-line-0.7.4/nix/canton-sources.json",
-        "darVersionsUrl": "https://github.com/canton-network/splice/blob/release-line-0.7.4/daml/dars.lock"
+        "cantonSourcesUrl": "https://github.com/canton-network/splice/blob/release-line-0.7.4/nix/canton-sources.json"
       },
       "testnet": {
         "infoUrl": "https://docs.test.global.canton.network.sync.global/info",
         "indexUrl": "https://docs.test.global.canton.network.sync.global/index.html",
-        "cantonSourcesUrl": "https://github.com/canton-network/splice/blob/release-line-0.7.5/nix/canton-sources.json",
-        "darVersionsUrl": "https://github.com/canton-network/splice/blob/release-line-0.7.5/daml/dars.lock"
+        "cantonSourcesUrl": "https://github.com/canton-network/splice/blob/release-line-0.7.5/nix/canton-sources.json"
       },
       "devnet": {
         "infoUrl": "https://docs.dev.global.canton.network.sync.global/info",
         "indexUrl": "https://docs.dev.global.canton.network.sync.global/index.html",
-        "cantonSourcesUrl": "https://github.com/canton-network/splice/blob/release-line-0.8.0/nix/canton-sources.json",
-        "darVersionsUrl": "https://github.com/canton-network/splice/blob/release-line-0.8.0/daml/dars.lock"
+        "cantonSourcesUrl": "https://github.com/canton-network/splice/blob/release-line-0.8.0/nix/canton-sources.json"
       }
     }
   },
@@ -42,32 +38,6 @@
       "advanced": {
         "minProtocolVersion": "35",
         "migrationId": "4",
-        "darVersions": [
-          {
-            "name": "splice-amulet",
-            "version": "0.1.22"
-          },
-          {
-            "name": "splice-amulet-name-service",
-            "version": "0.1.23"
-          },
-          {
-            "name": "splice-dso-governance",
-            "version": "0.1.28"
-          },
-          {
-            "name": "splice-validator-lifecycle",
-            "version": "0.1.8"
-          },
-          {
-            "name": "splice-wallet",
-            "version": "0.1.23"
-          },
-          {
-            "name": "splice-wallet-payments",
-            "version": "0.1.22"
-          }
-        ],
         "releaseUrl": "https://github.com/canton-network/splice/releases/tag/0.7.4"
       },
       "endpoint": "scan.sv-1.global.canton.network.sync.global",
@@ -102,32 +72,6 @@
       "advanced": {
         "minProtocolVersion": "35",
         "migrationId": "1",
-        "darVersions": [
-          {
-            "name": "splice-amulet",
-            "version": "0.1.22"
-          },
-          {
-            "name": "splice-amulet-name-service",
-            "version": "0.1.23"
-          },
-          {
-            "name": "splice-dso-governance",
-            "version": "0.1.28"
-          },
-          {
-            "name": "splice-validator-lifecycle",
-            "version": "0.1.8"
-          },
-          {
-            "name": "splice-wallet",
-            "version": "0.1.23"
-          },
-          {
-            "name": "splice-wallet-payments",
-            "version": "0.1.22"
-          }
-        ],
         "releaseUrl": "https://github.com/canton-network/splice/releases/tag/0.7.5"
       },
       "endpoint": "scan.sv-1.test.global.canton.network.sync.global",
@@ -162,32 +106,6 @@
       "advanced": {
         "minProtocolVersion": "35",
         "migrationId": "1",
-        "darVersions": [
-          {
-            "name": "splice-amulet",
-            "version": "0.1.23"
-          },
-          {
-            "name": "splice-amulet-name-service",
-            "version": "0.1.24"
-          },
-          {
-            "name": "splice-dso-governance",
-            "version": "0.1.29"
-          },
-          {
-            "name": "splice-validator-lifecycle",
-            "version": "0.1.9"
-          },
-          {
-            "name": "splice-wallet",
-            "version": "0.1.24"
-          },
-          {
-            "name": "splice-wallet-payments",
-            "version": "0.1.23"
-          }
-        ],
         "releaseUrl": "https://github.com/canton-network/splice/releases/tag/0.8.0"
       },
       "endpoint": "scan.sv-1.dev.global.canton.network.sync.global",
