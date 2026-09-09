@@ -486,10 +486,6 @@ def existing_network(existing_config: dict, network_key: str) -> dict:
     return dict(existing_config.get("versions", {}).get(network_key, {}))
 
 
-def existing_advanced(existing_config: dict, network_key: str) -> dict:
-    return dict(existing_network(existing_config, network_key).get("advanced", {}))
-
-
 def existing_repo_version(existing_config: dict, repository_key: str, network_key: str) -> str:
     repository = existing_config.get("repositories", {}).get(repository_key, {})
     mapping = repository.get("versionMapping", {}).get(network_key, {})
@@ -666,13 +662,11 @@ def build_versions(existing_config: dict, snapshot: dict) -> dict:
     for network_key in NETWORK_ORDER:
         existing = existing_network(existing_config, network_key)
         existing_substitutions = existing.get("substitutions", {})
-        existing_advanced_data = existing_advanced(existing_config, network_key)
         network = snapshot["networks"][network_key]
 
         versions[network_key] = {
             "name": network["displayName"],
             "advanced": {
-                "minProtocolVersion": existing_advanced_data.get("minProtocolVersion", ""),
                 "releaseUrl": updated_release_url(network["spliceVersion"]),
             },
             "endpoint": network["endpoint"],
@@ -810,7 +804,6 @@ def build_source_contract(snapshot: dict) -> dict:
             f"{PQS_SCRIBE_RELEASE_LINE_TAG}. If the floating release-line tag resolves "
             "to a prerelease, retain the previous stable dashboard value."
         ),
-        "minProtocolVersion": "Manual/fallback until a public live source is identified.",
     }
 
 
