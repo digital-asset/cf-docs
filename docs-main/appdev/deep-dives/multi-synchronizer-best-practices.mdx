@@ -1,0 +1,48 @@
+---
+title: "Multi-Synchronizer Application Best Practices"
+description: "Design guidance for applications that span multiple synchronizers: reassignment data, package vetting, and party topology"
+---
+
+Multi-synchronizer applications improve scalability, tighten cost and access control, and may enable better regulatory oversight by distributing workflows across multiple Canton synchronizer instances. This architecture, however, introduces a unique set of challenges. Developers, application providers, application users, and infrastructure operators as well as interacting organizations must solve new problems and define additional operational processes.
+It is critical that multi-synchronizer considerations are front and center throughout the entire project lifecycle: from inception and design through implementation, deployment, configuration, and day-to-day administration.
+
+## Be ready for multi-synchronizer data
+
+The Ledger API updates stream delivers reassignments as a separate update type, carrying `UnassignedEvent` and `AssignedEvent`, alongside transactions. Clients receive reassignments only when their update format includes them. The active contract set can additionally contain incomplete unassigned and incomplete assigned entries. See [Ledger API data](/overview/reference/reassignment-protocol#ledger-api-data) for the fields involved. At a participant, transactions and reassignments from multiple synchronizers are interspersed with each other. Transactions carry the synchronizer ID; reassignment events carry both the source and the target synchronizer ID. Make sure that your operational data store (ODS) and your application logic is prepared to store and process this additional information.
+
+## Design the vetting state
+
+Make sure you understand the implications of the asymmetries in the package (DAR) vetting states between the synchronizers. In fact you can use such asymmetries to your advantage. You may provide a small package that offers a very limited set of necessary templates and upload it to the Global Synchronizer and a large complex package with an elaborate set of interconnected templates on the private synchronizer. Such an approach simplifies the deployment, streamlines future upgrades by limiting the necessary vetting operations.
+We can envision the application, which is based on the token standard, as having the following division.
+
+- `global-sync.dar`
+  - vetted on private and Global Synchronizer
+  - contains:
+    - Token contract implementing [Holding interface](/appdev/deep-dives/token-standard#holding)
+    - TokenAllocation implementing Holding and [Allocation interface](/appdev/deep-dives/token-standard#allocation)
+- `private-sync.dar`
+  - vetted on private synchronizer only
+  - contains:
+    - TokenRules contract implementing [TransferFactory](/appdev/deep-dives/token-standard#transfer-instruction) and [AllocationFactory](/appdev/deep-dives/token-standard#allocation-instruction)
+    - templates required for minting, burning, and other administrative workflows
+
+## Design the party topology state
+
+The deployment architecture must be considered at design time for both the party-to-participant mapping and the participant privilege levels across all connected synchronizers.
+Configuration imbalances can sometimes be beneficial. For instance, a party might be hosted by multiple participants on one synchronizer for redundancy, but hosted by a single participant on a different synchronizer for cost-saving purposes. Applications must incorporate the implications of these asymmetric hosting choices into their logic.
+Failure to do so can result in difficult-to-diagnose bugs. The following section outlines potential pitfalls to be aware of.
+
+- A contract may fail to be moved due to missing [reassigning participants](/overview/reference/reassignment-protocol#reassigning-participant) for some of the interacting parties. This may apply to signatories as well as observers.
+- Unassign and assign operation pair may fail because of a missing [signatory unassigning](/overview/reference/reassignment-protocol#signatory-unassigning-participant) or [signatory assigning participant](/overview/reference/reassignment-protocol#signatory-assigning-participant) that could confirm it.
+- A contract may leave or enter participant visibility. See description in [Contracts entering and leaving visibility](/overview/reference/reassignment-protocol#contracts-entering-and-leaving-visibility).
+
+## Avoid vetting gaps
+
+Missing vetting on one of the hosting participants may cause the contract reassignment to fail. Make sure the same package versions are vetted on all participants. You may fail to move a contract of a newer version if one of the hosting participants is only supporting earlier versions.
+
+## See also
+
+- [Reassignment protocol](/overview/reference/reassignment-protocol#automatic-vs-explicit-reassignment) for automatic versus explicit reassignment and the contention that reassignments introduce.
+- [Non causality of the updates stream](/overview/learn/multi-synchronizer#non-causality-of-the-updates-stream) for how events on a contract can arrive out of order when a participant is connected to several synchronizers.
+- [Choosing the right synchronizer for a contract](/global-synchronizer/extension-synchronizers/linking-validator-multi-sync#choosing-the-right-synchronizer-for-a-contract) and the [troubleshooting](/global-synchronizer/extension-synchronizers/linking-validator-multi-sync#troubleshooting) guidance on keeping validators connected to every synchronizer a reassignment needs.
+- [Hybrid synchronizer pattern](/global-synchronizer/extension-synchronizers/hybrid-synchronizer-pattern) for assignment strategies across the Global Synchronizer and a dedicated synchronizer.
