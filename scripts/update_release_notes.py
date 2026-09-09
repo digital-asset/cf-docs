@@ -15,7 +15,7 @@ from typing import Any, Iterable, Sequence
 import github_api_utils
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DOCS_SOURCE = REPO_ROOT / "docs-source"
+DOCS_MAIN = REPO_ROOT / "docs-main"
 GITHUB_API = "https://api.github.com"
 USER_AGENT = "cf-docs-release-note-updater"
 PACKAGE_HEADING_RE = re.compile(
@@ -96,7 +96,7 @@ class ReleaseNoteTarget:
 PACKAGE_RELEASE_REPO = "canton-network/wallet"
 WALLET_SDK_REPO = "canton-network/wallet"
 WALLET_SDK_SOURCE_PATH = "docs/wallet-integration-guide/src/release-notes/index.rst"
-DEFAULT_DOCS_JSON = DOCS_SOURCE / "docs.json"
+DEFAULT_DOCS_JSON = DOCS_MAIN / "docs.json"
 RELEASE_NOTES_ROOT = "integrations/release-notes"
 WALLET_RELEASE_TARGETS = {
     "wallet-gateway": ReleaseNoteTarget(
@@ -105,8 +105,8 @@ WALLET_RELEASE_TARGETS = {
         description="Release notes for the Canton Network Wallet Gateway",
         source_description="`@canton-network/wallet-gateway-remote` GitHub releases",
         source_url=f"https://github.com/{PACKAGE_RELEASE_REPO}/releases?q=wallet-gateway-remote",
-        index_path=DOCS_SOURCE / "integrations" / "release-notes" / "wallet-gateway.mdx",
-        release_dir=DOCS_SOURCE / "integrations" / "release-notes" / "wallet-gateway-releases",
+        index_path=DOCS_MAIN / "integrations" / "release-notes" / "wallet-gateway.mdx",
+        release_dir=DOCS_MAIN / "integrations" / "release-notes" / "wallet-gateway-releases",
         page_ref=f"{RELEASE_NOTES_ROOT}/wallet-gateway",
         release_page_root=f"{RELEASE_NOTES_ROOT}/wallet-gateway-releases",
     ),
@@ -116,8 +116,8 @@ WALLET_RELEASE_TARGETS = {
         description="Release notes for the Canton Network Wallet SDK",
         source_description=f"`{WALLET_SDK_SOURCE_PATH}` in `canton-network/wallet`",
         source_url=f"https://github.com/{WALLET_SDK_REPO}/blob/main/{WALLET_SDK_SOURCE_PATH}",
-        index_path=DOCS_SOURCE / "integrations" / "release-notes" / "wallet-sdk.mdx",
-        release_dir=DOCS_SOURCE / "integrations" / "release-notes" / "wallet-sdk-releases",
+        index_path=DOCS_MAIN / "integrations" / "release-notes" / "wallet-sdk.mdx",
+        release_dir=DOCS_MAIN / "integrations" / "release-notes" / "wallet-sdk-releases",
         page_ref=f"{RELEASE_NOTES_ROOT}/wallet-sdk",
         release_page_root=f"{RELEASE_NOTES_ROOT}/wallet-sdk-releases",
     ),
@@ -127,8 +127,8 @@ WALLET_RELEASE_TARGETS = {
         description="Release notes for the Canton Network dApp SDK",
         source_description="`@canton-network/dapp-sdk` GitHub releases",
         source_url=f"https://github.com/{PACKAGE_RELEASE_REPO}/releases?q=dapp-sdk",
-        index_path=DOCS_SOURCE / "integrations" / "release-notes" / "dapp-sdk.mdx",
-        release_dir=DOCS_SOURCE / "integrations" / "release-notes" / "dapp-sdk-releases",
+        index_path=DOCS_MAIN / "integrations" / "release-notes" / "dapp-sdk.mdx",
+        release_dir=DOCS_MAIN / "integrations" / "release-notes" / "dapp-sdk-releases",
         page_ref=f"{RELEASE_NOTES_ROOT}/dapp-sdk",
         release_page_root=f"{RELEASE_NOTES_ROOT}/dapp-sdk-releases",
     ),

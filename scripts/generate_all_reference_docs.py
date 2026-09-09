@@ -20,7 +20,7 @@ from validate_splice_mintlify_openapi_nav import validate_splice_nav
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CACHE_ROOT = Path(os.environ.get("XDG_CACHE_HOME", "~/.cache")).expanduser() / "x2mdx"
-DOCS_JSON_PATH = REPO_ROOT / "docs-source" / "docs.json"
+DOCS_JSON_PATH = REPO_ROOT / "docs-main" / "docs.json"
 DOCS_ROOT = DOCS_JSON_PATH.parent
 API_REFERENCE_DROPDOWN = "API Reference"
 LEGACY_PAGE_REFS = {

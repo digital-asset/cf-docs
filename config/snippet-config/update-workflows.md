@@ -26,14 +26,11 @@ By default, the generated files remain in the source repository's `docs-output/`
 npm run generate:external-snippets -- canton --source-dir ../canton --copy-output --version main
 ```
 
-After copying snippets into `docs-source/`, run `npm run build` and commit both
-`docs-source/` and `docs-main/`.
-
 For repositories with generated snippet JSON, the wrapper runs the required preparation step first. For example, `canton` runs `docs-open / reset` and `docs-open / generateSphinxSnippets` before invoking the extraction helper. Use `--skip-prepare` only when those generated inputs already exist.
 
 # Workflow architecture
 
-Changes in the external repository snippet source files are being extracted on the external repository, wrapped into an artifact and then being pulled in from this repository into the appropriate folder in the `docs-source/snippets/external/` folder.
+Changes in the external repository snippet source files are being extracted on the external repository, wrapped into an artifact and then being pulled in from this repository into the appropriate folder in the `snippets/external/` folder.
 
 
 ## Extract snippet files
@@ -101,8 +98,7 @@ sequenceDiagram
 
   ExtWF->>MainWF: Trigger update_snippets<br/>(artifact-id, run-id, repo-name, repo-org, repo-version)
   MainWF->>Artifact: Download external artifact
-  MainWF->>MainRepo: Copy files to docs-source/snippets/external/REPO_NAME/REPO_VERSION
-  MainWF->>MainRepo: Render/copy docs-source to docs-main
+  MainWF->>MainRepo: Copy files to snippets/external/REPO_NAME/REPO_VERSION
   MainWF->>MainRepo: Detect file changes
   MainWF->>MainRepo: Create/update PR to main<br/>title includes repo/version/short commit hash
 

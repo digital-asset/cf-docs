@@ -1,0 +1,25 @@
+Every Scan can list all approved SV scans connected to the network. For example, query from /v0/scans from <a href="|gsf_scan_url|">|gsf_scan_url|</a>, and the response will be something like
+
+```json
+{
+  "scans": [
+    {
+      "domainId": "global-domain::122084177677350389dd0710d6516f700a33fe348c5f2702dffef6d36e1dedcbfc17",
+      "scans": [
+        /* several scans */,
+        {
+          "publicUrl": "https://scan.sv.dev.global.canton.network.digitalasset.com",
+          "svName": "DA-Helm-Test-Node"
+        },
+        /* several other scans */,
+        {
+          "publicUrl": "https://scan.sv-1.dev.global.canton.network.sync.global",
+          "svName": "Global-Synchronizer-Foundation"
+        }
+      ]
+    }
+  ]
+}
+```
+
+`scans` is a list of synchronizer IDs, each with an associated list of SVs and their Scan base URLs. In this case, `Global-Synchronizer-Foundation` matches the originally-used Scan. Take any of these `publicUrl`s and query `/api/scan/v0/scans`, and the same set will be returned.

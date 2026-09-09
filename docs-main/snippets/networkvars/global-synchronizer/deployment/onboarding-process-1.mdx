@@ -1,0 +1,33 @@
+import ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorOnboardingBash107 from "/snippets/internal/splice/main/splice-rst-code-docs-src-validator-operator-validator-onboarding-bash-107.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorOnboardingBash136 from "/snippets/internal/splice/main/splice-rst-code-docs-src-validator-operator-validator-onboarding-bash-136.mdx";
+
+import ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorOnboardingParsedLiteral126 from "/snippets/internal/splice/main/splice-rst-code-docs-src-validator-operator-validator-onboarding-parsed-literal-126.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorOnboardingParsedLiteral95 from "/snippets/internal/splice/main/splice-rst-code-docs-src-validator-operator-validator-onboarding-parsed-literal-95.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorOnboardingParsedLiteral86 from "/snippets/internal/splice/main/splice-rst-code-docs-src-validator-operator-validator-onboarding-parsed-literal-86.mdx";
+
+
+To validate that the SVs have added you to their respective IP allowlists, you can query their Scan URLs. Note that this must be run from the same egress IP from which you want to deploy your validator, e.g., from the VM that you want to run your docker compose setup on, or from within your Kubernetes cluster.
+
+First, please confirm that your egress IP in the terminal in which you are running the command is indeed the one you provided for whitelisting by running:
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorOnboardingParsedLiteral86 />
+
+and confirming that the IP matches what you have provided for whitelisting. If it does, run the following command to check to which instance of Scan you can connect.
+
+Note that the following snippet requires installing [jq](https://jqlang.org/).
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorOnboardingParsedLiteral95 />
+
+You should see output in the form shown below, where each line indicates one SV and the version it is on. If you see timeouts that SV has not yet added you to their allowlist, if you do not get any errors, then all SVs have added you. Note that the URLs and versions will vary over time so don't try to compare exactly.
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorOnboardingBash107 />
+
+Apart from connectivity to Scan, your validator must also be able to connect to the sequencer endpoints of the SVs. If you are encountering issues related to connecting to the synchronizer, you can use the following snippet to confirm that you are able to reach those endpoints (i.e., that SVs have whitelisted your IP for those endpoints as well). Note that the following snippet requires installing [jq](https://jqlang.org/) and [grpcurl](https://github.com/fullstorydev/grpcurl).
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorOnboardingParsedLiteral126 />
+
+Sequencers that are functional and have whitelisted your IP correctly will return `"status": "SERVING"` in the `grpcurl` output.
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorOnboardingBash136 />
+
+The default configuration for both of these requires access to at least 2/3 of the SVs for each of scans and sequencers. You may, at your option and own risk, configure connection to a single trusted scan and sequencer as described under [validator helm chart configuration](/global-synchronizer/deployment/validator-kubernetes), at the cost of losing BFT integrity guarantees.

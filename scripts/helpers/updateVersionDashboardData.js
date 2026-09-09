@@ -13,7 +13,7 @@ const path = require('path');
 const PROJECT_ROOT = path.join(__dirname, '../..');
 const REPO_VERSION_CONFIG_PATH = path.join(PROJECT_ROOT, 'config/repo-version-config.json');
 const VERSION_DASHBOARD_META_PATH = path.join(PROJECT_ROOT, 'config/version-dashboard-meta.json');
-const OUTPUT_PATH = path.join(PROJECT_ROOT, 'docs-source/snippets/generated/version-dashboard-data.mdx');
+const OUTPUT_PATH = path.join(PROJECT_ROOT, 'docs-main/snippets/generated/version-dashboard-data.mdx');
 
 const VERSION_ORDER = [
   'splice',

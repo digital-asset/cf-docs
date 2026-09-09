@@ -1,4 +1,0 @@
-```bash
-// Make sure to adjust YOUR_VALID_FROM to the time you got from the previous query and YOUR_PARY_ID
-curl -sSL --fail-with-body '|gsf_scan_url|/api/scan/v0/acs/YOUR_PARTY_ID?record_time=YOUR_VALID_FROM' -H 'Content-Type: application/json' | jq -r .acs_snapshot | base64 -d > acs_snapshot
-```

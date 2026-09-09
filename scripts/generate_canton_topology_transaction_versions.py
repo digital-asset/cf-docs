@@ -22,7 +22,7 @@ from docs_env import ensure_repo_direnv
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CACHE_DIR = REPO_ROOT / ".internal" / "cache" / "canton-release-reference"
 DEFAULT_OUTPUT = (
-    REPO_ROOT / "docs-source" / "appdev" / "deep-dives" / "external-signing-topology.mdx"
+    REPO_ROOT / "docs-main" / "appdev" / "deep-dives" / "external-signing-topology.mdx"
 )
 REFERENCE_SCRIPT = REPO_ROOT / "scripts" / "canton_topology_transaction_versions.canton"
 GENERATED_START = "{/* GENERATED_CANTON_TOPOLOGY_VERSIONS_START */}"

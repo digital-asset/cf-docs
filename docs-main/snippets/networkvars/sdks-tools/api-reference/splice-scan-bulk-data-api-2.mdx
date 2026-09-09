@@ -1,0 +1,15 @@
+The /v0/state/acs/snapshot-timestamp endpoint returns the timestamp of the most recent snapshot before the given date, for the given `migration_id`. Specify `migration_id = 0` for the beginning of the network. The returned timestamp corresponds to the record time of the last transaction in the snapshot.
+
+An example request to get the timestamp of the most recent snapshot before a given date is shown below:
+
+```bash
+curl |gsf_scan_url|/api/scan/v0/state/acs/snapshot-timestamp\?before\="2025-02-12T00:00:00.000000Z"\&migration_id\=4
+```
+
+The response returns the timestamp of the most recent snapshot before the given date:
+
+```json
+{
+  "record_time" : "2025-02-11T18:00:00Z"
+}
+```

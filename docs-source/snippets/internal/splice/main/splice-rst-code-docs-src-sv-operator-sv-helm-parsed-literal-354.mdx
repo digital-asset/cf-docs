@@ -1,9 +1,0 @@
-```bash
-# Create a folder to store the config
-mkdir cometbft
-cd cometbft
-# Init the node
-docker run --rm -v "$(pwd):/init" |docker_repo_prefix|/cometbft:|version| init --home /init
-# Read the node id and keep a note of it for the deployment
-docker run --rm -v "$(pwd):/init" |docker_repo_prefix|/cometbft:|version| show-node-id --home /init
-```

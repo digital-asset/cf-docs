@@ -1,0 +1,43 @@
+import ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmParsedLiteral1005 from "/snippets/internal/splice/main/splice-rst-code-docs-src-sv-operator-sv-helm-parsed-literal-1005.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmBash873 from "/snippets/internal/splice/main/splice-rst-code-docs-src-sv-operator-sv-helm-bash-873.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmBash914 from "/snippets/internal/splice/main/splice-rst-code-docs-src-sv-operator-sv-helm-bash-914.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmBash990 from "/snippets/internal/splice/main/splice-rst-code-docs-src-sv-operator-sv-helm-bash-990.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmYaml882 from "/snippets/internal/splice/main/splice-rst-code-docs-src-sv-operator-sv-helm-yaml-882.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmYaml900 from "/snippets/internal/splice/main/splice-rst-code-docs-src-sv-operator-sv-helm-yaml-900.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmYaml926 from "/snippets/internal/splice/main/splice-rst-code-docs-src-sv-operator-sv-helm-yaml-926.mdx";
+
+Create a `cluster-ingress` namespace:
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmBash873 />
+
+Ensure that there is a cert-manager certificate available in a secret named `cn-net-tls`. An example of a suitable certificate definition:
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmYaml882 />
+
+Create a file named `istio-gateway-values.yaml` with the following content (Tip: on GCP you can get the cluster IP from `gcloud compute addresses list`):
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmYaml900 />
+
+And install it to your cluster:
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmBash914 />
+
+Create Istio Gateway resources in the `cluster-ingress` namespace. Save the following to a file named `gateways.yaml`, with the following modifications:
+
+- Replace `YOUR_HOSTNAME` with the actual hostname of your SV node
+- The second gateway (cn-apps-gateway) exposes ports for three migration IDs (0, 1, and 2) for the CometBFT apps of the SV node. If a higher migration ID is reached, expand that list using the same pattern.
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmYaml926 />
+
+And apply them to your cluster:
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmBash990 />
+
+The http gateway terminates tls using the secret that you configured above, and exposes raw http traffic in its outbound port 443. Istio VirtualServices can now be created to route traffic from there to the required pods within the cluster. A reference Helm chart is provided for that, which can be installed after
+
+1.  replacing `YOUR_HOSTNAME` in `splice-node/examples/sv-helm/sv-cluster-ingress-values.yaml` and
+2.  setting `nameServiceDomain` in the same file to `"cns"`
+
+using:
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmParsedLiteral1005 />

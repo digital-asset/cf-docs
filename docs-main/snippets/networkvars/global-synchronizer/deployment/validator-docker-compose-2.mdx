@@ -1,0 +1,23 @@
+import ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorComposeBash167 from "/snippets/internal/splice/main/splice-rst-code-docs-src-validator-operator-validator-compose-bash-167.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorComposeBash175 from "/snippets/internal/splice/main/splice-rst-code-docs-src-validator-operator-validator-compose-bash-175.mdx";
+
+
+1)  Change to the `docker-compose` directory inside the extracted bundle:
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorComposeBash167 />
+
+2)  Export the current version to an environment variable: |image_tag_set|
+3)  Run the following command to start the validator node, and wait for it to become ready (could take a few minutes):
+
+> <ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorComposeBash175 />
+>
+> Where:
+>
+> `<party_hint>` will be used as the prefix of the Party ID of your validator's administrator.
+> This must be of format `<organization>-<function>-<enumerator>`, e.g. `myCompany-myWallet-1`. It cannot be changed over time as it is part of the validator operator party ID.
+
+<Note>
+Since splice `0.6.8` the `-m` flag is optional. For new validator nodes it should be omitted. For existing validator nodes it must still be provided with the last known migration ID value.
+</Note>
+
+Note that the validator may be stopped with the command `./stop.sh` and restarted again with the same `start.sh` command as above. Its data will be retained between invocations. In subseqent invocations, the secret itself may be left empty, but the `-o` is still mandatory, so a `-o ""` argument should be provided.

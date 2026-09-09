@@ -1,9 +1,0 @@
-```bash
-kubectl create --namespace validator secret generic splice-app-validator-ledger-api-auth \
-    "--from-literal=ledger-api-user=${VALIDATOR_CLIENT_ID}@clients" \
-    "--from-literal=url=${OIDC_AUTHORITY_URL}/.well-known/openid-configuration" \
-    "--from-literal=client-id=${VALIDATOR_CLIENT_ID}" \
-    "--from-literal=client-secret=${VALIDATOR_CLIENT_SECRET}" \
-    "--from-literal=audience=${OIDC_AUTHORITY_LEDGER_API_AUDIENCE}" \
-    "--from-literal=scope=${OIDC_AUTHORITY_LEDGER_API_SCOPE}"
-```

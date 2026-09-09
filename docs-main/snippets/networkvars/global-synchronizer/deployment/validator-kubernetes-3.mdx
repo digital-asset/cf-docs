@@ -1,0 +1,12 @@
+import ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorHelmBash482 from "/snippets/internal/splice/main/splice-rst-code-docs-src-validator-operator-validator-helm-bash-482.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorHelmParsedLiteral472 from "/snippets/internal/splice/main/splice-rst-code-docs-src-validator-operator-validator-helm-parsed-literal-472.mdx";
+
+With these files in place, you can execute the following helm commands in sequence. It's generally a good idea to wait until each deployment reaches a stable state prior to moving on to the next step.
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorHelmParsedLiteral472 />
+
+Once this is running, you should be able to inspect the state of the cluster and observe pods running in the new namespace. A typical query might look as follows:
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorHelmBash482 />
+
+Note also that `Pod` restarts may happen during bringup, particularly if all helm charts are deployed at the same time. For example, the `participant` cannot start until `postgres` is running.

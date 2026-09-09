@@ -1,7 +1,0 @@
-```haskell
--- a coin can only be archived by the issuer under the condition that the issuer is the owner of the coin. This ensures the issuer cannot archive coins at will.
-choice Archives
-  : ()
-  controller issuer
-  do assert (issuer == owner)
-```

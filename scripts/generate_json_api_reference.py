@@ -53,11 +53,11 @@ DEFAULT_SOURCE_CONFIG = (
 )
 DEFAULT_CACHE_DIR = DEFAULT_CACHE_ROOT / "ledger-api-bundles"
 DEFAULT_OUTPUT_SPEC = (
-    REPO_ROOT / "docs-source" / "openapi" / "json-ledger-api" / "openapi.yaml"
+    REPO_ROOT / "docs-main" / "openapi" / "json-ledger-api" / "openapi.yaml"
 )
-DEFAULT_DOCS_JSON = REPO_ROOT / "docs-source" / "docs.json"
+DEFAULT_DOCS_JSON = REPO_ROOT / "docs-main" / "docs.json"
 DEFAULT_HISTORY_REPORT = (
-    REPO_ROOT / "docs-source" / "reference" / "json-api-reference" / "history-report.json"
+    REPO_ROOT / "docs-main" / "reference" / "json-api-reference" / "history-report.json"
 )
 DEFAULT_NAV_DROPDOWN = "API Reference"
 DEFAULT_PARENT_GROUP = "Ledger API"
@@ -65,7 +65,7 @@ DEFAULT_GROUP_LABEL = "OpenAPI"
 DEFAULT_OPENAPI_DIRECTORY = "reference/json-api-reference"
 DEFAULT_OVERVIEW_PAGE_REF = "reference/json-api-reference/overview"
 DEFAULT_DETAILS_PAGE_REF = "reference/json-api-reference/details"
-LEGACY_OUTPUT_FILE = REPO_ROOT / "docs-source" / "reference" / "json-api-reference.mdx"
+LEGACY_OUTPUT_FILE = REPO_ROOT / "docs-main" / "reference" / "json-api-reference.mdx"
 HTTP_METHODS = {"get", "put", "post", "delete", "options", "head", "patch", "trace"}
 INTERNAL_TODO_LINE_RE = re.compile(r"(?m)^[ \t]*TODO\([^\r\n)]+\)[^\r\n]*(?:\r?\n|$)")
 

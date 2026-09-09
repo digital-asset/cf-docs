@@ -1,0 +1,17 @@
+The [scan_openapi](/sdks-tools/api-reference/splice-apis) describes the Scan API in detail. The below table provides a quick overview of the endpoints that the Scan Bulk Data API consists of:
+
+| Endpoint                             | Description                                       |
+|--------------------------------------|---------------------------------------------------|
+| POST /v2/updates                     | Returns the update history                        |
+| GET /v2/updates/{update_id}          | Returns the update with the given update_id       |
+| GET /v0/state/acs/snapshot-timestamp | Returns the timestamp of the most recent snapshot |
+| POST /v0/state/acs                   | Returns the ACS Snapshot for a given record time  |
+
+If you would rather read the yaml Open API specification file directly, this can be found in the Splice repository at [scan.yaml](https://github.com/canton-network/splice/blob/08fc692cf2952a52cce00473793d1dca08c0fba5/apps/scan/src/main/openapi/scan.yaml).
+
+Example URLs for accessing the Scan Bulk Data API are:
+
+- `|gsf_scan_url|/api/scan/v2/updates`
+- `|gsf_scan_url|/api/scan/v0/state/acs/snapshot-timestamp`
+
+Please note the `api/scan` prefix in the URLs, which is the base path for the Scan API.
