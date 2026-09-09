@@ -268,6 +268,7 @@
                   "appdev/deep-dives/external-signing-hashing-algorithm"
                 ]
               },
+              "appdev/deep-dives/external-calls",
               "appdev/deep-dives/performance-optimization",
               "appdev/deep-dives/achs",
               "appdev/deep-dives/manage-daml-parties",
