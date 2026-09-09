@@ -45,10 +45,10 @@ Welcome to Canton!
 {/* NETWORKVARS_START source="/snippets/networkvars/global-synchronizer/reference/canton-console-reference-1.mdx" */}
 <Tabs>
 
-<Tab title="DevNet (0.7.5)">
+<Tab title="DevNet (0.8.0)">
 
 ```bash
-docker run -it --rm --network host -v $(pwd)/console.conf:/app/app.conf ghcr.io/digital-asset/decentralized-canton-sync/docker/canton:0.7.5 --console
+docker run -it --rm --network host -v $(pwd)/console.conf:/app/app.conf ghcr.io/digital-asset/decentralized-canton-sync/docker/canton:0.8.0 --console
 ```
 
 </Tab>
@@ -83,10 +83,10 @@ Running docker with the default network (`splice-validator`):
 {/* NETWORKVARS_START source="/snippets/networkvars/global-synchronizer/reference/canton-console-reference-2.mdx" */}
 <Tabs>
 
-<Tab title="DevNet (0.7.5)">
+<Tab title="DevNet (0.8.0)">
 
 ```bash
-docker run -it --rm --network splice-validator -v $(pwd)/console.conf:/app/app.conf ghcr.io/digital-asset/decentralized-canton-sync/docker/canton:0.7.5 --console
+docker run -it --rm --network splice-validator -v $(pwd)/console.conf:/app/app.conf ghcr.io/digital-asset/decentralized-canton-sync/docker/canton:0.8.0 --console
 ```
 
 </Tab>
@@ -115,7 +115,7 @@ docker run -it --rm --network splice-validator -v $(pwd)/console.conf:/app/app.c
 {/* NETWORKVARS_START source="/snippets/networkvars/global-synchronizer/reference/canton-console-reference-3.mdx" */}
 <Tabs>
 
-<Tab title="DevNet (0.7.5)">
+<Tab title="DevNet (0.8.0)">
 
 1.  Ensure you can access the sequencer's ports 5008 and 5009
 
@@ -143,7 +143,7 @@ canton {
 3.  Run the docker command
 
 ```bash
-docker run -it --rm --network host -v $(pwd)/console.conf:/app/app.conf ghcr.io/digital-asset/decentralized-canton-sync/docker/canton:0.7.5 --console
+docker run -it --rm --network host -v $(pwd)/console.conf:/app/app.conf ghcr.io/digital-asset/decentralized-canton-sync/docker/canton:0.8.0 --console
 ```
 
 </Tab>
@@ -222,7 +222,7 @@ docker run -it --rm --network host -v $(pwd)/console.conf:/app/app.conf ghcr.io/
 {/* NETWORKVARS_START source="/snippets/networkvars/global-synchronizer/reference/canton-console-reference-4.mdx" */}
 <Tabs>
 
-<Tab title="DevNet (0.7.5)">
+<Tab title="DevNet (0.8.0)">
 
 1.  Ensure you can access the mediator's port 5007
 
@@ -246,7 +246,7 @@ canton {
 3.  Run the docker command
 
 ```bash
-docker run -it --rm --network host -v $(pwd)/console.conf:/app/app.conf ghcr.io/digital-asset/decentralized-canton-sync/docker/canton:0.7.5 --console
+docker run -it --rm --network host -v $(pwd)/console.conf:/app/app.conf ghcr.io/digital-asset/decentralized-canton-sync/docker/canton:0.8.0 --console
 ```
 
 </Tab>
