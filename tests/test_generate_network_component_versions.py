@@ -36,7 +36,6 @@ def dashboard_snapshot(*, generated_at: str, splice_version: str) -> dict:
         networks[network_key] = {
             "sources": {"infoUrl": f"https://example.com/{network_key}/info"},
             "displayName": display_name,
-            "migrationId": "1",
             "spliceVersion": splice_version,
             "endpoint": f"scan.{network_key}.example",
             "cantonVersion": "3.5.1",
@@ -152,7 +151,7 @@ def test_choose_observed_release_accepts_active_synchronizer_payload() -> None:
             },
         },
         "https://example.com/info",
-    ) == ("0.6.5", "4")
+    ) == "0.6.5"
 
 
 def test_choose_observed_release_accepts_current_synchronizer_payload() -> None:
@@ -173,7 +172,7 @@ def test_choose_observed_release_accepts_current_synchronizer_payload() -> None:
             },
         },
         "https://example.com/info",
-    ) == ("0.6.7", "1")
+    ) == "0.6.7"
 
 
 def test_choose_observed_release_prefers_sv_version_matching_index() -> None:
@@ -190,7 +189,7 @@ def test_choose_observed_release_prefers_sv_version_matching_index() -> None:
         },
         "https://example.com/info",
         index_version="0.7.0",
-    ) == ("0.7.0", "1")
+    ) == "0.7.0"
 
 
 def test_choose_observed_release_prefers_sync_version_matching_index() -> None:
@@ -207,7 +206,7 @@ def test_choose_observed_release_prefers_sync_version_matching_index() -> None:
         },
         "https://example.com/info",
         index_version="0.6.14",
-    ) == ("0.6.14", "1")
+    ) == "0.6.14"
 
 
 def test_choose_observed_release_rejects_mismatch_when_neither_matches_index() -> None:
@@ -261,9 +260,6 @@ def test_network_snapshot_from_existing_rebuilds_required_fields() -> None:
             "devnet": {
                 "name": "DevNet",
                 "endpoint": "scan.dev.example",
-                "advanced": {
-                    "migrationId": "1",
-                },
                 "substitutions": {"version": "0.6.14"},
             }
         },
@@ -290,7 +286,6 @@ def test_network_snapshot_from_existing_rebuilds_required_fields() -> None:
     assert snapshot["spliceVersion"] == "0.6.14"
     assert snapshot["cantonVersion"] == "3.5.10"
     assert snapshot["cantonReleaseLineBranch"] == "release-line-0.6.14"
-    assert snapshot["migrationId"] == "1"
     assert "chainIdSuffix" not in snapshot
     assert snapshot["preservedFromPrevious"] is True
     assert snapshot["sources"]["preservedFromPrevious"] is True
@@ -304,19 +299,16 @@ def test_collect_snapshot_preserves_previous_network_on_failure(monkeypatch) -> 
             "mainnet": {
                 "name": "MainNet",
                 "endpoint": "scan.main.example",
-                "advanced": {"migrationId": "4"},
                 "substitutions": {"version": "0.6.12"},
             },
             "testnet": {
                 "name": "TestNet",
                 "endpoint": "scan.test.example",
-                "advanced": {"migrationId": "1"},
                 "substitutions": {"version": "0.6.13"},
             },
             "devnet": {
                 "name": "DevNet",
                 "endpoint": "scan.dev.example",
-                "advanced": {"migrationId": "1"},
                 "substitutions": {"version": "0.6.14"},
             },
         },
@@ -357,7 +349,6 @@ def test_collect_snapshot_preserves_previous_network_on_failure(monkeypatch) -> 
             "spliceVersion": existing_config["versions"][network_key]["substitutions"]["version"],
             "cantonVersion": "3.5.1",
             "cantonReleaseLineBranch": "release-line-x",
-            "migrationId": existing_config["versions"][network_key]["advanced"]["migrationId"],
             "sources": {
                 "infoUrl": f"https://docs.{network_key}.example/info",
                 "indexUrl": f"https://docs.{network_key}.example/index.html",

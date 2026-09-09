@@ -403,7 +403,7 @@ def choose_observed_release(
     info_url: str,
     *,
     index_version: str | None = None,
-) -> tuple[str, str]:
+) -> str:
     sv = info_payload.get("sv", {})
     synchronizers = info_payload.get("synchronizer", {})
     synchronizer_label = "active"
@@ -438,7 +438,7 @@ def choose_observed_release(
             f"sv.migration_id={sv_migration_id} "
             f"synchronizer.{synchronizer_label}.migration_id={sync_migration_id}"
         )
-    return observed_version, str(sv_migration_id)
+    return observed_version
 
 
 def resolve_mismatched_info_version(
@@ -541,7 +541,7 @@ def collect_network_snapshot(network_key: str, timeout: float) -> dict:
         )
 
     info_payload = fetch_json(urls["info_url"], timeout)
-    observed_release, migration_id = choose_observed_release(
+    observed_release = choose_observed_release(
         info_payload,
         urls["info_url"],
         index_version=docker_image_tag,
@@ -561,7 +561,6 @@ def collect_network_snapshot(network_key: str, timeout: float) -> dict:
         "spliceVersion": observed_release,
         "cantonVersion": canton_version,
         "cantonReleaseLineBranch": canton_release_line_branch,
-        "migrationId": migration_id,
         "sources": {
             "infoUrl": urls["info_url"],
             "indexUrl": urls["index_url"],
@@ -581,7 +580,6 @@ def network_snapshot_from_existing(existing_config: dict, network_key: str) -> d
         return None
 
     urls = NETWORKS[network_key]
-    advanced = existing_advanced(existing_config, network_key)
     substitutions = existing.get("substitutions", {})
     splice_version = str(
         substitutions.get("version")
@@ -596,8 +594,7 @@ def network_snapshot_from_existing(existing_config: dict, network_key: str) -> d
     )
     canton_version = str(canton_mapping.get("externalVersion") or "")
     canton_release_line_branch = str(canton_mapping.get("branch") or "")
-    migration_id = str(advanced.get("migrationId") or "")
-    if not splice_version or not migration_id:
+    if not splice_version:
         return None
 
     existing_sources = (
@@ -615,7 +612,6 @@ def network_snapshot_from_existing(existing_config: dict, network_key: str) -> d
         "spliceVersion": splice_version,
         "cantonVersion": canton_version,
         "cantonReleaseLineBranch": canton_release_line_branch,
-        "migrationId": migration_id,
         "sources": sources,
         "checks": {
             "dockerImageTag": splice_version,
@@ -642,7 +638,7 @@ def collect_snapshot(timeout: float, existing_config: dict) -> dict:
             print(
                 f"WARNING: {network_key}: failed to collect network snapshot "
                 f"({exc}); preserving previous dashboard values "
-                f"(splice={preserved['spliceVersion']}, migrationId={preserved['migrationId']})",
+                f"(splice={preserved['spliceVersion']})",
                 file=sys.stderr,
             )
             preserved["sources"]["preserveReason"] = str(exc)
@@ -677,7 +673,6 @@ def build_versions(existing_config: dict, snapshot: dict) -> dict:
             "name": network["displayName"],
             "advanced": {
                 "minProtocolVersion": existing_advanced_data.get("minProtocolVersion", ""),
-                "migrationId": network["migrationId"],
                 "releaseUrl": updated_release_url(network["spliceVersion"]),
             },
             "endpoint": network["endpoint"],
