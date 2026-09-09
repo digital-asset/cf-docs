@@ -36,11 +36,11 @@ We recommend wallet providers to implement a UTXO management strategy that:
 {/* NETWORKVARS_START source="/snippets/networkvars/appdev/deep-dives/token-standard-1.mdx" */}
 <Tabs>
 
-<Tab title="DevNet (0.7.5)">
+<Tab title="DevNet (0.8.0)">
 
 Assuming you are a wallet provider that runs a validator node for your users, you can set up `MergeDelegation` contracts for your users as follows.
 
-1.  Extract the latest version of the `splice-util-token-standard-wallet.dar` file from the release bundle (<a href="https://github.com/digital-asset/decentralized-canton-sync/releases/download/v0.7.5/0.7.5_splice-node.tar.gz">Download Bundle (DevNet 0.7.5)</a>).
+1.  Extract the latest version of the `splice-util-token-standard-wallet.dar` file from the release bundle (<a href="https://github.com/digital-asset/decentralized-canton-sync/releases/download/v0.8.0/0.8.0_splice-node.tar.gz">Download Bundle (DevNet 0.8.0)</a>).
 2.  Upload the extracted `.dar` file to your validator node.
 3.  Adjust your user onboarding procedure such that the users signs the creation of a `MergeDelegationProposal` contract (see docs).
 4.  Accept the `MergeDelegationProposal` contracts by exercising their `Accept` choice using your wallet provider's party.

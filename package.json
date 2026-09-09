@@ -6,6 +6,7 @@
     "update:generated-reference-sources": "python3 scripts/update_generated_reference_sources.py",
     "generate:version-compatibility-dashboard": "python3 scripts/generate_network_component_versions.py",
     "generate:canton-topology-proto-link": "python3 scripts/generate_canton_topology_proto_link.py",
+    "generate:canton-topology-transaction-versions": "python3 scripts/generate_canton_topology_transaction_versions.py",
     "generate:json-api-reference": "python3 scripts/generate_json_api_reference.py",
     "generate:json-api-asyncapi-reference": "python3 scripts/generate_json_api_asyncapi_reference.py",
     "generate:grpc-ledger-api-reference": "python3 scripts/generate_grpc_ledger_api_reference.py",

@@ -135,7 +135,7 @@ In some cases you might want to force the migration attempt for a set of parties
 {/* NETWORKVARS_START source="/snippets/networkvars/global-synchronizer/production-operations/validator-disaster-recovery-1.mdx" */}
 <Tabs>
 
-<Tab title="DevNet (0.7.5)">
+<Tab title="DevNet (0.8.0)">
 
 If you still observe issues, in particular you observe `ACS_COMMITMENT_MISMATCH` warnings in your participant logs, something has likely gone wrong while importing the active contracts of at least one of the parties hosted on your node. Another common symptom (in case the validator party is affected) is that your your validator initialization fails with a `Unknown secret` error and your validator logs contain a `ValidatorLicense not found` message. To address a failed `ACS` import, you can usually:
 
@@ -300,7 +300,7 @@ To work around this, follow these steps:
 {/* NETWORKVARS_START source="/snippets/networkvars/global-synchronizer/production-operations/validator-disaster-recovery-2.mdx" */}
 <Tabs>
 
-<Tab title="DevNet (0.7.5)">
+<Tab title="DevNet (0.8.0)">
 
 For a party relying on external signing, a similar procedure can be used to recover its coin balance in case the validator originally hosting it becomes unusable for whatever reason.
 

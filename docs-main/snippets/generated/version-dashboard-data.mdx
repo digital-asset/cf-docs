@@ -1,5 +1,5 @@
-export const lastUpdatedAt = '2026-09-08T12:17:40+00:00';
-export const lastUpdatedLabel = 'September 8, 2026';
+export const lastUpdatedAt = '2026-09-09T06:19:55+00:00';
+export const lastUpdatedLabel = 'September 9, 2026';
 
 export const networkData = {
   mainnet: {
@@ -9,8 +9,8 @@ export const networkData = {
     versions: {
       splice: '0.7.4',
       canton: '3.5.14',
-      damlSdk: '3.5.5',
-      pqs: '3.5.7',
+      damlSdk: '3.5.7',
+      pqs: '3.5.8',
       tokenStandard: '1.11.0',
       walletSdk: '1.4.0',
       dappSdk: '1.6.0',
@@ -22,8 +22,11 @@ export const networkData = {
       migrationId: '4',
       darVersions: [
         { name: 'splice-amulet', version: '0.1.22' },
-        { name: 'splice-wallet', version: '0.1.23' },
+        { name: 'splice-amulet-name-service', version: '0.1.23' },
         { name: 'splice-dso-governance', version: '0.1.28' },
+        { name: 'splice-validator-lifecycle', version: '0.1.8' },
+        { name: 'splice-wallet', version: '0.1.23' },
+        { name: 'splice-wallet-payments', version: '0.1.22' },
       ],
       releaseUrl: 'https://github.com/canton-network/splice/releases/tag/0.7.4',
     },
@@ -61,8 +64,8 @@ export const networkData = {
     versions: {
       splice: '0.7.5',
       canton: '3.5.15',
-      damlSdk: '3.5.6',
-      pqs: '3.5.7',
+      damlSdk: '3.5.8',
+      pqs: '3.5.8',
       tokenStandard: '1.11.0',
       walletSdk: '1.4.0',
       dappSdk: '1.6.0',
@@ -74,8 +77,11 @@ export const networkData = {
       migrationId: '1',
       darVersions: [
         { name: 'splice-amulet', version: '0.1.22' },
-        { name: 'splice-wallet', version: '0.1.23' },
+        { name: 'splice-amulet-name-service', version: '0.1.23' },
         { name: 'splice-dso-governance', version: '0.1.28' },
+        { name: 'splice-validator-lifecycle', version: '0.1.8' },
+        { name: 'splice-wallet', version: '0.1.23' },
+        { name: 'splice-wallet-payments', version: '0.1.22' },
       ],
       releaseUrl: 'https://github.com/canton-network/splice/releases/tag/0.7.5',
     },
@@ -111,10 +117,10 @@ export const networkData = {
     description: 'Development environment with latest features. Open to any validator (IP allowlist required). Reset every 3 months. Best for testing upgrades.',
     color: '#a78bfa',
     versions: {
-      splice: '0.7.5',
-      canton: '3.5.15',
-      damlSdk: '3.5.7',
-      pqs: '3.5.7',
+      splice: '0.8.0',
+      canton: '3.5.16',
+      damlSdk: '3.5.9',
+      pqs: '3.5.8',
       tokenStandard: '1.11.0',
       walletSdk: '1.4.0',
       dappSdk: '1.6.0',
@@ -125,11 +131,14 @@ export const networkData = {
       minProtocolVersion: '35',
       migrationId: '1',
       darVersions: [
-        { name: 'splice-amulet', version: '0.1.22' },
-        { name: 'splice-wallet', version: '0.1.23' },
-        { name: 'splice-dso-governance', version: '0.1.28' },
+        { name: 'splice-amulet', version: '0.1.23' },
+        { name: 'splice-amulet-name-service', version: '0.1.24' },
+        { name: 'splice-dso-governance', version: '0.1.29' },
+        { name: 'splice-validator-lifecycle', version: '0.1.9' },
+        { name: 'splice-wallet', version: '0.1.24' },
+        { name: 'splice-wallet-payments', version: '0.1.23' },
       ],
-      releaseUrl: 'https://github.com/canton-network/splice/releases/tag/0.7.5',
+      releaseUrl: 'https://github.com/canton-network/splice/releases/tag/0.8.0',
     },
     endpoint: 'scan.sv-1.dev.global.canton.network.sync.global',
     substitutions: {
@@ -140,19 +149,19 @@ export const networkData = {
       gsf_scan_url: 'https://scan.sv-1.dev.global.canton.network.sync.global',
       generic_scan_url: 'https://scan.sv-1.dev.global.canton.network.YOUR_SV_SPONSOR',
       gsf_sequencer_url: 'https://sequencer-MIGRATION_ID.sv-1.dev.global.canton.network.sync.global',
-      version: '0.7.5',
-      version_literal: '0.7.5',
-      chart_version_literal: '0.7.5',
-      chart_version_set: 'export CHART_VERSION=0.7.5',
-      image_tag_set: 'export IMAGE_TAG=0.7.5',
-      image_tag_set_plain: 'export IMAGE_TAG=0.7.5',
+      version: '0.8.0',
+      version_literal: '0.8.0',
+      chart_version_literal: '0.8.0',
+      chart_version_set: 'export CHART_VERSION=0.8.0',
+      image_tag_set: 'export IMAGE_TAG=0.8.0',
+      image_tag_set_plain: 'export IMAGE_TAG=0.8.0',
       bundle_download_link: {
         label: 'Download Bundle',
-        href: 'https://github.com/digital-asset/decentralized-canton-sync/releases/download/v0.7.5/0.7.5_splice-node.tar.gz',
+        href: 'https://github.com/digital-asset/decentralized-canton-sync/releases/download/v0.8.0/0.8.0_splice-node.tar.gz',
       },
       openapi_download_link: {
         label: 'Download OpenAPI specs',
-        href: 'https://github.com/digital-asset/decentralized-canton-sync/releases/download/v0.7.5/0.7.5_openapi.tar.gz',
+        href: 'https://github.com/digital-asset/decentralized-canton-sync/releases/download/v0.8.0/0.8.0_openapi.tar.gz',
       },
       helm_repo_prefix: 'oci://ghcr.io/digital-asset/decentralized-canton-sync/helm',
       docker_repo_prefix: 'ghcr.io/digital-asset/decentralized-canton-sync/docker',
