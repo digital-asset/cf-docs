@@ -18,9 +18,6 @@ import ExternalCantonMainDocsOpenTargetSnippetJsonDataParticipantHowtosSecureKey
 import ExternalCantonMainDocsOpenTargetSnippetJsonDataParticipantHowtosSecureKeysKeyRestrictions3 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/participant/howtos/secure/keys/key_restrictions-3.mdx";
 import ExternalCantonMainDocsOpenTargetSnippetJsonDataParticipantHowtosSecureKeysKeyRestrictions4 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/participant/howtos/secure/keys/key_restrictions-4.mdx";
 import ExternalCantonMainCommunityAppSrcTestResourcesDocumentationSnippetsCryptoSchemes from "/snippets/external/canton/main/community/app/src/test/resources/documentation-snippets/crypto-schemes.mdx";
-import ExternalCantonMainDocsOpenTargetSnippetJsonParticipantHowtosSecureKeysNamespaceKey8 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/participant/howtos/secure/keys/namespace_key-8.mdx";
-import ExternalCantonMainDocsOpenTargetSnippetJsonParticipantHowtosSecureKeysNamespaceKey10 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/participant/howtos/secure/keys/namespace_key-10.mdx";
-import ExternalCantonMainDocsOpenTargetSnippetJsonParticipantHowtosSecureKeysNamespaceKey11 from "/snippets/external/canton/main/docs-open/target/snippet_json_data/participant/howtos/secure/keys/namespace_key-11.mdx";
 
 
 
@@ -216,70 +213,117 @@ If you omit the `filterTargetKey` parameter, all the existing namespace delegati
 
 {/* COPIED_END */}
 
-{/* COPIED_END */}
-
-{/* COPIED_START source="docs-website:docs/replicated/canton/3.5/participant/howtos/secure/keys/namespace_key.rst" hash="196f8887" */}
-
-This document is a work in progress. The feature will be developed and released in the future, following the procedures described in the document.
+{/* COPIED_START source="docs-website:docs/replicated/canton/3.5/participant/howtos/secure/keys/namespace_key.rst" hash="7e734777" */}
 
 ## Namespace Key Management
+
+<Note>
+This document is a work in progress. The feature will be developed and released in the future, following the procedures described in the document.
+</Note>
+
 ### Online Root Namespace Key
-By default, the Canton node creates a root namespace key during the initialization of the node. Operators can manually create an intermediate key on the node to authorize topology transactions. Only the intermediate key can be changed. Therefore, it is important to keep the root key secure.
 
-If a Canton node is configured to use a KMS system, then the root key can be administratively isolated, using the KMS Administration controls to remove node access to the root key. As the root key is only required when authorizing a new intermediate key or revoking an existing authorization, it is sufficient to just selectively allow the node to access the key only whenever such operations are performed.
+By default, the Canton node creates a root namespace key during the initialization of the node.
+Operators can manually create an intermediate key on the node to authorize topology transactions. Only the intermediate key can be changed.
+Therefore, it is important to keep the root key secure.
 
-Only the root key can be isolated. All the other keys are essential for Canton to operate correctly. Optionally, the intermediate key can also be isolated but will have to be turned on and off as needed during administrative operations such as uploading DARs or adding parties.
+If a Canton node is configured to use a [KMS system](/global-synchronizer/production-operations/kms-operations), then the root key can be administratively isolated,
+using the KMS Administration controls to remove node access to the root key. As the root key is only
+required when authorizing a new intermediate key or revoking an existing authorization, it is sufficient
+to just selectively allow the node to access the key only whenever such operations are performed.
+
+Only the root key can be isolated. All the other keys are essential for Canton to operate correctly. Optionally,
+the intermediate key can also be isolated but will have to be turned on and off as needed during administrative
+operations such as uploading DARs or adding parties.
+
+{/*
+TODO: [#25262: Improve how to identify and disable root keys](https://github.com/DACH-NY/canton/issues/25262)
+
+- Explain how to identify the root key (look up what the root key is and how to find it in the KMS)
+- Explain how to disable access to the root key in Cloud KMS.
+*/}
+
+{/* COPIED_END */}
+
+<Note>
+The offline root key procedure changed substantially in Canton 3.5 — renamed scripts, a restructured flow, and Ed25519 in place of NIST P-256. Select the tab for your node's Canton version. Canton 3.5 covers current MainNet, TestNet, and DevNet releases; use Canton 3.4 only for nodes still on a pre-3.5 release.
+</Note>
+
+<Tabs>
+
+<Tab title="Canton 3.5">
+
+{/* COPIED_START source="docs-website:docs/replicated/canton/3.5/participant/howtos/secure/keys/namespace_key.rst" hash="7e734777" */}
 
 ### Offline Root Namespace Key
-A more secure way to manage the root namespace key is to use an offline root namespace key. In this case, the root namespace key is stored in a secure, possibly air gapped location, inaccessible from the Canton node.
 
-Where the root key is stored depends on your organization's security requirements. For the remainder of this guide, assume that there are two sites, the online site of the node with its intermediate key and the offline site of the root key. The offline root key is used to sign a delegation to the node's intermediate key, which is then used to authorize topology transactions.
+A more secure way to manage the root namespace key is to use an offline root namespace key. In this case, the root
+namespace key is stored in a secure, possibly air gapped location, inaccessible from the Canton node.
+
+Where the root key is stored depends on your organization's security requirements. For the remainder of this
+guide, assume that there are two sites, the online site of the node with its intermediate key and the offline
+site of the root key. The offline root key is used to sign a delegation to the node's intermediate key, which is then used to
+authorize topology transactions.
 
 The offline root key procedure is supported by a set of utility scripts, which can be found in the Canton `scripts` directory (`scripts/offline-root-key`).
 
 #### Channel for Key Exchange
-There must be a channel or method which allows to exchange the public intermediate key and the signed intermediate namespace delegations between the online and offline sites. The channel must be trusted in terms of authenticity, but not confidentiality, as no secret information is exchanged. This means you need to ensure that the data is not tampered with during transport, but the data itself does not need to be encrypted.
 
-This can be done using multiple methods, depending on whether the sites are air-gapped or connected through a network. Possible examples are: secure file transfer, QR codes, physical storage medium.
+There must be a channel or method which allows to exchange the public intermediate key and the signed
+intermediate namespace delegations between the online and offline sites. The channel must be trusted in terms of
+authenticity, but not confidentiality, as no secret information is exchanged. This means you need to ensure that
+the data is not tampered with during transport, but the data itself does not need to be encrypted.
+
+This can be done using multiple methods, depending on whether the sites are air-gapped or connected through a network.
+Possible examples are: secure file transfer, QR codes, physical storage medium.
 
 Assuming that such a trusted channel exists, the following steps are required to set up the offline root namespace key:
 
 #### 1. Configure Node To Expect External Root Key
+
 Before the first start-up, the Canton node must be configured not to initialize automatically. This is done by setting
 
-``` none
+```text
 participant1.init.identity.type = manual
 ```
 
-The node can then be started with this configuration. It starts the Admin API, but halts the startup process and wait for the initialization of the node identity together with the necessary topology transactions.
+The node can then be started with this configuration. It starts the Admin API, but halts the
+startup process and wait for the initialization of the node identity together with the necessary topology transactions.
 
 #### 2. Export Public Key of Node
+
+Start by creating a temporary directory where we'll store keys and certificates during the initialization process.
+
+```bash
+mkdir -p /tmp/canton/certs
+```
+
 Assuming you have access to the remote console of the node, create a new signing key to use as the intermediate key:
 
-``` none
-@ val key = participant1.keys.secret.generate_signing_key(name = "NamespaceDelegation", usage = com.digitalasset.canton.crypto.SigningKeyUsage.NamespaceOnly)
-    key : SigningPublicKey = SigningPublicKey(
-      id = 122080b595e9...,
+```text
+@ val intermediateKey = participant1.keys.secret.generate_signing_key(name = "NamespaceDelegation", usage = com.digitalasset.canton.crypto.SigningKeyUsage.NamespaceOnly)
+    intermediateKey : SigningPublicKey = SigningPublicKey(
+      id = 1220bbf4353d...,
       format = DER-encoded X.509 SubjectPublicKeyInfo,
       keySpec = EC-Curve25519,
       usage = namespace
     )
 ```
 
-``` none
-@ val intermediateKeyPath = better.files.File.newTemporaryFile(prefix = "intermediate-key.pub").pathAsString
-    intermediateKeyPath : String = "/tmp/intermediate-key.pub3520580670384386470"
+```text
+@ val intermediateKeyPath = better.files.File("/tmp/canton/certs/intermediate_key.pub").pathAsString
+    intermediateKeyPath : String = "/tmp/canton/certs/intermediate_key.pub"
 ```
 
-``` none
-@ participant1.keys.public.download_to(key.id, intermediateKeyPath)
+```text
+@ participant1.keys.public.download_to(intermediateKey.id, intermediateKeyPath)
 ```
 
 This creates a file with the public key of the intermediate key.
 
 The supported key specifications are listed in the follow protobuf definition:
 
-``` none
+```text
 enum SigningKeySpec {
   SIGNING_KEY_SPEC_UNSPECIFIED = 0;
 
@@ -302,85 +346,110 @@ enum SigningKeySpec {
 }
 ```
 
-The synchronizer the participant node intends to connect to might restrict further the list of supported key specifications. To obtain this information from the synchronizer directly, run the following command on the synchronizer Public API.
+The synchronizer the participant node intends to connect to might restrict further the list of supported key specifications.
+To obtain this information from the synchronizer directly, run the following command against the synchronizer Public API.
 
-``` 
+```shell
 grpcurl -d '{}' <sequencer_endpoint> com.digitalasset.canton.sequencer.api.v30.SequencerConnectService/GetSynchronizerParameters
 ```
 
-If a console is not accessible, you can use either a bootstrap script or `grpccurl` against the Admin API to invoke the commands.
-
 #### 3. Share Public Key of Node with Offline Site
-Next, the intermediate public key must be transported to the offline site as described above. Ensure that the public key is not tampered with during transport.
+
+Next, the intermediate public key must be transported to the offline site as described above. Ensure
+that the public key is not tampered with during transport.
 
 #### 4. Generate Root Key and The Root Certificate
+
+Ensure that the necessary scripts are available on the secure site. These scripts are included in the Canton release
+packages at `scripts/offline-root-key`. This directory is self-contained and can be inspected / copied over to the secure site
+to generate and sign the certificates required to initialize the node and rotate delegations.
+
+The following tools are required for running those scripts:
+
+- [openssl](https://docs.openssl.org/3.5/man1/openssl/): CLI tool used to detect key formats and encode data to base64. It's also used in the example scripts (see below) to generate keys and signatures.
+- [buf](https://buf.build/product/cli): CLI tool used to convert between protobuf binary and JSON formats. Used to build and visualize transactions before signing them.
+- [xxd](https://linux.die.net/man/1/xxd): Linux command to convert between bytes and hexadecimal representation
+- [gunzip](https://linux.die.net/man/1/gunzip): Linux command to decompress gzipped files. Used to inspect the buf image and provide better error reporting.
+- [jq](https://jqlang.org/): CLI tool used to manipulate JSON data, used to build and display protobuf messages in JSON format.
+
+Canton support several signing key specifications. See this [supported cryptographic schemes and formats](/global-synchronizer/reference/crypto-schemes#supported-cryptographic-schemes-and-formats) reference for an exhaustive list.
+In this page we'll demonstrate the initialization process with an ED25519 root key.
+
 ##### Using OpenSSL
-Ensure that the necessary scripts are available on the secure site. These scripts are included in the Canton release packages at `scripts/offline-root-key`. An example demonstrating usage of those scripts using `openssl` to generate keys and sign certificates is available at `examples/10-offline-root-namespace-init`. Run the next set of commands from the `examples/10-offline-root-namespace-init` directory.
 
-Start by initializing variables used in the snippets below
+From this point forward, all commands must be run from the `scripts/offline-root-key` directory for this example.
 
-``` none
-# Points to the location of the offline root key scripts under the scripts/offline-root-key directory in the release artifact
-SCRIPTS_ROOT="$(dirname "$0")/../../scripts/offline-root-key"
-PRIVATE_KEY="$OUTPUT_DIR/root_private_key.der"
-PUBLIC_KEY="$OUTPUT_DIR/root_public_key.der"
-ROOT_NAMESPACE_PREFIX="$OUTPUT_DIR/root_namespace"
-INTERMEDIATE_NAMESPACE_PREFIX="$OUTPUT_DIR/intermediate_namespace"
+<Note>
+This section generates keys with OpenSSL which stores the private key unencrypted on disk.
+This is NOT a secure way to store private keys. For production deployments, make sure to secure the private key or use a KMS to manage it.
+</Note>
+Generate the root key in the secure environment and extract the public key:
+
+```shell
+openssl genpkey -algorithm Ed25519 -outform DER -out "/tmp/canton/certs/root_private_key.der"
 ```
 
-```bash
-mkdir -p tmp/certs
-OUTPUT_DIR="tmp/certs"
-CANTON_NAMESPACE_DELEGATION_PUB_KEY=<Path to the intermediate key downloaded from Canton. ``intermediateKeyPath`` in this example>
+```shell
+openssl pkey -in "/tmp/canton/certs/root_private_key.der" -pubout -outform DER -out "/tmp/canton/certs/root_public_key.der"
 ```
 
-As well as setting the path to the protobuf image containing the required protobuf definitions to generate certificates.
+Then, create the self-signed root namespace delegation, which is effectively a self-signed certificate used
+as the trust anchor of the given namespace:
 
-``` none
-CURRENT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null && pwd)
-export BUF_PROTO_IMAGE="$CURRENT_DIR/../../scripts/offline-root-key/root_namespace_buf_image.bin"
-source "$CURRENT_DIR/../../scripts/offline-root-key/utils.sh"
+```shell
+./prepare-cert.sh --root-delegation --root-pub-key "/tmp/canton/certs/root_public_key.der" --target-pub-key "/tmp/canton/certs/root_public_key.der" --output "/tmp/canton/certs/root_namespace"
 ```
 
-Then, generate the root key in the secure environment and extract the public key:
+Note that the root public key must be in the `x509 SPKI DER` format. For more information on Canton's supported key
+formats, please refer to the following [supported cryptographic schemes and formats](/global-synchronizer/reference/crypto-schemes#supported-cryptographic-schemes-and-formats) reference.
+This generates two files, `root-delegation.prep` and `root-delegation.hash`.
+`.prep` files contain unsigned topology transactions serialized to bytes.
+If you really want to be sure what you are signing, inspect the `prepare-cert.sh` script to see how it generates the topology transaction and how it computes
+the hash. Next, the hash needs to be signed.
 
-``` none
-openssl ecparam -name prime256v1 -genkey -noout -outform DER -out "$PRIVATE_KEY"
-openssl ec -inform der -in "$PRIVATE_KEY" -pubout -outform der -out "$PUBLIC_KEY" 2> /dev/null
+Sign the hash:
+
+```shell
+openssl pkeyutl -rawin -inkey "/tmp/canton/certs/root_private_key.der" -keyform DER -sign -in "/tmp/canton/certs/root_namespace.hash" -out "/tmp/canton/certs/root_namespace.signature"
 ```
 
-Then, create the self-signed root namespace delegation, which is effectively a self-signed certificate used as the trust anchor of the given namespace:
+Finally, assemble the signature and the prepared transaction:
 
-``` none
-"$SCRIPTS_ROOT/prepare-certs.sh" --root-delegation --root-pub-key "$PUBLIC_KEY" --target-pub-key "$PUBLIC_KEY" --output "$ROOT_NAMESPACE_PREFIX"
+```shell
+./assemble-cert.sh --prepared-transaction "/tmp/canton/certs/root_namespace.prep" --signature "/tmp/canton/certs/root_namespace.signature" --signature-algorithm "ed25519" --output "/tmp/canton/certs/root_namespace"
 ```
 
-Note that the root public key must be in the `x509 SPKI DER` format. For more information on Canton's supported key formats, please refer to the following tables. This generates two files, `root-delegation.prep` and `root-delegation.hash`. `.prep` files contain unsigned topology transactions serialized to bytes. If you really want to be sure what you are signing, inspect the `prepare-certs.sh` script to see how it generates the topology transaction and how it computes the hash. Next, the hash needs to be signed.
+The signature algorithm depends on the root key specification. See the `assemble-cert.sh` script for how it matches the value of `signature-algorithm` argument to canton signature and format:
 
-If you are using openssl, the following command can be used to sign the hash:
-
-``` none
-openssl pkeyutl -rawin -inkey "$PRIVATE_KEY" -keyform DER -sign < "$ROOT_NAMESPACE_PREFIX.hash" > "$ROOT_NAMESPACE_PREFIX.signature"
-```
-
-Finally, assemble the signature and the prepared transaction. For more information on the supported signature formats, please refer to the following table:
-
-``` none
-"$SCRIPTS_ROOT/assemble-cert.sh" --prepared-transaction "$ROOT_NAMESPACE_PREFIX.prep" --signature "$ROOT_NAMESPACE_PREFIX.signature" --signature-algorithm ecdsa256 --output "$ROOT_NAMESPACE_PREFIX.cert"
+```text
+ed25519)
+  SIGNATURE_ALGORITHM_SPEC="SIGNING_ALGORITHM_SPEC_ED25519"
+  SIGNATURE_FORMAT="SIGNATURE_FORMAT_CONCAT"
+  ;;
+ecdsa256)
+  SIGNATURE_ALGORITHM_SPEC="SIGNING_ALGORITHM_SPEC_EC_DSA_SHA_256"
+  SIGNATURE_FORMAT="SIGNATURE_FORMAT_DER"
+  ;;
+ecdsa384)
+  SIGNATURE_ALGORITHM_SPEC="SIGNING_ALGORITHM_SPEC_EC_DSA_SHA_384"
+  SIGNATURE_FORMAT="SIGNATURE_FORMAT_DER"
+  ;;
 ```
 
 This creates a so-called signed topology transaction.
 
 ##### Using GCP KMS
-If you are using GCP KMS, you can use KMS CLI ([https://cloud.google.com/kms/docs/create-validate-signatures](https://cloud.google.com/kms/docs/create-validate-signatures)) with the following commands to generate the key:
 
-``` 
+Use the KMS CLI (https://cloud.google.com/kms/docs/create-validate-signatures)
+with the following commands to generate the key:
+
+```shell
 gcloud kms keyrings create key-ring --location location (APPROXIMATE)
 ```
 
 And the following command can be used to generate the signature:
 
-``` 
+```shell
 gcloud kms asymmetric-sign \
     --version key-version \
     --key <root-key> \
@@ -392,36 +461,628 @@ gcloud kms asymmetric-sign \
 ```
 
 #### 5. Create the Intermediate Certificate
-If the root key and the self-signed root delegation are available, you can create the intermediate certificate. The steps are very similar to the root certificate, but the target is the public key of the intermediate key, and the `--intermediate-delegation` flag is used instead of `--root-delegation`.
 
-``` none
+If the root key and the self-signed root delegation are available, you can create the intermediate certificate. The
+steps are very similar to the root certificate, but the target is the public key of the intermediate key,
+and the `--intermediate-delegation` flag is used instead of `--root-delegation`.
+
+```shell
+./prepare-cert.sh --intermediate-delegation --root-pub-key "/tmp/canton/certs/root_public_key.der" --canton-target-pub-key "/tmp/canton/certs/intermediate_key.pub" --output "/tmp/canton/certs/intermediate_namespace"
+```
+
+Verify that the generated topology transaction (printed to stdout) is correct and refers to the correct keys.
+Once verified, the generated hash needs to be signed:
+
+```shell
+openssl pkeyutl -rawin -inkey "/tmp/canton/certs/root_private_key.der" -keyform DER -sign -in "/tmp/canton/certs/intermediate_namespace.hash" -out "/tmp/canton/certs/intermediate_namespace.signature"
+```
+
+Again, the signature and the prepared transaction can be assembled:
+
+```shell
+./assemble-cert.sh --prepared-transaction "/tmp/canton/certs/intermediate_namespace.prep" --signature "/tmp/canton/certs/intermediate_namespace.signature" --signature-algorithm "ed25519" --output "/tmp/canton/certs/intermediate_namespace"
+```
+
+#### 7. Copy the Certificates to the Online Site
+
+The generated certificates (never the root private key) need to be transferred to the online site. The public keys are
+included in the certificates and don't need to be transported separately. You need to transfer both certificates,
+the root delegation and the intermediate delegation, to the online site.
+
+#### 8. Import the Certificates to the Node
+
+On the target site, import the certificates into the waiting node using the console command
+
+```text
+@ participant1.topology.init_id(identifier = "participant1", delegationFiles = Seq("/tmp/canton/certs/root_namespace.cert", "/tmp/canton/certs/intermediate_namespace.cert"))
+```
+
+```text
+@ participant1.health.status
+    res5: NodeStatus[ParticipantStatus] = Participant id: PAR::participant1::1220f13f352ab3a5e2567cb06b9e8f958e47e5e200087016065df3ba7822b19b2c71
+    Uptime: 0.061886s
+    Ports:
+    	ledger: 30040
+    	admin: 30041
+    Connected synchronizers: None
+    Unhealthy synchronizers: None
+    Active: true
+    Components:
+    	memory_storage : Ok()
+    	connected-synchronizer : Not Initialized
+    	sync-ephemeral-state : Not Initialized
+    	sequencer-client : Not Initialized
+    	acs-commitment-processor : Not Initialized
+    Version: 3.5.1-SNAPSHOT
+    Supported protocol version(s): 35
+```
+
+Alternatively, the Admin API can be used directly via `grpccurl` to initialize the node.
+
+### Pre-Generated Certificates
+
+The certificates can also be provided directly via the node's configuration file if they've been generated beforehand.
+In this scenario, instead of generating the intermediate key via the node's `generate_signing_key` command as described above,
+the key must be generated on a KMS and its public key material downloaded. See [Run with manually-generated keys](/global-synchronizer/production-operations/kms-operations#run-with-manually-generated-keys) for details.
+The same scripts can then be used to generate the certificate,
+with the exception that the intermediate public key will not be in the Canton format but in a DER format and should therefore be set with `--target-pub-key`.
+Once the certificates are available, they can be configured on the node as such:
+
+```text
+canton.participants.mynode.init.node-identity = {
+    type = external
+    prefix = "mynodename" // optional prefix, random string generated otherwise
+    certificates = ["root-delegation.cert", "intermediate-delegation.cert"]
+}
+```
+
+This configuration directive has no effect once the node is initialized and can subsequently be removed.
+
+### Delegation Restrictions
+
+You can further restrict the kind of topology transactions a delegation can authorize.
+The `prepare-cert` script exposes a `--delegation-restrictions` flag for that purpose.
+
+For example, to create a delegation that can only sign namespace delegations, let's first create a new key for that delegation:
+
+```text
+@ val keyWithRestrictionsPath = "/tmp/canton/certs/restricted_key.pub"
+    keyWithRestrictionsPath : String = "/tmp/canton/certs/restricted_key.pub"
+```
+
+```text
+@ val keyWithRestrictions = participant1.keys.secret.generate_signing_key(name = "RestrictedKey", usage = Set(SigningKeyUsage.Namespace))
+    keyWithRestrictions : SigningPublicKey = SigningPublicKey(
+      id = 122095ad731e...,
+      format = DER-encoded X.509 SubjectPublicKeyInfo,
+      keySpec = EC-Curve25519,
+      usage = namespace
+    )
+```
+
+```text
+@ participant1.keys.public.download_to(keyWithRestrictions.id, keyWithRestrictionsPath)
+```
+
+Then prepare, sign and assemble it as we did previously, except we use the `--delegation-restrictions` flag on the prepare script this time:
+
+```shell
+./prepare-cert.sh --delegation-restrictions PARTY_TO_PARTICIPANT,PARTY_TO_KEY_MAPPING --root-pub-key "/tmp/canton/certs/root_public_key.der" --canton-target-pub-key "/tmp/canton/certs/restricted_key.pub" --output "/tmp/canton/certs/restricted_key_namespace"
+```
+
+```shell
+openssl pkeyutl -rawin -inkey "/tmp/canton/certs/root_private_key.der" -keyform DER -sign -in "/tmp/canton/certs/restricted_key_namespace.hash" -out "/tmp/canton/certs/restricted_key_namespace.signature"
+```
+
+```shell
+./assemble-cert.sh --prepared-transaction "/tmp/canton/certs/restricted_key_namespace.prep" --signature "/tmp/canton/certs/restricted_key_namespace.signature" --signature-algorithm "ed25519" --output "/tmp/canton/certs/restricted_key_namespace"
+```
+
+Once the signed certificate is available, load it onto the node:
+
+```text
+@ participant1.topology.transactions.load_single_from_file("/tmp/canton/certs/restricted_key_namespace.cert", TopologyStoreId.Authorized)
+```
+
+### Rotate the Intermediate Key
+
+Rotating the intermediate key involves creating a new key, and revoking the current one.
+
+#### Create new Intermediate Key
+
+Creating a new key follow the same steps as before:
+
+```text
+@ val newIntermediateKey = participant1.keys.secret.generate_signing_key(
+                name = "NewIntermediateKey",
+                usage = Set(SigningKeyUsage.Namespace)
+             )
+    newIntermediateKey : SigningPublicKey = SigningPublicKey(
+      id = 1220a89c7f67...,
+      format = DER-encoded X.509 SubjectPublicKeyInfo,
+      keySpec = EC-Curve25519,
+      usage = namespace
+    )
+```
+
+```text
+@ participant1.keys.public.download_to(newIntermediateKey.id, "/tmp/canton/certs/new_intermediate_key.pub")
+```
+
+#### Export delegation to revoke
+
+```text
+@ val delegationToRevokePath = s"/tmp/canton/certs/delegation_to_revoke.tx"
+    delegationToRevokePath : String = "/tmp/canton/certs/delegation_to_revoke.tx"
+```
+
+```text
+@ participant1.topology.namespace_delegations.list(TopologyStoreId.Authorized).find(_.item.target == intermediateKey).get.toTopologyTransaction.writeToFile(delegationToRevokePath)
+```
+
+#### Generate revocation and new intermediate certificates
+
+Prepare revocation and new delegation certificates:
+
+```shell
+./prepare-cert.sh --revoke-delegation "/tmp/canton/certs/delegation_to_revoke.tx" --output "/tmp/canton/certs/revoked_delegation"
+```
+
+```shell
+./prepare-cert.sh --intermediate-delegation --root-pub-key "/tmp/canton/certs/root_public_key.der" --canton-target-pub-key "/tmp/canton/certs/new_intermediate_key.pub" --output "/tmp/canton/certs/new_delegation"
+```
+
+Sign revocation and new delegation certificates:
+
+```shell
+openssl pkeyutl -rawin -inkey "/tmp/canton/certs/root_private_key.der" -keyform DER -sign -in "/tmp/canton/certs/revoked_delegation.hash" -out "/tmp/canton/certs/revoked_delegation.signature"
+```
+
+```shell
+openssl pkeyutl -rawin -inkey "/tmp/canton/certs/root_private_key.der" -keyform DER -sign -in "/tmp/canton/certs/new_delegation.hash" -out "/tmp/canton/certs/new_delegation.signature"
+```
+
+Assemble revocation and new delegation certificates:
+
+```shell
+./assemble-cert.sh --prepared-transaction "/tmp/canton/certs/revoked_delegation.prep" --signature "/tmp/canton/certs/revoked_delegation.signature" --signature-algorithm "ed25519" --output "/tmp/canton/certs/revoked_delegation"
+```
+
+```shell
+./assemble-cert.sh --prepared-transaction "/tmp/canton/certs/new_delegation.prep" --signature "/tmp/canton/certs/new_delegation.signature" --signature-algorithm "ed25519" --output "/tmp/canton/certs/new_delegation"
+```
+
+Observe the delegations before the revocation:
+
+```text
+@ participant1.topology.namespace_delegations.list(store = TopologyStoreId.Authorized)
+    res14: Seq[com.digitalasset.canton.admin.api.client.data.topology.ListNamespaceDelegationResult] = Vector(
+      ListNamespaceDelegationResult(
+        context = BaseResult(
+          storeId = Authorized,
+          validFrom = 2026-05-21T22:39:26.923100Z,
+          validUntil = None,
+          sequenced = 2026-05-21T22:39:26.923100Z,
+          operation = Replace,
+          transactionHash = TxHash(hash = SHA-256:bbacbd47a13c...),
+          serial = PositiveNumeric(value = 1),
+          signedBy = Vector(1220f13f352a...)
+        ),
+        item = NamespaceDelegation(
+          namespace = 1220f13f352a...,
+          target = SigningPublicKey(
+            id = 1220f13f352a...,
+            format = DER-encoded X.509 SubjectPublicKeyInfo,
+            keySpec = EC-Curve25519,
+            usage = namespace
+          ),
+          restriction = none
+        )
+      ),
+      ListNamespaceDelegationResult(
+        context = BaseResult(
+          storeId = Authorized,
+          validFrom = 2026-05-21T22:39:26.924955Z,
+          validUntil = None,
+          sequenced = 2026-05-21T22:39:26.924955Z,
+          operation = Replace,
+          transactionHash = TxHash(hash = SHA-256:112962d6302d...),
+          serial = PositiveNumeric(value = 1),
+          signedBy = Vector(1220f13f352a...)
+        ),
+        item = NamespaceDelegation(
+          namespace = 1220f13f352a...,
+          target = SigningPublicKey(
+            id = 1220bbf4353d...,
+            format = DER-encoded X.509 SubjectPublicKeyInfo,
+            keySpec = EC-Curve25519,
+            usage = namespace
+          ),
+          restriction = not-nsd
+        )
+      ),
+      ListNamespaceDelegationResult(
+        context = BaseResult(
+          storeId = Authorized,
+          validFrom = 2026-05-21T22:39:28.544665Z,
+          validUntil = None,
+          sequenced = 2026-05-21T22:39:28.544665Z,
+          operation = Replace,
+          transactionHash = TxHash(hash = SHA-256:c91fdd18a9d6...),
+          serial = PositiveNumeric(value = 1),
+          signedBy = Vector(1220f13f352a...)
+        ),
+        item = NamespaceDelegation(
+          namespace = 1220f13f352a...,
+          target = SigningPublicKey(
+            id = 122095ad731e...,
+            format = DER-encoded X.509 SubjectPublicKeyInfo,
+            keySpec = EC-Curve25519,
+            usage = namespace
+          ),
+          restriction = PartyToParticipant,PartyToKeyMapping
+        )
+      )
+    )
+```
+
+We should see 3 NamespaceDelegations:
+
+- The root delegation
+- The intermediate delegation (about to be rotated)
+- The restricted delegation
+
+Load the revocation and new delegation certificates onto the node:
+
+```text
+@ participant1.topology.transactions.load_single_from_files(Seq("/tmp/canton/certs/revoked_delegation.cert", "/tmp/canton/certs/new_delegation.cert"), TopologyStoreId.Authorized)
+```
+
+Observe again after and see the previous intermediate delegation has been replaced by a new one:
+
+```text
+@ participant1.topology.namespace_delegations.list(store = TopologyStoreId.Authorized)
+    res16: Seq[com.digitalasset.canton.admin.api.client.data.topology.ListNamespaceDelegationResult] = Vector(
+      ListNamespaceDelegationResult(
+        context = BaseResult(
+          storeId = Authorized,
+          validFrom = 2026-05-21T22:39:26.923100Z,
+          validUntil = None,
+          sequenced = 2026-05-21T22:39:26.923100Z,
+          operation = Replace,
+          transactionHash = TxHash(hash = SHA-256:bbacbd47a13c...),
+          serial = PositiveNumeric(value = 1),
+          signedBy = Vector(1220f13f352a...)
+        ),
+        item = NamespaceDelegation(
+          namespace = 1220f13f352a...,
+          target = SigningPublicKey(
+            id = 1220f13f352a...,
+            format = DER-encoded X.509 SubjectPublicKeyInfo,
+            keySpec = EC-Curve25519,
+            usage = namespace
+          ),
+          restriction = none
+        )
+      ),
+      ListNamespaceDelegationResult(
+        context = BaseResult(
+          storeId = Authorized,
+          validFrom = 2026-05-21T22:39:28.544665Z,
+          validUntil = None,
+          sequenced = 2026-05-21T22:39:28.544665Z,
+          operation = Replace,
+          transactionHash = TxHash(hash = SHA-256:c91fdd18a9d6...),
+          serial = PositiveNumeric(value = 1),
+          signedBy = Vector(1220f13f352a...)
+        ),
+        item = NamespaceDelegation(
+          namespace = 1220f13f352a...,
+          target = SigningPublicKey(
+            id = 122095ad731e...,
+            format = DER-encoded X.509 SubjectPublicKeyInfo,
+            keySpec = EC-Curve25519,
+            usage = namespace
+          ),
+          restriction = PartyToParticipant,PartyToKeyMapping
+        )
+      ),
+      ListNamespaceDelegationResult(
+        context = BaseResult(
+          storeId = Authorized,
+          validFrom = 2026-05-21T22:39:30.214374Z,
+          validUntil = None,
+          sequenced = 2026-05-21T22:39:30.214374Z,
+          operation = Replace,
+          transactionHash = TxHash(hash = SHA-256:fbb5800fb069...),
+          serial = PositiveNumeric(value = 1),
+          signedBy = Vector(1220f13f352a...)
+        ),
+        item = NamespaceDelegation(
+          namespace = 1220f13f352a...,
+          target = SigningPublicKey(
+            id = 1220a89c7f67...,
+            format = DER-encoded X.509 SubjectPublicKeyInfo,
+            keySpec = EC-Curve25519,
+            usage = namespace
+          ),
+          restriction = not-nsd
+        )
+      )
+    )
+```
+
+#### Rotating the Root Namespace Key
+
+You cannot rotate the root namespace key. If you need to discontinue the usage of the namespace, you need to create a new namespace, new parties and
+participants in that new namespace, and transfer the contracts to the new parties.
+
+{/* COPIED_END */}
+
+</Tab>
+
+<Tab title="Canton 3.4">
+
+{/* COPIED_START source="docs-website:docs/replicated/canton/3.4/participant/howtos/secure/keys/namespace_key.rst" hash="c2917ecf" */}
+
+### Offline Root Namespace Key
+
+A more secure way to manage the root namespace key is to use an offline root namespace key. In this case, the root
+namespace key is stored in a secure, possibly air gapped location, inaccessible from the Canton node.
+
+Where the root key is stored depends on your organization's security requirements. For the remainder of this
+guide, assume that there are two sites, the online site of the node with its intermediate key and the offline
+site of the root key. The offline root key is used to sign a delegation to the node's intermediate key, which is then used to
+authorize topology transactions.
+
+The offline root key procedure is supported by a set of utility scripts, which can be found in the Canton `scripts` directory (`scripts/offline-root-key`).
+
+#### Channel for Key Exchange
+
+There must be a channel or method which allows to exchange the public intermediate key and the signed
+intermediate namespace delegations between the online and offline sites. The channel must be trusted in terms of
+authenticity, but not confidentiality, as no secret information is exchanged. This means you need to ensure that
+the data is not tampered with during transport, but the data itself does not need to be encrypted.
+
+This can be done using multiple methods, depending on whether the sites are air-gapped or connected through a network.
+Possible examples are: secure file transfer, QR codes, physical storage medium.
+
+Assuming that such a trusted channel exists, the following steps are required to set up the offline root namespace key:
+
+#### 1. Configure Node To Expect External Root Key
+
+Before the first start-up, the Canton node must be configured not to initialize automatically. This is done by setting
+
+```text
+participant1.init.identity.type = manual
+```
+
+The node can then be started with this configuration. It starts the Admin API, but halts the
+startup process and wait for the initialization of the node identity together with the necessary topology transactions.
+
+#### 2. Export Public Key of Node
+
+Assuming you have access to the remote console of the node, create a new signing key to use as the intermediate key:
+
+```text
+@ val key = participant1.keys.secret.generate_signing_key(name = "NamespaceDelegation", usage = com.digitalasset.canton.crypto.SigningKeyUsage.NamespaceOnly)
+    key : SigningPublicKey = SigningPublicKey(
+      id = 12205e85c626...,
+      format = DER-encoded X.509 SubjectPublicKeyInfo,
+      keySpec = EC-Curve25519,
+      usage = namespace
+    )
+```
+
+```text
+@ val intermediateKeyPath = better.files.File.newTemporaryFile(prefix = "intermediate-key.pub").pathAsString
+    intermediateKeyPath : String = "/tmp/intermediate-key.pub10902663533700447198"
+```
+
+```text
+@ participant1.keys.public.download_to(key.id, intermediateKeyPath)
+```
+
+This creates a file with the public key of the intermediate key.
+
+The supported key specifications are listed in the follow protobuf definition:
+
+```text
+enum SigningKeySpec {
+  SIGNING_KEY_SPEC_UNSPECIFIED = 0;
+
+  // Elliptic Curve Key from Curve25519
+  // as defined in http://ed25519.cr.yp.to/
+  SIGNING_KEY_SPEC_EC_CURVE25519 = 1;
+
+  // Elliptic Curve Key from the NIST P-256 curve (aka secp256r1)
+  // as defined in https://doi.org/10.6028/NIST.FIPS.186-4
+  SIGNING_KEY_SPEC_EC_P256 = 2;
+
+  // Elliptic Curve Key from the NIST P-384 curve (aka secp384r1)
+  // as defined in https://doi.org/10.6028/NIST.FIPS.186-4
+  SIGNING_KEY_SPEC_EC_P384 = 3;
+
+  // Elliptic Curve Key from SECG P256k1 curve (aka secp256k1)
+  // commonly used in bitcoin and ethereum
+  // as defined in https://www.secg.org/sec2-v2.pdf
+  SIGNING_KEY_SPEC_EC_SECP256K1 = 4;
+}
+```
+
+The synchronizer the participant node intends to connect to might restrict further the list of supported key specifications.
+To obtain this information from the synchronizer directly, run the following command on the synchronizer Public API.
+
+```shell
+grpcurl -d '{}' <sequencer_endpoint> com.digitalasset.canton.sequencer.api.v30.SequencerConnectService/GetSynchronizerParameters
+```
+
+If a console is not accessible, you can use either a bootstrap script or `grpccurl` against the Admin API to
+invoke the commands.
+
+#### 3. Share Public Key of Node with Offline Site
+
+Next, the intermediate public key must be transported to the offline site as described above. Ensure
+that the public key is not tampered with during transport.
+
+#### 4. Generate Root Key and The Root Certificate
+
+##### Using OpenSSL
+
+Ensure that the necessary scripts are available on the secure site. These scripts are included in the Canton release
+packages at `scripts/offline-root-key`.
+An example demonstrating usage of those scripts using `openssl` to generate keys and sign certificates is available at `examples/10-offline-root-namespace-init`.
+Run the next set of commands from the `examples/10-offline-root-namespace-init` directory.
+
+Start by initializing variables used in the snippets below
+
+```text
+# Points to the location of the offline root key scripts under the scripts/offline-root-key directory in the release artifact
+SCRIPTS_ROOT="$(dirname "$0")/../../scripts/offline-root-key"
+PRIVATE_KEY="$OUTPUT_DIR/root_private_key.der"
+PUBLIC_KEY="$OUTPUT_DIR/root_public_key.der"
+ROOT_NAMESPACE_PREFIX="$OUTPUT_DIR/root_namespace"
+INTERMEDIATE_NAMESPACE_PREFIX="$OUTPUT_DIR/intermediate_namespace"
+```
+
+```bash
+mkdir -p tmp/certs
+OUTPUT_DIR="tmp/certs"
+CANTON_NAMESPACE_DELEGATION_PUB_KEY=<Path to the intermediate key downloaded from Canton. intermediateKeyPath in this example>
+```
+
+As well as setting the path to the protobuf image containing the required protobuf definitions to generate certificates.
+
+```text
+CURRENT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null && pwd)
+export BUF_PROTO_IMAGE="$CURRENT_DIR/../../scripts/offline-root-key/root_namespace_buf_image.json.gz"
+source "$CURRENT_DIR/../../scripts/offline-root-key/utils.sh"
+```
+
+Then, generate the root key in the secure environment and extract the public key:
+
+```text
+openssl ecparam -name prime256v1 -genkey -noout -outform DER -out "$PRIVATE_KEY"
+openssl ec -inform der -in "$PRIVATE_KEY" -pubout -outform der -out "$PUBLIC_KEY" 2> /dev/null
+```
+
+Then, create the self-signed root namespace delegation, which is effectively a self-signed certificate used
+as the trust anchor of the given namespace:
+
+```text
+"$SCRIPTS_ROOT/prepare-certs.sh" --root-delegation --root-pub-key "$PUBLIC_KEY" --target-pub-key "$PUBLIC_KEY" --output "$ROOT_NAMESPACE_PREFIX"
+```
+
+Note that the root public key must be in the `x509 SPKI DER` format. For more information on Canton's supported key
+formats, please refer to the following [supported cryptographic schemes and formats](/global-synchronizer/reference/crypto-schemes#supported-cryptographic-schemes-and-formats) reference.
+This generates two files, `root-delegation.prep` and `root-delegation.hash`.
+`.prep` files contain unsigned topology transactions serialized to bytes.
+If you really want to be sure what you are signing, inspect the `prepare-certs.sh` script to see how it generates the topology transaction and how it computes
+the hash. Next, the hash needs to be signed.
+
+If you are using openssl, the following command can be used to sign the hash:
+
+```text
+openssl pkeyutl -rawin -inkey "$PRIVATE_KEY" -keyform DER -sign < "$ROOT_NAMESPACE_PREFIX.hash" > "$ROOT_NAMESPACE_PREFIX.signature"
+```
+
+Finally, assemble the signature and the prepared transaction. For more information on the supported signature formats,
+please refer to the following [supported cryptographic schemes and formats](/global-synchronizer/reference/crypto-schemes#supported-cryptographic-schemes-and-formats) reference:
+
+```text
+"$SCRIPTS_ROOT/assemble-cert.sh" --prepared-transaction "$ROOT_NAMESPACE_PREFIX.prep" --signature "$ROOT_NAMESPACE_PREFIX.signature" --signature-algorithm ecdsa256 --output "$ROOT_NAMESPACE_PREFIX.cert"
+```
+
+This creates a so-called signed topology transaction.
+
+##### Using GCP KMS
+
+If you are using GCP KMS, you can use KMS CLI (https://cloud.google.com/kms/docs/create-validate-signatures)
+with the following commands to generate the key:
+
+```shell
+gcloud kms keyrings create key-ring --location location (APPROXIMATE)
+```
+
+And the following command can be used to generate the signature:
+
+```shell
+gcloud kms asymmetric-sign \
+    --version key-version \
+    --key <root-key> \
+    --keyring key-ring \
+    --location location \
+    --digest-algorithm digest-algorithm \
+    --input-file root-delegation.prep \
+    --signature-file root-delegation.signature
+```
+
+#### 5. Create the Intermediate Certificate
+
+If the root key and the self-signed root delegation are available, you can create the intermediate certificate. The
+steps are very similar to the root certificate, but the target is the public key of the intermediate key,
+and the `--intermediate-delegation` flag is used instead of `--root-delegation`.
+
+```text
 "$SCRIPTS_ROOT/prepare-certs.sh" --intermediate-delegation --root-pub-key "$PUBLIC_KEY" --canton-target-pub-key "$CANTON_NAMESPACE_DELEGATION_PUB_KEY" --output "$INTERMEDIATE_NAMESPACE_PREFIX"
 ```
 
-Verify that the generated topology transaction (printed to stdout) is correct and refers to the correct keys. Once verified, the generated hash needs to be signed:
+Verify that the generated topology transaction (printed to stdout) is correct and refers to the correct keys.
+Once verified, the generated hash needs to be signed:
 
-``` none
+```text
 openssl pkeyutl -rawin -inkey "$PRIVATE_KEY" -keyform DER -sign < "$INTERMEDIATE_NAMESPACE_PREFIX.hash" > "$INTERMEDIATE_NAMESPACE_PREFIX.signature"
 ```
 
 Again, the signature and the prepared transaction can be assembled:
 
-``` none
+```text
 "$SCRIPTS_ROOT/assemble-cert.sh" --prepared-transaction "$INTERMEDIATE_NAMESPACE_PREFIX.prep" --signature "$INTERMEDIATE_NAMESPACE_PREFIX.signature" --signature-algorithm ecdsa256 --output "$INTERMEDIATE_NAMESPACE_PREFIX.cert"
 ```
 
 #### 7. Copy the Certificates to the Online Site
-The generated certificates (never the root private key) need to be transferred to the online site. The public keys are included in the certificates and don't need to be transported separately. You need to transfer both certificates, the root delegation and the intermediate delegation, to the online site.
+
+The generated certificates (never the root private key) need to be transferred to the online site. The public keys are
+included in the certificates and don't need to be transported separately. You need to transfer both certificates,
+the root delegation and the intermediate delegation, to the online site.
 
 #### 8. Import the Certificates to the Node
+
 On the target site, import the certificates into the waiting node using the console command
 
-<ExternalCantonMainDocsOpenTargetSnippetJsonParticipantHowtosSecureKeysNamespaceKey8 />
+```text
+@ participant1.topology.init_id(identifier = "participant1", delegationFiles = Seq("tmp/certs/root_namespace.cert", "tmp/certs/intermediate_namespace.cert"))
+```
+
+```text
+@ participant1.health.status
+    res5: NodeStatus[ParticipantStatus] = Participant id: PAR::participant1::12201d8e60ec141a279bf5be0943f5bbcf80ea7b88ff44ab1e0d3f65ee12fb99ae07
+    Uptime: 0.068572s
+    Ports:
+    	ledger: 30232
+    	admin: 30233
+    Connected synchronizers: None
+    Unhealthy synchronizers: None
+    Active: true
+    Components:
+    	memory_storage : Ok()
+    	connected-synchronizer : Not Initialized
+    	sync-ephemeral-state : Not Initialized
+    	sequencer-client : Not Initialized
+    	acs-commitment-processor : Not Initialized
+    Version: 3.4.12-SNAPSHOT
+    Supported protocol version(s): 34
+```
 
 Alternatively, the Admin API can be used directly via `grpccurl` to initialize the node.
 
 ### Pre-Generated Certificates
-The certificates can also be provided directly via the node's configuration file if they've been generated beforehand. In this scenario, instead of generating the intermediate key via the node's `generate_signing_key` command as described above, they key must be generated on a KMS and its public key material downloaded. The same scripts can then be used to generate the certificate, with the exception that the intermediate public key will not be in the Canton format but in a DER format and should therefore be set with `--target-pub-key`. Once the certificates are available, you must register the intermediate KMS key by running:
+
+The certificates can also be provided directly via the node's configuration file if they've been generated beforehand.
+In this scenario, instead of generating the intermediate key via the node's `generate_signing_key` command as described above,
+the key must be generated on a KMS and its public key material downloaded. The same scripts can then be used to generate the certificate,
+with the exception that the intermediate public key will not be in the Canton format but in a DER format and should therefore be set with `--target-pub-key`.
+Once the certificates are available, you must register the intermediate KMS key by running:
 
 ```scala
 val intermediateKey = node.keys.secret
@@ -430,132 +1091,35 @@ val intermediateKey = node.keys.secret
     SigningKeyUsage.NamespaceOnly,
     name = s"${node.name}-${SigningKeyUsage.Namespace.identifier}",
   )
-// user-manual-entry-begin: ManualRegisterKmsNamespaceKey
-node.crypto.cryptoPrivateStore
-  .existsPrivateKey(intermediateKey.id, Signing)
-  .valueOrFail("intermediate key not registered")
-  .futureValueUS
-
-// user-manual-entry-begin: ManualRegisterKmsKeys
-
-// Register the KMS signing key used to define the node identity.
-val namespaceKey = node.keys.secret
-  .register_kms_signing_key(
-    namespaceKmsKeyId,
-    SigningKeyUsage.NamespaceOnly,
-    name = s"${node.name}-${SigningKeyUsage.Namespace.identifier}",
-  )
-
-// Register the KMS signing key used to authenticate the node toward the Sequencer.
-val sequencerAuthKey = node.keys.secret
-  .register_kms_signing_key(
-    sequencerAuthKmsKeyId,
-    SigningKeyUsage.SequencerAuthenticationOnly,
-    name = s"${node.name}-${SigningKeyUsage.SequencerAuthentication.identifier}",
-  )
-
-// Register the signing key used to sign protocol messages.
-val signingKey = node.keys.secret
-  .register_kms_signing_key(
-    signingKmsKeyId,
-    SigningKeyUsage.ProtocolOnly,
-    name = s"${node.name}-${SigningKeyUsage.Protocol.identifier}",
-  )
-
-// Register the encryption key.
-val encryptionKey = node.keys.secret
-  .register_kms_encryption_key(encryptionKmsKeyId, name = node.name + "-encryption")
-
-// user-manual-entry-end: ManualRegisterKmsKeys
-
-(namespaceKey, sequencerAuthKey, signingKey, encryptionKey)
-} else {
-// architecture-handbook-entry-begin: ManualInitKeys
-
-// Create a signing key used to define the node identity.
-val namespaceKey =
-  node.keys.secret
-    .generate_signing_key(
-      name = node.name + s"-${SigningKeyUsage.Namespace.identifier}",
-      SigningKeyUsage.NamespaceOnly,
-    )
-
-// Create a signing key used to authenticate the node toward the Sequencer.
-val sequencerAuthKey =
-  node.keys.secret.generate_signing_key(
-    name = node.name + s"-${SigningKeyUsage.SequencerAuthentication.identifier}",
-    SigningKeyUsage.SequencerAuthenticationOnly,
-  )
-
-// Create a signing key used to sign protocol messages.
-val signingKey =
-  node.keys.secret
-    .generate_signing_key(
-      name = node.name + s"-${SigningKeyUsage.Protocol.identifier}",
-      SigningKeyUsage.ProtocolOnly,
-    )
-
-// Create the encryption key.
-val encryptionKey =
-  node.keys.secret.generate_encryption_key(name = node.name + "-encryption")
-
-// architecture-handbook-entry-end: ManualInitKeys
-
-(namespaceKey, sequencerAuthKey, signingKey, encryptionKey)
-}
-
-// architecture-handbook-entry-begin: ManualInitNode
-
-// Use the fingerprint of this key for the node identity.
-val namespace = Namespace(namespaceKey.id)
-node.topology.init_id_from_uid(
-UniqueIdentifier.tryCreate("manual-" + node.name, namespace)
-)
-
-// Wait until the node is ready to receive the node identity.
-node.health.wait_for_ready_for_node_topology()
-
-// Create the self-signed root certificate.
-node.topology.namespace_delegations.propose_delegation(
-namespace,
-namespaceKey,
-CanSignAllMappings,
-)
-
-// Assign the new keys to this node.
-node.topology.owner_to_key_mappings.propose(
-member = node.id.member,
-keys = NonEmpty(Seq, sequencerAuthKey, signingKey, encryptionKey),
-signedBy = Seq(namespaceKey.fingerprint, sequencerAuthKey.fingerprint, signingKey.fingerprint),
-)
-
-// architecture-handbook-entry-end: ManualInitNode
-
-}
-
-}
 ```
 
-and then import the certificates to the node.
+{/* DIVERGENCE: the Canton 3.4 upstream source (namespace_key.rst) embeds a malformed `code-block:: scala` here — a partial paste of node-initialization test code with an unbalanced `} else {` and no surrounding context. Only the coherent `register_kms_signing_key` call above is retained. Canton 3.5+ replaced this section with a pointer to the KMS operations guide. */}
+
+Then import the certificates to the node (step 8 above).
 
 This configuration directive has no effect once the node is initialized and can subsequently be removed.
 
 ### Delegation Restrictions
-You can further restrict the kind of topology transactions a delegation can authorize. The `prepare-certs` script exposes a `--delegation-restrictions` flag for that purpose.
 
-``` none
+You can further restrict the kind of topology transactions a delegation can authorize.
+The `prepare-certs` script exposes a `--delegation-restrictions` flag for that purpose.
+
+```text
 "$SCRIPTS_ROOT/prepare-certs.sh" --delegation-restrictions PARTY_TO_PARTICIPANT,PARTY_TO_KEY_MAPPING --root-pub-key "$PUBLIC_KEY" --canton-target-pub-key "$CANTON_RESTRICTED_PUB_KEY" --output "$RESTRICTED_KEY_NAMESPACE_PREFIX"
 ```
 
 The delegation can then be signed and assembled as before. Once the signed certificate is available, load it onto the node:
 
-``` none
+```text
 participant1.topology.transactions.load_single_from_file(s"$opensslKeysDirectory/restricted_key_namespace.cert", TopologyStoreId.Authorized)
 ```
 
 ### Rotate the Intermediate Key
+
 #### Create new Intermediate Key
-In order to create another intermediate key, we follow the same steps as before. Create the key on the online site and export it.
+
+In order to create another intermediate key, we follow the same steps as before. Create the key on the online site
+and export it.
 
 Follow the same steps to create a new intermediate delegation for the new intermediate key:
 
@@ -563,25 +1127,41 @@ Follow the same steps to create a new intermediate delegation for the new interm
 - generate the intermediate delegation (skip self-signed root delegation as it has already been generated)
 - copy the certificate to the node site
 
-The new intermediate delegation can then be imported into the node as shown here.
+The new intermediate delegation can then be imported into the node as described below.
 
 Once the new delegation has been imported, the old intermediate key can be revoked.
 
 #### Revoking the Intermediate Key
-To revoke the intermediate key, the root key needs to be used to sign a revocation transaction. The revocation transaction is prepared in the same way as the intermediate delegation. Also, the generated hash needs to be signed and then subsequently assembled into a certificate:
 
-<ExternalCantonMainDocsOpenTargetSnippetJsonParticipantHowtosSecureKeysNamespaceKey10 />
+To revoke the intermediate key, the root key needs to be used to sign a revocation transaction. The revocation
+transaction is prepared in the same way as the intermediate delegation:
+
+```text
+"$SCRIPTS_ROOT/prepare-certs.sh" --revoke-delegation "$CANTON_NAMESPACE_DELEGATION_TO_REVOKE" --output "$REVOKED_DELEGATION_PREFIX"
+```
+
+The generated hash needs to be signed and then subsequently assembled into a certificate:
+
+```text
+openssl pkeyutl -rawin -inkey "$PRIVATE_KEY" -keyform DER -sign -in "$REVOKED_DELEGATION_PREFIX.hash" > "$REVOKED_DELEGATION_PREFIX.signature"
+```
 
 On the node site, the revocation certificate can be imported using:
 
-<ExternalCantonMainDocsOpenTargetSnippetJsonParticipantHowtosSecureKeysNamespaceKey11 />
+```text
+participant1.topology.transactions.load_single_from_file(s"$opensslKeysDirectory/revoked_delegation.cert", TopologyStoreId.Authorized)
+```
 
 #### Rotating the Root Namespace Key
-You cannot rotate the root namespace key. If you need to discontinue the usage of the namespace, you need to create a new namespace, new parties and participants in that new namespace, and transfer the contracts to the new parties.
+
+You cannot rotate the root namespace key. If you need to discontinue the usage of the namespace, you need to create a new namespace, new parties and
+participants in that new namespace, and transfer the contracts to the new parties.
 
 {/* COPIED_END */}
 
-{/* COPIED_END */}
+</Tab>
+
+</Tabs>
 
 {/* COPIED_START source="docs-website:docs/replicated/canton/3.5/participant/howtos/optimize/session_keys.rst" hash="23551d35" */}
 
@@ -644,7 +1224,5 @@ canton.participants.participant1.crypto.kms {
   }
 }
 ```
-
-{/* COPIED_END */}
 
 {/* COPIED_END */}
