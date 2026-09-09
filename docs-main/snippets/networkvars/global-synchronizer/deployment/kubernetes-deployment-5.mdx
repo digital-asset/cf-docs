@@ -1,0 +1,31 @@
+import ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmParsedLiteral691 from "/snippets/internal/splice/main/splice-rst-code-docs-src-sv-operator-sv-helm-parsed-literal-691.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmParsedLiteral701 from "/snippets/internal/splice/main/splice-rst-code-docs-src-sv-operator-sv-helm-parsed-literal-701.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmParsedLiteral707 from "/snippets/internal/splice/main/splice-rst-code-docs-src-sv-operator-sv-helm-parsed-literal-707.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmParsedLiteral715 from "/snippets/internal/splice/main/splice-rst-code-docs-src-sv-operator-sv-helm-parsed-literal-715.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmBash725 from "/snippets/internal/splice/main/splice-rst-code-docs-src-sv-operator-sv-helm-bash-725.mdx";
+
+With these files in place, you can execute the following helm commands in sequence. It's generally a good idea to wait until each deployment reaches a stable state prior to moving on to the next step.
+
+Install the Canton and CometBFT components:
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmParsedLiteral691 />
+
+Note that we use the serial ID when naming Canton synchronizer components. This is to support operating multiple instances of these components side by side as part of a logical synchronizer upgrade.
+
+Install the participant:
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmParsedLiteral701 />
+
+Install the SV node apps:
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmParsedLiteral707 />
+
+Install the INFO app, which is used to provide information about the SV node and its configuration:
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmParsedLiteral715 />
+
+Once everything is running, you should be able to inspect the state of the cluster and observe pods running in the new namespace. A typical query might look as follows:
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmBash725 />
+
+Note also that `Pod` restarts may happen during bringup, particularly if all helm charts are deployed at the same time. The `splice-sv-node` cannot start until `participant` is running and `participant` cannot start until `postgres` is running.

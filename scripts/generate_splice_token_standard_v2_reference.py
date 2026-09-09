@@ -59,9 +59,9 @@ DEFAULT_MANIFEST_ROOT = (
     REPO_ROOT / ".internal" / "generated" / "x2mdx" / "splice-token-standard-v2"
 )
 DEFAULT_OUTPUT_ROOT = (
-    REPO_ROOT / "docs-source" / "sdks-tools" / "api-reference" / "splice-daml"
+    REPO_ROOT / "docs-main" / "sdks-tools" / "api-reference" / "splice-daml"
 )
-DEFAULT_DOCS_JSON = REPO_ROOT / "docs-source" / "docs.json"
+DEFAULT_DOCS_JSON = REPO_ROOT / "docs-main" / "docs.json"
 DEFAULT_LIFECYCLE_METADATA = (
     REPO_ROOT
     / "config"

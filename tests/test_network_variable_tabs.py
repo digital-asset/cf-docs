@@ -1,10 +1,6 @@
 from __future__ import annotations
 
 import importlib.util
-import json
-import shutil
-
-import pytest
 import subprocess
 import sys
 from pathlib import Path
@@ -133,130 +129,146 @@ DevNet only: |gsf_scan_url|
     assert "|gsf_scan_url|" not in generated
 
 
-def make_source(repo: Path) -> Path:
-    source = repo / "docs-source"
-    data = source / "snippets/generated/version-dashboard-data.mdx"
-    data.parent.mkdir(parents=True)
-    data.write_text("export const networkData = " + json.dumps(sample_network_data()) + ";\n")
-    (source / "docs.json").write_text('{"name": "Example"}\n')
-    (source / "example.mdx").write_text(
-        '---\ntitle: Example\n---\n\n<NetworkVariables>\nScan URL: |gsf_scan_url|\n</NetworkVariables>\n'
+def test_marked_page_update_is_idempotent(tmp_path: Path) -> None:
+    module = load_script_module()
+    docs_main = tmp_path / "docs-main"
+    source = docs_main / "snippets" / "networkvars" / "example.mdx"
+    source.parent.mkdir(parents=True)
+    source.write_text("Scan URL: |gsf_scan_url|\n", encoding="utf-8")
+    page = docs_main / "example.mdx"
+    page.write_text(
+        """---
+title: Example
+---
+
+{/* NETWORKVARS_START source="/snippets/networkvars/example.mdx" */}
+stale
+{/* NETWORKVARS_END */}
+""",
+        encoding="utf-8",
     )
-    (source / "ordinary.md").write_text('Plain page with a [link](/example).\n')
-    (source / "image.png").write_bytes(b"\x89PNG\r\n\x00\xff")
-    return source
+
+    prefix = 'import Existing from "/snippets/existing.mdx";\n\n\nEditor prose before.\n\n'
+    suffix = '\n\n\nEditor prose after.\n'
+    page.write_text(prefix + page.read_text() + suffix, encoding="utf-8")
+    before = page.read_bytes()
+    assert module.update_page(page, sample_network_data(), docs_main, check=True)
+    assert page.read_bytes() == before
+    assert module.update_page(page, sample_network_data(), docs_main)
+    first = page.read_text(encoding="utf-8")
+    assert "Scan URL: https://scan.dev.example" in first
+    assert "stale" not in first
+    assert first.startswith(prefix)
+    assert first.endswith(suffix)
+    assert not module.update_page(page, sample_network_data(), docs_main)
+    assert page.read_text(encoding="utf-8") == first
 
 
-def snapshot(root: Path) -> dict[Path, bytes]:
-    return {path.relative_to(root): path.read_bytes() for path in root.rglob("*") if path.is_file()}
-
-
-def test_full_corpus_build_preserves_source_and_copies_non_network_files(tmp_path: Path) -> None:
-    module = load_script_module()
-    source = make_source(tmp_path)
-    output = tmp_path / "docs-main"
-    before = snapshot(source)
-    assert module.generate_site(source, output)
-    assert snapshot(source) == before
-    assert snapshot(output).keys() == before.keys()
-    for relative, content in before.items():
-        if relative != Path("example.mdx"):
-            assert (output / relative).read_bytes() == content
-    assert "Scan URL: https://scan.dev.example" in (output / "example.mdx").read_text()
-    assert "<NetworkVariables>" not in (output / "example.mdx").read_text()
-    assert module.generate_site(source, output) == []
-    assert module.generate_site(source, output, check=True) == []
-
-
-@pytest.mark.parametrize("change", ["network", "ordinary", "binary", "missing", "extra", "deleted-source"])
-def test_check_detects_all_target_drift_without_writing(tmp_path: Path, change: str) -> None:
-    module = load_script_module()
-    source = make_source(tmp_path)
-    output = tmp_path / "docs-main"
-    module.generate_site(source, output)
-    if change == "network":
-        (source / "example.mdx").write_text('<NetworkVariables>Updated |gsf_scan_url|</NetworkVariables>')
-    elif change == "ordinary":
-        (output / "ordinary.md").write_text("Already dirty before the check")
-    elif change == "binary":
-        (output / "image.png").write_bytes(b"corrupted")
-    elif change == "missing":
-        (output / "example.mdx").unlink()
-    elif change == "extra":
-        (output / "untracked.mdx").write_text("stale page")
-    else:
-        (source / "ordinary.md").unlink()
-    source_before, output_before = snapshot(source), snapshot(output)
-    assert module.generate_site(source, output, check=True)
-    assert snapshot(source) == source_before
-    assert snapshot(output) == output_before
-    assert module.generate_site(source, output)
-    assert not module.generate_site(source, output, check=True)
-
-
-def test_build_handles_file_and_directory_renames(tmp_path: Path) -> None:
-    module = load_script_module()
-    source = make_source(tmp_path)
-    output = tmp_path / "docs-main"
-    module.generate_site(source, output)
-    (source / "ordinary.md").unlink()
-    (source / "ordinary.md").mkdir()
-    (source / "ordinary.md/index.mdx").write_text("Moved page")
-    module.generate_site(source, output)
-    assert (output / "ordinary.md/index.mdx").read_text() == "Moved page"
-    shutil.rmtree(source / "ordinary.md")
-    (source / "ordinary.md").write_text("Moved back")
-    module.generate_site(source, output)
-    assert (output / "ordinary.md").read_text() == "Moved back"
-
-
-def test_invalid_source_cannot_partially_update_output(tmp_path: Path) -> None:
-    module = load_script_module()
-    source = make_source(tmp_path)
-    output = tmp_path / "docs-main"
-    module.generate_site(source, output)
-    before = snapshot(output)
-    (source / "example.mdx").write_text(
-        'import Missing from "/snippets/missing.mdx";\n\n<NetworkVariables><Missing /></NetworkVariables>'
+def test_validate_script_detects_dirty_stale_output_without_writing(tmp_path: Path) -> None:
+    repo = tmp_path / "repo"
+    docs_main = repo / "docs-main"
+    source = docs_main / "snippets" / "networkvars" / "example.mdx"
+    network_data = docs_main / "snippets" / "generated" / "version-dashboard-data.mdx"
+    source.parent.mkdir(parents=True)
+    network_data.parent.mkdir(parents=True)
+    source.write_text("Scan URL: |gsf_scan_url|\n", encoding="utf-8")
+    network_data.write_text(
+        """export const networkData = {
+  devnet: {
+    name: "DevNet",
+    versions: { splice: "0.6.4" },
+    substitutions: { gsf_scan_url: "https://scan.dev.example" },
+  },
+};
+""",
+        encoding="utf-8",
     )
-    with pytest.raises(FileNotFoundError, match="Missing imported snippet"):
-        module.generate_site(source, output)
-    assert snapshot(output) == before
-    with pytest.raises(ValueError, match="non-overlapping"):
-        module.generate_site(source, source)
+    page = docs_main / "example.mdx"
+    page.write_text(
+        """{/* NETWORKVARS_START source="/snippets/networkvars/example.mdx" */}
+stale
+{/* NETWORKVARS_END */}
+""",
+        encoding="utf-8",
+    )
+    script_dir = repo / "scripts"
+    script_dir.mkdir()
+    generator = REPO_ROOT / "scripts" / "generate_network_variable_tabs.py"
+    validator = REPO_ROOT / "scripts" / "validate_network_variable_tabs.py"
+    (script_dir / generator.name).write_text(generator.read_text(encoding="utf-8"), encoding="utf-8")
+    (script_dir / validator.name).write_text(validator.read_text(encoding="utf-8"), encoding="utf-8")
 
+    subprocess.run(["git", "init"], cwd=repo, check=True, capture_output=True, text=True)
+    subprocess.run(["git", "add", "."], cwd=repo, check=True, capture_output=True, text=True)
+    subprocess.run(
+        ["git", "-c", "user.name=Test", "-c", "user.email=test@example.com", "commit", "-m", "initial"],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
 
-def test_validator_checks_existing_dirty_and_untracked_targets_without_mutating(tmp_path: Path) -> None:
-    source = make_source(tmp_path)
-    output = tmp_path / "docs-main"
-    load_script_module().generate_site(source, output)
-    scripts = tmp_path / "scripts"
-    scripts.mkdir()
-    for name in ("generate_network_variable_tabs.py", "validate_network_variable_tabs.py"):
-        shutil.copyfile(REPO_ROOT / "scripts" / name, scripts / name)
-    for args in (["init"], ["add", "."], ["-c", "user.name=Test", "-c", "user.email=test@example.com", "commit", "-m", "initial"]):
-        subprocess.run(["git", *args], cwd=tmp_path, check=True, capture_output=True)
-    command = [sys.executable, str(scripts / "validate_network_variable_tabs.py")]
-    current = subprocess.run(command, capture_output=True, text=True)
-    assert current.returncode == 0
-    assert "rendered and up to date" in current.stdout
-    (output / "example.mdx").write_text("already dirty")
-    (output / "untracked.mdx").write_text("extra output")
-    before = snapshot(output)
-    stale = subprocess.run(command, capture_output=True, text=True)
+    page.write_text(page.read_text() + "\nUncommitted editor prose.\n", encoding="utf-8")
+    before = page.read_bytes()
+    stale = subprocess.run(
+        ["python3", "scripts/validate_network_variable_tabs.py"],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
     assert stale.returncode == 1
     assert "Network variable tabs are stale" in stale.stderr
     assert "docs-main/example.mdx" in stale.stderr
-    assert "docs-main/untracked.mdx" in stale.stderr
-    assert snapshot(output) == before
+    assert page.read_bytes() == before
+
+    subprocess.run(
+        [sys.executable, "scripts/generate_network_variable_tabs.py"],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    assert page.read_text().endswith("\nUncommitted editor prose.\n")
+
+    subprocess.run(["git", "add", "docs-main/example.mdx"], cwd=repo, check=True, capture_output=True, text=True)
+    subprocess.run(
+        ["git", "-c", "user.name=Test", "-c", "user.email=test@example.com", "commit", "-m", "render"],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+    current = subprocess.run(
+        ["python3", "scripts/validate_network_variable_tabs.py"],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert current.returncode == 0
+    assert "Network variable tabs are rendered and up to date." in current.stdout
 
 
-def test_source_pages_own_network_blocks_and_all_output_is_current() -> None:
+def test_generation_preserves_ordinary_editor_files(tmp_path: Path) -> None:
     module = load_script_module()
-    sources = list((REPO_ROOT / "docs-source").rglob("*.mdx"))
-    assert any("<NetworkVariables>" in path.read_text() for path in sources)
-    assert all("NETWORKVARS_START" not in path.read_text() for path in sources)
-    assert module.generate_site(check=True) == []
+    docs_main = tmp_path / "docs-main"
+    docs_main.mkdir()
+    page = docs_main / "new-page.mdx"
+    page.write_text('---\ntitle: New page\n---\n\n\nEditor content.\n', encoding="utf-8")
+    navigation = docs_main / "docs.json"
+    navigation.write_text('{"navigation":{"pages":["new-page"]}}\n', encoding="utf-8")
+    image = docs_main / "new-image.png"
+    image.write_bytes(b"\x89PNG\r\n\x1a\neditor-upload")
+    before = {path: path.read_bytes() for path in docs_main.iterdir()}
+
+    for check in (True, False):
+        assert not any(
+            module.update_page(path, sample_network_data(), docs_main, check=check)
+            for path in module.iter_pages(docs_main)
+        )
+        assert {path: path.read_bytes() for path in docs_main.iterdir()} == before
 
 
 def test_checked_in_network_variable_pages_are_static_tabs() -> None:

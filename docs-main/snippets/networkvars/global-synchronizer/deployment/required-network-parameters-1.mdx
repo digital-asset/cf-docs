@@ -1,0 +1,25 @@
+To initialize your validator node, you need the following parameters that define the network you're onboarding to and the secret required for doing so.
+
+- **MIGRATION_ID** — The current migration id of the network (dev/test/mainnet) you are trying to connect to. This value is frozen and must not be changed from the last value. You can find this on [https://sync.global/sv-network/](https://sync.global/sv-network/).
+- **SPONSOR_SV_URL** — The URL of the SV app of your SV sponsor. This should be of the form <a href="|generic_sv_url|">|generic_sv_url|</a>, e.g., if the Global Synchronizer Foundation is your sponsor use <a href="|gsf_sv_url|">|gsf_sv_url|</a>.
+
+ONBOARDING_SECRET
+The onboarding secret provided by your sponsor. If you don't already have one, ask your sponsor. Note that onboarding secrets are one-time use and expire after 48 hours. If you don't join before it expires, you need to request a new secret from your SV sponsor.
+
+<div data-network-only="devnet">
+
+<Note>
+
+You can obtain an onboarding secret automatically by calling the following endpoint on any SV (replace `SPONSOR_SV_URL` with the SV app URL defined above):
+
+```bash
+curl -X POST SPONSOR_SV_URL/api/sv/v0/devnet/onboard/validator/prepare
+```
+
+Make sure to use the **SV app URL** (starting with `sv.`), not the Scan URL (starting with `scan.`).
+
+Note that this self-served secret is only valid for 1 hour.
+
+</Note>
+
+</div>

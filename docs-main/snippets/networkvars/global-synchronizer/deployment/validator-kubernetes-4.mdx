@@ -1,0 +1,40 @@
+import ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorHelmBash557 from "/snippets/internal/splice/main/splice-rst-code-docs-src-validator-operator-validator-helm-bash-557.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorHelmYaml566 from "/snippets/internal/splice/main/splice-rst-code-docs-src-validator-operator-validator-helm-yaml-566.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorHelmYaml584 from "/snippets/internal/splice/main/splice-rst-code-docs-src-validator-operator-validator-helm-yaml-584.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorHelmBash598 from "/snippets/internal/splice/main/splice-rst-code-docs-src-validator-operator-validator-helm-bash-598.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorHelmYaml607 from "/snippets/internal/splice/main/splice-rst-code-docs-src-validator-operator-validator-helm-yaml-607.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorHelmBash642 from "/snippets/internal/splice/main/splice-rst-code-docs-src-validator-operator-validator-helm-bash-642.mdx";
+import ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorHelmParsedLiteral657 from "/snippets/internal/splice/main/splice-rst-code-docs-src-validator-operator-validator-helm-parsed-literal-657.mdx";
+
+Create a `cluster-ingress` namespace:
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorHelmBash557 />
+
+Ensure that there is a cert-manager certificate available in a secret named `cn-net-tls`. An example of a suitable certificate definition:
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorHelmYaml566 />
+
+Create a file named `istio-gateway-values.yaml` with the following content (Tip: on GCP you can get the cluster IP from `gcloud compute addresses list`):
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorHelmYaml584 />
+
+And install it to your cluster:
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorHelmBash598 />
+
+Create an Istio Gateway resource in the `cluster-ingress` namespace. Save the following to a file named `gateway.yaml`, and replace `YOUR_HOSTNAME` with the actual hostname you want to use for your validator node (and has a DNS record pointing to the cluster IP you configured above):
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorHelmYaml607 />
+
+And apply it to your cluster:
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorHelmBash642 />
+
+This gateway terminates tls using the secret that you configured above, and exposes raw http traffic in its outbound port 443. Istio VirtualServices can now be created to route traffic from there to the required pods within the cluster. A reference Helm chart is provided for that, which can be installed after
+
+1.  replacing `YOUR_HOSTNAME` in `splice-node/examples/sv-helm/validator-cluster-ingress-values.yaml` and
+2.  setting `nameServiceDomain` in the same file to `"cns"`
+
+using:
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorHelmParsedLiteral657 />

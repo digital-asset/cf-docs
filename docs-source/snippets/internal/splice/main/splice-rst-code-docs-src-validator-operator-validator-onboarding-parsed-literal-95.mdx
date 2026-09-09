@@ -1,8 +1,0 @@
-```bash
-(set -o pipefail
-CURL='curl -fsS -m 5 --connect-timeout 5'
-for url in $($CURL |gsf_scan_url|/api/scan/v0/scans | jq -r '.scans[].scans[].publicUrl'); do
-  echo -n "$url: "
-  $CURL "$url"/api/scan/version | jq -r '.version'
-done)
-```

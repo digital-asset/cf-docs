@@ -28,11 +28,11 @@ DEFAULT_SOURCE_CONFIG = REPO_ROOT / "config" / "x2mdx" / "ledger-api-asyncapi" /
 DEFAULT_BUNDLE_CACHE_DIR = DEFAULT_CACHE_ROOT / "ledger-api-bundles"
 DEFAULT_CACHE_DIR = DEFAULT_CACHE_ROOT / "ledger-api-asyncapi"
 DEFAULT_MANIFEST = REPO_ROOT / ".internal" / "generated" / "x2mdx" / "ledger-api-asyncapi" / "manifest.json"
-DEFAULT_OUTPUT_FILE = REPO_ROOT / "docs-source" / "reference" / "json-api-asyncapi-reference.mdx"
-DEFAULT_OUTPUT_DIR = REPO_ROOT / "docs-source" / "reference" / "json-api-asyncapi-reference"
+DEFAULT_OUTPUT_FILE = REPO_ROOT / "docs-main" / "reference" / "json-api-asyncapi-reference.mdx"
+DEFAULT_OUTPUT_DIR = REPO_ROOT / "docs-main" / "reference" / "json-api-asyncapi-reference"
 DEFAULT_OVERVIEW_NAME = "index.mdx"
-LEGACY_OUTPUT_FILE = REPO_ROOT / "docs-source" / "appdev" / "reference" / "json-api-asyncapi-reference.mdx"
-DEFAULT_DOCS_JSON = REPO_ROOT / "docs-source" / "docs.json"
+LEGACY_OUTPUT_FILE = REPO_ROOT / "docs-main" / "appdev" / "reference" / "json-api-asyncapi-reference.mdx"
+DEFAULT_DOCS_JSON = REPO_ROOT / "docs-main" / "docs.json"
 DEFAULT_NAV_GROUP = "Ledger API Endpoints"
 DEFAULT_NAV_PAGE_ORDER = [
     "reference/json-api-reference",

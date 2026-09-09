@@ -1,0 +1,6 @@
+Assuming you are a wallet provider that runs a validator node for your users, you can set up `MergeDelegation` contracts for your users as follows.
+
+1.  Extract the latest version of the `splice-util-token-standard-wallet.dar` file from the release bundle (|bundle_download_link|).
+2.  Upload the extracted `.dar` file to your validator node.
+3.  Adjust your user onboarding procedure such that the users signs the creation of a `MergeDelegationProposal` contract (see docs).
+4.  Accept the `MergeDelegationProposal` contracts by exercising their `Accept` choice using your wallet provider's party.

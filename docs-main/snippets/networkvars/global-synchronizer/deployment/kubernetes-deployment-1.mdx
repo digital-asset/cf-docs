@@ -1,0 +1,23 @@
+import ExternalSpliceMainSpliceRstFullDocsSrcCommonBackupSuggestion from '/snippets/internal/splice/main/splice-rst-full-docs-src-common-backup-suggestion.mdx';
+import ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmBash39 from "/snippets/internal/splice/main/splice-rst-code-docs-src-sv-operator-sv-helm-bash-39.mdx";
+
+1)  A running Kubernetes cluster in which you have administrator access to create and manage namespaces.
+
+2)  A development workstation with the following:
+
+    > 1.  `kubectl` - At least v1.26.1
+    > 2.  `helm` - At least v3.11.1 (recommended >= v3.17.0)
+
+3)  Your cluster needs a static egress IP. After acquiring that, propose to the other SVs to add it to the IP allowlist.
+
+4)  Please download the release artifacts containing the sample Helm value files, from here: |bundle_download_link|, and extract the bundle:
+
+```bash
+tar xzvf |version|_splice-node.tar.gz
+```
+
+5)  Please inquire the migration id and serial id of the global synchronizer on your target network. The migration ID is frozen at the value after the last major upgrade and is only used for `migration.id` in the helm chart values. The serial ID is 0 for the initial synchronizer deployment and is incremented by 1 for each [logical synchronizer upgrade](/global-synchronizer/production-operations/logical-synchronizer-upgrade). The serial ID is used for helm release names, DNS entries, database names, and deployment naming.
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcSvOperatorSvHelmBash39 />
+
+<ExternalSpliceMainSpliceRstFullDocsSrcCommonBackupSuggestion />

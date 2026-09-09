@@ -1,9 +1,0 @@
-```
-val existingPhysicalSynchronizerId = participant.synchronizers.list_connected().find(_.synchronizerAlias == "global").head.physicalSynchronizerId
-participant.synchronizers.perform_manual_lsu(
-  existingPhysicalSynchronizerId,
-  newPhysicalSynchronizerId,
-  upgradeTime = None,
-  sequencerSuccessors,
-)
-```

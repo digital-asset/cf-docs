@@ -1,6 +1,0 @@
-```sql
-   select payload->'wallet'->>'holder' as holder,
-          (payload->'wallet'->>'quantity')::decimal as quantity
-   from active('Token');
-
-```

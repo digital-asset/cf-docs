@@ -7,33 +7,30 @@ import json
 import os
 import sys
 import tempfile
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Sequence
 
 import generated_reference_pr_utils as pr_utils
 import summarize_version_changes
-from generate_network_variable_tabs import NETWORKVARS_BLOCK_RE
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-NETWORK_VARIABLE_TAB_PAGES = tuple(
-    "docs-source/" + path.relative_to(REPO_ROOT / "docs-source").as_posix()
-    for path in sorted((REPO_ROOT / "docs-source").rglob("*"))
-    if path.suffix in {".md", ".mdx"}
-    and "snippets" not in path.relative_to(REPO_ROOT / "docs-source").parts
-    and NETWORKVARS_BLOCK_RE.search(path.read_text(encoding="utf-8"))
+NETWORK_VARIABLE_TAB_PAGES = (
+    "docs-main/appdev/deep-dives/token-standard.mdx",
+    "docs-main/global-synchronizer/deployment/kubernetes-deployment.mdx",
+    "docs-main/global-synchronizer/deployment/onboarding-process.mdx",
+    "docs-main/global-synchronizer/deployment/required-network-parameters.mdx",
+    "docs-main/global-synchronizer/deployment/sv-network-resets.mdx",
+    "docs-main/global-synchronizer/deployment/synchronizer-traffic.mdx",
+    "docs-main/global-synchronizer/deployment/validator-docker-compose.mdx",
+    "docs-main/global-synchronizer/deployment/validator-kubernetes.mdx",
+    "docs-main/global-synchronizer/production-operations/validator-disaster-recovery.mdx",
+    "docs-main/global-synchronizer/reference/canton-console-reference.mdx",
+    "docs-main/sdks-tools/api-reference/splice-daml-apis.mdx",
+    "docs-main/sdks-tools/api-reference/splice-http-apis.mdx",
+    "docs-main/sdks-tools/api-reference/splice-scan-bulk-data-api.mdx",
+    "docs-main/sdks-tools/api-reference/splice-scan-gs-connectivity-api.mdx",
 )
-RENDER_SITE_COMMAND = ("nix-shell", "--run", "npm run generate:network-variable-tabs")
-
-
-def source_and_output_paths(paths: tuple[str, ...]) -> tuple[str, ...]:
-    combined: list[str] = []
-    for path in paths:
-        combined.append(path)
-        if path.startswith("docs-source/"):
-            combined.append(path.replace("docs-source/", "docs-main/", 1))
-    return tuple(dict.fromkeys(combined))
-
 
 
 @dataclass(frozen=True)
@@ -68,7 +65,7 @@ UPDATE_TARGETS = (
         generate_commands=(("nix-shell", "--run", "npm run generate:network-variable-tabs"),),
         paths=(
             "config/repo-version-config.json",
-            "docs-source/snippets/generated/version-dashboard-data.mdx",
+            "docs-main/snippets/generated/version-dashboard-data.mdx",
             *NETWORK_VARIABLE_TAB_PAGES,
         ),
         summary_kind="dashboard",
@@ -84,7 +81,7 @@ UPDATE_TARGETS = (
         ),
         source_update_paths=(
             "config/repo-version-config.json",
-            "docs-source/snippets/generated/version-dashboard-data.mdx",
+            "docs-main/snippets/generated/version-dashboard-data.mdx",
         ),
         require_summary_changes=True,
     ),
@@ -101,20 +98,20 @@ UPDATE_TARGETS = (
             ("nix-shell", "--run", "npm run generate:splice-mintlify-openapi"),
         ),
         paths=(
-            "docs-source/docs.json",
-            "docs-source/openapi/splice",
-            "docs-source/reference/splice-allocation-api",
-            "docs-source/reference/splice-allocation-instruction-api",
-            "docs-source/reference/splice-allocation-instruction-v2-api",
-            "docs-source/reference/splice-allocation-v2-api",
-            "docs-source/reference/splice-ans-api",
-            "docs-source/reference/splice-scan-api",
-            "docs-source/reference/splice-scan-proxy-api",
-            "docs-source/reference/splice-scan-streaming-api",
-            "docs-source/reference/splice-token-metadata-service",
-            "docs-source/reference/splice-transfer-instruction-api",
-            "docs-source/reference/splice-transfer-instruction-v2-api",
-            "docs-source/reference/splice-wallet-api-external",
+            "docs-main/docs.json",
+            "docs-main/openapi/splice",
+            "docs-main/reference/splice-allocation-api",
+            "docs-main/reference/splice-allocation-instruction-api",
+            "docs-main/reference/splice-allocation-instruction-v2-api",
+            "docs-main/reference/splice-allocation-v2-api",
+            "docs-main/reference/splice-ans-api",
+            "docs-main/reference/splice-scan-api",
+            "docs-main/reference/splice-scan-proxy-api",
+            "docs-main/reference/splice-scan-streaming-api",
+            "docs-main/reference/splice-token-metadata-service",
+            "docs-main/reference/splice-transfer-instruction-api",
+            "docs-main/reference/splice-transfer-instruction-v2-api",
+            "docs-main/reference/splice-wallet-api-external",
         ),
         summary_kind="static",
         summary_path=None,
@@ -139,14 +136,14 @@ UPDATE_TARGETS = (
         paths=(
             "config/x2mdx/splice-token-standard-v2/source-artifacts.json",
             "config/x2mdx/splice-token-standard-v2/lifecycle.json",
-            "docs-source/docs.json",
-            "docs-source/sdks-tools/api-reference/splice-daml/token-standard-v2-history-report.json",
-            "docs-source/sdks-tools/api-reference/splice-daml/splice-api-token-allocation-instruction-v2",
-            "docs-source/sdks-tools/api-reference/splice-daml/splice-api-token-allocation-request-v2",
-            "docs-source/sdks-tools/api-reference/splice-daml/splice-api-token-allocation-v2",
-            "docs-source/sdks-tools/api-reference/splice-daml/splice-api-token-holding-v2",
-            "docs-source/sdks-tools/api-reference/splice-daml/splice-api-token-transfer-events-v2",
-            "docs-source/sdks-tools/api-reference/splice-daml/splice-api-token-transfer-instruction-v2",
+            "docs-main/docs.json",
+            "docs-main/sdks-tools/api-reference/splice-daml/token-standard-v2-history-report.json",
+            "docs-main/sdks-tools/api-reference/splice-daml/splice-api-token-allocation-instruction-v2",
+            "docs-main/sdks-tools/api-reference/splice-daml/splice-api-token-allocation-request-v2",
+            "docs-main/sdks-tools/api-reference/splice-daml/splice-api-token-allocation-v2",
+            "docs-main/sdks-tools/api-reference/splice-daml/splice-api-token-holding-v2",
+            "docs-main/sdks-tools/api-reference/splice-daml/splice-api-token-transfer-events-v2",
+            "docs-main/sdks-tools/api-reference/splice-daml/splice-api-token-transfer-instruction-v2",
         ),
         summary_kind="static",
         summary_path=None,
@@ -171,8 +168,8 @@ UPDATE_TARGETS = (
         ),
         paths=(
             "config/x2mdx/wallet-gateway-openrpc/source-artifacts.json",
-            "docs-source/docs.json",
-            "docs-source/reference/wallet-gateway-json-rpc",
+            "docs-main/docs.json",
+            "docs-main/reference/wallet-gateway-json-rpc",
         ),
         summary_kind="source-config",
         summary_path="config/x2mdx/wallet-gateway-openrpc/source-artifacts.json",
@@ -201,9 +198,9 @@ UPDATE_TARGETS = (
         ),
         paths=(
             "config/x2mdx/ledger-api/source-artifacts.json",
-            "docs-source/docs.json",
-            "docs-source/openapi/json-ledger-api",
-            "docs-source/reference/json-api-reference",
+            "docs-main/docs.json",
+            "docs-main/openapi/json-ledger-api",
+            "docs-main/reference/json-api-reference",
         ),
         summary_kind="versioned-source-config",
         summary_path="config/x2mdx/ledger-api/source-artifacts.json",
@@ -232,8 +229,8 @@ UPDATE_TARGETS = (
         ),
         paths=(
             "config/x2mdx/ledger-api-asyncapi/source-artifacts.json",
-            "docs-source/docs.json",
-            "docs-source/reference/json-api-asyncapi-reference",
+            "docs-main/docs.json",
+            "docs-main/reference/json-api-asyncapi-reference",
         ),
         summary_kind="versioned-source-config",
         summary_path="config/x2mdx/ledger-api-asyncapi/source-artifacts.json",
@@ -258,8 +255,8 @@ UPDATE_TARGETS = (
         ),
         generate_commands=(("nix-shell", "--run", "npm run generate:grpc-ledger-api-reference"),),
         paths=(
-            "docs-source/docs.json",
-            "docs-source/reference/grpc-ledger-api-reference",
+            "docs-main/docs.json",
+            "docs-main/reference/grpc-ledger-api-reference",
         ),
         summary_kind="source-config",
         summary_path="config/x2mdx/grpc-ledger-api-reference/source-artifacts.json",
@@ -280,10 +277,10 @@ UPDATE_TARGETS = (
         generate_commands=(("nix-shell", "--run", "npm run generate:canton-protobuf-history"),),
         paths=(
             "config/x2mdx/protobuf-history/metadata.json",
-            "docs-source/docs.json",
-            "docs-source/appdev/reference/protobuf-history",
-            "docs-source/reference/admin-api/protobuf",
-            "docs-source/reference/protobuf",
+            "docs-main/docs.json",
+            "docs-main/appdev/reference/protobuf-history",
+            "docs-main/reference/admin-api/protobuf",
+            "docs-main/reference/protobuf",
         ),
         summary_kind="source-config",
         summary_path="config/x2mdx/protobuf-history/source-artifacts.json",
@@ -306,9 +303,9 @@ UPDATE_TARGETS = (
         ),
         paths=(
             "config/x2mdx/ledger-bindings/source-artifacts.json",
-            "docs-source/docs.json",
-            "docs-source/reference/java-bindings.mdx",
-            "docs-source/reference/java",
+            "docs-main/docs.json",
+            "docs-main/reference/java-bindings.mdx",
+            "docs-main/reference/java",
         ),
         summary_kind="artifact-source-config",
         summary_path="config/x2mdx/ledger-bindings/source-artifacts.json",
@@ -337,8 +334,8 @@ UPDATE_TARGETS = (
         ),
         paths=(
             "config/x2mdx/daml-standard-library/source-artifacts.json",
-            "docs-source/docs.json",
-            "docs-source/appdev/reference/daml-standard-library",
+            "docs-main/docs.json",
+            "docs-main/appdev/reference/daml-standard-library",
         ),
         summary_kind="source-config",
         summary_path="config/x2mdx/daml-standard-library/source-artifacts.json",
@@ -367,8 +364,8 @@ UPDATE_TARGETS = (
         ),
         paths=(
             "config/x2mdx/daml-script/source-artifacts.json",
-            "docs-source/docs.json",
-            "docs-source/appdev/reference/daml-script",
+            "docs-main/docs.json",
+            "docs-main/appdev/reference/daml-script",
         ),
         summary_kind="source-config",
         summary_path="config/x2mdx/daml-script/source-artifacts.json",
@@ -397,9 +394,9 @@ UPDATE_TARGETS = (
         ),
         paths=(
             "config/x2mdx/typescript-bindings/source-artifacts.json",
-            "docs-source/docs.json",
-            "docs-source/reference/typescript.mdx",
-            "docs-source/reference/typescript",
+            "docs-main/docs.json",
+            "docs-main/reference/typescript.mdx",
+            "docs-main/reference/typescript",
         ),
         summary_kind="package-source-config",
         summary_path="config/x2mdx/typescript-bindings/source-artifacts.json",
@@ -423,7 +420,7 @@ UPDATE_TARGETS = (
             "help metadata in the latest public Canton release binary."
         ),
         generate_commands=(("nix-shell", "--run", "npm run generate:canton-console-reference"),),
-        paths=("docs-source/global-synchronizer/reference/canton-console-commands.mdx",),
+        paths=("docs-main/global-synchronizer/reference/canton-console-commands.mdx",),
         summary_kind="static",
         summary_path=None,
         summary_label=None,
@@ -441,7 +438,7 @@ UPDATE_TARGETS = (
             "metadata in the latest public Canton release binary."
         ),
         generate_commands=(("nix-shell", "--run", "npm run generate:canton-error-codes-reference"),),
-        paths=("docs-source/global-synchronizer/reference/error-codes.mdx",),
+        paths=("docs-main/global-synchronizer/reference/error-codes.mdx",),
         summary_kind="static",
         summary_path=None,
         summary_label=None,
@@ -459,7 +456,7 @@ UPDATE_TARGETS = (
             "runtime metadata in the latest public Canton release binary."
         ),
         generate_commands=(("nix-shell", "--run", "npm run generate:canton-release-protocol-versions"),),
-        paths=("docs-source/release-notes/releases-and-versioning.mdx",),
+        paths=("docs-main/release-notes/releases-and-versioning.mdx",),
         summary_kind="static",
         summary_path=None,
         summary_label=None,
@@ -477,7 +474,7 @@ UPDATE_TARGETS = (
             "Canton release documentation source."
         ),
         generate_commands=(("nix-shell", "--run", "npm run generate:canton-metrics-reference"),),
-        paths=("docs-source/global-synchronizer/reference/canton-metrics.mdx",),
+        paths=("docs-main/global-synchronizer/reference/canton-metrics.mdx",),
         summary_kind="static",
         summary_path=None,
         summary_label=None,
@@ -500,8 +497,8 @@ UPDATE_TARGETS = (
             ("nix-shell", "--run", "npm run generate:canton-topology-transaction-versions"),
         ),
         paths=(
-            "docs-source/snippets/generated/canton-topology-proto-link.mdx",
-            "docs-source/appdev/deep-dives/external-signing-topology.mdx",
+            "docs-main/snippets/generated/canton-topology-proto-link.mdx",
+            "docs-main/appdev/deep-dives/external-signing-topology.mdx",
         ),
         summary_kind="static",
         summary_path=None,
@@ -522,8 +519,8 @@ UPDATE_TARGETS = (
         ),
         generate_commands=(("nix-shell", "--run", "npm run update:canton-release-notes"),),
         paths=(
-            "docs-source/docs.json",
-            "docs-source/global-synchronizer/release-notes",
+            "docs-main/docs.json",
+            "docs-main/global-synchronizer/release-notes",
         ),
         summary_kind="static",
         summary_path=None,
@@ -544,12 +541,12 @@ UPDATE_TARGETS = (
         ),
         generate_commands=(("nix-shell", "--run", "npm run update:release-notes -- --target wallet-gateway"),),
         paths=(
-            "docs-source/docs.json",
-            "docs-source/integrations/release-notes/wallet-gateway.mdx",
-            "docs-source/integrations/release-notes/wallet-gateway-releases",
+            "docs-main/docs.json",
+            "docs-main/integrations/release-notes/wallet-gateway.mdx",
+            "docs-main/integrations/release-notes/wallet-gateway-releases",
         ),
         summary_kind="release-notes-page",
-        summary_path="docs-source/integrations/release-notes/wallet-gateway.mdx",
+        summary_path="docs-main/integrations/release-notes/wallet-gateway.mdx",
         summary_label="Wallet Gateway release notes",
         validation=(
             "npm run update:release-notes -- --target wallet-gateway",
@@ -567,12 +564,12 @@ UPDATE_TARGETS = (
         ),
         generate_commands=(("nix-shell", "--run", "npm run update:release-notes -- --target wallet-sdk"),),
         paths=(
-            "docs-source/docs.json",
-            "docs-source/integrations/release-notes/wallet-sdk.mdx",
-            "docs-source/integrations/release-notes/wallet-sdk-releases",
+            "docs-main/docs.json",
+            "docs-main/integrations/release-notes/wallet-sdk.mdx",
+            "docs-main/integrations/release-notes/wallet-sdk-releases",
         ),
         summary_kind="release-notes-page",
-        summary_path="docs-source/integrations/release-notes/wallet-sdk.mdx",
+        summary_path="docs-main/integrations/release-notes/wallet-sdk.mdx",
         summary_label="Wallet SDK release notes",
         validation=(
             "npm run update:release-notes -- --target wallet-sdk",
@@ -590,12 +587,12 @@ UPDATE_TARGETS = (
         ),
         generate_commands=(("nix-shell", "--run", "npm run update:release-notes -- --target dapp-sdk"),),
         paths=(
-            "docs-source/docs.json",
-            "docs-source/integrations/release-notes/dapp-sdk.mdx",
-            "docs-source/integrations/release-notes/dapp-sdk-releases",
+            "docs-main/docs.json",
+            "docs-main/integrations/release-notes/dapp-sdk.mdx",
+            "docs-main/integrations/release-notes/dapp-sdk-releases",
         ),
         summary_kind="release-notes-page",
-        summary_path="docs-source/integrations/release-notes/dapp-sdk.mdx",
+        summary_path="docs-main/integrations/release-notes/dapp-sdk.mdx",
         summary_label="dApp SDK release notes",
         validation=(
             "npm run update:release-notes -- --target dapp-sdk",
@@ -603,19 +600,6 @@ UPDATE_TARGETS = (
         ),
     ),
 )
-
-# Every producer updates docs-source first, then includes its rendered copies in
-# the same PR. Keep source-update paths source-only for the no-change short circuit.
-UPDATE_TARGETS = tuple(
-    replace(
-        target,
-        paths=source_and_output_paths(target.paths),
-        generate_commands=target.generate_commands if RENDER_SITE_COMMAND in target.generate_commands
-        else (*target.generate_commands, RENDER_SITE_COMMAND),
-    )
-    for target in UPDATE_TARGETS
-)
-
 
 
 def generated_clean_paths() -> tuple[str, ...]:

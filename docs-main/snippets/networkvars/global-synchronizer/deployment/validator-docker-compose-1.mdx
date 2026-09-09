@@ -1,0 +1,35 @@
+import ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorComposeBash58 from "/snippets/internal/splice/main/splice-rst-code-docs-src-validator-operator-validator-compose-bash-58.mdx";
+import ExternalSpliceMainSpliceRstFullDocsSrcCommonBackupSuggestion from '/snippets/internal/splice/main/splice-rst-full-docs-src-common-backup-suggestion.mdx';
+
+1)  A linux/MacOS machine with the following:
+
+    1.  [docker compose](https://docs.docker.com/compose/install/) - at least version 2.26.0 or newer
+    2.  [curl](https://curl.se/)
+    3.  [jq](https://jqlang.org/)
+
+    Note that both AMD64 and ARM64 architectures are supported.
+
+To validate that the dependencies are set up correctly, run the following commands. All commands should succeed and print out the version. Note that the exact versions you see may be different from the example here. As long as you have docker-compose 2.26.0 or newer you should be fine.
+
+<ExternalSpliceMainSpliceRstCodeDocsSrcValidatorOperatorValidatorComposeBash58 />
+
+2)  Your machine should either be connected to a VPN that is whitelisted on the network (contact your sponsor SV to obtain access), or have a static egress IP address. In the latter case, please provide that IP address to your sponsor SV to add it to the firewall rules.
+3)  Please download the release artifacts containing the docker-compose files, from here: |bundle_download_link|, and extract the bundle:
+
+```bash
+tar xzvf |version|_splice-node.tar.gz
+```
+
+<ExternalSpliceMainSpliceRstFullDocsSrcCommonBackupSuggestion />
+
+### Required Network Parameters
+
+See [Required Network Parameters](/global-synchronizer/deployment/required-network-parameters) for what `MIGRATION_ID`, `SPONSOR_SV_URL`, and `ONBOARDING_SECRET` mean and where to find them.
+
+<div data-network-only="devnet">
+
+That page also covers how to obtain a DevNet onboarding secret automatically.
+
+</div>
+
+Additional parameters describing your own setup as opposed to the connection to the network are described below.

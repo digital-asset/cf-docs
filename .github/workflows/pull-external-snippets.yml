@@ -54,20 +54,10 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           artifact-ids: ${{ env.artifact_id }}
-          path: docs-source/snippets/external/${{ env.repo_name }}/${{ env.repo_version }}
+          path: snippets/external/${{ env.repo_name }}/${{ env.repo_version }}
           github-token: ${{ env.external_token }}
           repository: ${{ env.repo_org }}/${{ env.repo_name }}
           run-id: ${{ env.run_id }}
-      - name: Set up Node.js
-        uses: actions/setup-node@v5
-        with:
-          node-version: 24
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.14"
-      - name: Render documentation
-        run: npm run build
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
         with:

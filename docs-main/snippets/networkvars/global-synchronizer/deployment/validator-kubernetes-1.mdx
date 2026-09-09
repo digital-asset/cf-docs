@@ -1,0 +1,32 @@
+import ExternalSpliceMainSpliceRstFullDocsSrcCommonBackupSuggestion from '/snippets/internal/splice/main/splice-rst-full-docs-src-common-backup-suggestion.mdx';
+
+1)  A running Kubernetes cluster in which you have administrator access to create and manage namespaces.
+
+2)  A development workstation with the following:
+
+    > 1.  `kubectl` - At least v1.26.1
+    > 2.  `helm` - At least v3.11.1 (recommended >= v3.17.0)
+
+3)  Your cluster needs a static egress IP. After acquiring that, provide it to your SV sponsor who will propose adding it to the IP allowlist to the other SVs.
+
+4)  Please download the release artifacts containing the sample Helm value files, from here: |bundle_download_link|, and extract the bundle:
+
+```bash
+tar xzvf |version|_splice-node.tar.gz
+```
+
+<ExternalSpliceMainSpliceRstFullDocsSrcCommonBackupSuggestion />
+
+See [Required Network Parameters](/global-synchronizer/deployment/required-network-parameters) for what `MIGRATION_ID`, `SPONSOR_SV_URL`, and `ONBOARDING_SECRET` mean and where to find them.
+
+<div data-network-only="devnet">
+
+That page also covers how to obtain a DevNet onboarding secret automatically.
+
+</div>
+
+In addition, for a Kubernetes deployment you need:
+
+- **TRUSTED_SCAN_URL** — The scan URL of an SV that you trust and that is reachable by your validator, often your SV sponsor. This should be of the form <a href="|generic_scan_url|">|generic_scan_url|</a>, e.g., for the Global Synchronizer Foundation SV it is <a href="|gsf_scan_url|">|gsf_scan_url|</a>.
+
+Additional parameters describing your own setup as opposed to the connection to the network are described below.

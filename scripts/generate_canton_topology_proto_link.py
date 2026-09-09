@@ -14,7 +14,7 @@ from urllib.parse import urlparse
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_PATH = (
-    REPO_ROOT / "docs-source" / "snippets" / "generated" / "canton-topology-proto-link.mdx"
+    REPO_ROOT / "docs-main" / "snippets" / "generated" / "canton-topology-proto-link.mdx"
 )
 CANTON_RELEASE_REPO = "digital-asset/canton"
 CANTON_LATEST_RELEASE_URL = (

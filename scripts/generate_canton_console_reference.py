@@ -32,7 +32,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CACHE_DIR = REPO_ROOT / ".internal" / "cache" / "canton-release-reference"
 DEFAULT_OUTPUT = (
     REPO_ROOT
-    / "docs-source"
+    / "docs-main"
     / "global-synchronizer"
     / "reference"
     / "canton-console-commands.mdx"

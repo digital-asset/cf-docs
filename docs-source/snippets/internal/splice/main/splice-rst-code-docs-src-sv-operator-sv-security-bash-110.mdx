@@ -1,5 +1,0 @@
-```bash
-kubectl create secret --namespace sv generic splice-app-sv-cometbft-governance-key \
-  --from-literal=publicKey="$(jq -r .public cometbft-governance-keys.json)" \
-  --from-literal=privateKey="$(jq -r .private cometbft-governance-keys.json)"
-```

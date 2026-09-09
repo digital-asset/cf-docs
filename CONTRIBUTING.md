@@ -69,7 +69,7 @@ OR:
 
 ```bash
 direnv allow
-npm run dev
+cd docs-main && mintlify dev
 ```
 
 The site will be available at <http://localhost:3000>.
@@ -88,7 +88,7 @@ Open a PR there to add your tool. Maintaining external tooling in the Dev Hub en
 
 ## Content and style guidelines
 
-- Match the tone and structure of the surrounding pages in `docs-source/` don't introduce a new voice or format for a single page.
+- Match the tone and structure of the surrounding pages in `docs-main/` don't introduce a new voice or format for a single page.
 
 - Prefer editing an existing page over creating a new one if the topic already has a home.
 
@@ -115,10 +115,3 @@ By contributing, you agree your changes are licensed under this repo's license m
 - Once approved and checks pass, the docs team merges.
 
 Questions about where something belongs, or whether a change is worth making? Open a [Discussion](https://github.com/canton-network/cf-docs/discussions) before doing the work.
-
-## Source and generated output
-
-Make changes in `docs-source/`, then run `npm run build` and
-`npm run validate:network-variable-tabs`. Commit the source changes and their
-`docs-main/` output together. See the [source workflow](README.md#source-and-published-output)
-for authoring network-variable blocks and running upstream generators.
