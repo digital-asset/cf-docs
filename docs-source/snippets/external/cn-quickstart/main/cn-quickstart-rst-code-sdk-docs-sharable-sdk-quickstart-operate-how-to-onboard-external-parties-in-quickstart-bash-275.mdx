@@ -1,0 +1,13 @@
+```bash
+  # List party-to-participant mappings to verify party is in topology
+  grpcurl -plaintext -d '{
+    "base_query": {
+      "store": {
+        "synchronizer": {"id": "'"$SYNCHRONIZER_ID"'"}
+      },
+      "head_state": {}
+    },
+    "filter_party": "'"$PARTY_ID"'"
+  }' localhost:2902 com.digitalasset.canton.topology.admin.v30.TopologyManagerReadService/ListPartyToParticipant
+
+```

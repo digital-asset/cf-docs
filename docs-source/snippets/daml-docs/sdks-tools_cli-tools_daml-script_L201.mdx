@@ -1,0 +1,9 @@
+```daml
+failing_test_1 = do
+  alice <- allocateParty "Alice"
+  bob <- allocateParty "Bob"
+  submit alice do
+    createCmd Token with owner = bob
+  submit bob do
+    createCmd Token with owner = alice
+```

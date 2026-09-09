@@ -1,0 +1,9 @@
+```haskell
+-- Create a contract
+cid <- submit alice do
+  createCmd MyTemplate with field1 = "value", field2 = alice
+
+-- Exercise a choice
+result <- submit alice do
+  exerciseCmd cid MyChoice with choiceArg = 42
+```

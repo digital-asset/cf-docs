@@ -1,0 +1,34 @@
+```scala
+@ val contracts = participant1.testing.acs_search(synchronizerAlias, filterTemplate = "Iou:Iou")
+    contracts : List[com.digitalasset.canton.protocol.package.ContractInstance] = List(
+      ContractInstanceImpl(
+        contractId = 501c6c7ffd09...ca121220730f825c...,
+        metadata = ContractMetadata(
+          signatories = Alice::12201ff69b1d...,
+          stakeholders = Alice::12201ff69b1d...
+        ),
+        created at = 2026-06-30T12:34:53.702481Z
+      )
+    )
+```
+
+```scala
+@ s"Found ${contracts.size} active contracts"
+    res11: String = "Found 1 active contracts"
+```
+
+```scala
+@ contracts.headOption.map { c => (c.contractId, c.toLf.arg) }
+    res12: Option[(com.digitalasset.canton.protocol.package.LfContractId, com.digitalasset.daml.lf.value.package.Value)] = Some(
+      value = (
+        V1(
+          discriminator = Hash(501c6c7ffd09e550580421a1c78ab115246a6858006a4de2993c4bf22f295973),
+          suffix = Bytes(ca121220730f825c320bdcd205e027ed6f4e6b7f129687c79c49fb1f37a0f06d51ada79e)
+        ),
+        Record(
+          tycon = None,
+          fields = ImmArray((None,Party(Alice::12201ff69b1d24edbf0ee2028a304ea702ee8536790dab1a31e7136e6d90ff6d473c)),(None,Party(Alice::12201ff69b1d24edbf0ee2028a304ea702ee8536790dab1a31e7136e6d90ff6d473c)),(None,Record(None,ImmArray((None,Numeric(100.0000000000)),(None,Text(EUR))))),(None,List(FrontStack())))
+        )
+      )
+    )
+```

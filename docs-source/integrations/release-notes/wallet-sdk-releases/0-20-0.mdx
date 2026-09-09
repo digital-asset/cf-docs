@@ -1,0 +1,54 @@
+---
+title: "0.20.0"
+description: "Wallet SDK 0.20.0 release notes."
+---
+
+{/* GENERATED_RELEASE_NOTES target="wallet-sdk" format="split-release" version="0.20.0" source="158b3ff4c316ba7a5d6c89a6099a5303b76d4f77" */}
+
+# 0.20.0
+
+**Released on January 16th, 2026**
+
+- subscribe to ledger update events via WebSocket
+
+*it is now possible to open a persistent WebSocket connection and receive a real-time stream of ledger update events filtered by interface
+or template id. The stream is exposed as an async generator so it integrates naturally with `for await` loops.*
+
+```javascript
+const stream = sdk.userLedger?.subscribeToUpdates({
+    partyId: sender!.partyId,
+    interfaceIds: [HOLDING_INTERFACE_ID],
+})
+
+for await (const update of stream!) {
+    logger.info(update, 'received ledger update')
+    if (done) break
+}
+```
+
+- subscribe to command completions via WebSocket
+
+*similarly to update subscriptions, you can now subscribe to command completion events so you can react to completed or failed commands
+in real time instead of polling.*
+
+```javascript
+const stream = sdk.userLedger?.subscribeToCompletions({
+    parties: [sender!.partyId],
+    beginOffset: 0,
+})
+
+for await (const completion of stream!) {
+    logger.info(completion, 'received completion event')
+    if (done) break
+}
+```
+
+- `listWallets` now only returns local parties
+
+*previously `listWallets` could return parties that the user had been granted access to on remote validators, this was confusing and
+incorrect behaviour. The method now only returns parties that are locally allocated on the connected participant.*
+
+- optional input utxos for merge delegations
+
+*the merge delegation setup previously required UTXOs to be provided explicitly. Input UTXOs are now optional and will fall back to
+smart UTXO selection when not provided, consistent with other operations.*

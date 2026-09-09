@@ -1,0 +1,10 @@
+```haskell
+template NDA
+  with
+    partyA : Party
+    partyB : Party
+    terms : Text
+  where
+    signatory partyA, partyB
+    -- No observers: maximum privacy
+```

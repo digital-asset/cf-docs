@@ -1,0 +1,29 @@
+```haskell
+template Vote
+  with
+    proposal : Text
+    voters : [Party]
+    votes : [(Party, Bool)]
+    threshold : Int
+  where
+    signatory (map fst votes)
+    observer voters
+
+    choice CastVote : ContractId Vote
+      with
+        voter : Party
+        approve : Bool
+      controller voter
+      do
+        assertMsg "Not a voter" (voter `elem` voters)
+        assertMsg "Already voted" (voter `notElem` map fst votes)
+        create this with votes = (voter, approve) :: votes
+
+    choice TallyAndExecute : ()
+      controller voters
+      do
+        let approvals = length [v | (_, v) <- votes, v]
+        assertMsg "Threshold not met" (approvals >= threshold)
+        -- Execute the proposal...
+        pure ()
+```

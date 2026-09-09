@@ -1,0 +1,10 @@
+```scala
+@ sequencer1.topology.synchronizer_bootstrap.download_genesis_topology(
+        physicalSynchronizerId,
+        synchronizerOwners = Seq(sequencer1Id, sequencer2Id),
+        sequencers = Seq(sequencer1Id, sequencer2Id),
+        mediators = Seq(mediator1.id, mediator2.id),
+        outputFile = "tmp/synchronizer-bootstrapping-files/synchronizer-bootstrap.proto",
+        store = sequencer1TempStore
+      )
+```

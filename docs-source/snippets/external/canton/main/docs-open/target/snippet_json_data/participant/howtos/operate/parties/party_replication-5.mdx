@@ -1,0 +1,19 @@
+```scala
+@ val source = participant1
+    source : com.digitalasset.canton.console.LocalParticipantReference = Participant 'participant1'
+```
+
+```scala
+@ val target = participant2
+    target : com.digitalasset.canton.console.LocalParticipantReference = Participant 'participant2'
+```
+
+```scala
+@ val alice = source.parties.enable("Alice", synchronizer = Some("mysynchronizer")) // This command creates a local party. For external parties see the external party onboarding documentation (link found above in this page)
+    alice : PartyId = Alice::12201ff69b1d...
+```
+
+```scala
+@ val synchronizerId = source.synchronizers.id_of("mysynchronizer")
+    synchronizerId : SynchronizerId = da::1220a82692ab...
+```

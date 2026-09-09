@@ -1,0 +1,220 @@
+---
+title: "Splice.Wallet.BuyTrafficRequest"
+description: "Documentation for Splice.Wallet.BuyTrafficRequest"
+---
+
+{/* COPIED_START source="splice:daml/splice-wallet/docs/Splice-Wallet-BuyTrafficRequest.rst" tag="0.6.4" hash="b27f069d" */}
+
+## Templates
+
+<div id="type-splice-wallet-buytrafficrequest-buytrafficrequest-65116">
+
+**template** BuyTrafficRequest
+
+</div>
+
+> A request by an end-user to the wallet's automation to buy traffic for a sequencer member
+>
+> Signatory: endUserParty
+>
+> | Field          | Type                                                                                                                | Description                       |
+> |----------------|---------------------------------------------------------------------------------------------------------------------|-----------------------------------|
+> | dso            | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |                                   |
+> | endUserParty   | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |                                   |
+> | expiresAt      | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)   | Buy the traffic before this time. |
+> | trackingId     | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        | Used to deduplicate requests      |
+> | trafficAmount  | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)          |                                   |
+> | memberId       | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        |                                   |
+> | synchronizerId | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        |                                   |
+> | migrationId    | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)          |                                   |
+>
+> - **Choice** Archive
+>
+>   Controller: endUserParty
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-wallet-buytrafficrequest-buytrafficrequestcancel-52564">
+>
+>   **Choice** BuyTrafficRequest_Cancel
+>
+>   </div>
+>
+>   Controller: endUserParty
+>
+>   Returns: BuyTrafficRequest_CancelResult
+>
+>   | Field  | Type                                                                                                         | Description |
+>   |--------|--------------------------------------------------------------------------------------------------------------|-------------|
+>   | reason | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) |             |
+>
+> - <div id="type-splice-wallet-buytrafficrequest-buytrafficrequestcomplete-61949">
+>
+>   **Choice** BuyTrafficRequest_Complete
+>
+>   </div>
+>
+>   Controller: endUserParty, walletProvider
+>
+>   Returns: BuyTrafficRequest_CompleteResult
+>
+>   | Field          | Type                                                                                                                | Description |
+>   |----------------|---------------------------------------------------------------------------------------------------------------------|-------------|
+>   | inputs         | \[TransferInput\]                                                                                                   |             |
+>   | context        | PaymentTransferContext                                                                                              |             |
+>   | walletProvider | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>
+> - <div id="type-splice-wallet-buytrafficrequest-buytrafficrequestexpire-77595">
+>
+>   **Choice** BuyTrafficRequest_Expire
+>
+>   </div>
+>
+>   Controller: endUserParty
+>
+>   Returns: BuyTrafficRequest_ExpireResult
+>
+>   (no fields)
+
+## Data Types
+
+<div id="type-splice-wallet-buytrafficrequest-buytrafficrequesttrackinginfo-63943">
+
+**data** BuyTrafficRequestTrackingInfo
+
+</div>
+
+> <div id="constr-splice-wallet-buytrafficrequest-buytrafficrequesttrackinginfo-4476">
+>
+> BuyTrafficRequestTrackingInfo
+>
+> </div>
+>
+> > | Field        | Type                                                                                                                | Description                                           |
+> > |--------------|---------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
+> > | trackingId   | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        | used to deduplicate requests and query for the status |
+> > | endUserParty | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | used in UserWalletTxLogParser's filterByParty         |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) BuyTrafficRequestTrackingInfo
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) BuyTrafficRequestTrackingInfo
+>
+> **instance** GetField "endUserParty" BuyTrafficRequestTrackingInfo [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "trackingId" BuyTrafficRequestTrackingInfo [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** GetField "trackingInfo" BuyTrafficRequest_CancelResult BuyTrafficRequestTrackingInfo
+>
+> **instance** GetField "trackingInfo" BuyTrafficRequest_CompleteResult BuyTrafficRequestTrackingInfo
+>
+> **instance** GetField "trackingInfo" BuyTrafficRequest_ExpireResult BuyTrafficRequestTrackingInfo
+>
+> **instance** GetField "trackingInfo" WalletAppInstall_BuyTrafficRequest_CancelResult BuyTrafficRequestTrackingInfo
+>
+> **instance** GetField "trackingInfo" WalletAppInstall_BuyTrafficRequest_ExpireResult BuyTrafficRequestTrackingInfo
+>
+> **instance** SetField "endUserParty" BuyTrafficRequestTrackingInfo [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "trackingId" BuyTrafficRequestTrackingInfo [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "trackingInfo" BuyTrafficRequest_CancelResult BuyTrafficRequestTrackingInfo
+>
+> **instance** SetField "trackingInfo" BuyTrafficRequest_CompleteResult BuyTrafficRequestTrackingInfo
+>
+> **instance** SetField "trackingInfo" BuyTrafficRequest_ExpireResult BuyTrafficRequestTrackingInfo
+>
+> **instance** SetField "trackingInfo" WalletAppInstall_BuyTrafficRequest_CancelResult BuyTrafficRequestTrackingInfo
+>
+> **instance** SetField "trackingInfo" WalletAppInstall_BuyTrafficRequest_ExpireResult BuyTrafficRequestTrackingInfo
+
+<div id="type-splice-wallet-buytrafficrequest-buytrafficrequestcancelresult-81241">
+
+**data** BuyTrafficRequest_CancelResult
+
+</div>
+
+> <div id="constr-splice-wallet-buytrafficrequest-buytrafficrequestcancelresult-28380">
+>
+> BuyTrafficRequest_CancelResult
+>
+> </div>
+>
+> > | Field        | Type                          | Description |
+> > |--------------|-------------------------------|-------------|
+> > | trackingInfo | BuyTrafficRequestTrackingInfo |             |
+>
+> **instance** GetField "trackingInfo" BuyTrafficRequest_CancelResult BuyTrafficRequestTrackingInfo
+>
+> **instance** SetField "trackingInfo" BuyTrafficRequest_CancelResult BuyTrafficRequestTrackingInfo
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) BuyTrafficRequest BuyTrafficRequest_Cancel BuyTrafficRequest_CancelResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) BuyTrafficRequest BuyTrafficRequest_Cancel BuyTrafficRequest_CancelResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) BuyTrafficRequest BuyTrafficRequest_Cancel BuyTrafficRequest_CancelResult
+
+<div id="type-splice-wallet-buytrafficrequest-buytrafficrequestcompleteresult-44764">
+
+**data** BuyTrafficRequest_CompleteResult
+
+</div>
+
+> <div id="constr-splice-wallet-buytrafficrequest-buytrafficrequestcompleteresult-27129">
+>
+> BuyTrafficRequest_CompleteResult
+>
+> </div>
+>
+> > | Field              | Type                                                                                                                                                                                                                                                                  | Description |
+> > |--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | purchasedTraffic   | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) MemberTraffic                                                                                                                           |             |
+> > | trackingInfo       | BuyTrafficRequestTrackingInfo                                                                                                                                                                                                                                         |             |
+> > | senderChangeAmulet | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet) |             |
+>
+> **instance** GetField "purchasedTraffic" BuyTrafficRequest_CompleteResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) MemberTraffic)
+>
+> **instance** GetField "senderChangeAmulet" BuyTrafficRequest_CompleteResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** GetField "trackingInfo" BuyTrafficRequest_CompleteResult BuyTrafficRequestTrackingInfo
+>
+> **instance** SetField "purchasedTraffic" BuyTrafficRequest_CompleteResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) MemberTraffic)
+>
+> **instance** SetField "senderChangeAmulet" BuyTrafficRequest_CompleteResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** SetField "trackingInfo" BuyTrafficRequest_CompleteResult BuyTrafficRequestTrackingInfo
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) BuyTrafficRequest BuyTrafficRequest_Complete BuyTrafficRequest_CompleteResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) BuyTrafficRequest BuyTrafficRequest_Complete BuyTrafficRequest_CompleteResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) BuyTrafficRequest BuyTrafficRequest_Complete BuyTrafficRequest_CompleteResult
+
+<div id="type-splice-wallet-buytrafficrequest-buytrafficrequestexpireresult-25706">
+
+**data** BuyTrafficRequest_ExpireResult
+
+</div>
+
+> <div id="constr-splice-wallet-buytrafficrequest-buytrafficrequestexpireresult-5207">
+>
+> BuyTrafficRequest_ExpireResult
+>
+> </div>
+>
+> > | Field        | Type                          | Description |
+> > |--------------|-------------------------------|-------------|
+> > | trackingInfo | BuyTrafficRequestTrackingInfo |             |
+>
+> **instance** GetField "trackingInfo" BuyTrafficRequest_ExpireResult BuyTrafficRequestTrackingInfo
+>
+> **instance** SetField "trackingInfo" BuyTrafficRequest_ExpireResult BuyTrafficRequestTrackingInfo
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) BuyTrafficRequest BuyTrafficRequest_Expire BuyTrafficRequest_ExpireResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) BuyTrafficRequest BuyTrafficRequest_Expire BuyTrafficRequest_ExpireResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) BuyTrafficRequest BuyTrafficRequest_Expire BuyTrafficRequest_ExpireResult
+
+{/* COPIED_END */}

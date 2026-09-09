@@ -1,0 +1,561 @@
+---
+title: "Splice.Util.Token.Wallet.MergeDelegation"
+description: "Documentation for Splice.Util.Token.Wallet.MergeDelegation"
+---
+
+{/* COPIED_START source="splice:daml/splice-util-token-standard-wallet/docs/Splice-Util-Token-Wallet-MergeDelegation.rst" tag="0.6.4" hash="0129edf8" */}
+
+Delegation from users to wallet operators allowing them to merge their token standard holdings; and optionally transfer tokens from the operator to the user as part of the merge operation, e.g., for efficiently implementing extraTransfers.
+
+The main reasons for using this merge delegation infrastructure are:
+
+- keeping the number of holdings low to reduce storage and compute cost on the validator node hosting them
+- batching operations to execute them more efficiently both in terms of traffic spend and throughput
+
+## Templates
+
+<div id="type-splice-util-token-wallet-mergedelegation-batchmergeutility-64168">
+
+**template** BatchMergeUtility
+
+</div>
+
+> Utility contract for a operator to execute a batch of merge calls with proper threading of the operator's change holdings between the calls that involve extra transfers.
+>
+> Signatory: operator
+>
+> | Field    | Type                                                                                                                | Description |
+> |----------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> | operator | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>
+> - **Choice** Archive
+>
+>   Controller: operator
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-util-token-wallet-mergedelegation-batchmergeutilitybatchmerge-8070">
+>
+>   **Choice** BatchMergeUtility_BatchMerge
+>
+>   </div>
+>
+>   Controller: operator
+>
+>   Returns: BatchMergeUtility_BatchMergeResult
+>
+>   | Field      | Type                    | Description |
+>   |------------|-------------------------|-------------|
+>   | mergeCalls | \[MergeDelegationCall\] |             |
+
+<div id="type-splice-util-token-wallet-mergedelegation-mergedelegation-14952">
+
+**template** MergeDelegation
+
+</div>
+
+> The right for a operator like the wallet app operator to merge token standard holdings on behalf of a token owner.
+>
+> Signatory: owner, operator
+>
+> | Field    | Type                                                                                                                | Description                                            |
+> |----------|---------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------|
+> | operator | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | Operator allowed to merge holdings.                    |
+> | owner    | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | Owner delegating their right.                          |
+> | meta     | Metadata                                                                                                            | Metadata about the delegation, used for extensibility. |
+>
+> - **Choice** Archive
+>
+>   Controller: owner, operator
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-util-token-wallet-mergedelegation-mergedelegationmerge-40083">
+>
+>   **Choice** MergeDelegation_Merge
+>
+>   </div>
+>
+>   Controller: operator
+>
+>   Returns: MergeDelegation_MergeResult
+>
+>   | Field               | Type                                                                                                                                                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+>   |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+>   | optMergeTransfer    | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) TransferCall         | The self-transfer to merge holdings for the owner. Optional to allow for an extra transfer to be executed when the owner does not yet have any holdings. At least one of optMergeTransfer or optExtraTransfer must be provided.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+>   | optExtraTransfer    | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) TransferCall         | An optional extra transfer from the operator to the user to execute as part of the merge operation. The amount of the self-transfer will be increased by the amount of the extra transfer, and the new input holdings from the extra transfer will be added to the self-transfer's input holdings. These extra transfers can for example be used to efficiently implement extraTransfers or reward distributions as part of the merge operation. Note that extra transfers only work for users that have preapproved incoming transfers from the operator. Therefore there is no additional restriction on the merge delegation to let users decide whether to allow or disallow those transfers as it is already controlled through the preapproval. |
+>   | optFeaturedAppRight | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) FeaturedAppRightCall | The featured app right to use to feature the operator's merging activity.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+>
+> - <div id="type-splice-util-token-wallet-mergedelegation-mergedelegationreject-58487">
+>
+>   **Choice** MergeDelegation_Reject
+>
+>   </div>
+>
+>   Controller: operator
+>
+>   Returns: MergeDelegation_RejectResult
+>
+>   (no fields)
+>
+> - <div id="type-splice-util-token-wallet-mergedelegation-mergedelegationwithdraw-32286">
+>
+>   **Choice** MergeDelegation_Withdraw
+>
+>   </div>
+>
+>   Controller: owner
+>
+>   Returns: MergeDelegation_WithdrawResult
+>
+>   (no fields)
+
+<div id="type-splice-util-token-wallet-mergedelegation-mergedelegationproposal-17546">
+
+**template** MergeDelegationProposal
+
+</div>
+
+> Proposal by the user to setup a merge delegation.
+>
+> Signatory: (DA.Internal.Record.getField @"owner" delegation)
+>
+> | Field      | Type            | Description                               |
+> |------------|-----------------|-------------------------------------------|
+> | delegation | MergeDelegation | The delegation to be created if accepted. |
+>
+> - **Choice** Archive
+>
+>   Controller: (DA.Internal.Record.getField @"owner" delegation)
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-util-token-wallet-mergedelegation-mergedelegationproposalaccept-29492">
+>
+>   **Choice** MergeDelegationProposal_Accept
+>
+>   </div>
+>
+>   Controller: (DA.Internal.Record.getField @"operator" delegation)
+>
+>   Returns: MergeDelegationProposal_AcceptResult
+>
+>   (no fields)
+>
+> - <div id="type-splice-util-token-wallet-mergedelegation-mergedelegationproposalreject-90901">
+>
+>   **Choice** MergeDelegationProposal_Reject
+>
+>   </div>
+>
+>   Controller: (DA.Internal.Record.getField @"operator" delegation)
+>
+>   Returns: MergeDelegationProposal_RejectResult
+>
+>   (no fields)
+>
+> - <div id="type-splice-util-token-wallet-mergedelegation-mergedelegationproposalwithdraw-80248">
+>
+>   **Choice** MergeDelegationProposal_Withdraw
+>
+>   </div>
+>
+>   Controller: (DA.Internal.Record.getField @"owner" delegation)
+>
+>   Returns: MergeDelegationProposal_WithdrawResult
+>
+>   (no fields)
+
+## Data Types
+
+<div id="type-splice-util-token-wallet-mergedelegation-batchmergeutilitybatchmergeresult-21039">
+
+**data** BatchMergeUtility_BatchMergeResult
+
+</div>
+
+> <div id="constr-splice-util-token-wallet-mergedelegation-batchmergeutilitybatchmergeresult-14556">
+>
+> BatchMergeUtility_BatchMergeResult
+>
+> </div>
+>
+> > | Field             | Type                            | Description                                                       |
+> > |-------------------|---------------------------------|-------------------------------------------------------------------|
+> > | results           | \[MergeDelegation_MergeResult\] | Results of each individual merge delegation call.                 |
+> > | operatorChangeMap | InstrumentHoldingMap            | Change holdings for the operator after executing extra transfers. |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) BatchMergeUtility_BatchMergeResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) BatchMergeUtility_BatchMergeResult
+>
+> **instance** GetField "operatorChangeMap" BatchMergeUtility_BatchMergeResult InstrumentHoldingMap
+>
+> **instance** GetField "results" BatchMergeUtility_BatchMergeResult \[MergeDelegation_MergeResult\]
+>
+> **instance** SetField "operatorChangeMap" BatchMergeUtility_BatchMergeResult InstrumentHoldingMap
+>
+> **instance** SetField "results" BatchMergeUtility_BatchMergeResult \[MergeDelegation_MergeResult\]
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) BatchMergeUtility BatchMergeUtility_BatchMerge BatchMergeUtility_BatchMergeResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) BatchMergeUtility BatchMergeUtility_BatchMerge BatchMergeUtility_BatchMergeResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) BatchMergeUtility BatchMergeUtility_BatchMerge BatchMergeUtility_BatchMergeResult
+
+<div id="type-splice-util-token-wallet-mergedelegation-featuredapprightcall-44578">
+
+**data** FeaturedAppRightCall
+
+</div>
+
+> A call to create featured app markers using a featured app right.
+>
+> <div id="constr-splice-util-token-wallet-mergedelegation-featuredapprightcall-28365">
+>
+> FeaturedAppRightCall
+>
+> </div>
+>
+> > | Field         | Type                                                                                                                                           | Description |
+> > |---------------|------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | appRightCid   | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) FeaturedAppRight |             |
+> > | beneficiaries | \[AppRewardBeneficiary\]                                                                                                                       |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) FeaturedAppRightCall
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) FeaturedAppRightCall
+>
+> **instance** GetField "appRightCid" FeaturedAppRightCall ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) FeaturedAppRight)
+>
+> **instance** GetField "beneficiaries" FeaturedAppRightCall \[AppRewardBeneficiary\]
+>
+> **instance** GetField "optFeaturedAppRight" MergeDelegation_Merge ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) FeaturedAppRightCall)
+>
+> **instance** SetField "appRightCid" FeaturedAppRightCall ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) FeaturedAppRight)
+>
+> **instance** SetField "beneficiaries" FeaturedAppRightCall \[AppRewardBeneficiary\]
+>
+> **instance** SetField "optFeaturedAppRight" MergeDelegation_Merge ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) FeaturedAppRightCall)
+
+<div id="type-splice-util-token-wallet-mergedelegation-instrumentholdingmap-42719">
+
+**type** InstrumentHoldingMap
+= [Map](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-map-90052) InstrumentId \[[ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Holding\]
+
+**instance** GetField "operatorChangeMap" BatchMergeUtility_BatchMergeResult InstrumentHoldingMap
+
+**instance** SetField "operatorChangeMap" BatchMergeUtility_BatchMergeResult InstrumentHoldingMap
+
+</div>
+
+<div id="type-splice-util-token-wallet-mergedelegation-mergedelegationcall-90300">
+
+**data** MergeDelegationCall
+
+</div>
+
+> <div id="constr-splice-util-token-wallet-mergedelegation-mergedelegationcall-66961">
+>
+> MergeDelegationCall
+>
+> </div>
+>
+> > | Field         | Type                                                                                                                                          | Description |
+> > |---------------|-----------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | delegationCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) MergeDelegation |             |
+> > | choiceArg     | MergeDelegation_Merge                                                                                                                         |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) MergeDelegationCall
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) MergeDelegationCall
+>
+> **instance** GetField "choiceArg" MergeDelegationCall MergeDelegation_Merge
+>
+> **instance** GetField "delegationCid" MergeDelegationCall ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) MergeDelegation)
+>
+> **instance** GetField "mergeCalls" BatchMergeUtility_BatchMerge \[MergeDelegationCall\]
+>
+> **instance** SetField "choiceArg" MergeDelegationCall MergeDelegation_Merge
+>
+> **instance** SetField "delegationCid" MergeDelegationCall ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) MergeDelegation)
+>
+> **instance** SetField "mergeCalls" BatchMergeUtility_BatchMerge \[MergeDelegationCall\]
+
+<div id="type-splice-util-token-wallet-mergedelegation-mergedelegationproposalacceptresult-63821">
+
+**data** MergeDelegationProposal_AcceptResult
+
+</div>
+
+> <div id="constr-splice-util-token-wallet-mergedelegation-mergedelegationproposalacceptresult-91086">
+>
+> MergeDelegationProposal_AcceptResult
+>
+> </div>
+>
+> > | Field              | Type                                                                                                                                          | Description |
+> > |--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | mergeDelegationCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) MergeDelegation |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) MergeDelegationProposal_AcceptResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) MergeDelegationProposal_AcceptResult
+>
+> **instance** GetField "mergeDelegationCid" MergeDelegationProposal_AcceptResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) MergeDelegation)
+>
+> **instance** SetField "mergeDelegationCid" MergeDelegationProposal_AcceptResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) MergeDelegation)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) MergeDelegationProposal MergeDelegationProposal_Accept MergeDelegationProposal_AcceptResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) MergeDelegationProposal MergeDelegationProposal_Accept MergeDelegationProposal_AcceptResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) MergeDelegationProposal MergeDelegationProposal_Accept MergeDelegationProposal_AcceptResult
+
+<div id="type-splice-util-token-wallet-mergedelegation-mergedelegationproposalrejectresult-81380">
+
+**data** MergeDelegationProposal_RejectResult
+
+</div>
+
+> Dedicated record type to simplify upgrading
+>
+> <div id="constr-splice-util-token-wallet-mergedelegation-mergedelegationproposalrejectresult-11455">
+>
+> MergeDelegationProposal_RejectResult
+>
+> </div>
+>
+> > | Field  | Type | Description |
+> > |--------|------|-------------|
+> > | result | ()   |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) MergeDelegationProposal_RejectResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) MergeDelegationProposal_RejectResult
+>
+> **instance** GetField "result" MergeDelegationProposal_RejectResult ()
+>
+> **instance** SetField "result" MergeDelegationProposal_RejectResult ()
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) MergeDelegationProposal MergeDelegationProposal_Reject MergeDelegationProposal_RejectResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) MergeDelegationProposal MergeDelegationProposal_Reject MergeDelegationProposal_RejectResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) MergeDelegationProposal MergeDelegationProposal_Reject MergeDelegationProposal_RejectResult
+
+<div id="type-splice-util-token-wallet-mergedelegation-mergedelegationproposalwithdrawresult-14389">
+
+**data** MergeDelegationProposal_WithdrawResult
+
+</div>
+
+> Dedicated record type to simplify upgrading
+>
+> <div id="constr-splice-util-token-wallet-mergedelegation-mergedelegationproposalwithdrawresult-8570">
+>
+> MergeDelegationProposal_WithdrawResult
+>
+> </div>
+>
+> > | Field  | Type | Description |
+> > |--------|------|-------------|
+> > | result | ()   |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) MergeDelegationProposal_WithdrawResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) MergeDelegationProposal_WithdrawResult
+>
+> **instance** GetField "result" MergeDelegationProposal_WithdrawResult ()
+>
+> **instance** SetField "result" MergeDelegationProposal_WithdrawResult ()
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) MergeDelegationProposal MergeDelegationProposal_Withdraw MergeDelegationProposal_WithdrawResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) MergeDelegationProposal MergeDelegationProposal_Withdraw MergeDelegationProposal_WithdrawResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) MergeDelegationProposal MergeDelegationProposal_Withdraw MergeDelegationProposal_WithdrawResult
+
+<div id="type-splice-util-token-wallet-mergedelegation-mergedelegationmergeresult-93186">
+
+**data** MergeDelegation_MergeResult
+
+</div>
+
+> <div id="constr-splice-util-token-wallet-mergedelegation-mergedelegationmergeresult-31679">
+>
+> MergeDelegation_MergeResult
+>
+> </div>
+>
+> > | Field                  | Type                                                                                                                                                     | Description |
+> > |------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | optMergeTransferResult | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) TransferInstructionResult |             |
+> > | optExtraTransferResult | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) TransferInstructionResult |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) MergeDelegation_MergeResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) MergeDelegation_MergeResult
+>
+> **instance** GetField "optExtraTransferResult" MergeDelegation_MergeResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) TransferInstructionResult)
+>
+> **instance** GetField "optMergeTransferResult" MergeDelegation_MergeResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) TransferInstructionResult)
+>
+> **instance** GetField "results" BatchMergeUtility_BatchMergeResult \[MergeDelegation_MergeResult\]
+>
+> **instance** SetField "optExtraTransferResult" MergeDelegation_MergeResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) TransferInstructionResult)
+>
+> **instance** SetField "optMergeTransferResult" MergeDelegation_MergeResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) TransferInstructionResult)
+>
+> **instance** SetField "results" BatchMergeUtility_BatchMergeResult \[MergeDelegation_MergeResult\]
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) MergeDelegation MergeDelegation_Merge MergeDelegation_MergeResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) MergeDelegation MergeDelegation_Merge MergeDelegation_MergeResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) MergeDelegation MergeDelegation_Merge MergeDelegation_MergeResult
+
+<div id="type-splice-util-token-wallet-mergedelegation-mergedelegationrejectresult-25578">
+
+**data** MergeDelegation_RejectResult
+
+</div>
+
+> Dedicated record type to simplify upgrading
+>
+> <div id="constr-splice-util-token-wallet-mergedelegation-mergedelegationrejectresult-53673">
+>
+> MergeDelegation_RejectResult
+>
+> </div>
+>
+> > | Field  | Type | Description |
+> > |--------|------|-------------|
+> > | result | ()   |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) MergeDelegation_RejectResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) MergeDelegation_RejectResult
+>
+> **instance** GetField "result" MergeDelegation_RejectResult ()
+>
+> **instance** SetField "result" MergeDelegation_RejectResult ()
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) MergeDelegation MergeDelegation_Reject MergeDelegation_RejectResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) MergeDelegation MergeDelegation_Reject MergeDelegation_RejectResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) MergeDelegation MergeDelegation_Reject MergeDelegation_RejectResult
+
+<div id="type-splice-util-token-wallet-mergedelegation-mergedelegationwithdrawresult-70671">
+
+**data** MergeDelegation_WithdrawResult
+
+</div>
+
+> Dedicated record type to simplify upgrading
+>
+> <div id="constr-splice-util-token-wallet-mergedelegation-mergedelegationwithdrawresult-6896">
+>
+> MergeDelegation_WithdrawResult
+>
+> </div>
+>
+> > | Field  | Type | Description |
+> > |--------|------|-------------|
+> > | result | ()   |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) MergeDelegation_WithdrawResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) MergeDelegation_WithdrawResult
+>
+> **instance** GetField "result" MergeDelegation_WithdrawResult ()
+>
+> **instance** SetField "result" MergeDelegation_WithdrawResult ()
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) MergeDelegation MergeDelegation_Withdraw MergeDelegation_WithdrawResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) MergeDelegation MergeDelegation_Withdraw MergeDelegation_WithdrawResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) MergeDelegation MergeDelegation_Withdraw MergeDelegation_WithdrawResult
+
+<div id="type-splice-util-token-wallet-mergedelegation-transfercall-7536">
+
+**data** TransferCall
+
+</div>
+
+> A call to perform a transfer using a transfer factory.
+>
+> <div id="constr-splice-util-token-wallet-mergedelegation-transfercall-34031">
+>
+> TransferCall
+>
+> </div>
+>
+> > | Field      | Type                                                                                                                                          | Description |
+> > |------------|-----------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | factoryCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferFactory |             |
+> > | choiceArg  | TransferFactory_Transfer                                                                                                                      |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) TransferCall
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) TransferCall
+>
+> **instance** GetField "choiceArg" TransferCall TransferFactory_Transfer
+>
+> **instance** GetField "factoryCid" TransferCall ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferFactory)
+>
+> **instance** GetField "optExtraTransfer" MergeDelegation_Merge ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) TransferCall)
+>
+> **instance** GetField "optMergeTransfer" MergeDelegation_Merge ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) TransferCall)
+>
+> **instance** SetField "choiceArg" TransferCall TransferFactory_Transfer
+>
+> **instance** SetField "factoryCid" TransferCall ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferFactory)
+>
+> **instance** SetField "optExtraTransfer" MergeDelegation_Merge ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) TransferCall)
+>
+> **instance** SetField "optMergeTransfer" MergeDelegation_Merge ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) TransferCall)
+
+## Functions
+
+<div id="function-splice-util-token-wallet-mergedelegation-runbatch-68276">
+
+runBatch
+: [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> \[MergeDelegationCall\] -\> InstrumentHoldingMap -\> \[MergeDelegation_MergeResult\] -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) BatchMergeUtility_BatchMergeResult
+
+Run a batch of token standard transfers.
+
+</div>
+
+<div id="function-splice-util-token-wallet-mergedelegation-createactivitymarkerforprovider-74667">
+
+createActivityMarkerForProvider
+: [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> FeaturedAppRightCall -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) ()
+
+</div>
+
+<div id="function-splice-util-token-wallet-mergedelegation-checkexpected-33668">
+
+checkExpected
+: ([Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) a, [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) a) =\> [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> a -\> a -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) ()
+
+</div>
+
+<div id="function-splice-util-token-wallet-mergedelegation-require-88931">
+
+require
+: [CanAssert](/appdev/reference/daml-standard-library/prelude#class-da-internal-assert-canassert-67323) m =\> [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265) -\> m ()
+
+Check whether a required condition is true. If it's not, abort the transaction with a message saying that the requirement was not met.
+
+</div>
+
+{/* COPIED_END */}

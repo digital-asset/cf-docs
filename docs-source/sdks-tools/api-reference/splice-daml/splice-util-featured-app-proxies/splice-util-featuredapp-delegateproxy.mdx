@@ -1,0 +1,276 @@
+---
+title: "Splice.Util.FeaturedApp.DelegateProxy"
+description: "Documentation for Splice.Util.FeaturedApp.DelegateProxy"
+---
+
+{/* COPIED_START source="splice:daml/splice-util-featured-app-proxies/docs/Splice-Util-FeaturedApp-DelegateProxy.rst" tag="0.6.4" hash="1b1ebdb6" */}
+
+Utility template for proxying token standard choices so that featured app markers are created when using extra parties for operating an app.
+
+You can either use this template directly, or copy the code under a **different package name** and a **different module name**.
+
+Note: use the `WalletUserProxy` if you are building a wallet app and want your users to create featured app markers for you.
+
+## Templates
+
+<div id="type-splice-util-featuredapp-delegateproxy-delegateproxy-71400">
+
+**template** DelegateProxy
+
+</div>
+
+> A proxy for a delegate to create featured app markers jointly with using token standard workflows. The delegate is given full control over the creation of the markers.
+>
+> This is for example useful when using one or more parties for app operation purposes. Using this proxy allows the operational parties to properly attribute their activity to the featured app, which is represented by the app provider party.
+>
+> Signatory: provider
+>
+> | Field    | Type                                                                                                                | Description                                               |
+> |----------|---------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
+> | provider | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | The app provider whose featured app right should be used  |
+> | delegate | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | The delegate interacting with the token standard workflow |
+>
+> - **Choice** Archive
+>
+>   Controller: provider
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-util-featuredapp-delegateproxy-delegateproxyallocationfactoryallocate-41540">
+>
+>   **Choice** DelegateProxy_AllocationFactory_Allocate
+>
+>   </div>
+>
+>   Controller: delegate
+>
+>   Returns: ProxyResult AllocationInstructionResult
+>
+>   | Field    | Type                                                                                                                                            | Description |
+>   |----------|-------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | cid      | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AllocationFactory |             |
+>   | proxyArg | ProxyArg AllocationFactory_Allocate                                                                                                             |             |
+>
+> - <div id="type-splice-util-featuredapp-delegateproxy-delegateproxyallocationwithdraw-47558">
+>
+>   **Choice** DelegateProxy_Allocation_Withdraw
+>
+>   </div>
+>
+>   Controller: delegate
+>
+>   Returns: ProxyResult Allocation_WithdrawResult
+>
+>   | Field    | Type                                                                                                                                     | Description |
+>   |----------|------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | cid      | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Allocation |             |
+>   | proxyArg | ProxyArg Allocation_Withdraw                                                                                                             |             |
+>
+> - <div id="type-splice-util-featuredapp-delegateproxy-delegateproxytransferfactorytransfer-85873">
+>
+>   **Choice** DelegateProxy_TransferFactory_Transfer
+>
+>   </div>
+>
+>   Controller: delegate
+>
+>   Returns: ProxyResult TransferInstructionResult
+>
+>   | Field    | Type                                                                                                                                          | Description |
+>   |----------|-----------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | cid      | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferFactory |             |
+>   | proxyArg | ProxyArg TransferFactory_Transfer                                                                                                             |             |
+>
+> - <div id="type-splice-util-featuredapp-delegateproxy-delegateproxytransferinstructionaccept-5120">
+>
+>   **Choice** DelegateProxy_TransferInstruction_Accept
+>
+>   </div>
+>
+>   Controller: delegate
+>
+>   Returns: ProxyResult TransferInstructionResult
+>
+>   | Field    | Type                                                                                                                                              | Description |
+>   |----------|---------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | cid      | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferInstruction |             |
+>   | proxyArg | ProxyArg TransferInstruction_Accept                                                                                                               |             |
+>
+> - <div id="type-splice-util-featuredapp-delegateproxy-delegateproxytransferinstructionreject-73393">
+>
+>   **Choice** DelegateProxy_TransferInstruction_Reject
+>
+>   </div>
+>
+>   Controller: delegate
+>
+>   Returns: ProxyResult TransferInstructionResult
+>
+>   | Field    | Type                                                                                                                                              | Description |
+>   |----------|---------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | cid      | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferInstruction |             |
+>   | proxyArg | ProxyArg TransferInstruction_Reject                                                                                                               |             |
+>
+> - <div id="type-splice-util-featuredapp-delegateproxy-delegateproxytransferinstructionwithdraw-896">
+>
+>   **Choice** DelegateProxy_TransferInstruction_Withdraw
+>
+>   </div>
+>
+>   Controller: delegate
+>
+>   Returns: ProxyResult TransferInstructionResult
+>
+>   | Field    | Type                                                                                                                                              | Description |
+>   |----------|---------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | cid      | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferInstruction |             |
+>   | proxyArg | ProxyArg TransferInstruction_Withdraw                                                                                                             |             |
+
+## Data Types
+
+<div id="type-splice-util-featuredapp-delegateproxy-proxyarg-10352">
+
+**data** ProxyArg arg
+
+</div>
+
+> Generic argument to the proxy choices.
+>
+> <div id="constr-splice-util-featuredapp-delegateproxy-proxyarg-5545">
+>
+> ProxyArg
+>
+> </div>
+>
+> > | Field               | Type                                                                                                                                           | Description                                                 |
+> > |---------------------|------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|
+> > | choiceArg           | arg                                                                                                                                            | The argument to the choice that the delegate is exercising. |
+> > | featuredAppRightCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) FeaturedAppRight | The featured app right contract of the provider.            |
+> > | beneficiaries       | \[AppRewardBeneficiary\]                                                                                                                       | The beneficiaries for the activity marker.                  |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) arg =\> [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) (ProxyArg arg)
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) arg =\> [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) (ProxyArg arg)
+>
+> **instance** GetField "beneficiaries" (ProxyArg arg) \[AppRewardBeneficiary\]
+>
+> **instance** GetField "choiceArg" (ProxyArg arg) arg
+>
+> **instance** GetField "featuredAppRightCid" (ProxyArg arg) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) FeaturedAppRight)
+>
+> **instance** GetField "proxyArg" DelegateProxy_AllocationFactory_Allocate (ProxyArg AllocationFactory_Allocate)
+>
+> **instance** GetField "proxyArg" DelegateProxy_Allocation_Withdraw (ProxyArg Allocation_Withdraw)
+>
+> **instance** GetField "proxyArg" DelegateProxy_TransferFactory_Transfer (ProxyArg TransferFactory_Transfer)
+>
+> **instance** GetField "proxyArg" DelegateProxy_TransferInstruction_Accept (ProxyArg TransferInstruction_Accept)
+>
+> **instance** GetField "proxyArg" DelegateProxy_TransferInstruction_Reject (ProxyArg TransferInstruction_Reject)
+>
+> **instance** GetField "proxyArg" DelegateProxy_TransferInstruction_Withdraw (ProxyArg TransferInstruction_Withdraw)
+>
+> **instance** SetField "beneficiaries" (ProxyArg arg) \[AppRewardBeneficiary\]
+>
+> **instance** SetField "choiceArg" (ProxyArg arg) arg
+>
+> **instance** SetField "featuredAppRightCid" (ProxyArg arg) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) FeaturedAppRight)
+>
+> **instance** SetField "proxyArg" DelegateProxy_AllocationFactory_Allocate (ProxyArg AllocationFactory_Allocate)
+>
+> **instance** SetField "proxyArg" DelegateProxy_Allocation_Withdraw (ProxyArg Allocation_Withdraw)
+>
+> **instance** SetField "proxyArg" DelegateProxy_TransferFactory_Transfer (ProxyArg TransferFactory_Transfer)
+>
+> **instance** SetField "proxyArg" DelegateProxy_TransferInstruction_Accept (ProxyArg TransferInstruction_Accept)
+>
+> **instance** SetField "proxyArg" DelegateProxy_TransferInstruction_Reject (ProxyArg TransferInstruction_Reject)
+>
+> **instance** SetField "proxyArg" DelegateProxy_TransferInstruction_Withdraw (ProxyArg TransferInstruction_Withdraw)
+
+<div id="type-splice-util-featuredapp-delegateproxy-proxyresult-3914">
+
+**data** ProxyResult r
+
+</div>
+
+> Generic result of the proxy choices.
+>
+> <div id="constr-splice-util-featuredapp-delegateproxy-proxyresult-43225">
+>
+> ProxyResult
+>
+> </div>
+>
+> > | Field        | Type                                        | Description |
+> > |--------------|---------------------------------------------|-------------|
+> > | markerResult | FeaturedAppRight_CreateActivityMarkerResult |             |
+> > | choiceResult | r                                           |             |
+>
+> **instance** GetField "choiceResult" (ProxyResult r) r
+>
+> **instance** GetField "markerResult" (ProxyResult r) FeaturedAppRight_CreateActivityMarkerResult
+>
+> **instance** SetField "choiceResult" (ProxyResult r) r
+>
+> **instance** SetField "markerResult" (ProxyResult r) FeaturedAppRight_CreateActivityMarkerResult
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) DelegateProxy DelegateProxy_AllocationFactory_Allocate (ProxyResult AllocationInstructionResult)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) DelegateProxy DelegateProxy_Allocation_Withdraw (ProxyResult Allocation_WithdrawResult)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) DelegateProxy DelegateProxy_TransferFactory_Transfer (ProxyResult TransferInstructionResult)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) DelegateProxy DelegateProxy_TransferInstruction_Accept (ProxyResult TransferInstructionResult)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) DelegateProxy DelegateProxy_TransferInstruction_Reject (ProxyResult TransferInstructionResult)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) DelegateProxy DelegateProxy_TransferInstruction_Withdraw (ProxyResult TransferInstructionResult)
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) DelegateProxy DelegateProxy_AllocationFactory_Allocate (ProxyResult AllocationInstructionResult)
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) DelegateProxy DelegateProxy_Allocation_Withdraw (ProxyResult Allocation_WithdrawResult)
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) DelegateProxy DelegateProxy_TransferFactory_Transfer (ProxyResult TransferInstructionResult)
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) DelegateProxy DelegateProxy_TransferInstruction_Accept (ProxyResult TransferInstructionResult)
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) DelegateProxy DelegateProxy_TransferInstruction_Reject (ProxyResult TransferInstructionResult)
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) DelegateProxy DelegateProxy_TransferInstruction_Withdraw (ProxyResult TransferInstructionResult)
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) DelegateProxy DelegateProxy_AllocationFactory_Allocate (ProxyResult AllocationInstructionResult)
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) DelegateProxy DelegateProxy_Allocation_Withdraw (ProxyResult Allocation_WithdrawResult)
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) DelegateProxy DelegateProxy_TransferFactory_Transfer (ProxyResult TransferInstructionResult)
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) DelegateProxy DelegateProxy_TransferInstruction_Accept (ProxyResult TransferInstructionResult)
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) DelegateProxy DelegateProxy_TransferInstruction_Reject (ProxyResult TransferInstructionResult)
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) DelegateProxy DelegateProxy_TransferInstruction_Withdraw (ProxyResult TransferInstructionResult)
+
+## Functions
+
+<div id="function-splice-util-featuredapp-delegateproxy-exerciseproxychoice-9818">
+
+exerciseProxyChoice
+: [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) t ch r =\> DelegateProxy -\> [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) t -\> ProxyArg ch -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) (ProxyResult r)
+
+Shared code to execute the proxied choice.
+
+</div>
+
+<div id="function-splice-util-featuredapp-delegateproxy-require-76960">
+
+require
+: [CanAssert](/appdev/reference/daml-standard-library/prelude#class-da-internal-assert-canassert-67323) m =\> [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265) -\> m ()
+
+Check whether a required condition is true. If it's not, abort the transaction with a message saying that the requirement was not met.
+
+</div>
+
+{/* COPIED_END */}

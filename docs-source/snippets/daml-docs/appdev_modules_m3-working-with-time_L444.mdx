@@ -1,0 +1,19 @@
+```daml
+coin_test = do
+  -- The coin is pseudo-random on LT so change the parameter to change the game.
+  setTime (time (date 2019 Jun 1) 0 0 0)
+  passTime (seconds 2)
+  coin <- getCoin
+  let
+    game = do
+      f1r <- flipCoin
+      f2r <- flipCoin
+      f3r <- flipCoin
+
+      if all (== Heads) [f1r, f2r, f3r]
+        then return "Win"
+        else return "Loss"
+    (newCoin, result) = game.play coin
+
+  assert (result == "Win")
+```

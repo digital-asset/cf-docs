@@ -1,0 +1,21 @@
+```scala
+@ val synchronizerId = participant1.synchronizers.id_of("my-synchronizer")
+    synchronizerId : SynchronizerId = da::122032922613...
+```
+
+```scala
+@ participant1.parties.list("alice", filterParticipant = participant1.filterString, synchronizerIds = Set(synchronizerId))
+    res18: Seq[ListPartiesResult] = Vector(
+      ListPartiesResult(
+        partyResult = alice::12201ff69b1d...,
+        participants = Vector(
+          ParticipantSynchronizers(
+            participant = PAR::participant1::12201ff69b1d...,
+            synchronizers = Vector(
+              SynchronizerPermission(synchronizerId = da::122032922613..., permission = Submission)
+            )
+          )
+        )
+      )
+    )
+```

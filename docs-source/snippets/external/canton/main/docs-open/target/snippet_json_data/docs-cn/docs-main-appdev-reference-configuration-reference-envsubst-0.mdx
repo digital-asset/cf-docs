@@ -1,0 +1,9 @@
+```hocon
+dataSourceClass = "org.postgresql.ds.PGSimpleDataSource"
+properties = {
+    serverName = "localhost"
+    serverName = ${?POSTGRES_HOST}  # overrides only if POSTGRES_HOST is set
+    user = ${?POSTGRES_USER}          # required, fails if unset
+    password = ${?POSTGRES_PASSWORD}  # required, fails if unset
+}
+```

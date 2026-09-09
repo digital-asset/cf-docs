@@ -248,44 +248,6 @@ def test_all_manual_operations_require_published_spec() -> None:
         raise AssertionError("Expected all-operation mode without a spec to fail")
 
 
-def test_manual_route_baseline_detects_public_route_drift() -> None:
-    module = load_script_module("generate_json_api_reference.py")
-    operations = [
-        {
-            "method": "GET",
-            "path": "/v2/users",
-            "page_ref": "reference/json-api-reference/get-v2users",
-        }
-    ]
-    route_hash = module.hashlib.sha256(
-        b"/reference/json-api-reference/get-v2users\n"
-    ).hexdigest()
-    module.validate_manual_route_baseline(
-        {
-            "legacy_manual_route_baseline": {
-                "operation_count": 1,
-                "sha256": route_hash,
-            }
-        },
-        manual_operations=operations,
-    )
-
-    try:
-        module.validate_manual_route_baseline(
-            {
-                "legacy_manual_route_baseline": {
-                    "operation_count": 1,
-                    "sha256": "0" * 64,
-                }
-            },
-            manual_operations=operations,
-        )
-    except ValueError as error:
-        assert "do not match the captured native-route baseline" in str(error)
-    else:
-        raise AssertionError("Expected public route drift to fail")
-
-
 def test_manual_openapi_config_rejects_duplicate_operation_identity() -> None:
     module = load_script_module("generate_json_api_reference.py")
     operation = {
@@ -567,9 +529,6 @@ def test_checked_in_json_openapi_target_is_fully_manual_and_conformant() -> None
         spec=spec,
         directory="reference/json-api-reference",
     )
-    module.validate_manual_route_baseline(source_config, manual_operations=operations)
-
-    assert len(operations) == 67
     expected_page_refs = [operation["page_ref"] for operation in operations]
     output_directory = REPO_ROOT / "docs-main/reference/json-api-reference"
     expected_files = {

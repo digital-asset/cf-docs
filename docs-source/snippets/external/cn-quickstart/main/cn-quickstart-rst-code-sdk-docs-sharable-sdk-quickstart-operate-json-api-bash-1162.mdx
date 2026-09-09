@@ -1,0 +1,5 @@
+```bash
+   # 4. Get the party ID for that user
+   APP_USER_PARTY=$(curl -s "http://localhost:2975/v2/users/$APP_USER_ID" \
+     -H "Authorization: Bearer $USER_ADMIN_TOKEN" | jq -r '.user.primaryParty')
+```

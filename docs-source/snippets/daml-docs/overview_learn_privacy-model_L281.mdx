@@ -1,0 +1,9 @@
+```haskell
+-- Transaction reveals more than intended
+choice RevealingChoice : ()
+  controller buyer
+  do
+    -- Fetching this contract divulges it to all transaction stakeholders
+    sensitiveAsset <- fetch sensitiveAssetId
+    -- buyer now knows about sensitiveAsset, even if not originally an observer
+```

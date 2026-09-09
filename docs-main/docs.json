@@ -210,6 +210,7 @@
               "appdev/modules/m4-canton-coin",
               "appdev/modules/m4-featured-app-activity-marker",
               "appdev/modules/m4-observability",
+              "appdev/modules/m4-pqs-tutorial",
               "appdev/modules/m4-query-with-pqs"
             ]
           },
@@ -476,6 +477,7 @@
                 "group": "Canton",
                 "pages": [
                   "global-synchronizer/release-notes/canton",
+                  "global-synchronizer/release-notes/canton-releases/3-5-16",
                   "global-synchronizer/release-notes/canton-releases/3-5-15",
                   "global-synchronizer/release-notes/canton-releases/3-5-14",
                   "global-synchronizer/release-notes/canton-releases/3-5-13",
@@ -697,6 +699,7 @@
                 "group": "dApp SDK",
                 "pages": [
                   "integrations/release-notes/dapp-sdk",
+                  "integrations/release-notes/dapp-sdk-releases/1-6-0",
                   "integrations/release-notes/dapp-sdk-releases/1-5-1",
                   "integrations/release-notes/dapp-sdk-releases/1-5-0",
                   "integrations/release-notes/dapp-sdk-releases/1-4-0",
@@ -1014,7 +1017,9 @@
                   "reference/json-api-reference/post-v2interactive-submissionpreferred-packages",
                   "reference/json-api-reference/get-livez",
                   "reference/json-api-reference/get-readyz",
-                  "reference/json-api-reference/post-v2contractscontract-by-id"
+                  "reference/json-api-reference/post-v2contractscontract-by-id",
+                  "reference/json-api-reference/get-v2trafficaccounts:account-id",
+                  "reference/json-api-reference/post-v2trafficaccounts"
                 ]
               },
               {
@@ -2723,6 +2728,7 @@
                 "group": "Canton",
                 "pages": [
                   "global-synchronizer/release-notes/canton",
+                  "global-synchronizer/release-notes/canton-releases/3-5-16",
                   "global-synchronizer/release-notes/canton-releases/3-5-15",
                   "global-synchronizer/release-notes/canton-releases/3-5-14",
                   "global-synchronizer/release-notes/canton-releases/3-5-13",
@@ -2839,6 +2845,7 @@
                 "group": "dApp SDK",
                 "pages": [
                   "integrations/release-notes/dapp-sdk",
+                  "integrations/release-notes/dapp-sdk-releases/1-6-0",
                   "integrations/release-notes/dapp-sdk-releases/1-5-1",
                   "integrations/release-notes/dapp-sdk-releases/1-5-0",
                   "integrations/release-notes/dapp-sdk-releases/1-4-0",
@@ -2882,7 +2889,8 @@
               "integrations/release-notes/utilities"
             ]
           },
-          "release-notes/releases-and-versioning"
+          "release-notes/releases-and-versioning",
+          "release-notes/feature-status-and-compatibility"
         ]
       },
       {

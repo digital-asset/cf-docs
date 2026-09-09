@@ -1,0 +1,13 @@
+```daml
+iou3 <- submit dora do
+    createCmd SimpleIou with
+      issuer = dora
+      owner = alice
+      cash = Cash with
+        amount = 100.0
+        currency = "USD"
+
+  passTime (days (-3))
+  submitMustFail alice do
+    exerciseCmd iou3 Redeem
+```

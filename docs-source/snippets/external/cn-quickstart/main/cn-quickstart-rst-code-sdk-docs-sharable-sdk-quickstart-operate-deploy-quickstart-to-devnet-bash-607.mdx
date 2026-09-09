@@ -1,0 +1,8 @@
+```bash
+   docker exec -it splice-validator-postgres-splice-1 psql -U cnadmin -d validator -c "
+     SELECT schemaname, tablename 
+     FROM pg_tables 
+     WHERE schemaname = 'validator' 
+     ORDER BY tablename;"
+
+```

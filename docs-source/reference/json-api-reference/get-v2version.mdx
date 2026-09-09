@@ -1,0 +1,793 @@
+---
+title: "GET /v2/version"
+description: "Read the Ledger API version"
+api: "GET http://localhost:7575/v2/version"
+authMethod: "bearer"
+playground: "interactive"
+sidebarTitle: "/v2/version"
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--operation x2mdx-ref-page--manual-api"></div>
+
+
+
+<div class="x2mdx-ref-hero">
+
+
+
+  <p class="x2mdx-ref-summary">Read the Ledger API version</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">OpenAPI</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--changed" href="#history-updated-3-5">Updated 3.5</a>
+
+</div>
+
+
+</div>
+
+
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'http://localhost:7575/v2/version' \
+  --header 'Authorization: Bearer $TOKEN'
+```
+
+```python Python
+import json
+import requests
+
+url = "http://localhost:7575/v2/version"
+headers = {'Authorization': 'Bearer <token>'}
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```javascript JavaScript
+const response = await fetch('http://localhost:7575/v2/version', {
+  method: 'GET',
+  headers: {
+  "Authorization": "Bearer <token>"
+},
+});
+
+console.log(await response.text());
+```
+
+```php PHP
+<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => 'http://localhost:7575/v2/version',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+    CURLOPT_HTTPHEADER => [
+        "Authorization: Bearer <token>"
+    ],
+]);
+
+$response = curl_exec($curl);
+echo $response;
+```
+
+```go Go
+package main
+
+import (
+  "fmt"
+  "io"
+  "net/http"
+)
+
+func main() {
+  req, _ := http.NewRequest("GET", "http://localhost:7575/v2/version", nil)
+  req.Header.Set("Authorization", "Bearer <token>")
+  response, _ := http.DefaultClient.Do(req)
+  defer response.Body.Close()
+  body, _ := io.ReadAll(response.Body)
+  fmt.Println(string(body))
+}
+```
+
+```java Java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+var request = HttpRequest.newBuilder()
+    .uri(URI.create("http://localhost:7575/v2/version"))
+    .header("Authorization", "Bearer <token>")
+    .method("GET", HttpRequest.BodyPublishers.noBody())
+    .build();
+var response = HttpClient.newHttpClient().send(
+    request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```ruby Ruby
+require 'net/http'
+require 'uri'
+
+uri = URI('http://localhost:7575/v2/version')
+request = Net::HTTP::Get.new(uri)
+request['Authorization'] = 'Bearer <token>'
+response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+  http.request(request)
+end
+puts response.body
+```
+
+</RequestExample>
+
+
+<ResponseExample>
+
+```json 200
+{
+  "version": "<string>",
+  "features": {
+    "experimental": {
+      "staticTime": {
+        "supported": false
+      },
+      "commandInspectionService": {
+        "supported": false
+      }
+    },
+    "userManagement": {
+      "supported": false,
+      "maxRightsPerUser": 123,
+      "maxUsersPageSize": 123
+    },
+    "partyManagement": {
+      "maxPartiesPageSize": 123
+    },
+    "offsetCheckpoint": {
+      "maxOffsetCheckpointEmissionDelay": {
+        "seconds": 123,
+        "nanos": 123,
+        "unknownFields": {
+          "fields": {}
+        }
+      }
+    },
+    "packageFeature": {
+      "maxVettedPackagesPageSize": 123
+    }
+  }
+}
+```
+
+```text 400
+<string>
+```
+
+```json default
+{
+  "code": "<string>",
+  "cause": "<string>",
+  "correlationId": "<string>",
+  "traceId": "<string>",
+  "context": {},
+  "resources": [
+    [
+      "<string>"
+    ]
+  ],
+  "errorCategory": 123,
+  "grpcCodeValue": 123,
+  "retryInfo": "<string>",
+  "definiteAnswer": false
+}
+```
+
+</ResponseExample>
+
+
+## Authorizations
+
+
+### httpAuth
+
+
+
+
+
+
+<ParamField header="Authorization" type="string" required>
+
+
+HTTP bearer authentication. Send the token as `Authorization: Bearer &lt;token&gt;`. Ledger API standard JWT token
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+### apiKeyAuth
+
+
+
+
+
+
+<ParamField header="Sec-WebSocket-Protocol" type="string" required>
+
+
+API key authentication in the header. Ledger API standard JWT token (websocket)
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+
+
+
+## Responses
+
+
+### 200
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="version" type="string" required>
+
+The version of the ledger API. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="features" type="FeaturesDescriptor" required>
+
+The features supported by this Ledger API endpoint. Daml applications CAN use the feature descriptor on top of version constraints on the Ledger API version to determine whether a given Ledger API endpoint supports the features required to run the application. See the feature descriptions themselves for the relation between Ledger API versions and feature presence. Required
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="experimental" type="ExperimentalFeatures" required>
+
+See the feature message definitions for descriptions.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="staticTime" type="ExperimentalStaticTime">
+
+Ledger is in the static time mode and exposes a time service.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="supported" type="boolean" required>
+
+Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="commandInspectionService" type="ExperimentalCommandInspectionService">
+
+Whether the Ledger API supports command inspection service
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="supported" type="boolean" required>
+
+Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="userManagement" type="UserManagementFeature" required>
+
+If set, then the Ledger API server supports user management. It is recommended that clients query this field to gracefully adjust their behavior for ledgers that do not support user management. Required
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="supported" type="boolean" required>
+
+Whether the Ledger API server provides the user management service. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="maxRightsPerUser" type="integer (int32)" required>
+
+The maximum number of rights that can be assigned to a single user. Servers MUST support at least 100 rights per user. A value of 0 means that the server enforces no rights per user limit. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="maxUsersPageSize" type="integer (int32)" required>
+
+The maximum number of users the server can return in a single response (page). Servers MUST support at least a 100 users per page. A value of 0 means that the server enforces no page size limit. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="partyManagement" type="PartyManagementFeature" required>
+
+If set, then the Ledger API server supports party management configurability. It is recommended that clients query this field to gracefully adjust their behavior to maximum party page size. Required
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="maxPartiesPageSize" type="integer (int32)" required>
+
+The maximum number of parties the server can return in a single response (page). Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="offsetCheckpoint" type="OffsetCheckpointFeature" required>
+
+It contains the timeouts related to the periodic offset checkpoint emission Required
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="maxOffsetCheckpointEmissionDelay" type="Duration" required>
+
+The maximum delay to emmit a new OffsetCheckpoint if it exists Required
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="seconds" type="integer (int64)" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="nanos" type="integer (int32)" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="unknownFields" type="UnknownFieldSet">
+
+This field is automatically added as part of protobuf to json mapping
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="fields" type="Map_Int_Field" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="packageFeature" type="PackageFeature" required>
+
+If set, then the Ledger API server supports package listing configurability. It is recommended that clients query this field to gracefully adjust their behavior to maximum package listing page size. Required
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="maxVettedPackagesPageSize" type="integer (int32)" required>
+
+The maximum number of vetted packages the server can return in a single response (page) when listing them. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+
+
+### 400
+
+Invalid value
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">text/plain</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="value" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+### default
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="code" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="cause" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="correlationId" type="string">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="traceId" type="string">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="context" type="Map_String" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="resources" type="Tuple2_String_String[]">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="errorCategory" type="integer (int32)" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="grpcCodeValue" type="integer (int32)">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="retryInfo" type="string">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="definiteAnswer" type="boolean">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+
+
+## History
+
+<div class="x2mdx-ref-history" aria-label="Reference history">
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-3-5">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">3.5</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">The GET /v2/version operation changed in this snapshot.</p>
+
+  </div>
+
+</div>

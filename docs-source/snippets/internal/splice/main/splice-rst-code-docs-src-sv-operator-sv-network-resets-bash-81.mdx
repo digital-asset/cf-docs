@@ -1,0 +1,5 @@
+```bash
+jq '.dso_rules.contract.payload.svs.[] | [.[1].name, .[1].svRewardWeight]' backup.json > weights_backup.json
+jq '.dso_rules.contract.payload.svs.[] | [.[1].name, .[1].svRewardWeight]' current_state.json > weights_current.json
+diff -C2 weights_backup.json weights_current.json
+```

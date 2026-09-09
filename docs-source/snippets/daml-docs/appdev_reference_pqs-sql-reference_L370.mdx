@@ -1,0 +1,8 @@
+```sql
+call create_index_for_contract(
+  'token_quantity',         -- index name suffix
+  'Token',                  -- template name
+  '((payload->>''quantity'')::decimal)',  -- expression
+  'btree'                   -- index type (btree, hash, gin, gist)
+);
+```

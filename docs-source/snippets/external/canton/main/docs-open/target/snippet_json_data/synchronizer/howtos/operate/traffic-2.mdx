@@ -1,0 +1,33 @@
+```scala
+@ sequencer1.topology.synchronizer_parameters
+  .get_dynamic_synchronizer_parameters(sequencer1.synchronizer_id)
+    res3: DynamicSynchronizerParameters = DynamicSynchronizerParameters(
+      confirmation response timeout = 30s,
+      mediator reaction timeout = 30s,
+      assignment exclusivity timeout = 1m,
+      ledger time record time tolerance = 1m,
+      mediator deduplication timeout = 48h,
+      reconciliation interval = 1m,
+      confirmation requests max rate = 1000000,
+      max request size = 10485760,
+      sequencer aggregate submission timeout = 6m,
+      traffic control = TrafficControlParameters(
+        max base traffic amount = 20000,
+        read vs write scaling factor = 200,
+        max base traffic accumulation duration = 10s,
+        set balance request submission window size = 5m,
+        enforce rate limiting = true,
+        base event cost = 500,
+        free confirmation responses = false
+      ),
+      ACS commitment catchup = AcsCommitmentsCatchUpParameters(
+        catch up interval skip = 5,
+        number of intervals to trigger catch up = 2
+      ),
+      participant synchronizer limits = ParticipantSynchronizerLimits(
+        confirmation requests max rate = 1000000
+      ),
+      preparation time record time tolerance = 24h,
+      onboarding restriction = UnrestrictedOpen
+    )
+```

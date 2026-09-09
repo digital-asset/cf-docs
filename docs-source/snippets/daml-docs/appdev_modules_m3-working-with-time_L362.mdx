@@ -1,0 +1,23 @@
+```daml
+-- June 1st 2019 is a Saturday.
+  setTime (time (date 2019 Jun 1) 0 0 0)
+  -- Bob cannot redeem on a Saturday.
+  submitMustFail bob do
+    exerciseCmd iou2 Redeem
+
+  -- Not even at mid-day.
+  passTime (hours 12)
+  -- Bob cannot redeem on a Saturday.
+  submitMustFail bob do
+    exerciseCmd iou2 Redeem
+
+  -- Bob also cannot redeem at 6am on a Monday.
+  passTime (hours 42)
+  submitMustFail bob do
+    exerciseCmd iou2 Redeem
+
+  -- Bob can redeem at 8am on Monday.
+  passTime (hours 2)
+  submit bob do
+    exerciseCmd iou2 Redeem
+```

@@ -1,0 +1,16 @@
+```haskell
+try do
+  _ <- create (T p)
+  throw MyException with
+    field1 = 0
+    field2 = "42"
+catch
+  (MyException field1 field2) ->
+    create Error with
+      p = p
+      msg = "MyException"
+  (ArithmeticError _) ->
+    create Error with
+      p = p
+      msg = "ArithmeticError"
+```

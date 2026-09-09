@@ -1,0 +1,6 @@
+```bash
+   # 2. List all users to discover the wallet admin user
+   curl -s "http://localhost:2975/v2/users" \
+     -H "Authorization: Bearer $USER_ADMIN_TOKEN" | jq '.users[] | select(.metadata.annotations.username == "app-user")'
+
+```

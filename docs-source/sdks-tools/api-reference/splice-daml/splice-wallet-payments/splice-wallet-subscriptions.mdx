@@ -1,0 +1,873 @@
+---
+title: "Splice.Wallet.Subscriptions"
+description: "Documentation for Splice.Wallet.Subscriptions"
+---
+
+{/* COPIED_START source="splice:daml/splice-wallet-payments/docs/Splice-Wallet-Subscriptions.rst" tag="0.6.4" hash="abf6a5bb" */}
+
+## Templates
+
+<div id="type-splice-wallet-subscriptions-subscription-33404">
+
+**template** Subscription
+
+</div>
+
+> Main subscription object.
+>
+> Signatory: subscriptionSignatories subscriptionData
+>
+> | Field            | Type                                                                                                                                              | Description                                                                                                                |
+> |------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
+> | subscriptionData | SubscriptionData                                                                                                                                  |                                                                                                                            |
+> | reference        | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionRequest | Reference to the subscription request, note that the contract will no longer be active so this just acts as a tracking id. |
+>
+> - **Choice** Archive
+>
+>   Controller: subscriptionSignatories subscriptionData
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-wallet-subscriptions-subscriptionarchive-38051">
+>
+>   **Choice** Subscription_Archive
+>
+>   </div>
+>
+>   Controller: signatory this
+>
+>   Returns: Subscription_ArchiveResult
+>
+>   (no fields)
+
+<div id="type-splice-wallet-subscriptions-subscriptionidlestate-59870">
+
+**template** SubscriptionIdleState
+
+</div>
+
+> The base state in our subscription flow. Here, we are typically waiting for the time for the next payment to arrive. If that time has passed, we are waiting for someone to expire the subscription.
+>
+> Signatory: subscriptionSignatories subscriptionData
+>
+> | Field            | Type                                                                                                                                              | Description                                                       |
+> |------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
+> | subscription     | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Subscription        | The subscription this belongs to.                                 |
+> | subscriptionData | SubscriptionData                                                                                                                                  | Copy of the subscription contract for easier access to its field. |
+> | payData          | SubscriptionPayData                                                                                                                               | Payment-related properties.                                       |
+> | nextPaymentDueAt | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)                                 | After which time the next payment can and should be paid.         |
+> | reference        | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionRequest |                                                                   |
+>
+> - **Choice** Archive
+>
+>   Controller: subscriptionSignatories subscriptionData
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-wallet-subscriptions-subscriptionidlestatecancelsubscription-25061">
+>
+>   **Choice** SubscriptionIdleState_CancelSubscription
+>
+>   </div>
+>
+>   Controller: (DA.Internal.Record.getField @"sender" subscriptionData)
+>
+>   Returns: SubscriptionIdleState_CancelSubscriptionResult
+>
+>   (no fields)
+>
+> - <div id="type-splice-wallet-subscriptions-subscriptionidlestateexpiresubscription-50078">
+>
+>   **Choice** SubscriptionIdleState_ExpireSubscription
+>
+>   </div>
+>
+>   Controller: actor
+>
+>   Returns: SubscriptionIdleState_ExpireSubscriptionResult
+>
+>   | Field | Type                                                                                                                | Description |
+>   |-------|---------------------------------------------------------------------------------------------------------------------|-------------|
+>   | actor | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>
+> - <div id="type-splice-wallet-subscriptions-subscriptionidlestatemakepayment-62467">
+>
+>   **Choice** SubscriptionIdleState_MakePayment
+>
+>   </div>
+>
+>   Controller: (DA.Internal.Record.getField @"sender" subscriptionData), walletProvider
+>
+>   Returns: SubscriptionIdleState_MakePaymentResult
+>
+>   | Field          | Type                                                                                                                | Description |
+>   |----------------|---------------------------------------------------------------------------------------------------------------------|-------------|
+>   | inputs         | \[TransferInput\]                                                                                                   |             |
+>   | context        | PaymentTransferContext                                                                                              |             |
+>   | walletProvider | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+
+<div id="type-splice-wallet-subscriptions-subscriptioninitialpayment-79960">
+
+**template** SubscriptionInitialPayment
+
+</div>
+
+> The initial payment on a subscription. Implicitly, this is also the "accept" of the preceding `SubscriptionRequest`. Collecting this payments creates the subscription and thereby enables all follow-up payments.
+>
+> Signatory: subscriptionSignatories subscriptionData
+>
+> | Field            | Type                                                                                                                                              | Description                                                                                                                |
+> |------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
+> | subscriptionData | SubscriptionData                                                                                                                                  |                                                                                                                            |
+> | payData          | SubscriptionPayData                                                                                                                               |                                                                                                                            |
+> | targetAmount     | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                | Exact amount in Amulet that the receiver will get.                                                                         |
+> | lockedAmulet     | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) LockedAmulet        |                                                                                                                            |
+> | round            | Round                                                                                                                                             | The round in which the locked amulet was created, added as an extra field so we can avoid ingesting locked amulets.        |
+> | reference        | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionRequest | Reference to the subscription request, note that the contract will no longer be active so this just acts as a tracking id. |
+>
+> - **Choice** Archive
+>
+>   Controller: subscriptionSignatories subscriptionData
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-wallet-subscriptions-subscriptioninitialpaymentcollect-92147">
+>
+>   **Choice** SubscriptionInitialPayment_Collect
+>
+>   </div>
+>
+>   Controller: signatory this
+>
+>   Returns: SubscriptionInitialPayment_CollectResult
+>
+>   | Field           | Type               | Description |
+>   |-----------------|--------------------|-------------|
+>   | transferContext | AppTransferContext |             |
+>
+> - <div id="type-splice-wallet-subscriptions-subscriptioninitialpaymentexpire-95363">
+>
+>   **Choice** SubscriptionInitialPayment_Expire
+>
+>   </div>
+>
+>   Controller: actor
+>
+>   Returns: SubscriptionInitialPayment_ExpireResult
+>
+>   | Field           | Type                                                                                                                | Description |
+>   |-----------------|---------------------------------------------------------------------------------------------------------------------|-------------|
+>   | actor           | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>   | transferContext | AppTransferContext                                                                                                  |             |
+>
+> - <div id="type-splice-wallet-subscriptions-subscriptioninitialpaymentreject-61119">
+>
+>   **Choice** SubscriptionInitialPayment_Reject
+>
+>   </div>
+>
+>   Controller: (DA.Internal.Record.getField @"receiver" subscriptionData)
+>
+>   Returns: SubscriptionInitialPayment_RejectResult
+>
+>   | Field           | Type               | Description |
+>   |-----------------|--------------------|-------------|
+>   | transferContext | AppTransferContext |             |
+
+<div id="type-splice-wallet-subscriptions-subscriptionpayment-4463">
+
+**template** SubscriptionPayment
+
+</div>
+
+> An in-flight (yet to be collected) payment on an existing subscription. Doubles as a "payment in progress" state.
+>
+> Signatory: subscriptionSignatories subscriptionData
+>
+> | Field            | Type                                                                                                                                              | Description                                                                                                         |
+> |------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
+> | subscription     | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Subscription        | The subscription this belongs to.                                                                                   |
+> | subscriptionData | SubscriptionData                                                                                                                                  | Copy of the base subscription properties; for convenience.                                                          |
+> | payData          | SubscriptionPayData                                                                                                                               | Payment-related properties.                                                                                         |
+> | thisPaymentDueAt | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)                                 | After which time the next payment can and should be paid.                                                           |
+> | targetAmount     | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                |                                                                                                                     |
+> | lockedAmulet     | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) LockedAmulet        |                                                                                                                     |
+> | round            | Round                                                                                                                                             | The round in which the locked amulet was created, added as an extra field so we can avoid ingesting locked amulets. |
+> | reference        | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionRequest |                                                                                                                     |
+>
+> - **Choice** Archive
+>
+>   Controller: subscriptionSignatories subscriptionData
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-wallet-subscriptions-subscriptionpaymentcollect-45604">
+>
+>   **Choice** SubscriptionPayment_Collect
+>
+>   </div>
+>
+>   Controller: signatory this
+>
+>   Returns: SubscriptionPayment_CollectResult
+>
+>   | Field           | Type               | Description |
+>   |-----------------|--------------------|-------------|
+>   | transferContext | AppTransferContext |             |
+>
+> - <div id="type-splice-wallet-subscriptions-subscriptionpaymentexpire-61162">
+>
+>   **Choice** SubscriptionPayment_Expire
+>
+>   </div>
+>
+>   Controller: actor
+>
+>   Returns: SubscriptionPayment_ExpireResult
+>
+>   | Field           | Type                                                                                                                | Description |
+>   |-----------------|---------------------------------------------------------------------------------------------------------------------|-------------|
+>   | actor           | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>   | transferContext | AppTransferContext                                                                                                  |             |
+>
+> - <div id="type-splice-wallet-subscriptions-subscriptionpaymentreject-72046">
+>
+>   **Choice** SubscriptionPayment_Reject
+>
+>   </div>
+>
+>   Controller: (DA.Internal.Record.getField @"receiver" subscriptionData)
+>
+>   Returns: SubscriptionPayment_RejectResult
+>
+>   | Field           | Type               | Description |
+>   |-----------------|--------------------|-------------|
+>   | transferContext | AppTransferContext |             |
+
+<div id="type-splice-wallet-subscriptions-subscriptionrequest-40942">
+
+**template** SubscriptionRequest
+
+</div>
+
+> A request for establishing a subscription.
+>
+> Signatory: subscriptionSignatories subscriptionData
+>
+> | Field            | Type                | Description |
+> |------------------|---------------------|-------------|
+> | subscriptionData | SubscriptionData    |             |
+> | payData          | SubscriptionPayData |             |
+>
+> - **Choice** Archive
+>
+>   Controller: subscriptionSignatories subscriptionData
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-wallet-subscriptions-subscriptionrequestacceptandmakepayment-96423">
+>
+>   **Choice** SubscriptionRequest_AcceptAndMakePayment
+>
+>   </div>
+>
+>   Controller: (DA.Internal.Record.getField @"sender" subscriptionData), walletProvider
+>
+>   Returns: SubscriptionRequest_AcceptAndMakePaymentResult
+>
+>   | Field          | Type                                                                                                                | Description |
+>   |----------------|---------------------------------------------------------------------------------------------------------------------|-------------|
+>   | inputs         | \[TransferInput\]                                                                                                   |             |
+>   | context        | PaymentTransferContext                                                                                              |             |
+>   | walletProvider | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>
+> - <div id="type-splice-wallet-subscriptions-subscriptionrequestreject-95001">
+>
+>   **Choice** SubscriptionRequest_Reject
+>
+>   </div>
+>
+>   Controller: (DA.Internal.Record.getField @"sender" subscriptionData)
+>
+>   Returns: SubscriptionRequest_RejectResult
+>
+>   (no fields)
+>
+> - <div id="type-splice-wallet-subscriptions-subscriptionrequestwithdraw-88172">
+>
+>   **Choice** SubscriptionRequest_Withdraw
+>
+>   </div>
+>
+>   Controller: (DA.Internal.Record.getField @"receiver" subscriptionData)
+>
+>   Returns: SubscriptionRequest_WithdrawResult
+>
+>   (no fields)
+
+<div id="type-splice-wallet-subscriptions-terminatedsubscription-20905">
+
+**template** TerminatedSubscription
+
+</div>
+
+> An aborted subscription. Subscriptions should usually be archived together with the context contract of the app that makes the subscription, e.g., AnsEntryContext. To achieve that, we don't archive subscriptions directly but instead create TerminatedSubscription contracts that are then archived as part of the surrounding workflows.
+>
+> Signatory: subscriptionSignatories subscriptionData
+>
+> | Field            | Type                                                                                                                                              | Description |
+> |------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> | subscriptionData | SubscriptionData                                                                                                                                  |             |
+> | reference        | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionRequest |             |
+>
+> - **Choice** Archive
+>
+>   Controller: subscriptionSignatories subscriptionData
+>
+>   Returns: ()
+>
+>   (no fields)
+
+## Data Types
+
+<div id="type-splice-wallet-subscriptions-subscriptiondata-61040">
+
+**data** SubscriptionData
+
+</div>
+
+> <div id="constr-splice-wallet-subscriptions-subscriptiondata-87477">
+>
+> SubscriptionData
+>
+> </div>
+>
+> > | Field       | Type                                                                                                                | Description                      |
+> > |-------------|---------------------------------------------------------------------------------------------------------------------|----------------------------------|
+> > | sender      | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | The party that pays.             |
+> > | receiver    | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | The party that receives payment. |
+> > | provider    | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) | The app provider.                |
+> > | dso         | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |                                  |
+> > | description | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        |                                  |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) SubscriptionData
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) SubscriptionData
+>
+> **instance** GetField "description" SubscriptionData [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** GetField "dso" SubscriptionData [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "provider" SubscriptionData [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "receiver" SubscriptionData [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "sender" SubscriptionData [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "subscriptionData" Subscription SubscriptionData
+>
+> **instance** GetField "subscriptionData" SubscriptionIdleState SubscriptionData
+>
+> **instance** GetField "subscriptionData" SubscriptionInitialPayment SubscriptionData
+>
+> **instance** GetField "subscriptionData" SubscriptionPayment SubscriptionData
+>
+> **instance** GetField "subscriptionData" SubscriptionRequest SubscriptionData
+>
+> **instance** GetField "subscriptionData" TerminatedSubscription SubscriptionData
+>
+> **instance** SetField "description" SubscriptionData [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "dso" SubscriptionData [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "provider" SubscriptionData [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "receiver" SubscriptionData [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "sender" SubscriptionData [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "subscriptionData" Subscription SubscriptionData
+>
+> **instance** SetField "subscriptionData" SubscriptionIdleState SubscriptionData
+>
+> **instance** SetField "subscriptionData" SubscriptionInitialPayment SubscriptionData
+>
+> **instance** SetField "subscriptionData" SubscriptionPayment SubscriptionData
+>
+> **instance** SetField "subscriptionData" SubscriptionRequest SubscriptionData
+>
+> **instance** SetField "subscriptionData" TerminatedSubscription SubscriptionData
+
+<div id="type-splice-wallet-subscriptions-subscriptionidlestatecancelsubscriptionresult-53096">
+
+**data** SubscriptionIdleState_CancelSubscriptionResult
+
+</div>
+
+> <div id="constr-splice-wallet-subscriptions-subscriptionidlestatecancelsubscriptionresult-80217">
+>
+> SubscriptionIdleState_CancelSubscriptionResult
+>
+> </div>
+>
+> > | Field                  | Type                                                                                                                                                 | Description |
+> > |------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | terminatedSubscription | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription |             |
+>
+> **instance** GetField "terminatedSubscription" SubscriptionIdleState_CancelSubscriptionResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription)
+>
+> **instance** SetField "terminatedSubscription" SubscriptionIdleState_CancelSubscriptionResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) SubscriptionIdleState SubscriptionIdleState_CancelSubscription SubscriptionIdleState_CancelSubscriptionResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) SubscriptionIdleState SubscriptionIdleState_CancelSubscription SubscriptionIdleState_CancelSubscriptionResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) SubscriptionIdleState SubscriptionIdleState_CancelSubscription SubscriptionIdleState_CancelSubscriptionResult
+
+<div id="type-splice-wallet-subscriptions-subscriptionidlestateexpiresubscriptionresult-84335">
+
+**data** SubscriptionIdleState_ExpireSubscriptionResult
+
+</div>
+
+> <div id="constr-splice-wallet-subscriptions-subscriptionidlestateexpiresubscriptionresult-85758">
+>
+> SubscriptionIdleState_ExpireSubscriptionResult
+>
+> </div>
+>
+> > | Field                  | Type                                                                                                                                                 | Description |
+> > |------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | terminatedSubscription | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription |             |
+>
+> **instance** GetField "terminatedSubscription" SubscriptionIdleState_ExpireSubscriptionResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription)
+>
+> **instance** SetField "terminatedSubscription" SubscriptionIdleState_ExpireSubscriptionResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) SubscriptionIdleState SubscriptionIdleState_ExpireSubscription SubscriptionIdleState_ExpireSubscriptionResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) SubscriptionIdleState SubscriptionIdleState_ExpireSubscription SubscriptionIdleState_ExpireSubscriptionResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) SubscriptionIdleState SubscriptionIdleState_ExpireSubscription SubscriptionIdleState_ExpireSubscriptionResult
+
+<div id="type-splice-wallet-subscriptions-subscriptionidlestatemakepaymentresult-27466">
+
+**data** SubscriptionIdleState_MakePaymentResult
+
+</div>
+
+> <div id="constr-splice-wallet-subscriptions-subscriptionidlestatemakepaymentresult-79353">
+>
+> SubscriptionIdleState_MakePaymentResult
+>
+> </div>
+>
+> > | Field               | Type                                                                                                                                                                                                                                                                  | Description |
+> > |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | subscriptionPayment | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionPayment                                                                                                                     |             |
+> > | senderChange        | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet) |             |
+>
+> **instance** GetField "senderChange" SubscriptionIdleState_MakePaymentResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** GetField "subscriptionPayment" SubscriptionIdleState_MakePaymentResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionPayment)
+>
+> **instance** SetField "senderChange" SubscriptionIdleState_MakePaymentResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** SetField "subscriptionPayment" SubscriptionIdleState_MakePaymentResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionPayment)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) SubscriptionIdleState SubscriptionIdleState_MakePayment SubscriptionIdleState_MakePaymentResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) SubscriptionIdleState SubscriptionIdleState_MakePayment SubscriptionIdleState_MakePaymentResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) SubscriptionIdleState SubscriptionIdleState_MakePayment SubscriptionIdleState_MakePaymentResult
+
+<div id="type-splice-wallet-subscriptions-subscriptioninitialpaymentcollectresult-97286">
+
+**data** SubscriptionInitialPayment_CollectResult
+
+</div>
+
+> <div id="constr-splice-wallet-subscriptions-subscriptioninitialpaymentcollectresult-66575">
+>
+> SubscriptionInitialPayment_CollectResult
+>
+> </div>
+>
+> > | Field             | Type                                                                                                                                                | Description |
+> > |-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | subscription      | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Subscription          |             |
+> > | subscriptionState | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState |             |
+> > | amulet            | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet                |             |
+>
+> **instance** GetField "amulet" SubscriptionInitialPayment_CollectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet)
+>
+> **instance** GetField "subscription" SubscriptionInitialPayment_CollectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Subscription)
+>
+> **instance** GetField "subscriptionState" SubscriptionInitialPayment_CollectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState)
+>
+> **instance** SetField "amulet" SubscriptionInitialPayment_CollectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet)
+>
+> **instance** SetField "subscription" SubscriptionInitialPayment_CollectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Subscription)
+>
+> **instance** SetField "subscriptionState" SubscriptionInitialPayment_CollectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) SubscriptionInitialPayment SubscriptionInitialPayment_Collect SubscriptionInitialPayment_CollectResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) SubscriptionInitialPayment SubscriptionInitialPayment_Collect SubscriptionInitialPayment_CollectResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) SubscriptionInitialPayment SubscriptionInitialPayment_Collect SubscriptionInitialPayment_CollectResult
+
+<div id="type-splice-wallet-subscriptions-subscriptioninitialpaymentexpireresult-71466">
+
+**data** SubscriptionInitialPayment_ExpireResult
+
+</div>
+
+> <div id="constr-splice-wallet-subscriptions-subscriptioninitialpaymentexpireresult-14633">
+>
+> SubscriptionInitialPayment_ExpireResult
+>
+> </div>
+>
+> > | Field     | Type                                                                                                                                                       | Description |
+> > |-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | amuletSum | AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet) |             |
+>
+> **instance** GetField "amuletSum" SubscriptionInitialPayment_ExpireResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** SetField "amuletSum" SubscriptionInitialPayment_ExpireResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) SubscriptionInitialPayment SubscriptionInitialPayment_Expire SubscriptionInitialPayment_ExpireResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) SubscriptionInitialPayment SubscriptionInitialPayment_Expire SubscriptionInitialPayment_ExpireResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) SubscriptionInitialPayment SubscriptionInitialPayment_Expire SubscriptionInitialPayment_ExpireResult
+
+<div id="type-splice-wallet-subscriptions-subscriptioninitialpaymentrejectresult-97550">
+
+**data** SubscriptionInitialPayment_RejectResult
+
+</div>
+
+> <div id="constr-splice-wallet-subscriptions-subscriptioninitialpaymentrejectresult-64365">
+>
+> SubscriptionInitialPayment_RejectResult
+>
+> </div>
+>
+> > | Field     | Type                                                                                                                                                       | Description |
+> > |-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | amuletSum | AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet) |             |
+>
+> **instance** GetField "amuletSum" SubscriptionInitialPayment_RejectResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** SetField "amuletSum" SubscriptionInitialPayment_RejectResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) SubscriptionInitialPayment SubscriptionInitialPayment_Reject SubscriptionInitialPayment_RejectResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) SubscriptionInitialPayment SubscriptionInitialPayment_Reject SubscriptionInitialPayment_RejectResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) SubscriptionInitialPayment SubscriptionInitialPayment_Reject SubscriptionInitialPayment_RejectResult
+
+<div id="type-splice-wallet-subscriptions-subscriptionpaydata-96623">
+
+**data** SubscriptionPayData
+
+</div>
+
+> Payment-related properties. Expected to be mutated rarely.
+>
+> <div id="constr-splice-wallet-subscriptions-subscriptionpaydata-90180">
+>
+> SubscriptionPayData
+>
+> </div>
+>
+> > | Field           | Type                                                                                                                   | Description                                                                                                                             |
+> > |-----------------|------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+> > | paymentAmount   | PaymentAmount                                                                                                          | What amount of amulet is due on each interval.                                                                                          |
+> > | paymentInterval | [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) | At which intervals payments should be made.                                                                                             |
+> > | paymentDuration | [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) | The time available to the sender to initiate a payment; they can initiate the payment this much before the end of the current interval. |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) SubscriptionPayData
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) SubscriptionPayData
+>
+> **instance** GetField "payData" SubscriptionIdleState SubscriptionPayData
+>
+> **instance** GetField "payData" SubscriptionInitialPayment SubscriptionPayData
+>
+> **instance** GetField "payData" SubscriptionPayment SubscriptionPayData
+>
+> **instance** GetField "payData" SubscriptionRequest SubscriptionPayData
+>
+> **instance** GetField "paymentAmount" SubscriptionPayData PaymentAmount
+>
+> **instance** GetField "paymentDuration" SubscriptionPayData [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)
+>
+> **instance** GetField "paymentInterval" SubscriptionPayData [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)
+>
+> **instance** SetField "payData" SubscriptionIdleState SubscriptionPayData
+>
+> **instance** SetField "payData" SubscriptionInitialPayment SubscriptionPayData
+>
+> **instance** SetField "payData" SubscriptionPayment SubscriptionPayData
+>
+> **instance** SetField "payData" SubscriptionRequest SubscriptionPayData
+>
+> **instance** SetField "paymentAmount" SubscriptionPayData PaymentAmount
+>
+> **instance** SetField "paymentDuration" SubscriptionPayData [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)
+>
+> **instance** SetField "paymentInterval" SubscriptionPayData [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)
+
+<div id="type-splice-wallet-subscriptions-subscriptionpaymentcollectresult-94269">
+
+**data** SubscriptionPayment_CollectResult
+
+</div>
+
+> <div id="constr-splice-wallet-subscriptions-subscriptionpaymentcollectresult-9234">
+>
+> SubscriptionPayment_CollectResult
+>
+> </div>
+>
+> > | Field             | Type                                                                                                                                                | Description |
+> > |-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | subscriptionState | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState |             |
+> > | amulet            | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet                |             |
+>
+> **instance** GetField "amulet" SubscriptionPayment_CollectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet)
+>
+> **instance** GetField "subscriptionState" SubscriptionPayment_CollectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState)
+>
+> **instance** SetField "amulet" SubscriptionPayment_CollectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet)
+>
+> **instance** SetField "subscriptionState" SubscriptionPayment_CollectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) SubscriptionPayment SubscriptionPayment_Collect SubscriptionPayment_CollectResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) SubscriptionPayment SubscriptionPayment_Collect SubscriptionPayment_CollectResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) SubscriptionPayment SubscriptionPayment_Collect SubscriptionPayment_CollectResult
+
+<div id="type-splice-wallet-subscriptions-subscriptionpaymentexpireresult-84183">
+
+**data** SubscriptionPayment_ExpireResult
+
+</div>
+
+> <div id="constr-splice-wallet-subscriptions-subscriptionpaymentexpireresult-46758">
+>
+> SubscriptionPayment_ExpireResult
+>
+> </div>
+>
+> > | Field             | Type                                                                                                                                                       | Description |
+> > |-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | subscriptionState | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState        |             |
+> > | amuletSum         | AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet) |             |
+>
+> **instance** GetField "amuletSum" SubscriptionPayment_ExpireResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** GetField "subscriptionState" SubscriptionPayment_ExpireResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState)
+>
+> **instance** SetField "amuletSum" SubscriptionPayment_ExpireResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** SetField "subscriptionState" SubscriptionPayment_ExpireResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) SubscriptionPayment SubscriptionPayment_Expire SubscriptionPayment_ExpireResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) SubscriptionPayment SubscriptionPayment_Expire SubscriptionPayment_ExpireResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) SubscriptionPayment SubscriptionPayment_Expire SubscriptionPayment_ExpireResult
+
+<div id="type-splice-wallet-subscriptions-subscriptionpaymentrejectresult-80731">
+
+**data** SubscriptionPayment_RejectResult
+
+</div>
+
+> <div id="constr-splice-wallet-subscriptions-subscriptionpaymentrejectresult-20586">
+>
+> SubscriptionPayment_RejectResult
+>
+> </div>
+>
+> > | Field             | Type                                                                                                                                                       | Description |
+> > |-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | subscriptionState | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState        |             |
+> > | amuletSum         | AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet) |             |
+>
+> **instance** GetField "amuletSum" SubscriptionPayment_RejectResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** GetField "subscriptionState" SubscriptionPayment_RejectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState)
+>
+> **instance** SetField "amuletSum" SubscriptionPayment_RejectResult (AmuletCreateSummary ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** SetField "subscriptionState" SubscriptionPayment_RejectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) SubscriptionPayment SubscriptionPayment_Reject SubscriptionPayment_RejectResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) SubscriptionPayment SubscriptionPayment_Reject SubscriptionPayment_RejectResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) SubscriptionPayment SubscriptionPayment_Reject SubscriptionPayment_RejectResult
+
+<div id="type-splice-wallet-subscriptions-subscriptionrequestacceptandmakepaymentresult-1166">
+
+**data** SubscriptionRequest_AcceptAndMakePaymentResult
+
+</div>
+
+> <div id="constr-splice-wallet-subscriptions-subscriptionrequestacceptandmakepaymentresult-32571">
+>
+> SubscriptionRequest_AcceptAndMakePaymentResult
+>
+> </div>
+>
+> > | Field               | Type                                                                                                                                                                                                                                                                  | Description |
+> > |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | subscriptionPayment | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionInitialPayment                                                                                                              |             |
+> > | senderChange        | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet) |             |
+>
+> **instance** GetField "senderChange" SubscriptionRequest_AcceptAndMakePaymentResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** GetField "subscriptionPayment" SubscriptionRequest_AcceptAndMakePaymentResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionInitialPayment)
+>
+> **instance** SetField "senderChange" SubscriptionRequest_AcceptAndMakePaymentResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> **instance** SetField "subscriptionPayment" SubscriptionRequest_AcceptAndMakePaymentResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionInitialPayment)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) SubscriptionRequest SubscriptionRequest_AcceptAndMakePayment SubscriptionRequest_AcceptAndMakePaymentResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) SubscriptionRequest SubscriptionRequest_AcceptAndMakePayment SubscriptionRequest_AcceptAndMakePaymentResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) SubscriptionRequest SubscriptionRequest_AcceptAndMakePayment SubscriptionRequest_AcceptAndMakePaymentResult
+
+<div id="type-splice-wallet-subscriptions-subscriptionrequestrejectresult-11624">
+
+**data** SubscriptionRequest_RejectResult
+
+</div>
+
+> <div id="constr-splice-wallet-subscriptions-subscriptionrequestrejectresult-75381">
+>
+> SubscriptionRequest_RejectResult
+>
+> </div>
+>
+> > | Field                  | Type                                                                                                                                                 | Description |
+> > |------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | terminatedSubscription | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription |             |
+>
+> **instance** GetField "terminatedSubscription" SubscriptionRequest_RejectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription)
+>
+> **instance** SetField "terminatedSubscription" SubscriptionRequest_RejectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) SubscriptionRequest SubscriptionRequest_Reject SubscriptionRequest_RejectResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) SubscriptionRequest SubscriptionRequest_Reject SubscriptionRequest_RejectResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) SubscriptionRequest SubscriptionRequest_Reject SubscriptionRequest_RejectResult
+
+<div id="type-splice-wallet-subscriptions-subscriptionrequestwithdrawresult-7225">
+
+**data** SubscriptionRequest_WithdrawResult
+
+</div>
+
+> <div id="constr-splice-wallet-subscriptions-subscriptionrequestwithdrawresult-40204">
+>
+> SubscriptionRequest_WithdrawResult
+>
+> </div>
+>
+> > | Field                  | Type                                                                                                                                                 | Description |
+> > |------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | terminatedSubscription | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription |             |
+>
+> **instance** GetField "terminatedSubscription" SubscriptionRequest_WithdrawResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription)
+>
+> **instance** SetField "terminatedSubscription" SubscriptionRequest_WithdrawResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) SubscriptionRequest SubscriptionRequest_Withdraw SubscriptionRequest_WithdrawResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) SubscriptionRequest SubscriptionRequest_Withdraw SubscriptionRequest_WithdrawResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) SubscriptionRequest SubscriptionRequest_Withdraw SubscriptionRequest_WithdrawResult
+
+<div id="type-splice-wallet-subscriptions-subscriptionarchiveresult-60922">
+
+**data** Subscription_ArchiveResult
+
+</div>
+
+> <div id="constr-splice-wallet-subscriptions-subscriptionarchiveresult-91207">
+>
+> Subscription_ArchiveResult
+>
+> </div>
+>
+> > | Field                  | Type                                                                                                                                                 | Description |
+> > |------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | terminatedSubscription | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription |             |
+>
+> **instance** GetField "terminatedSubscription" Subscription_ArchiveResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription)
+>
+> **instance** SetField "terminatedSubscription" Subscription_ArchiveResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) Subscription Subscription_Archive Subscription_ArchiveResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) Subscription Subscription_Archive Subscription_ArchiveResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) Subscription Subscription_Archive Subscription_ArchiveResult
+
+## Functions
+
+<div id="function-splice-wallet-subscriptions-subscriptionsignatories-98765">
+
+subscriptionSignatories
+: SubscriptionData -\> \[[Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)\]
+
+</div>
+
+<div id="function-splice-wallet-subscriptions-paydataisvalid-4217">
+
+payDataIsValid
+: SubscriptionPayData -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+</div>
+
+<div id="function-splice-wallet-subscriptions-lockandmakechange-61624">
+
+lockAndMakeChange
+: PaymentTransferContext -\> SubscriptionData -\> SubscriptionPayData -\> \[TransferInput\] -\> [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886) -\> [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) LockedAmulet, [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet), [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135), Round)
+
+</div>
+
+<div id="function-splice-wallet-subscriptions-unlockandtransfer-4476">
+
+unlockAndTransfer
+: AppTransferContext -\> SubscriptionData -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) -\> [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) LockedAmulet -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet)
+
+</div>
+
+<div id="function-splice-wallet-subscriptions-mktransferoutput-31673">
+
+mkTransferOutput
+: [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) -\> TransferOutput
+
+</div>
+
+{/* COPIED_END */}

@@ -1,0 +1,287 @@
+---
+title: "User Namespace"
+description: "Migrate user management and rights from Wallet SDK v0 to v1."
+---
+
+{/* COPIED_START source="splice-wallet-kernel:docs/wallet-integration-guide/src/wallet-sdk-v1-migration-guide/user.rst" hash="7cf5184f" */}
+
+
+The user namespace provides methods for user management on the Canton Network.
+
+## Availability
+
+The user namespace is always available as part of the basic SDK interface. It's initialized automatically when you create an SDK instance and doesn't require additional configuration via `extend()`.
+
+``` typescript
+import { localNetStaticConfig, SDK } from '@canton-network/wallet-sdk'
+
+export default async function () {
+    const sdk = await SDK.create({
+        auth: TOKEN_PROVIDER_CONFIG_DEFAULT,
+        ledgerClientUrl: localNetStaticConfig.LOCALNET_APP_USER_LEDGER_URL,
+    })
+
+    const primaryParty = EXISTING_PARTY_1
+    const userId = 'user-id'
+
+    // user namespace is immediately available
+    await sdk.user.create({ userId, primaryParty })
+}
+```
+
+## Key changes from v0 to v1
+
+The distinction betwen the user ledger and admin ledger have been removed. Instead, the token is used to determine whether a user has admin rights.
+
+**Creating users**
+
+<div className="before-after">
+
+``` javascript
+await sdk.adminLedger.createUser('userId', primaryParty)
+```
+
+---
+
+``` javascript
+const result = await sdk.user
+    .create({
+      userId: 'userId',
+      primaryParty: primaryParty,
+      userRights: {...}
+    })
+```
+
+</div>
+
+**Granting user rights**
+
+<div className="before-after">
+
+``` javascript
+await sdk.userLedger.grantRights([actAsRights], [readAsRights])
+```
+
+---
+
+``` javascript
+const result = await sdk.rights
+    .grant({
+      userRights: {...},
+      userId: {'userId'}, //optional parameter
+      idp: {'idp'} //optional parameter otherwise will use default IDP
+    })
+```
+
+</div>
+
+The below example demonstrates the full usage of the feature:
+
+``` javascript title="Full example: multi-user setup and rights" expandable
+import { localNetStaticConfig, SDK } from '@canton-network/wallet-sdk'
+import { pino } from 'pino'
+import { TOKEN_PROVIDER_CONFIG_DEFAULT } from './utils/index.js'
+const logger = pino({ name: 'v1-multi-user-setup', level: 'info' })
+
+logger.info('Operator sets up users and primary parties')
+
+const operatorSdk = await SDK.create({
+    auth: TOKEN_PROVIDER_CONFIG_DEFAULT,
+    ledgerClientUrl: localNetStaticConfig.LOCALNET_APP_USER_LEDGER_URL,
+})
+
+const aliceInternal = await operatorSdk.party.internal.allocate({
+    partyHint: 'v1-09-alice',
+})
+
+const bobInternal = await operatorSdk.party.internal.allocate({
+    partyHint: 'v1-09-bob',
+})
+
+const masterPartyInternal = await operatorSdk.party.internal.allocate({
+    partyHint: 'v1-09-master',
+})
+
+logger.info('Created the internal parties')
+
+const aliceUser = await operatorSdk.user.create({
+    userId: 'alice-user',
+    primaryParty: aliceInternal,
+    userRights: {
+        participantAdmin: true,
+    },
+})
+
+const bobUser = await operatorSdk.user.create({
+    userId: 'bob-user',
+    primaryParty: bobInternal,
+    userRights: {
+        participantAdmin: true,
+    },
+})
+
+const masterUser = await operatorSdk.user.create({
+    userId: 'master-user',
+    primaryParty: masterPartyInternal,
+    userRights: {
+        participantAdmin: true,
+    },
+})
+
+logger.info('created the users')
+
+if (!(aliceUser || bobUser || masterUser)) {
+    throw new Error(`One of the users was not created correctly`)
+}
+
+await operatorSdk.user.rights.grant({
+    userId: masterUser.id!,
+    userRights: {
+        canExecuteAsAnyParty: true,
+        canReadAsAnyParty: true,
+    },
+})
+
+logger.info(
+    `Created alice user: ${aliceUser.id} with primary party (internal) ${aliceUser.primaryParty}`
+)
+logger.info(
+    `Created bob user: ${bobUser.id} with primary party (internal) ${bobUser.primaryParty}`
+)
+logger.info(
+    `Created master user: ${masterUser.id} with primary party (internal) ${masterUser.primaryParty}, with read as and execute as rights`
+)
+
+const aliceSdk = await SDK.create({
+    auth: {
+        method: 'self_signed',
+        issuer: 'unsafe-auth',
+        credentials: {
+            clientId: aliceUser.id,
+            clientSecret: 'unsafe',
+            audience: 'https://canton.network.global',
+            scope: '',
+        },
+    },
+    ledgerClientUrl: localNetStaticConfig.LOCALNET_APP_USER_LEDGER_URL,
+})
+
+const aliceKeyPair = aliceSdk.keys.generate()
+const aliceExternal = await aliceSdk.party.external
+    .create(aliceKeyPair.publicKey, {
+        partyHint: 'v1-09-alice',
+    })
+    .sign(aliceKeyPair.privateKey)
+    .execute()
+
+logger.info(`alice created external party`)
+
+const bobSdk = await SDK.create({
+    auth: {
+        method: 'self_signed',
+        issuer: 'unsafe-auth',
+        credentials: {
+            clientId: bobUser.id,
+            clientSecret: 'unsafe',
+            audience: 'https://canton.network.global',
+            scope: '',
+        },
+    },
+    ledgerClientUrl: localNetStaticConfig.LOCALNET_APP_USER_LEDGER_URL,
+})
+
+const bobKeyPair = bobSdk.keys.generate()
+const bobExternal = await bobSdk.party.external
+    .create(bobKeyPair.publicKey, {
+        partyHint: 'v1-09-bob',
+    })
+    .sign(bobKeyPair.privateKey)
+    .execute()
+logger.info(`bob created external party`)
+
+const masterUserSdk = await SDK.create({
+    auth: {
+        method: 'self_signed',
+        issuer: 'unsafe-auth',
+        credentials: {
+            clientId: masterUser.id,
+            clientSecret: 'unsafe',
+            audience: 'https://canton.network.global',
+            scope: '',
+        },
+    },
+    ledgerClientUrl: localNetStaticConfig.LOCALNET_APP_USER_LEDGER_URL,
+})
+
+const masterWalletView = await masterUserSdk.party.list()
+
+if (!masterWalletView?.find((p) => p === aliceExternal.partyId)) {
+    throw new Error('master user cannot see alice party')
+}
+if (!masterWalletView?.find((p) => p === bobExternal.partyId)) {
+    throw new Error('master user cannot see bob party')
+}
+
+const aliceWalletView = await aliceSdk.party.list()
+logger.info(aliceWalletView)
+
+if (aliceWalletView?.find((p) => p === bobExternal.partyId)) {
+    throw new Error('alice user can see bob party')
+}
+
+const bobWalletView = await bobSdk.party.list()
+
+if (bobWalletView?.find((p) => p === aliceExternal.partyId)) {
+    throw new Error('bob user can see alice party')
+}
+
+logger.info(
+    'alice and bob have proper isolation and cannot see each others external parties'
+)
+
+//user management test
+await bobSdk.user.rights.grant({
+    userRights: {
+        readAs: [aliceExternal.partyId],
+    },
+})
+
+const bobWalletViewAfterGrantRights = await bobSdk.party.list()
+
+if (!bobWalletViewAfterGrantRights?.find((p) => p === aliceExternal.partyId)) {
+    throw new Error('bob user cannot see alice party even with ReadAs rights')
+}
+
+const bobRightsAfterGrantRights = await bobSdk.user.rights.list()
+
+logger.info(bobRightsAfterGrantRights, 'Bob user rights')
+
+await bobSdk.user.rights.revoke({
+    userRights: {
+        readAs: [aliceExternal.partyId],
+    },
+})
+
+const bobWalletViewAfterRevokeRights = await bobSdk.party.list()
+
+if (bobWalletViewAfterRevokeRights?.find((p) => p === aliceExternal.partyId)) {
+    throw new Error('bob user can see alice party even after revoking rights')
+}
+```
+
+## Migration reference
+
+| v0 method                    | v1 method               |
+|------------------------------|-------------------------|
+| `sdk.adminLedger.createUser` | `sdk.user.create`       |
+| `sdk.userLedger.grantRights` | `sdk.user.rights.grant` |
+
+
+## See also
+
+- [v0 to v1 migration overview](/sdks-tools/sdks/wallet-sdk/using-the-sdk/v0-to-v1-migration)
+- [Migration cheat sheet](/sdks-tools/sdks/wallet-sdk/using-the-sdk/v0-to-v1-migration/migration-cheat-sheet)
+- [Configuration](/sdks-tools/sdks/wallet-sdk/using-the-sdk/configuration) — SDK configuration
+- [User management](/sdks-tools/sdks/wallet-sdk/using-the-sdk/user-management) — User management overview
+
+{/* COPIED_END */}

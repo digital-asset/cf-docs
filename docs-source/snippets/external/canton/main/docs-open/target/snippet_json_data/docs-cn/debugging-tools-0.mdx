@@ -1,0 +1,199 @@
+```scala
+@ participant1.ledger_api.state.acs.of_party(myParty)
+    res1: Seq[com.digitalasset.canton.admin.api.client.commands.LedgerApiTypeWrappers.WrappedContractEntry] = List(
+      WrappedContractEntry(
+        entry = ActiveContract(
+          value = ActiveContract(
+            createdEvent = Some(
+              value = CreatedEvent(
+                offset = 12L,
+                nodeId = 0,
+                contractId = "00106c3c66a05be02d0846bfef10992696b9c8b332d0a98356c6e9e734944f4235ca1212203570a11265eec83fda1307a66f0924b6f9aa5d29e72993633a01e0cd0129efb8",
+                templateId = Some(
+                  value = Identifier(
+                    packageId = "2b4b62a3503e321acd9736013530de57e028d67c9390f3af7c630f60bd816eba",
+                    moduleName = "Iou",
+                    entityName = "Iou"
+                  )
+                ),
+                contractKey = None,
+                contractKeyHash = <ByteString@8a2669d size=0 contents="">,
+                createArguments = Some(
+                  value = Record(
+                    recordId = Some(
+                      value = Identifier(
+                        packageId = "2b4b62a3503e321acd9736013530de57e028d67c9390f3af7c630f60bd816eba",
+                        moduleName = "Iou",
+                        entityName = "Iou"
+                      )
+                    ),
+                    fields = Vector(
+                      RecordField(
+                        label = "payer",
+                        value = Some(
+                          value = Value(
+                            sum = Party(
+                              value = "MyParty::12201ff69b1d24edbf0ee2028a304ea702ee8536790dab1a31e7136e6d90ff6d473c"
+                            )
+                          )
+                        )
+                      ),
+                      RecordField(
+                        label = "owner",
+                        value = Some(
+                          value = Value(
+                            sum = Party(
+                              value = "MyParty::12201ff69b1d24edbf0ee2028a304ea702ee8536790dab1a31e7136e6d90ff6d473c"
+                            )
+                          )
+                        )
+                      ),
+                      RecordField(
+                        label = "amount",
+                        value = Some(
+                          value = Value(
+                            sum = Record(
+                              value = Record(
+                                recordId = Some(
+                                  value = Identifier(
+                                    packageId = "2b4b62a3503e321acd9736013530de57e028d67c9390f3af7c630f60bd816eba",
+                                    moduleName = "Iou",
+                                    entityName = "Amount"
+                                  )
+                                ),
+                                fields = Vector(
+                                  RecordField(
+                                    label = "value",
+                                    value = Some(value = Value(sum = Numeric(value = "100.0000000000")))
+                                  ),
+                                  RecordField(
+                                    label = "currency",
+                                    value = Some(value = Value(sum = Text(value = "EUR")))
+                                  )
+                                )
+                              )
+                            )
+                          )
+                        )
+                      ),
+                      RecordField(
+                        label = "viewers",
+                        value = Some(value = Value(sum = List(value = List(elements = Vector()))))
+                      )
+                    )
+                  )
+                ),
+                createdEventBlob = <ByteString@8a2669d size=0 contents="">,
+                interfaceViews = Vector(),
+                witnessParties = Vector(
+                  "MyParty::12201ff69b1d24edbf0ee2028a304ea702ee8536790dab1a31e7136e6d90ff6d473c"
+                ),
+                signatories = Vector(
+                  "MyParty::12201ff69b1d24edbf0ee2028a304ea702ee8536790dab1a31e7136e6d90ff6d473c"
+                ),
+                observers = Vector(),
+                createdAt = Some(
+                  value = Timestamp(
+                    seconds = 1782822795L,
+    ...
+```
+
+```scala
+@ participant1.ledger_api.state.acs.of_party(myParty).filter(_.templateId.toString.contains("Iou"))
+    res2: Seq[com.digitalasset.canton.admin.api.client.commands.LedgerApiTypeWrappers.WrappedContractEntry] = List(
+      WrappedContractEntry(
+        entry = ActiveContract(
+          value = ActiveContract(
+            createdEvent = Some(
+              value = CreatedEvent(
+                offset = 12L,
+                nodeId = 0,
+                contractId = "00106c3c66a05be02d0846bfef10992696b9c8b332d0a98356c6e9e734944f4235ca1212203570a11265eec83fda1307a66f0924b6f9aa5d29e72993633a01e0cd0129efb8",
+                templateId = Some(
+                  value = Identifier(
+                    packageId = "2b4b62a3503e321acd9736013530de57e028d67c9390f3af7c630f60bd816eba",
+                    moduleName = "Iou",
+                    entityName = "Iou"
+                  )
+                ),
+                contractKey = None,
+                contractKeyHash = <ByteString@8a2669d size=0 contents="">,
+                createArguments = Some(
+                  value = Record(
+                    recordId = Some(
+                      value = Identifier(
+                        packageId = "2b4b62a3503e321acd9736013530de57e028d67c9390f3af7c630f60bd816eba",
+                        moduleName = "Iou",
+                        entityName = "Iou"
+                      )
+                    ),
+                    fields = Vector(
+                      RecordField(
+                        label = "payer",
+                        value = Some(
+                          value = Value(
+                            sum = Party(
+                              value = "MyParty::12201ff69b1d24edbf0ee2028a304ea702ee8536790dab1a31e7136e6d90ff6d473c"
+                            )
+                          )
+                        )
+                      ),
+                      RecordField(
+                        label = "owner",
+                        value = Some(
+                          value = Value(
+                            sum = Party(
+                              value = "MyParty::12201ff69b1d24edbf0ee2028a304ea702ee8536790dab1a31e7136e6d90ff6d473c"
+                            )
+                          )
+                        )
+                      ),
+                      RecordField(
+                        label = "amount",
+                        value = Some(
+                          value = Value(
+                            sum = Record(
+                              value = Record(
+                                recordId = Some(
+                                  value = Identifier(
+                                    packageId = "2b4b62a3503e321acd9736013530de57e028d67c9390f3af7c630f60bd816eba",
+                                    moduleName = "Iou",
+                                    entityName = "Amount"
+                                  )
+                                ),
+                                fields = Vector(
+                                  RecordField(
+                                    label = "value",
+                                    value = Some(value = Value(sum = Numeric(value = "100.0000000000")))
+                                  ),
+                                  RecordField(
+                                    label = "currency",
+                                    value = Some(value = Value(sum = Text(value = "EUR")))
+                                  )
+                                )
+                              )
+                            )
+                          )
+                        )
+                      ),
+                      RecordField(
+                        label = "viewers",
+                        value = Some(value = Value(sum = List(value = List(elements = Vector()))))
+                      )
+                    )
+                  )
+                ),
+                createdEventBlob = <ByteString@8a2669d size=0 contents="">,
+                interfaceViews = Vector(),
+                witnessParties = Vector(
+                  "MyParty::12201ff69b1d24edbf0ee2028a304ea702ee8536790dab1a31e7136e6d90ff6d473c"
+                ),
+                signatories = Vector(
+                  "MyParty::12201ff69b1d24edbf0ee2028a304ea702ee8536790dab1a31e7136e6d90ff6d473c"
+                ),
+                observers = Vector(),
+                createdAt = Some(
+                  value = Timestamp(
+                    seconds = 1782822795L,
+    ...
+```

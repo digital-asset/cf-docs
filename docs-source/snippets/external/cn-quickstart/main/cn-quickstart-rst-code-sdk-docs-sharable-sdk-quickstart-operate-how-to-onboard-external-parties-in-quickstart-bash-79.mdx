@@ -1,0 +1,9 @@
+```bash
+  # Generate Ed25519 private key in PEM format
+  openssl genpkey -algorithm ed25519 -out external_party_private.pem
+
+  # Extract raw public key (32 bytes) and convert to hex for API calls
+  HEX_PUBLIC_KEY=$(openssl pkey -in external_party_private.pem -pubout -outform DER | tail -c 32 | xxd -p -c 32)
+  echo "Hex public key: $HEX_PUBLIC_KEY"
+
+```

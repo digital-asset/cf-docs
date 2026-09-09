@@ -1,0 +1,848 @@
+---
+title: "PATCH /v2/idps/:idp-id"
+description: "Update selected modifiable attribute of an identity provider config resource described by the ``IdentityProviderConfig`` message."
+api: "PATCH http://localhost:7575/v2/idps/{idp-id}"
+authMethod: "bearer"
+playground: "interactive"
+sidebarTitle: "/v2/idps/:idp-id"
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--operation x2mdx-ref-page--manual-api"></div>
+
+
+
+<div class="x2mdx-ref-hero">
+
+
+
+  <p class="x2mdx-ref-summary">Update selected modifiable attribute of an identity provider config resource described by the ``IdentityProviderConfig`` message.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">OpenAPI</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--changed" href="#history-updated-3-5">Updated 3.5</a>
+
+</div>
+
+
+</div>
+
+
+
+<RequestExample>
+
+```bash cURL
+curl --request PATCH \
+  --url 'http://localhost:7575/v2/idps/{idp-id}' \
+  --header 'Authorization: Bearer $TOKEN' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "identityProviderConfig": {
+    "identityProviderId": "<string>",
+    "isDeactivated": false,
+    "issuer": "<string>",
+    "jwksUrl": "<string>",
+    "audience": "<string>"
+  },
+  "updateMask": {
+    "paths": [
+      "<string>"
+    ],
+    "unknownFields": {
+      "fields": {}
+    }
+  }
+}'
+```
+
+```python Python
+import json
+import requests
+
+url = "http://localhost:7575/v2/idps/{idp-id}"
+headers = {'Authorization': 'Bearer <token>', 'Content-Type': 'application/json'}
+payload = json.loads(r'''{
+  "identityProviderConfig": {
+    "identityProviderId": "<string>",
+    "isDeactivated": false,
+    "issuer": "<string>",
+    "jwksUrl": "<string>",
+    "audience": "<string>"
+  },
+  "updateMask": {
+    "paths": [
+      "<string>"
+    ],
+    "unknownFields": {
+      "fields": {}
+    }
+  }
+}''')
+response = requests.request(
+    "PATCH", url, headers=headers, json=payload
+)
+
+print(response.text)
+```
+
+```javascript JavaScript
+const response = await fetch('http://localhost:7575/v2/idps/{idp-id}', {
+  method: 'PATCH',
+  headers: {
+  "Authorization": "Bearer <token>",
+  "Content-Type": "application/json"
+},
+  body: JSON.stringify({
+  "identityProviderConfig": {
+    "identityProviderId": "<string>",
+    "isDeactivated": false,
+    "issuer": "<string>",
+    "jwksUrl": "<string>",
+    "audience": "<string>"
+  },
+  "updateMask": {
+    "paths": [
+      "<string>"
+    ],
+    "unknownFields": {
+      "fields": {}
+    }
+  }
+}),
+});
+
+console.log(await response.text());
+```
+
+```php PHP
+<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => 'http://localhost:7575/v2/idps/{idp-id}',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CUSTOMREQUEST => 'PATCH',
+    CURLOPT_POSTFIELDS => <<<'JSON'
+{
+  "identityProviderConfig": {
+    "identityProviderId": "<string>",
+    "isDeactivated": false,
+    "issuer": "<string>",
+    "jwksUrl": "<string>",
+    "audience": "<string>"
+  },
+  "updateMask": {
+    "paths": [
+      "<string>"
+    ],
+    "unknownFields": {
+      "fields": {}
+    }
+  }
+}
+JSON,
+    CURLOPT_HTTPHEADER => [
+        "Authorization: Bearer <token>",
+        "Content-Type: application/json"
+    ],
+]);
+
+$response = curl_exec($curl);
+echo $response;
+```
+
+```go Go
+package main
+
+import (
+  "bytes"
+  "fmt"
+  "io"
+  "net/http"
+)
+
+func main() {
+  req, _ := http.NewRequest("PATCH", "http://localhost:7575/v2/idps/{idp-id}", bytes.NewBufferString(`{
+  "identityProviderConfig": {
+    "identityProviderId": "<string>",
+    "isDeactivated": false,
+    "issuer": "<string>",
+    "jwksUrl": "<string>",
+    "audience": "<string>"
+  },
+  "updateMask": {
+    "paths": [
+      "<string>"
+    ],
+    "unknownFields": {
+      "fields": {}
+    }
+  }
+}`))
+  req.Header.Set("Authorization", "Bearer <token>")
+  req.Header.Set("Content-Type", "application/json")
+  response, _ := http.DefaultClient.Do(req)
+  defer response.Body.Close()
+  body, _ := io.ReadAll(response.Body)
+  fmt.Println(string(body))
+}
+```
+
+```java Java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+var request = HttpRequest.newBuilder()
+    .uri(URI.create("http://localhost:7575/v2/idps/{idp-id}"))
+    .header("Authorization", "Bearer <token>")
+    .header("Content-Type", "application/json")
+    .method("PATCH", HttpRequest.BodyPublishers.ofString("""
+{
+  "identityProviderConfig": {
+    "identityProviderId": "<string>",
+    "isDeactivated": false,
+    "issuer": "<string>",
+    "jwksUrl": "<string>",
+    "audience": "<string>"
+  },
+  "updateMask": {
+    "paths": [
+      "<string>"
+    ],
+    "unknownFields": {
+      "fields": {}
+    }
+  }
+}
+"""))
+    .build();
+var response = HttpClient.newHttpClient().send(
+    request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```ruby Ruby
+require 'net/http'
+require 'uri'
+
+uri = URI('http://localhost:7575/v2/idps/{idp-id}')
+request = Net::HTTP::Patch.new(uri)
+request['Authorization'] = 'Bearer <token>'
+request['Content-Type'] = 'application/json'
+request.body = <<~JSON
+{
+  "identityProviderConfig": {
+    "identityProviderId": "<string>",
+    "isDeactivated": false,
+    "issuer": "<string>",
+    "jwksUrl": "<string>",
+    "audience": "<string>"
+  },
+  "updateMask": {
+    "paths": [
+      "<string>"
+    ],
+    "unknownFields": {
+      "fields": {}
+    }
+  }
+}
+JSON
+response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+  http.request(request)
+end
+puts response.body
+```
+
+</RequestExample>
+
+
+<ResponseExample>
+
+```json 200
+{
+  "identityProviderConfig": {
+    "identityProviderId": "<string>",
+    "isDeactivated": false,
+    "issuer": "<string>",
+    "jwksUrl": "<string>",
+    "audience": "<string>"
+  }
+}
+```
+
+```text 400
+<string>
+```
+
+```json default
+{
+  "code": "<string>",
+  "cause": "<string>",
+  "correlationId": "<string>",
+  "traceId": "<string>",
+  "context": {},
+  "resources": [
+    [
+      "<string>"
+    ]
+  ],
+  "errorCategory": 123,
+  "grpcCodeValue": 123,
+  "retryInfo": "<string>",
+  "definiteAnswer": false
+}
+```
+
+</ResponseExample>
+
+
+## Authorizations
+
+
+### httpAuth
+
+
+
+
+
+
+<ParamField header="Authorization" type="string" required>
+
+
+HTTP bearer authentication. Send the token as `Authorization: Bearer &lt;token&gt;`. Ledger API standard JWT token
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+### apiKeyAuth
+
+
+
+
+
+
+<ParamField header="Sec-WebSocket-Protocol" type="string" required>
+
+
+API key authentication in the header. Ledger API standard JWT token (websocket)
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+
+
+## Path parameters
+
+
+
+
+
+
+
+
+<ParamField path="idp-id" type="string" required>
+
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+## Body
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ParamField body="identityProviderConfig" type="object" required>
+OpenAPI type: <code>IdentityProviderConfig</code>.
+
+
+
+The identity provider config to update. Modifiable Required
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="identityProviderId" type="string" required>
+
+
+The identity provider identifier Must be a valid LedgerString (as describe in ``value.proto``). Required
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="isDeactivated" type="boolean">
+
+
+When set, the callers using JWT tokens issued by this identity provider are denied all access to the Ledger API. Modifiable Optional
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="issuer" type="string" required>
+
+
+Specifies the issuer of the JWT token. The issuer value is a case sensitive URL using the https scheme that contains scheme, host, and optionally, port number and path components and no query or fragment components. Modifiable Can be left empty when used in `UpdateIdentityProviderConfigRequest` if the issuer is not being updated. Required
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="jwksUrl" type="string" required>
+
+
+The JWKS (JSON Web Key Set) URL. The Ledger API uses JWKs (JSON Web Keys) from the provided URL to verify that the JWT has been signed with the loaded JWK. Only RS256 (RSA Signature with SHA-256) signing algorithm is supported. Modifiable Required
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="audience" type="string">
+
+
+Specifies the audience of the JWT token. When set, the callers using JWT tokens issued by this identity provider are allowed to get an access only if the &quot;aud&quot; claim includes the string specified here Modifiable Optional
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+<ParamField body="updateMask" type="object" required>
+OpenAPI type: <code>FieldMask</code>.
+
+
+
+An update mask specifies how and which properties of the ``IdentityProviderConfig`` message are to be updated. An update mask consists of a set of update paths. A valid update path points to a field or a subfield relative to the ``IdentityProviderConfig`` message. A valid update mask must: 1. contain at least one update path, 2. contain only valid update paths. Fields that can be updated are marked as ``Modifiable``. For additional information see the documentation for standard protobuf3&#x27;s ``google.protobuf.FieldMask``. Required
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="paths" type="string[]">
+
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="unknownFields" type="object" required>
+OpenAPI type: <code>UnknownFieldSet</code>.
+
+
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="fields" type="object" required>
+OpenAPI type: <code>Map_Int_Field</code>.
+
+
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+
+
+
+## Responses
+
+
+### 200
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="identityProviderConfig" type="IdentityProviderConfig" required>
+
+Updated identity provider config Required
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="identityProviderId" type="string" required>
+
+The identity provider identifier Must be a valid LedgerString (as describe in ``value.proto``). Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="isDeactivated" type="boolean">
+
+When set, the callers using JWT tokens issued by this identity provider are denied all access to the Ledger API. Modifiable Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="issuer" type="string" required>
+
+Specifies the issuer of the JWT token. The issuer value is a case sensitive URL using the https scheme that contains scheme, host, and optionally, port number and path components and no query or fragment components. Modifiable Can be left empty when used in `UpdateIdentityProviderConfigRequest` if the issuer is not being updated. Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="jwksUrl" type="string" required>
+
+The JWKS (JSON Web Key Set) URL. The Ledger API uses JWKs (JSON Web Keys) from the provided URL to verify that the JWT has been signed with the loaded JWK. Only RS256 (RSA Signature with SHA-256) signing algorithm is supported. Modifiable Required
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="audience" type="string">
+
+Specifies the audience of the JWT token. When set, the callers using JWT tokens issued by this identity provider are allowed to get an access only if the &quot;aud&quot; claim includes the string specified here Modifiable Optional
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+
+
+### 400
+
+Invalid value, Invalid value for: body
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">text/plain</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="value" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+### default
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="code" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="cause" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="correlationId" type="string">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="traceId" type="string">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="context" type="Map_String" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="resources" type="Tuple2_String_String[]">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="errorCategory" type="integer (int32)" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="grpcCodeValue" type="integer (int32)">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="retryInfo" type="string">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="definiteAnswer" type="boolean">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+
+
+## History
+
+<div class="x2mdx-ref-history" aria-label="Reference history">
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-3-5">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">3.5</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">The PATCH /v2/idps/&#123;idp-id&#125; operation changed in this snapshot.</p>
+
+  </div>
+
+</div>

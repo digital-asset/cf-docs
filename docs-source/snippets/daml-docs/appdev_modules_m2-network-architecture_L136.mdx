@@ -1,0 +1,10 @@
+```typescript
+// Query only your party's data via your validator
+const myContracts = await ledgerApi.getActiveContracts({
+  party: myParty,
+  templateId: "Token"
+});
+
+// Can't query other parties' balances
+// Must be added as observer to see their data
+```

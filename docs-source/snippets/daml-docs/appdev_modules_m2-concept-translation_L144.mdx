@@ -1,0 +1,7 @@
+```haskell
+choice Transfer : ContractId Asset
+  controller owner  -- Only owner can exercise this choice
+  do
+    -- No runtime check needed; protocol enforces
+    create this with owner = newOwner
+```

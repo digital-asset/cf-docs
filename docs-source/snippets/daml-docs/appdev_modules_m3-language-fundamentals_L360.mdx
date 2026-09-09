@@ -1,0 +1,17 @@
+```haskell
+ifThenSElseT1 b p = if b
+  then do
+    cid <- create S with p
+    return (Left cid)
+  else do
+    cid <- create T with p
+    return (Right cid)
+
+ifThenSElseT2 b p = if b
+  then do
+    create S with p
+    return ()
+  else do
+    create T with p
+    return ()
+```

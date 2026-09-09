@@ -1,0 +1,6 @@
+```haskell
+choice Disclose : ContractId Coin
+      with p : Party
+      controller owner
+      do create this with delegates = p :: delegates
+```

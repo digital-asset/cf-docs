@@ -1,0 +1,7 @@
+```bash
+   TOKEN=$(curl -s -X POST "http://keycloak.localhost:8082/realms/AppProvider/protocol/openid-connect/token" \
+     -d "grant_type=client_credentials" \
+     -d "client_id=app-provider-validator" \
+     -d "client_secret=AL8648b9SfdTFImq7FV56Vd0KHifHBuC" | jq -r .access_token)
+
+```

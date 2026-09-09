@@ -1,0 +1,312 @@
+---
+title: "GET /v0/ans-entries/by-name/:name"
+description: "If present, the ANS entry named exactly `name`."
+api: "GET https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/ans-entries/by-name/{name}"
+playground: "interactive"
+sidebarTitle: "/v0/ans-entries/by-name/:name"
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--operation x2mdx-ref-page--manual-api"></div>
+
+
+
+<div class="x2mdx-ref-hero">
+
+
+
+  <p class="x2mdx-ref-summary">If present, the ANS entry named exactly `name`.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">OpenAPI</span>
+
+</div>
+
+
+</div>
+
+
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/ans-entries/by-name/{name}'
+```
+
+```python Python
+import json
+import requests
+
+url = "https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/ans-entries/by-name/{name}"
+response = requests.request("GET", url)
+
+print(response.text)
+```
+
+```javascript JavaScript
+const response = await fetch('https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/ans-entries/by-name/{name}', {
+  method: 'GET',
+});
+
+console.log(await response.text());
+```
+
+```php PHP
+<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => 'https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/ans-entries/by-name/{name}',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+]);
+
+$response = curl_exec($curl);
+echo $response;
+```
+
+```go Go
+package main
+
+import (
+  "fmt"
+  "io"
+  "net/http"
+)
+
+func main() {
+  req, _ := http.NewRequest("GET", "https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/ans-entries/by-name/{name}", nil)
+  response, _ := http.DefaultClient.Do(req)
+  defer response.Body.Close()
+  body, _ := io.ReadAll(response.Body)
+  fmt.Println(string(body))
+}
+```
+
+```java Java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+var request = HttpRequest.newBuilder()
+    .uri(URI.create("https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/ans-entries/by-name/{name}"))
+    .method("GET", HttpRequest.BodyPublishers.noBody())
+    .build();
+var response = HttpClient.newHttpClient().send(
+    request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```ruby Ruby
+require 'net/http'
+require 'uri'
+
+uri = URI('https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/ans-entries/by-name/{name}')
+request = Net::HTTP::Get.new(uri)
+response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+  http.request(request)
+end
+puts response.body
+```
+
+</RequestExample>
+
+
+<ResponseExample>
+
+```json 200
+{
+  "entry": {
+    "contract_id": "<string>",
+    "user": "<string>",
+    "name": "<string>",
+    "url": "<string>",
+    "description": "<string>",
+    "expires_at": "2026-01-01T00:00:00Z"
+  }
+}
+```
+
+```json 404
+{
+  "error": "<string>"
+}
+```
+
+</ResponseExample>
+
+
+
+## Path parameters
+
+
+
+
+
+
+
+
+<ParamField path="name" type="string" required>
+
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+
+## Responses
+
+
+### 200
+
+ok
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="entry" type="AnsEntry" required>
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="contract_id" type="string">
+
+If present, Daml contract ID of template `Splice.Ans:AnsEntry`. If absent, this is a DSO-provided entry for either the DSO or an SV.
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="user" type="string" required>
+
+Owner party ID of this ANS entry.
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="name" type="string" required>
+
+The ANS entry name.
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="url" type="string" required>
+
+Either empty, or an http/https URL supplied by the `user`.
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="description" type="string" required>
+
+Arbitrary description text supplied by `user`; may be empty.
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="expires_at" type="string (date-time)">
+
+Time after which this ANS entry expires; if renewed, it will have a new `contract_id` and `expires_at`. If `null` or absent, does not expire; this is the case only for special entries provided by the DSO.
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+
+
+### 404
+
+not found
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="error" type="string" required>
+
+
+
+
+
+
+</ResponseField>

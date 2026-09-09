@@ -1,0 +1,6 @@
+```haskell
+reverseWorker rev rem = case rem of
+  [] -> rev
+  x::xs -> reverseWorker (x::rev) xs
+reverse xs = reverseWorker [] xs
+```

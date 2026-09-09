@@ -1,0 +1,230 @@
+---
+title: "DA.Record"
+description: "Reference documentation for Daml module DA.Record."
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--collection"></div>
+
+<span id="module-da-record-78710"></span>
+
+
+
+<div class="x2mdx-ref-hero">
+
+  <p class="x2mdx-ref-eyebrow">Daml module</p>
+
+
+  <h1 class="x2mdx-ref-title">DA.Record</h1>
+
+
+  <p class="x2mdx-ref-summary">Exports the record machinery necessary to allow one to annotate</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Daml</span>
+
+</div>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Module</dt>
+    <dd>DA.Record</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Latest release</dt>
+    <dd>3.5.7</dd>
+  </div>
+
+</dl>
+
+</div>
+
+
+
+
+
+## Data Types
+
+
+<span id="type-da-internal-record-hasfield-59910"></span>
+
+### `type HasField x r a`
+
+= ([`GetField`](#class-da-internal-record-getfield-53979) `x` `r` `a`, [`SetField`](#class-da-internal-record-setfield-4311) `x` `r` `a`)
+
+`HasField` is a class synonym for `GetField` and `SetField`, which
+respectively give you getter and setter functions for each record field
+automatically.
+
+**In the vast majority of use-cases, plain Record syntax should be
+preferred**:
+
+```
+daml> let a = MyRecord 1 "hello"
+daml> a.foo
+1
+daml> a.bar
+"hello"
+daml> a { bar = "bye" }
+MyRecord {foo = 1, bar = "bye"}
+daml> a with foo = 3
+MyRecord {foo = 3, bar = "hello"}
+daml>
+```
+
+For more on Record syntax, see https://docs.digitalasset.com/build/3.4/reference/daml/stdlib/DA-Record.html.
+
+`GetField x r a` and `SetField x r a` are typeclasses taking three parameters. The first
+parameter `x` is the field name, the second parameter `r` is the record type,
+and the last parameter `a` is the type of the field in this record. For
+example, if we define a type:
+
+```
+data MyRecord = MyRecord with
+    foo : Int
+    bar : Text
+```
+
+Then we get, for free, the following GetField and SetField instances:
+
+```
+GetField "foo" MyRecord Int
+SetField "foo" MyRecord Int
+GetField "bar" MyRecord Text
+SetField "bar" MyRecord Text
+```
+
+If we want to get a value, we can use the `getField` method of class `GetField`:
+
+```
+getFoo : MyRecord -> Int
+getFoo r = getField @"foo" r
+
+getBar : MyRecord -> Text
+getBar r = getField @"bar" r
+```
+
+Note that this uses the “type application” syntax ( `f @t` ) to specify the
+field name.
+
+Likewise, if we want to set the value in the field, we can use the `setField` method of class `SetField`:
+
+```
+setFoo : Int -> MyRecord -> MyRecord
+setFoo a r = setField @"foo" a r
+
+setBar : Text -> MyRecord -> MyRecord
+setBar a r = setField @"bar" a r
+```
+
+
+
+## Typeclasses
+
+
+<span id="class-da-internal-record-getfield-53979"></span>
+
+### `class GetField x r a`
+
+`GetField x r a` provides the getter part of `HasField`
+
+Methods:
+
+- `getField` : `r` -> `a`
+
+Instances:
+
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `_1` (`a`, `b`) `a`
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `_1` (`a`, `b`, `c`) `a`
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `_1` (`a`, `b`, `c`, `d`) `a`
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `_1` (`a`, `b`, `c`, `d`, `e`) `a`
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `_2` (`a`, `b`) `b`
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `_2` (`a`, `b`, `c`) `b`
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `_2` (`a`, `b`, `c`, `d`) `b`
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `_2` (`a`, `b`, `c`, `d`, `e`) `b`
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `_3` (`a`, `b`, `c`) `c`
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `_3` (`a`, `b`, `c`, `d`) `c`
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `_3` (`a`, `b`, `c`, `d`, `e`) `c`
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `_4` (`a`, `b`, `c`, `d`) `d`
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `_4` (`a`, `b`, `c`, `d`, `e`) `d`
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `_5` (`a`, `b`, `c`, `d`, `e`) `e`
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `appEndo` ([`Endo`](/appdev/reference/daml-standard-library/da-monoid#type-da-monoid-types-endo-95420) `a`) (`a` -> `a`)
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `category` [`FailureStatus`](/appdev/reference/daml-standard-library/da-fail#type-da-internal-fail-types-failurestatus-69615) [`FailureCategory`](/appdev/reference/daml-standard-library/da-fail#type-da-internal-fail-types-failurecategory-97811)
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `errorId` [`FailureStatus`](/appdev/reference/daml-standard-library/da-fail#type-da-internal-fail-types-failurestatus-69615) [`Text`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `getAll` [`All`](/appdev/reference/daml-standard-library/da-monoid#type-da-monoid-types-all-38142) [`Bool`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `getAny` [`Any`](/appdev/reference/daml-standard-library/da-monoid#type-da-monoid-types-any-3989) [`Bool`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `getAnyView` [`AnyView`](/appdev/reference/daml-standard-library/da-internal-interface-anyview-types#type-da-internal-interface-anyview-types-anyview-16883) `Any`
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `getAnyViewInterfaceTypeRep` [`AnyView`](/appdev/reference/daml-standard-library/da-internal-interface-anyview-types#type-da-internal-interface-anyview-types-anyview-16883) [`InterfaceTypeRep`](/appdev/reference/daml-standard-library/da-internal-interface-anyview-types#type-da-internal-interface-anyview-types-interfacetyperep-5047)
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `hd` ([`NonEmpty`](/appdev/reference/daml-standard-library/da-nonempty-types#type-da-nonempty-types-nonempty-16010) `a`) `a`
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `map` ([`Set`](/appdev/reference/daml-standard-library/da-set#type-da-set-types-set-90436) `k`) ([`Map`](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-map-90052) `k` ())
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `message` [`FailureStatus`](/appdev/reference/daml-standard-library/da-fail#type-da-internal-fail-types-failurestatus-69615) [`Text`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `message` [`ArithmeticError`](/appdev/reference/daml-standard-library/da-exception#type-da-exception-arithmeticerror-arithmeticerror-68828) [`Text`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `message` [`AssertionFailed`](/appdev/reference/daml-standard-library/da-exception#type-da-exception-assertionfailed-assertionfailed-69740) [`Text`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `message` [`GeneralError`](/appdev/reference/daml-standard-library/da-exception#type-da-exception-generalerror-generalerror-5800) [`Text`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `message` [`PreconditionFailed`](/appdev/reference/daml-standard-library/da-exception#type-da-exception-preconditionfailed-preconditionfailed-61218) [`Text`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `meta` [`FailureStatus`](/appdev/reference/daml-standard-library/da-fail#type-da-internal-fail-types-failurestatus-69615) ([`TextMap`](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) [`Text`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952))
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `runState` ([`State`](/appdev/reference/daml-standard-library/da-action-state#type-da-action-state-type-state-76783) `s` `a`) (`s` -> (`a`, `s`))
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `srcLocEndCol` [`SrcLoc`](/appdev/reference/daml-standard-library/da-stack#type-da-stack-types-srcloc-15887) [`Int`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `srcLocEndLine` [`SrcLoc`](/appdev/reference/daml-standard-library/da-stack#type-da-stack-types-srcloc-15887) [`Int`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `srcLocFile` [`SrcLoc`](/appdev/reference/daml-standard-library/da-stack#type-da-stack-types-srcloc-15887) [`Text`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `srcLocModule` [`SrcLoc`](/appdev/reference/daml-standard-library/da-stack#type-da-stack-types-srcloc-15887) [`Text`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `srcLocPackage` [`SrcLoc`](/appdev/reference/daml-standard-library/da-stack#type-da-stack-types-srcloc-15887) [`Text`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `srcLocStartCol` [`SrcLoc`](/appdev/reference/daml-standard-library/da-stack#type-da-stack-types-srcloc-15887) [`Int`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `srcLocStartLine` [`SrcLoc`](/appdev/reference/daml-standard-library/da-stack#type-da-stack-types-srcloc-15887) [`Int`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+- instance [`GetField`](#class-da-internal-record-getfield-53979) `tl` ([`NonEmpty`](/appdev/reference/daml-standard-library/da-nonempty-types#type-da-nonempty-types-nonempty-16010) `a`) [`a`]
+
+
+<span id="class-da-internal-record-setfield-4311"></span>
+
+### `class SetField x r a`
+
+`SetField x r a` provides the setter part of `HasField`
+
+Methods:
+
+- `setField` : `a` -> `r` -> `r`
+
+Instances:
+
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `_1` (`a`, `b`) `a`
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `_1` (`a`, `b`, `c`) `a`
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `_1` (`a`, `b`, `c`, `d`) `a`
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `_1` (`a`, `b`, `c`, `d`, `e`) `a`
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `_2` (`a`, `b`) `b`
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `_2` (`a`, `b`, `c`) `b`
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `_2` (`a`, `b`, `c`, `d`) `b`
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `_2` (`a`, `b`, `c`, `d`, `e`) `b`
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `_3` (`a`, `b`, `c`) `c`
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `_3` (`a`, `b`, `c`, `d`) `c`
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `_3` (`a`, `b`, `c`, `d`, `e`) `c`
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `_4` (`a`, `b`, `c`, `d`) `d`
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `_4` (`a`, `b`, `c`, `d`, `e`) `d`
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `_5` (`a`, `b`, `c`, `d`, `e`) `e`
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `appEndo` ([`Endo`](/appdev/reference/daml-standard-library/da-monoid#type-da-monoid-types-endo-95420) `a`) (`a` -> `a`)
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `category` [`FailureStatus`](/appdev/reference/daml-standard-library/da-fail#type-da-internal-fail-types-failurestatus-69615) [`FailureCategory`](/appdev/reference/daml-standard-library/da-fail#type-da-internal-fail-types-failurecategory-97811)
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `errorId` [`FailureStatus`](/appdev/reference/daml-standard-library/da-fail#type-da-internal-fail-types-failurestatus-69615) [`Text`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `getAll` [`All`](/appdev/reference/daml-standard-library/da-monoid#type-da-monoid-types-all-38142) [`Bool`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `getAny` [`Any`](/appdev/reference/daml-standard-library/da-monoid#type-da-monoid-types-any-3989) [`Bool`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `getAnyView` [`AnyView`](/appdev/reference/daml-standard-library/da-internal-interface-anyview-types#type-da-internal-interface-anyview-types-anyview-16883) `Any`
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `getAnyViewInterfaceTypeRep` [`AnyView`](/appdev/reference/daml-standard-library/da-internal-interface-anyview-types#type-da-internal-interface-anyview-types-anyview-16883) [`InterfaceTypeRep`](/appdev/reference/daml-standard-library/da-internal-interface-anyview-types#type-da-internal-interface-anyview-types-interfacetyperep-5047)
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `hd` ([`NonEmpty`](/appdev/reference/daml-standard-library/da-nonempty-types#type-da-nonempty-types-nonempty-16010) `a`) `a`
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `map` ([`Set`](/appdev/reference/daml-standard-library/da-set#type-da-set-types-set-90436) `k`) ([`Map`](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-map-90052) `k` ())
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `message` [`FailureStatus`](/appdev/reference/daml-standard-library/da-fail#type-da-internal-fail-types-failurestatus-69615) [`Text`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `message` [`ArithmeticError`](/appdev/reference/daml-standard-library/da-exception#type-da-exception-arithmeticerror-arithmeticerror-68828) [`Text`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `message` [`AssertionFailed`](/appdev/reference/daml-standard-library/da-exception#type-da-exception-assertionfailed-assertionfailed-69740) [`Text`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `message` [`GeneralError`](/appdev/reference/daml-standard-library/da-exception#type-da-exception-generalerror-generalerror-5800) [`Text`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `message` [`PreconditionFailed`](/appdev/reference/daml-standard-library/da-exception#type-da-exception-preconditionfailed-preconditionfailed-61218) [`Text`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `meta` [`FailureStatus`](/appdev/reference/daml-standard-library/da-fail#type-da-internal-fail-types-failurestatus-69615) ([`TextMap`](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) [`Text`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952))
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `runState` ([`State`](/appdev/reference/daml-standard-library/da-action-state#type-da-action-state-type-state-76783) `s` `a`) (`s` -> (`a`, `s`))
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `srcLocEndCol` [`SrcLoc`](/appdev/reference/daml-standard-library/da-stack#type-da-stack-types-srcloc-15887) [`Int`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `srcLocEndLine` [`SrcLoc`](/appdev/reference/daml-standard-library/da-stack#type-da-stack-types-srcloc-15887) [`Int`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `srcLocFile` [`SrcLoc`](/appdev/reference/daml-standard-library/da-stack#type-da-stack-types-srcloc-15887) [`Text`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `srcLocModule` [`SrcLoc`](/appdev/reference/daml-standard-library/da-stack#type-da-stack-types-srcloc-15887) [`Text`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `srcLocPackage` [`SrcLoc`](/appdev/reference/daml-standard-library/da-stack#type-da-stack-types-srcloc-15887) [`Text`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `srcLocStartCol` [`SrcLoc`](/appdev/reference/daml-standard-library/da-stack#type-da-stack-types-srcloc-15887) [`Int`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `srcLocStartLine` [`SrcLoc`](/appdev/reference/daml-standard-library/da-stack#type-da-stack-types-srcloc-15887) [`Int`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+- instance [`SetField`](#class-da-internal-record-setfield-4311) `tl` ([`NonEmpty`](/appdev/reference/daml-standard-library/da-nonempty-types#type-da-nonempty-types-nonempty-16010) `a`) [`a`]

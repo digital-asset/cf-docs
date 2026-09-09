@@ -1,0 +1,24 @@
+```haskell
+template CoinPoA
+  with
+    attorney: Party
+    principal: Party
+  where
+    signatory principal
+    observer attorney
+
+    choice WithdrawPoA
+      : ()
+      controller principal
+      do return ()
+
+    -- Attorney has the delegated right to Transfer
+    nonconsuming choice TransferCoin
+      : ContractId TransferProposal
+      with
+        coinId: ContractId Coin
+        newOwner: Party
+      controller attorney
+      do
+        exercise coinId Transfer with newOwner
+```

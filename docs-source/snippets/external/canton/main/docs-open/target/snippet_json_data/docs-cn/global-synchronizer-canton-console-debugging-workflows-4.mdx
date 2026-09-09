@@ -1,0 +1,9 @@
+```scala
+@ participant1.topology.vetted_packages.list().filter(_.item.packages.exists(_.packageId.toString.contains(targetPackageId)))
+    res5: Seq[com.digitalasset.canton.admin.api.client.data.topology.ListVettedPackagesResult] = Vector()
+```
+
+```scala
+@ participant1.dars.upload("dars/CantonExamples.dar")
+    res6: String = "2b4b62a3503e321acd9736013530de57e028d67c9390f3af7c630f60bd816eba"
+```

@@ -1,0 +1,21 @@
+```java
+int maxRetries = 3;
+for (int attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+        var contract = damlRepository.findActiveAsset(assetId).join();
+        if (contract.isEmpty()) {
+            throw new NotFoundException("Asset no longer active");
+        }
+        ledger.exerciseAndGetResult(
+            contract.get().contractId, choice, UUID.randomUUID().toString()
+        ).join();
+        return; // success
+    } catch (CompletionException e) {
+        if (isContention(e) && attempt < maxRetries - 1) {
+            Thread.sleep((long) Math.pow(2, attempt) * 100); // exponential backoff
+            continue;
+        }
+        throw e;
+    }
+}
+```

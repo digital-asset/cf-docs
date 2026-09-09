@@ -1,0 +1,31 @@
+import io.circe.Encoder
+import io.circe.syntax._
+import com.digitalasset.canton.error.generator.{ErrorCodeDocItem, ErrorCodeDocumentationGenerator}
+
+implicit val errorCodeEncoder: Encoder[ErrorCodeDocItem] =
+  Encoder.forProduct7(
+    "className",
+    "category",
+    "hierarchicalGrouping",
+    "conveyance",
+    "code",
+    "explanation",
+    "resolution",
+  )(item =>
+    (
+      item.errorCodeClassName,
+      item.category.toString,
+      item.hierarchicalGrouping.groupings.map(_.docName),
+      item.conveyance,
+      item.code,
+      item.explanation.map(_.explanation),
+      item.resolution.map(_.resolution),
+    )
+  )
+
+val errorCodes = ErrorCodeDocumentationGenerator.getErrorCodeItems(
+  searchPackagePrefixes = Array("com.digitalasset.canton"),
+  excludePackagePrefixes = Array("com.digitalasset.canton.error.testpackage"),
+)
+
+println(io.circe.Json.obj("errorCodes" -> errorCodes.asJson).spaces2)

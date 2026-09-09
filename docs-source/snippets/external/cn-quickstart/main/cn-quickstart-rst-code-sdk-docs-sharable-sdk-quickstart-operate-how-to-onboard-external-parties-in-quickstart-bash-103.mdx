@@ -1,0 +1,12 @@
+```bash
+  GENERATE_RESPONSE=$(curl -sS -X POST http://localhost:2903/api/validator/v0/admin/external-party/topology/generate \
+  -H "Authorization: Bearer $ADMIN_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "party_hint": "'"$PARTY_HINT"'",
+    "public_key": "'"$HEX_PUBLIC_KEY"'"
+  }')
+
+  echo "$GENERATE_RESPONSE" | jq .
+
+```

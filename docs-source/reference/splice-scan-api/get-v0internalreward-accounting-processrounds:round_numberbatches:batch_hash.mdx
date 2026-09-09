@@ -1,0 +1,401 @@
+---
+title: "GET /v0/internal/reward-accounting-process/rounds/:round_number/batches/:batch_hash"
+description: "SV node internal API (CIP-0104, subject to change). Returns the contents of a reward batch identified by its hash. The response is either a list of child batch hashes (for internal nodes) or a list of minting allowances (for leaf nodes)."
+api: "GET https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/internal/reward-accounting-process/rounds/{round_number}/batches/{batch_hash}"
+playground: "interactive"
+sidebarTitle: "/v0/internal/reward-accounting-process/rounds/:round_number/batches/:batch_hash"
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--operation x2mdx-ref-page--manual-api"></div>
+
+
+
+<div class="x2mdx-ref-hero">
+
+
+
+  <p class="x2mdx-ref-summary">SV node internal API (CIP-0104, subject to change). Returns the contents of a reward batch identified by its hash. The response is either a list of child batch hashes (for internal nodes) or a list of minting allowances (for leaf nodes).</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">OpenAPI</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--added" href="#history-added-0-6-0">Added 0.6.0</a>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--changed" href="#history-updated-0-6-5">Updated 0.6.5</a>
+
+</div>
+
+
+</div>
+
+
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/internal/reward-accounting-process/rounds/{round_number}/batches/{batch_hash}'
+```
+
+```python Python
+import json
+import requests
+
+url = "https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/internal/reward-accounting-process/rounds/{round_number}/batches/{batch_hash}"
+response = requests.request("GET", url)
+
+print(response.text)
+```
+
+```javascript JavaScript
+const response = await fetch('https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/internal/reward-accounting-process/rounds/{round_number}/batches/{batch_hash}', {
+  method: 'GET',
+});
+
+console.log(await response.text());
+```
+
+```php PHP
+<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => 'https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/internal/reward-accounting-process/rounds/{round_number}/batches/{batch_hash}',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+]);
+
+$response = curl_exec($curl);
+echo $response;
+```
+
+```go Go
+package main
+
+import (
+  "fmt"
+  "io"
+  "net/http"
+)
+
+func main() {
+  req, _ := http.NewRequest("GET", "https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/internal/reward-accounting-process/rounds/{round_number}/batches/{batch_hash}", nil)
+  response, _ := http.DefaultClient.Do(req)
+  defer response.Body.Close()
+  body, _ := io.ReadAll(response.Body)
+  fmt.Println(string(body))
+}
+```
+
+```java Java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+var request = HttpRequest.newBuilder()
+    .uri(URI.create("https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/internal/reward-accounting-process/rounds/{round_number}/batches/{batch_hash}"))
+    .method("GET", HttpRequest.BodyPublishers.noBody())
+    .build();
+var response = HttpClient.newHttpClient().send(
+    request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```ruby Ruby
+require 'net/http'
+require 'uri'
+
+uri = URI('https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/internal/reward-accounting-process/rounds/{round_number}/batches/{batch_hash}')
+request = Net::HTTP::Get.new(uri)
+response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+  http.request(request)
+end
+puts response.body
+```
+
+</RequestExample>
+
+
+<ResponseExample>
+
+```json 200
+{
+  "batch_type": "<string>",
+  "child_hashes": [
+    "<string>"
+  ]
+}
+```
+
+```json 404
+{
+  "error": "<string>"
+}
+```
+
+</ResponseExample>
+
+
+
+## Path parameters
+
+
+
+
+
+
+
+
+<ParamField path="round_number" type="number" required>
+OpenAPI type: <code>integer (int64)</code>.
+
+
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField path="batch_hash" type="string" required>
+
+
+Hex-encoded batch hash
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+
+## Responses
+
+
+### 200
+
+ok
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="value" type="GetRewardAccountingBatchResponse" required>
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="RewardAccountingBatchOfBatches" type="RewardAccountingBatchOfBatches">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="batch_type" type="string" required>
+
+The type of batch. BatchOfBatches: Contains child batch hashes. BatchOfMintingAllowances: Contains party + amount pairs.
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="child_hashes" type="string[]" required>
+
+Hex-encoded child batch hashes
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="RewardAccountingBatchOfMintingAllowances" type="RewardAccountingBatchOfMintingAllowances">
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="batch_type" type="string" required>
+
+The type of batch. BatchOfBatches: Contains child batch hashes. BatchOfMintingAllowances: Contains party + amount pairs.
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="minting_allowances" type="RewardAccountingMintingAllowance[]" required>
+
+Party + amount pairs
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="provider" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="amount" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+
+
+
+### 404
+
+not found
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="error" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+
+
+## History
+
+<div class="x2mdx-ref-history" aria-label="Reference history">
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-0-6-5">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">0.6.5</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">The operation moved from GET /v0/reward-accounting-process/rounds/&#123;round_number&#125;/batches/&#123;batch_hash&#125; to GET /v0/internal/reward-accounting-process/rounds/&#123;round_number&#125;/batches/&#123;batch_hash&#125;.</p>
+
+  </div>
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--introduced" id="history-added-0-6-0">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Added</span>
+      <code class="x2mdx-ref-history-event-version">0.6.0</code>
+    </div>
+
+  </div>
+
+</div>

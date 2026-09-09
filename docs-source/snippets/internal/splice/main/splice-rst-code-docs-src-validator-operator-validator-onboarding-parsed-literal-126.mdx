@@ -1,0 +1,7 @@
+```bash
+(set -o pipefail
+for url in $(curl -fsS -m 5 --connect-timeout 5 |gsf_scan_url|/api/scan/v0/dso-sequencers | jq -r '.domainSequencers[].sequencers[].url | sub("https://"; "")'); do
+  echo -n "$url: "
+  grpcurl --max-time 10 "$url":443 grpc.health.v1.Health/Check
+done)
+```

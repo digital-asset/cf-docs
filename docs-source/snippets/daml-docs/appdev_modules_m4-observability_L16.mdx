@@ -1,0 +1,14 @@
+```xml
+<configuration>
+  <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+      <includeMdcKeyName>command-id</includeMdcKeyName>
+      <includeMdcKeyName>party</includeMdcKeyName>
+    </encoder>
+  </appender>
+
+  <root level="INFO">
+    <appender-ref ref="JSON" />
+  </root>
+</configuration>
+```

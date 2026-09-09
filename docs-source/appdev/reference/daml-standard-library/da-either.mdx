@@ -1,0 +1,152 @@
+---
+title: "DA.Either"
+description: "Reference documentation for Daml module DA.Either."
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--collection"></div>
+
+<span id="module-da-either-91022"></span>
+
+
+
+<div class="x2mdx-ref-hero">
+
+  <p class="x2mdx-ref-eyebrow">Daml module</p>
+
+
+  <h1 class="x2mdx-ref-title">DA.Either</h1>
+
+
+  <p class="x2mdx-ref-summary">The Either type represents values with two possibilities.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Daml</span>
+
+</div>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Module</dt>
+    <dd>DA.Either</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Latest release</dt>
+    <dd>3.5.7</dd>
+  </div>
+
+</dl>
+
+</div>
+
+
+
+
+
+## Functions
+
+
+<span id="function-da-either-lefts-59601"></span>
+
+### `lefts`
+
+`lefts` : [[`Either`](/appdev/reference/daml-standard-library/prelude#type-da-types-either-56020) `a` `b`] -> [`a`]
+
+Extracts all the `Left` elements from a list.
+
+
+<span id="function-da-either-rights-20455"></span>
+
+### `rights`
+
+`rights` : [[`Either`](/appdev/reference/daml-standard-library/prelude#type-da-types-either-56020) `a` `b`] -> [`b`]
+
+Extracts all the `Right` elements from a list.
+
+
+<span id="function-da-either-partitioneithers-19904"></span>
+
+### `partitionEithers`
+
+`partitionEithers` : [[`Either`](/appdev/reference/daml-standard-library/prelude#type-da-types-either-56020) `a` `b`] -> ([`a`], [`b`])
+
+Partitions a list of `Either` into two lists, the `Left` and
+`Right` elements respectively. Order is maintained.
+
+
+<span id="function-da-either-isleft-96021"></span>
+
+### `isLeft`
+
+`isLeft` : [`Either`](/appdev/reference/daml-standard-library/prelude#type-da-types-either-56020) `a` `b` -> [`Bool`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+Return `True` if the given value is a `Left`-value, `False`
+otherwise.
+
+
+<span id="function-da-either-isright-36975"></span>
+
+### `isRight`
+
+`isRight` : [`Either`](/appdev/reference/daml-standard-library/prelude#type-da-types-either-56020) `a` `b` -> [`Bool`](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+Return `True` if the given value is a `Right`-value, `False`
+otherwise.
+
+
+<span id="function-da-either-fromleft-63875"></span>
+
+### `fromLeft`
+
+`fromLeft` : `a` -> [`Either`](/appdev/reference/daml-standard-library/prelude#type-da-types-either-56020) `a` `b` -> `a`
+
+Return the contents of a `Left`-value, or a default value
+in case of a `Right`-value.
+
+
+<span id="function-da-either-fromright-27657"></span>
+
+### `fromRight`
+
+`fromRight` : `b` -> [`Either`](/appdev/reference/daml-standard-library/prelude#type-da-types-either-56020) `a` `b` -> `b`
+
+Return the contents of a `Right`-value, or a default value
+in case of a `Left`-value.
+
+
+<span id="function-da-either-optionaltoeither-21876"></span>
+
+### `optionalToEither`
+
+`optionalToEither` : `a` -> [`Optional`](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) `b` -> [`Either`](/appdev/reference/daml-standard-library/prelude#type-da-types-either-56020) `a` `b`
+
+Convert a `Optional` value to an `Either` value, using the supplied
+parameter as the `Left` value if the `Optional` is `None`.
+
+
+<span id="function-da-either-eithertooptional-89140"></span>
+
+### `eitherToOptional`
+
+`eitherToOptional` : [`Either`](/appdev/reference/daml-standard-library/prelude#type-da-types-either-56020) `a` `b` -> [`Optional`](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) `b`
+
+Convert an `Either` value to a `Optional`, dropping any value in
+`Left`.
+
+
+<span id="function-da-either-maybetoeither-6635"></span>
+
+### `maybeToEither`
+
+`maybeToEither` : `a` -> [`Optional`](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) `b` -> [`Either`](/appdev/reference/daml-standard-library/prelude#type-da-types-either-56020) `a` `b`
+
+
+<span id="function-da-either-eithertomaybe-94811"></span>
+
+### `eitherToMaybe`
+
+`eitherToMaybe` : [`Either`](/appdev/reference/daml-standard-library/prelude#type-da-types-either-56020) `a` `b` -> [`Optional`](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) `b`

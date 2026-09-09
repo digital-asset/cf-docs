@@ -1,0 +1,20 @@
+```haskell
+template Token
+  with
+    -- Data fields
+    owner : Party
+    issuer : Party
+    amount : Decimal
+  where
+    -- Authorization
+    signatory issuer
+    observer owner
+
+    -- Actions
+    choice ChangeOwner : ContractId Token
+      with
+        newOwner : Party
+      controller owner
+      do
+        create this with owner = newOwner
+```

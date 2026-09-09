@@ -1,0 +1,23 @@
+```haskell
+simple_iou_test = do
+  alice <- allocateParty "Alice"
+  bob <- allocateParty "Bob"
+
+  -- Alice and Bob enter into a trade.
+  -- Alice transfers the payment as a SimpleIou.
+  iou <- submit alice do
+    createCmd SimpleIou with
+      issuer = alice
+      owner = bob
+      cash = Cash with
+        amount = 100.0
+        currency = "USD"
+
+  passTime (days 1)
+  -- Bob delivers the goods.
+
+  passTime (minutes 10)
+  -- Alice just deletes the payment.
+  submit alice do
+    archiveCmd iou
+```

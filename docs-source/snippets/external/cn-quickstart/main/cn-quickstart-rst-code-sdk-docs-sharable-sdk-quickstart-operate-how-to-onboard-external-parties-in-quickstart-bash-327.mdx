@@ -1,0 +1,31 @@
+```bash
+  grpcurl -emit-defaults -plaintext \
+    -H "Authorization: Bearer $LEDGER_TOKEN" \
+    -d '{
+      "user_id": "ledger-api-user",
+      "command_id": "'"$(uuidgen)"'",
+      "act_as": ["'"$PARTY_ID"'"],
+      "synchronizer_id": "'"$SYNCHRONIZER_ID"'",
+      "commands": [
+        {
+          "create": {
+            "template_id": {
+              "package_id": "#canton-builtin-admin-workflow-ping",
+              "module_name": "Canton.Internal.Ping",
+              "entity_name": "Ping"
+            },
+            "create_arguments": {
+              "fields": [
+                { "label": "id", "value": { "text": "external-party-ping-test" } },
+                { "label": "initiator", "value": { "party": "'"$PARTY_ID"'" } },
+                { "label": "responder", "value": { "party": "'"$RESPONDER_PARTY"'" } }
+              ]
+            }
+          }
+        }
+      ]
+    }' localhost:2901 \
+    com.daml.ledger.api.v2.interactive.InteractiveSubmissionService/PrepareSubmission \
+    > prepare_response.json
+
+```

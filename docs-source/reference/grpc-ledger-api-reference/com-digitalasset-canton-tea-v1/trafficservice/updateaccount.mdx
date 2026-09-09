@@ -1,0 +1,407 @@
+---
+title: "UpdateAccount"
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--operation"></div>
+
+
+<div className="x2mdx-ref-operation-shell">
+<div className="x2mdx-ref-operation-main">
+
+
+<div class="x2mdx-ref-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+
+
+  <span>Other APIs</span>
+
+
+  <span class="x2mdx-ref-breadcrumb-separator">›</span>
+
+
+
+  <a href="../../overview">gRPC API</a>
+
+
+  <span class="x2mdx-ref-breadcrumb-separator">›</span>
+
+
+
+  <a href="../../com-digitalasset-canton-tea-v1">com.digitalasset.canton.tea.v1</a>
+
+
+  <span class="x2mdx-ref-breadcrumb-separator">›</span>
+
+
+
+  <span>UpdateAccount</span>
+
+
+
+</div>
+
+
+<div class="x2mdx-ref-hero">
+
+  <p class="x2mdx-ref-eyebrow">com.digitalasset.canton.tea.v1</p>
+
+
+  <h1 class="x2mdx-ref-title">UpdateAccount</h1>
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">gRPC</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--added" href="#history-added-3-5-15">Added 3.5.15</a>
+
+</div>
+
+
+</div>
+
+<div class="x2mdx-ref-operation-bar">
+
+  <span class="x2mdx-ref-operation-method x2mdx-ref-operation-method--rpc">RPC</span>
+
+  <code>/com.digitalasset.canton.tea.v1.TrafficService/UpdateAccount</code>
+</div>
+
+
+## Protocol Details
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Protocol</dt>
+    <dd>gRPC</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Service</dt>
+    <dd>TrafficService</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>RPC</dt>
+    <dd>UpdateAccount</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Client stream</dt>
+    <dd>No</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Server stream</dt>
+    <dd>No</dd>
+  </div>
+
+</dl>
+
+
+## Inputs
+
+
+
+<div class="x2mdx-ref-panel">
+  <div class="x2mdx-ref-panel-head">
+    <h3>UpdateAccountRequest</h3>
+
+  </div>
+
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Message</dt>
+    <dd>com.digitalasset.canton.tea.v1.UpdateAccountRequest</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Client stream</dt>
+    <dd>No</dd>
+  </div>
+
+</dl>
+
+
+
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">account_id</code>
+      <span class="x2mdx-ref-type-badge">string</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">balance_delta</code>
+      <span class="x2mdx-ref-type-badge">int64</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">deduplication_id</code>
+      <span class="x2mdx-ref-type-badge">string</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+## Outputs
+
+
+
+<div class="x2mdx-ref-panel">
+  <div class="x2mdx-ref-panel-head">
+    <h3>UpdateAccountResponse</h3>
+
+  </div>
+
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Message</dt>
+    <dd>com.digitalasset.canton.tea.v1.UpdateAccountResponse</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Server stream</dt>
+    <dd>No</dd>
+  </div>
+
+</dl>
+
+
+
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">response</code>
+      <span class="x2mdx-ref-type-badge">GetAccountResponse</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+## Related Schemas
+
+<AccordionGroup>
+
+<Accordion title="com.digitalasset.canton.tea.v1.UpdateAccountRequest">
+<div class="x2mdx-ref-schema" id="schema-com-digitalasset-canton-tea-v1-updateaccountrequest">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">account_id</code>
+      <span class="x2mdx-ref-type-badge">string</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">balance_delta</code>
+      <span class="x2mdx-ref-type-badge">int64</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">deduplication_id</code>
+      <span class="x2mdx-ref-type-badge">string</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.digitalasset.canton.tea.v1.UpdateAccountResponse">
+<div class="x2mdx-ref-schema" id="schema-com-digitalasset-canton-tea-v1-updateaccountresponse">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">response</code>
+      <span class="x2mdx-ref-type-badge">GetAccountResponse</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+<Accordion title="com.digitalasset.canton.tea.v1.GetAccountResponse">
+<div class="x2mdx-ref-schema" id="schema-com-digitalasset-canton-tea-v1-getaccountresponse">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">account_id</code>
+      <span class="x2mdx-ref-type-badge">string</span>
+
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">balance</code>
+      <span class="x2mdx-ref-type-badge">int64</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+</AccordionGroup>
+
+
+## History
+
+<div class="x2mdx-ref-history" aria-label="Reference history">
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--introduced" id="history-added-3-5-15">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Added</span>
+      <code class="x2mdx-ref-history-event-version">3.5.15</code>
+    </div>
+
+  </div>
+
+</div>
+
+
+</div>
+
+<div className="x2mdx-ref-right-rail" role="complementary" aria-label="Examples and responses">
+
+  <div className="x2mdx-ref-rail-panel">
+  <div className="x2mdx-ref-rail-code">
+<div className="x2mdx-ref-rail-head">
+  <span className="x2mdx-ref-rail-heading">grpcurl</span>
+
+</div>
+
+```bash grpcurl
+# Add -plaintext if the server is not using TLS.
+grpcurl \
+  -d @ \
+  <HOST:PORT> \
+  com.digitalasset.canton.tea.v1.TrafficService/UpdateAccount <<'EOF'
+{
+  "accountId": "string",
+  "balanceDelta": "0",
+  "deduplicationId": "string"
+}
+EOF
+```
+
+</div>
+  </div>
+
+  <div className="x2mdx-ref-rail-panel">
+  <div className="x2mdx-ref-rail-code x2mdx-ref-rail-code--response">
+<div className="x2mdx-ref-rail-head">
+  <span className="x2mdx-ref-rail-heading">OK</span>
+
+  <span className="x2mdx-ref-response-label">application/json</span>
+
+</div>
+
+```json OK
+{
+  "response": {
+    "accountId": "string",
+    "balance": "0"
+  }
+}
+```
+
+</div>
+  </div>
+
+</div>
+
+</div>

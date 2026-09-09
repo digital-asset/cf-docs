@@ -1,0 +1,181 @@
+---
+title: "Splice.Testing.Apps.TradingApp"
+description: "Documentation for Splice.Testing.Apps.TradingApp"
+---
+
+{/* COPIED_START source="splice:token-standard/examples/splice-token-test-trading-app/docs/Splice-Testing-Apps-TradingApp.rst" tag="0.6.4" hash="c0da3034" */}
+
+An example of how to build an OTC trading app for multi-leg standard token trades.
+
+Used as part of the testing infrastructure to test the DvP workflows based on the token standard.
+
+## Templates
+
+<div id="type-splice-testing-apps-tradingapp-otctrade-80775">
+
+**template** OTCTrade
+
+</div>
+
+> Signatory: venue, tradingParties transferLegs
+>
+> | Field        | Type                                                                                                                                           | Description |
+> |--------------|------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> | venue        | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                            |             |
+> | transferLegs | [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) TransferLeg            |             |
+> | tradeCid     | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) OTCTradeProposal |             |
+> | createdAt    | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)                              |             |
+> | prepareUntil | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)                              |             |
+> | settleBefore | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)                              |             |
+>
+> - **Choice** Archive
+>
+>   Controller: venue, tradingParties transferLegs
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-testing-apps-tradingapp-otctradecancel-34465">
+>
+>   **Choice** OTCTrade_Cancel
+>
+>   </div>
+>
+>   Controller: venue
+>
+>   Returns: [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) Allocation_CancelResult)
+>
+>   | Field                  | Type                                                                                                                                                                                                                                                                          | Description |
+>   |------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | allocationsWithContext | [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Allocation, ExtraArgs) |             |
+>
+> - <div id="type-splice-testing-apps-tradingapp-otctradesettle-9210">
+>
+>   **Choice** OTCTrade_Settle
+>
+>   </div>
+>
+>   Controller: venue
+>
+>   Returns: [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) Allocation_ExecuteTransferResult
+>
+>   | Field                  | Type                                                                                                                                                                                                                                                                          | Description |
+>   |------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | allocationsWithContext | [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Allocation, ExtraArgs) |             |
+>
+> - **interface instance** AllocationRequest **for** OTCTrade
+
+<div id="type-splice-testing-apps-tradingapp-otctradeproposal-78093">
+
+**template** OTCTradeProposal
+
+</div>
+
+> Signatory: approvers
+>
+> | Field        | Type                                                                                                                                                                                                                                                                            | Description                             |
+> |--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------|
+> | venue        | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                                                             |                                         |
+> | tradeCid     | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) OTCTradeProposal) |                                         |
+> | transferLegs | [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) TransferLeg                                                                                                                                             |                                         |
+> | approvers    | \[[Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)\]                                                                                                                                                         | Parties that have approved the proposal |
+>
+> - **Choice** Archive
+>
+>   Controller: approvers
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-testing-apps-tradingapp-otctradeproposalaccept-97549">
+>
+>   **Choice** OTCTradeProposal_Accept
+>
+>   </div>
+>
+>   Controller: approver
+>
+>   Returns: [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) OTCTradeProposal
+>
+>   | Field    | Type                                                                                                                | Description |
+>   |----------|---------------------------------------------------------------------------------------------------------------------|-------------|
+>   | approver | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>
+> - <div id="type-splice-testing-apps-tradingapp-otctradeproposalinitiatesettlement-54617">
+>
+>   **Choice** OTCTradeProposal_InitiateSettlement
+>
+>   </div>
+>
+>   Controller: venue
+>
+>   Returns: [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) OTCTrade
+>
+>   | Field        | Type                                                                                                              | Description |
+>   |--------------|-------------------------------------------------------------------------------------------------------------------|-------------|
+>   | prepareUntil | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886) |             |
+>   | settleBefore | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886) |             |
+>
+> - <div id="type-splice-testing-apps-tradingapp-otctradeproposalreject-13148">
+>
+>   **Choice** OTCTradeProposal_Reject
+>
+>   </div>
+>
+>   Controller: trader
+>
+>   Returns: ()
+>
+>   | Field  | Type                                                                                                                | Description |
+>   |--------|---------------------------------------------------------------------------------------------------------------------|-------------|
+>   | trader | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+
+## Functions
+
+<div id="function-splice-testing-apps-tradingapp-tradeallocations-16894">
+
+tradeAllocations
+: SettlementInfo -\> [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) TransferLeg -\> [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) AllocationSpecification
+
+</div>
+
+<div id="function-splice-testing-apps-tradingapp-tradingparties-11886">
+
+tradingParties
+: [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) TransferLeg -\> Set [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+
+</div>
+
+<div id="function-splice-testing-apps-tradingapp-require-88127">
+
+require
+: [CanAssert](/appdev/reference/daml-standard-library/prelude#class-da-internal-assert-canassert-67323) m =\> [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265) -\> m ()
+
+Check whether a required condition is true. If it's not, abort the transaction with a message saying that the requirement was not met.
+
+</div>
+
+<div id="function-splice-testing-apps-tradingapp-maketraderef-67526">
+
+makeTradeRef
+: [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) OTCTradeProposal -\> Reference
+
+</div>
+
+<div id="function-splice-testing-apps-tradingapp-ziptextmaps-57279">
+
+zipTextMaps
+: [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) a -\> [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) b -\> [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) a, [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) b)
+
+</div>
+
+<div id="function-splice-testing-apps-tradingapp-fortextmapwithkey-78275">
+
+forTextMapWithKey
+: [Applicative](/appdev/reference/daml-standard-library/prelude#class-da-internal-prelude-applicative-9257) f =\> [TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) a -\> ([Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952) -\> a -\> f b) -\> f ([TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) b)
+
+</div>
+
+{/* COPIED_END */}

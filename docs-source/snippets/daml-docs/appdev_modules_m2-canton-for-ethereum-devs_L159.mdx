@@ -1,0 +1,17 @@
+```haskell
+template Asset
+  with
+    owner : Party
+    issuer : Party
+    auditor : Party
+  where
+    signatory issuer        -- Must authorize creation; always sees contract
+    observer owner, auditor -- Can see but cannot act unless also controller
+    
+    choice Transfer : ContractId Asset
+      with
+        newOwner : Party
+      controller owner      -- Only owner can exercise this choice
+      do
+        create this with owner = newOwner
+```

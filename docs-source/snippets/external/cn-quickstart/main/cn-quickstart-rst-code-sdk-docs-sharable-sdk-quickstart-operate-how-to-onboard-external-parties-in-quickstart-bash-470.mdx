@@ -1,0 +1,9 @@
+```bash
+  grpcurl -emit-defaults -plaintext -H "Authorization: Bearer $LEDGER_TOKEN" -d '{
+    "user_id": "ledger-api-user",
+    "parties": ["'"$PARTY_ID"'"]
+  }' localhost:2901 \
+    com.daml.ledger.api.v2.CommandCompletionService/CompletionStream \
+    > completion_response.json
+
+```

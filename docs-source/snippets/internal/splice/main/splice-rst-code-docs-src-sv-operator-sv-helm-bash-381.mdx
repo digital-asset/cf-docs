@@ -1,0 +1,5 @@
+```bash
+kubectl create --namespace sv secret generic cometbft-keys \
+    "--from-file=node_key.json=node_key.json" \
+    "--from-file=priv_validator_key.json=priv_validator_key.json"
+```

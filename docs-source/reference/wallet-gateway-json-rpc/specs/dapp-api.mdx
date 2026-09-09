@@ -1,0 +1,600 @@
+---
+title: "Sync dApp API"
+description: "An OpenRPC specification for the dapp to interact with a Wallet Provider."
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--collection"></div>
+
+
+<p class="x2mdx-ref-back"><a href="/reference/wallet-gateway-json-rpc/overview">Back to overview</a></p>
+
+<div class="x2mdx-ref-hero">
+
+  <p class="x2mdx-ref-eyebrow">OpenRPC Spec</p>
+
+
+  <h1 class="x2mdx-ref-title">Sync dApp API</h1>
+
+
+  <p class="x2mdx-ref-summary">An OpenRPC specification for the dapp to interact with a Wallet Provider.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--added" href="#history-added-1-4-0">Added 1.4.0</a>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--changed" href="#history-updated-1-4-0">Updated 1.4.0</a>
+
+</div>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Latest source path</dt>
+    <dd>api-specs/openrpc-dapp-api.json</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Publish version</dt>
+    <dd>1.9.0</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>OpenRPC version</dt>
+    <dd>1.2.6</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Spec info.version</dt>
+    <dd>0.5.0</dd>
+  </div>
+
+</dl>
+
+</div>
+
+
+## Methods
+
+
+Method pages are the primary reference surface. This spec page stays focused on grouping and discovery.
+
+
+
+<div class="x2mdx-ref-card-grid">
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/dapp-api/accountschanged">accountsChanged</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+</div>
+
+    </div>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>0</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>array[object]</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/dapp-api/connect">connect</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+</div>
+
+    </div>
+
+    <p class="x2mdx-ref-card-summary">Ensures ledger connectivity and returns the connected network information along with the session information.</p>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>0</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>object</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/dapp-api/disconnect">disconnect</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+</div>
+
+    </div>
+
+    <p class="x2mdx-ref-card-summary">Invoke a disconnect of the wallet provider session.</p>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>0</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>null</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/dapp-api/getactivenetwork">getActiveNetwork</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+</div>
+
+    </div>
+
+    <p class="x2mdx-ref-card-summary">Returns the active network.</p>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>0</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>object</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/dapp-api/getprimaryaccount">getPrimaryAccount</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+</div>
+
+    </div>
+
+    <p class="x2mdx-ref-card-summary">Returns the primary account.</p>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>0</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>object</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/dapp-api/isconnected">isConnected</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--added">Added 0.26.0</span>
+
+</div>
+
+    </div>
+
+    <p class="x2mdx-ref-card-summary">Returns the connection status and the connected network information.</p>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>0</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>object</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/dapp-api/ledgerapi">ledgerApi</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+</div>
+
+    </div>
+
+    <p class="x2mdx-ref-card-summary">Proxy for the JSON-API endpoints. Injects authorization headers automatically.</p>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>1</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>object</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/dapp-api/listaccounts">listAccounts</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+</div>
+
+    </div>
+
+    <p class="x2mdx-ref-card-summary">Lists the addresses (wallets) with their properties; including which network they are associated to and with signing provider is used.</p>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>0</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>array[object]</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/dapp-api/messagesignature">messageSignature</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--added">Added 1.4.0</span>
+
+</div>
+
+    </div>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>0</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>oneOf</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/dapp-api/prepareexecute">prepareExecute</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--changed">Updated 1.4.0</span>
+
+</div>
+
+    </div>
+
+    <p class="x2mdx-ref-card-summary">Prepares a transaction for subsequent signing &amp; execution.</p>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>1</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>null</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/dapp-api/prepareexecuteandwait">prepareExecuteAndWait</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--changed">Updated 1.4.0</span>
+
+</div>
+
+    </div>
+
+    <p class="x2mdx-ref-card-summary">Like prepareExecute, but waits for the transaction to be executed on the ledger.</p>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>1</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>object</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/dapp-api/signmessage">signMessage</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+</div>
+
+    </div>
+
+    <p class="x2mdx-ref-card-summary">Signs a message.</p>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>1</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>object</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/dapp-api/status">status</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+</div>
+
+    </div>
+
+    <p class="x2mdx-ref-card-summary">Returns the current status of the wallet provider session.</p>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>0</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>object</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+
+  <div class="x2mdx-ref-card">
+
+    <div class="x2mdx-ref-card-head">
+      <a class="x2mdx-ref-card-title" href="/reference/wallet-gateway-json-rpc/operations/dapp-api/txchanged">txChanged</a>
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">JSON-RPC</span>
+
+</div>
+
+    </div>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Parameters</dt>
+    <dd>0</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Result</dt>
+    <dd>oneOf</dd>
+  </div>
+
+</dl>
+
+
+  </div>
+
+
+</div>
+
+
+
+
+
+
+## History
+
+<div class="x2mdx-ref-history" aria-label="Reference history">
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-1-4-0">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">1.4.0</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">prepareExecute: The method was updated in this snapshot.</p>
+
+    <p class="x2mdx-ref-history-event-detail">prepareExecuteAndWait: The method was updated in this snapshot.</p>
+
+  </div>
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--introduced" id="history-added-1-4-0">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Added</span>
+      <code class="x2mdx-ref-history-event-version">1.4.0</code>
+    </div>
+
+  </div>
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--introduced" id="history-added-0-26-0">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Added</span>
+      <code class="x2mdx-ref-history-event-version">0.26.0</code>
+    </div>
+
+  </div>
+
+</div>

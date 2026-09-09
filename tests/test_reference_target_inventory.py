@@ -39,6 +39,7 @@ def runner_targets() -> dict[str, tuple[str, ...]]:
     return {
         job.script_path.relative_to(REPO_ROOT).as_posix(): tuple(sorted(job.target_ids))
         for job in generate_all_reference_docs.SCRIPT_JOBS
+        if job.target_ids
     }
 
 

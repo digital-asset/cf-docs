@@ -1,0 +1,288 @@
+---
+title: "Splice.Issuance"
+description: "Documentation for Splice.Issuance"
+---
+
+{/* COPIED_START source="splice:daml/splice-amulet/docs/Splice-Issuance.rst" tag="0.6.4" hash="7bb0bfbc" */}
+
+Amulet rewards issuance configuration and computation.
+
+## Data Types
+
+<div id="type-splice-issuance-issuanceconfig-93012">
+
+**data** IssuanceConfig
+
+</div>
+
+> <div id="constr-splice-issuance-issuanceconfig-42917">
+>
+> IssuanceConfig
+>
+> </div>
+>
+> > | Field                        | Type                                                                                                                                                                                                                                              | Description                                                                                                                                                                |
+> > |------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+> > | amuletToIssuePerYear         | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                                                                                                                                                                            |
+> > | validatorRewardPercentage    | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                                                                                                                                                                            |
+> > | appRewardPercentage          | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                                                                                                                                                                            |
+> > | validatorRewardCap           | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                                                                                                                                                                            |
+> > | featuredAppRewardCap         | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                                                                                                                                                                            |
+> > | unfeaturedAppRewardCap       | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                                                                                                                                                                            |
+> > | optValidatorFaucetCap        | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) | Maximal amount in \$ for the per-validator issuance of validator faucet coupons; Introduced as part of CIP-0003. Will default to 0.00 USD once CIP-0096 becomes effective. |
+> > | optDevelopmentFundPercentage | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) | Percentage of each mint emission allocated to the Development Fund under CIP-0082.                                                                                         |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) IssuanceConfig
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) IssuanceConfig
+>
+> **instance** GetField "amuletToIssuePerYear" IssuanceConfig [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "appRewardPercentage" IssuanceConfig [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "featuredAppRewardCap" IssuanceConfig [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "issuanceConfig" OpenMiningRound IssuanceConfig
+>
+> **instance** GetField "issuanceConfig" SummarizingMiningRound IssuanceConfig
+>
+> **instance** GetField "issuanceCurve" (AmuletConfig unit) (Schedule [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) IssuanceConfig)
+>
+> **instance** GetField "optDevelopmentFundPercentage" IssuanceConfig ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135))
+>
+> **instance** GetField "optValidatorFaucetCap" IssuanceConfig ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135))
+>
+> **instance** GetField "unfeaturedAppRewardCap" IssuanceConfig [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "validatorRewardCap" IssuanceConfig [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "validatorRewardPercentage" IssuanceConfig [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "amuletToIssuePerYear" IssuanceConfig [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "appRewardPercentage" IssuanceConfig [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "featuredAppRewardCap" IssuanceConfig [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "issuanceConfig" OpenMiningRound IssuanceConfig
+>
+> **instance** SetField "issuanceConfig" SummarizingMiningRound IssuanceConfig
+>
+> **instance** SetField "issuanceCurve" (AmuletConfig unit) (Schedule [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) IssuanceConfig)
+>
+> **instance** SetField "optDevelopmentFundPercentage" IssuanceConfig ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135))
+>
+> **instance** SetField "optValidatorFaucetCap" IssuanceConfig ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135))
+>
+> **instance** SetField "unfeaturedAppRewardCap" IssuanceConfig [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "validatorRewardCap" IssuanceConfig [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "validatorRewardPercentage" IssuanceConfig [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** Patchable IssuanceConfig
+
+<div id="type-splice-issuance-issuancetranche-71318">
+
+**data** IssuanceTranche
+
+</div>
+
+> <div id="constr-splice-issuance-issuancetranche-27573">
+>
+> IssuanceTranche
+>
+> </div>
+>
+> > | Field             | Type                                                                                                               | Description                                            |
+> > |-------------------|--------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------|
+> > | rewardsToIssue    | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) | Total amulets to issue as rewards in this tranche      |
+> > | issuancePerCoupon | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) | Issuence per reward coupon for this tranche            |
+> > | unclaimedRewards  | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) | Amulets to issue in this tranche that were not claimed |
+>
+> **instance** GetField "issuancePerCoupon" IssuanceTranche [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "rewardsToIssue" IssuanceTranche [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "unclaimedRewards" IssuanceTranche [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "issuancePerCoupon" IssuanceTranche [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "rewardsToIssue" IssuanceTranche [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "unclaimedRewards" IssuanceTranche [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+<div id="type-splice-issuance-issuingroundparameters-47575">
+
+**data** IssuingRoundParameters
+
+</div>
+
+> Parameters to use in a round that issues amulet as rewards for collected coupons.
+>
+> <div id="constr-splice-issuance-issuingroundparameters-60486">
+>
+> IssuingRoundParameters
+>
+> </div>
+>
+> > | Field                                | Type                                                                                                                                                                                                                                              | Description                                                                                                                                             |
+> > |--------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+> > | issuancePerValidatorRewardCoupon     | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                                                                                                                                                         |
+> > | issuancePerFeaturedAppRewardCoupon   | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                                                                                                                                                         |
+> > | issuancePerUnfeaturedAppRewardCoupon | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                                                                                                                                                         |
+> > | issuancePerSvRewardCoupon            | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                                                                                                                                                         |
+> > | unclaimedAppRewards                  | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                                                                                                                                                         |
+> > | unclaimedValidatorRewards            | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                                                                                                                                                         |
+> > | unclaimedSvRewards                   | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                | Can be non-zero due to rounding, or no SV having had the chance to claim their coupons.                                                                 |
+> > | issuancePerValidatorFaucetCoupon     | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                |                                                                                                                                                         |
+> > | optAmuletsToIssueToDevelopmentFund   | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) | Note: Made optional as the addition of this field is checked by the upgrade checker on package upload because `IssuingRoundParameters` is serializable. |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) IssuingRoundParameters
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) IssuingRoundParameters
+>
+> **instance** GetField "issuancePerFeaturedAppRewardCoupon" IssuingRoundParameters [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "issuancePerSvRewardCoupon" IssuingRoundParameters [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "issuancePerUnfeaturedAppRewardCoupon" IssuingRoundParameters [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "issuancePerValidatorFaucetCoupon" IssuingRoundParameters [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "issuancePerValidatorRewardCoupon" IssuingRoundParameters [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "optAmuletsToIssueToDevelopmentFund" IssuingRoundParameters ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135))
+>
+> **instance** GetField "unclaimedAppRewards" IssuingRoundParameters [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "unclaimedSvRewards" IssuingRoundParameters [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "unclaimedValidatorRewards" IssuingRoundParameters [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "issuancePerFeaturedAppRewardCoupon" IssuingRoundParameters [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "issuancePerSvRewardCoupon" IssuingRoundParameters [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "issuancePerUnfeaturedAppRewardCoupon" IssuingRoundParameters [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "issuancePerValidatorFaucetCoupon" IssuingRoundParameters [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "issuancePerValidatorRewardCoupon" IssuingRoundParameters [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "optAmuletsToIssueToDevelopmentFund" IssuingRoundParameters ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135))
+>
+> **instance** SetField "unclaimedAppRewards" IssuingRoundParameters [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "unclaimedSvRewards" IssuingRoundParameters [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "unclaimedValidatorRewards" IssuingRoundParameters [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+<div id="type-splice-issuance-openminingroundsummary-90943">
+
+**data** OpenMiningRoundSummary
+
+</div>
+
+> A summary of total reward coupons issued against a specific open mining round.
+>
+> <div id="constr-splice-issuance-openminingroundsummary-16618">
+>
+> OpenMiningRoundSummary
+>
+> </div>
+>
+> > | Field                           | Type                                                                                                                                                                                                                                      | Description                  |
+> > |---------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------|
+> > | totalValidatorRewardCoupons     | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                        |                              |
+> > | totalFeaturedAppRewardCoupons   | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                        |                              |
+> > | totalUnfeaturedAppRewardCoupons | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                        |                              |
+> > | totalSvRewardWeight             | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)                                                                                                                                |                              |
+> > | optTotalValidatorFaucetCoupons  | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261) | Introduced as part of CIP-3. |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) OpenMiningRoundSummary
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) OpenMiningRoundSummary
+>
+> **instance** GetField "optTotalValidatorFaucetCoupons" OpenMiningRoundSummary ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261))
+>
+> **instance** GetField "summary" AmuletRules_MiningRound_StartIssuing OpenMiningRoundSummary
+>
+> **instance** GetField "totalFeaturedAppRewardCoupons" OpenMiningRoundSummary [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "totalSvRewardWeight" OpenMiningRoundSummary [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** GetField "totalUnfeaturedAppRewardCoupons" OpenMiningRoundSummary [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "totalValidatorRewardCoupons" OpenMiningRoundSummary [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "optTotalValidatorFaucetCoupons" OpenMiningRoundSummary ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261))
+>
+> **instance** SetField "summary" AmuletRules_MiningRound_StartIssuing OpenMiningRoundSummary
+>
+> **instance** SetField "totalFeaturedAppRewardCoupons" OpenMiningRoundSummary [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "totalSvRewardWeight" OpenMiningRoundSummary [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "totalUnfeaturedAppRewardCoupons" OpenMiningRoundSummary [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "totalValidatorRewardCoupons" OpenMiningRoundSummary [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+## Functions
+
+<div id="function-splice-issuance-getvalidatorfaucetcap-50474">
+
+getValidatorFaucetCap
+: IssuanceConfig -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+Getter with the right default value for the validator faucet cap. Use this consistently instead of accessing the field directly.
+
+</div>
+
+<div id="function-splice-issuance-validissuancecurve-81463">
+
+validIssuanceCurve
+: Schedule [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) IssuanceConfig -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+</div>
+
+<div id="function-splice-issuance-validissuanceconfig-25363">
+
+validIssuanceConfig
+: IssuanceConfig -\> [Bool](/appdev/reference/daml-standard-library/prelude#type-ghc-types-bool-66265)
+
+</div>
+
+<div id="function-splice-issuance-gettotalvalidatorfaucetcoupons-98130">
+
+getTotalValidatorFaucetCoupons
+: OpenMiningRoundSummary -\> [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+
+</div>
+
+<div id="function-splice-issuance-validateopenminingroundsummary-65797">
+
+validateOpenMiningRoundSummary
+: [CanAssert](/appdev/reference/daml-standard-library/prelude#class-da-internal-assert-canassert-67323) m =\> OpenMiningRoundSummary -\> m ()
+
+</div>
+
+<div id="function-splice-issuance-computeissuingroundparameters-5863">
+
+computeIssuingRoundParameters
+: [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082) -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) -\> IssuanceConfig -\> OpenMiningRoundSummary -\> IssuingRoundParameters
+
+</div>
+
+<div id="function-splice-issuance-computeissuancetranche-10230">
+
+computeIssuanceTranche
+: [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) -\> IssuanceTranche
+
+`computeIssuanceTranche rewardsToIssue capPerCoupon totalCoupons`
+
+computes parameters that issue as many rewards per coupon as possible up to a maximum of `capPerCoupon` amulets.
+
+</div>
+
+{/* COPIED_END */}

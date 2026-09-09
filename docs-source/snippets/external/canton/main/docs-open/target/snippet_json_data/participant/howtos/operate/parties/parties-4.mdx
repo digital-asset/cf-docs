@@ -1,0 +1,15 @@
+```scala
+@ val idpId = "idp-id-" + java.util.UUID.randomUUID().toString
+    idpId : String = "idp-id-10329379-46da-4c20-add4-daf9b6bed709"
+```
+
+```scala
+@ participant1.ledger_api.identity_provider_config.create(identityProviderId = idpId, jwksUrl = "https://jwks:900", issuer = java.util.UUID.randomUUID().toString, audience = Option("someAudience"))
+    res5: com.digitalasset.canton.user.IdentityProviderConfig = IdentityProviderConfig(
+      identityProviderId = Id(value = "idp-id-10329379-46da-4c20-add4-daf9b6bed709"),
+      isDeactivated = false,
+      jwksUrl = JwksUrl(value = "https://jwks:900"),
+      issuer = "c3664b71-2193-4315-ace1-ac7f69e8108d",
+      audience = Some(value = "someAudience")
+    )
+```

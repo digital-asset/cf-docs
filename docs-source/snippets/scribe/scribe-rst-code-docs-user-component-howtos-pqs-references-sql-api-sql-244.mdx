@@ -1,0 +1,7 @@
+```sql
+   select c.contract_id, t.transaction_id, (t.trace_context).trace_parent
+   from creates('package:My.Module:Template') c
+   inner join transactions t on c.created_at_ix = t.ix
+   where c.create_event_id = (42::bigint,0);
+
+```

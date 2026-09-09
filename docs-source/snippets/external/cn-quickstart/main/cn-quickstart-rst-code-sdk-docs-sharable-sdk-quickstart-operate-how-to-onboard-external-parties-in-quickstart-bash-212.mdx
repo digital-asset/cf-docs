@@ -1,0 +1,23 @@
+```bash
+  curl -X POST http://localhost:2903/api/validator/v0/admin/external-party/topology/submit \
+    -H "Authorization: Bearer $ADMIN_TOKEN" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "public_key": "'"$HEX_PUBLIC_KEY"'",
+      "signed_topology_txs": [
+        {
+          "topology_tx": "'"$TOPOLOGY_TX_1"'",
+          "signed_hash": "'"$SIG_1"'"
+        },
+        {
+          "topology_tx": "'"$TOPOLOGY_TX_2"'",
+          "signed_hash": "'"$SIG_2"'"
+        },
+        {
+          "topology_tx": "'"$TOPOLOGY_TX_3"'",
+          "signed_hash": "'"$SIG_3"'"
+        }
+      ]
+    }'
+
+```

@@ -1,0 +1,13 @@
+```haskell
+template CoinIssueProposal
+  with
+    coinAgreement: CoinIssueAgreement
+  where
+    signatory coinAgreement.issuer
+    observer coinAgreement.owner
+
+    choice AcceptCoinProposal
+      : ContractId CoinIssueAgreement
+      controller coinAgreement.owner
+      do create coinAgreement
+```

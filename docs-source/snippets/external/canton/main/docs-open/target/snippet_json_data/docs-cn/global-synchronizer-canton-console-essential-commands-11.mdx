@@ -1,0 +1,9 @@
+```scala
+@ val syncAlias = participant1.synchronizers.list_connected().head.synchronizerAlias
+    syncAlias : SynchronizerAlias = Synchronizer 'da'
+```
+
+```scala
+@ participant1.synchronizers.reconnect(syncAlias)
+    res19: Boolean = true
+```

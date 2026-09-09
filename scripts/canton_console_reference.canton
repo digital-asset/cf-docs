@@ -1,0 +1,42 @@
+import io.circe.Encoder
+import io.circe.syntax._
+import com.digitalasset.canton.CantonCommunityApp
+import com.digitalasset.canton.console.{ConsoleEnvironment, Help, ParticipantReferencesExtensions}
+
+implicit val consoleItemEncoder: Encoder[Help.Item] =
+  Encoder.forProduct7(
+    "name",
+    "arguments",
+    "return_type",
+    "summary",
+    "description",
+    "topic",
+    "scope",
+  )(item =>
+    (
+      item.name,
+      item.signature.map(_.argsWithTypes.map(parameter => (parameter.name, parameter.tpe))).getOrElse(Seq()),
+      item.signature.map(_.retType).map(returnType => if (returnType == "Unit") "" else returnType).getOrElse(""),
+      item.summary.toString,
+      item.description.toString,
+      item.topic.t.map(_.toString),
+      item.summary.flag.toString,
+    )
+  )
+
+implicit val consoleEnvironment: ConsoleEnvironment = CantonCommunityApp.environment.createConsole()
+val topLevelItems = Help.flattenItemsForManual(consoleEnvironment.helpItems)
+val participantItems = Help.getItemsFlattenedForManual(participant1, Seq("Participant"))
+val mediatorItems = Help.getItemsFlattenedForManual(mediator1, Seq("Mediator"))
+val sequencerItems = Help.getItemsFlattenedForManual(sequencer1, Seq("Sequencer"))
+val participantSequenceItems =
+  Help.getItemsFlattenedForManual(
+    new ParticipantReferencesExtensions(Seq.empty),
+    Seq("Multiple Participants"),
+  )
+val consoleItems =
+  (topLevelItems ++ participantItems ++ mediatorItems ++ sequencerItems ++ participantSequenceItems)
+    .distinct
+    .filter(item => item.name != "help" || item.topic.t.length == 1)
+
+println(io.circe.Json.obj("console" -> consoleItems.asJson).spaces2)

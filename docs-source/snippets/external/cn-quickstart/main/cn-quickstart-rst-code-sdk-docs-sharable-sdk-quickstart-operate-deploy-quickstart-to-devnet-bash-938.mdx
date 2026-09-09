@@ -1,0 +1,5 @@
+```bash
+   docker inspect splice-validator-nginx-1 --format '{{json .NetworkSettings.Networks}}' 2>/dev/null | jq || \
+   docker network inspect splice-validator_splice_validator --format '{{range .Containers}}{{.Name}} {{end}}'
+
+```

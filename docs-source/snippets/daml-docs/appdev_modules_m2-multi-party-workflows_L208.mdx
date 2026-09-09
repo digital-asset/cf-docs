@@ -1,0 +1,11 @@
+```haskell
+choice ExecuteSwap : ()
+  with
+    assetA : ContractId Asset
+    assetB : ContractId Asset
+  controller buyer, seller
+  do
+    -- Both happen atomically or neither does
+    exercise assetA Transfer with newOwner = buyer
+    exercise assetB Transfer with newOwner = seller
+```

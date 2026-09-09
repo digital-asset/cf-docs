@@ -1,0 +1,22 @@
+```bash
+  COMPLETION_OFFSET=$(cat completion_response.json | jq -r '.completion.offset')
+
+  grpcurl -emit-defaults -plaintext -H "Authorization: Bearer $LEDGER_TOKEN" -d '{
+    "begin_exclusive": '"$((COMPLETION_OFFSET - 1))"',
+    "end_inclusive": '"$COMPLETION_OFFSET"',
+    "update_format": {
+      "include_transactions": {
+        "transaction_shape": "TRANSACTION_SHAPE_ACS_DELTA",
+        "event_format": {
+          "filters_by_party": {
+            "'"$PARTY_ID"'": {
+              "cumulative": [{ "wildcard_filter": {} }]
+            }
+          }
+        }
+      }
+    }
+  }' localhost:2901 \
+    com.daml.ledger.api.v2.UpdateService/GetUpdates
+
+```

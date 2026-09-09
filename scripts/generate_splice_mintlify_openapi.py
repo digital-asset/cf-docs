@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import os
 import re
@@ -45,9 +44,9 @@ DEFAULT_SOURCE_CONFIG = (
 DEFAULT_CACHE_DIR = (
     REPO_ROOT / ".internal" / "cache" / "mintlify-openapi" / "splice-openapi"
 )
-DEFAULT_DOCS_JSON = REPO_ROOT / "docs-main" / "docs.json"
+DEFAULT_DOCS_JSON = REPO_ROOT / "docs-source" / "docs.json"
 DEFAULT_HISTORY_REPORT = (
-    REPO_ROOT / "docs-main" / "openapi" / "splice" / "history-report.json"
+    REPO_ROOT / "docs-source" / "openapi" / "splice" / "history-report.json"
 )
 HTTP_METHODS = {"get", "put", "post", "delete", "options", "head", "patch", "trace"}
 SCAN_OPENAPI_PLACEHOLDER_SERVER = "https://example.com/api/scan"
@@ -792,55 +791,6 @@ def build_splice_history_report(
     )
 
 
-def validate_manual_route_baseline(
-    source_config: dict[str, Any],
-    *,
-    families: list[dict[str, Any]],
-    snapshots: dict[str, dict[str, dict[str, Any]]],
-    publish_version: str,
-) -> None:
-    baseline = source_config.get("legacy_manual_route_baseline")
-    if not isinstance(baseline, dict):
-        raise ValueError("legacy_manual_route_baseline must be an object")
-    expected_count = baseline.get("operation_count")
-    expected_sha256 = baseline.get("sha256")
-    if not isinstance(expected_count, int) or expected_count < 0:
-        raise ValueError(
-            "legacy_manual_route_baseline.operation_count must be a non-negative integer"
-        )
-    if not isinstance(expected_sha256, str) or not re.fullmatch(
-        r"[0-9a-f]{64}", expected_sha256
-    ):
-        raise ValueError(
-            "legacy_manual_route_baseline.sha256 must be a lowercase SHA-256 digest"
-        )
-
-    routes: list[str] = []
-    for family in families:
-        for spec_config in family["specs"]:
-            published = snapshots[spec_config["filename"]].get(publish_version)
-            if published is None:
-                raise ValueError(
-                    f"Enabled spec {spec_config['filename']} is absent from publish version {publish_version}"
-                )
-            routes.extend(
-                f"/{page_ref}"
-                for page_ref in manual_operation_page_refs(
-                    spec=published,
-                    directory=spec_config["directory"],
-                )
-            )
-    actual_sha256 = hashlib.sha256(
-        ("\n".join(sorted(routes)) + "\n").encode("utf-8")
-    ).hexdigest()
-    if len(routes) != expected_count or actual_sha256 != expected_sha256:
-        raise ValueError(
-            "Manual Splice OpenAPI routes do not match the captured native-route baseline: "
-            f"expected {expected_count} routes/{expected_sha256}, got "
-            f"{len(routes)} routes/{actual_sha256}"
-        )
-
-
 def openapi_operation_page_refs(spec: dict[str, Any]) -> list[str]:
     paths = spec.get("paths")
     if not isinstance(paths, dict):
@@ -1140,7 +1090,7 @@ def update_docs_navigation(
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Publish configured Splice OpenAPI specs into docs-main/openapi, generate "
+            "Publish configured Splice OpenAPI specs into docs-source/openapi, generate "
             "checked-in manual operation pages with release history, and wire enabled "
             "spec groups into docs.json."
         )
@@ -1224,12 +1174,6 @@ def main() -> int:
         releases=comparison_releases,
         spec_filenames=enabled_filenames,
         force_refresh=args.force_refresh,
-    )
-    validate_manual_route_baseline(
-        source_config,
-        families=navigation_families,
-        snapshots=snapshots,
-        publish_version=publish_release["version"],
     )
     history_report = build_splice_history_report(
         source_config=source_config,

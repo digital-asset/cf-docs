@@ -1,0 +1,7 @@
+```scala
+@ participants.all.foreach { p => println(s"${p.name}: ${p.health.status}") }
+```
+
+```scala
+@ participant1.health.status match { case status if status.isActive.contains(true) => println("Healthy"); case _ => println("Check this node") }
+```

@@ -1,0 +1,166 @@
+---
+title: "Splice.Api.Token.HoldingV1"
+description: "Documentation for Splice.Api.Token.HoldingV1"
+---
+
+{/* COPIED_START source="splice:token-standard/splice-api-token-holding-v1/docs/Splice-Api-Token-HoldingV1.rst" hash="af79a40b" */}
+
+Types and interfaces for retrieving an investor's holdings.
+
+## Interfaces
+
+<div id="type-splice-api-token-holdingv1-holding-25898">
+
+**interface** Holding
+
+</div>
+
+> Holding interface.
+>
+> **viewtype** HoldingView
+>
+> - **Choice** Archive
+>
+>   Controller: Signatories of implementing template
+>
+>   Returns: ()
+>
+>   (no fields)
+
+## Data Types
+
+<div id="type-splice-api-token-holdingv1-holdingview-83501">
+
+**data** HoldingView
+
+</div>
+
+> View for `Holding`.
+>
+> <div id="constr-splice-api-token-holdingv1-holdingview-75848">
+>
+> HoldingView
+>
+> </div>
+>
+> > | Field        | Type                                                                                                    | Description                                                                                                                                  |
+> > |--------------|---------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+> > | owner        | Party                 | Owner of the holding.                                                                                                                        |
+> > | instrumentId | InstrumentId                                                                                            | Instrument being held.                                                                                                                       |
+> > | amount       | Decimal                  | Size of the holding.                                                                                                                         |
+> > | lock         | Optional Lock | Lock on the holding. Registries SHOULD allow holdings with expired locks as inputs to transfers to enable a combined unlocking + use choice. |
+> > | meta         | Metadata                                                                                                | Metadata.                                                                                                                                    |
+>
+> **instance** Eq HoldingView
+>
+> **instance** Show HoldingView
+>
+> **instance** HasFromAnyView Holding HoldingView
+>
+> **instance** HasInterfaceView Holding HoldingView
+>
+> **instance** GetField "amount" HoldingView Decimal
+>
+> **instance** GetField "instrumentId" HoldingView InstrumentId
+>
+> **instance** GetField "lock" HoldingView (Optional Lock)
+>
+> **instance** GetField "meta" HoldingView Metadata
+>
+> **instance** GetField "owner" HoldingView Party
+>
+> **instance** SetField "amount" HoldingView Decimal
+>
+> **instance** SetField "instrumentId" HoldingView InstrumentId
+>
+> **instance** SetField "lock" HoldingView (Optional Lock)
+>
+> **instance** SetField "meta" HoldingView Metadata
+>
+> **instance** SetField "owner" HoldingView Party
+
+<div id="type-splice-api-token-holdingv1-instrumentid-28218">
+
+**data** InstrumentId
+
+</div>
+
+> A globally unique identifier for instruments.
+>
+> <div id="constr-splice-api-token-holdingv1-instrumentid-17961">
+>
+> InstrumentId
+>
+> </div>
+>
+> > | Field | Type                                                                                    | Description                                                                                                                          |
+> > |-------|-----------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+> > | admin | Party | The party representing the registry app that administers the instrument.                                                             |
+> > | id    | Text        | The identifier used for the instrument by the instrument admin. This identifier MUST be unique and unambiguous per instrument admin. |
+>
+> **instance** Eq InstrumentId
+>
+> **instance** Ord InstrumentId
+>
+> **instance** Show InstrumentId
+>
+> **instance** GetField "admin" InstrumentId Party
+>
+> **instance** GetField "id" InstrumentId Text
+>
+> **instance** GetField "instrumentId" HoldingView InstrumentId
+>
+> **instance** SetField "admin" InstrumentId Party
+>
+> **instance** SetField "id" InstrumentId Text
+>
+> **instance** SetField "instrumentId" HoldingView InstrumentId
+
+<div id="type-splice-api-token-holdingv1-lock-70295">
+
+**data** Lock
+
+</div>
+
+> Details of a lock.
+>
+> <div id="constr-splice-api-token-holdingv1-lock-56452">
+>
+> Lock
+>
+> </div>
+>
+> > | Field        | Type                                                                                                                                                                                          | Description                                                                                                                                                                                                                                                                                                                                          |
+> > |--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+> > | holders      | \[Party\]                                                                                                   | Unique list of parties which are locking the contract. (Represented as a list, as that has the better JSON encoding.)                                                                                                                                                                                                                                |
+> > | expiresAt    | Optional Time      | Absolute, inclusive deadline as of which the lock expires.                                                                                                                                                                                                                                                                                           |
+> > | expiresAfter | Optional RelTime | Duration after which the created lock expires. Measured relative to the ledger time that the locked holding contract was created. If both `expiresAt` and `expiresAfter` are set, the lock expires at the earlier of the two times.                                                                                                                  |
+> > | context      | Optional Text           | Short, human-readable description of the context of the lock. Used by wallets to enable users to understand the reason for the lock. Note that the visibility of the content in this field might be wider than the visibility of the contracts in the context. You should thus carefully decide what information is safe to put in the lock context. |
+>
+> **instance** Eq Lock
+>
+> **instance** Ord Lock
+>
+> **instance** Show Lock
+>
+> **instance** GetField "context" Lock (Optional Text)
+>
+> **instance** GetField "expiresAfter" Lock (Optional RelTime)
+>
+> **instance** GetField "expiresAt" Lock (Optional Time)
+>
+> **instance** GetField "holders" Lock \[Party\]
+>
+> **instance** GetField "lock" HoldingView (Optional Lock)
+>
+> **instance** SetField "context" Lock (Optional Text)
+>
+> **instance** SetField "expiresAfter" Lock (Optional RelTime)
+>
+> **instance** SetField "expiresAt" Lock (Optional Time)
+>
+> **instance** SetField "holders" Lock \[Party\]
+>
+> **instance** SetField "lock" HoldingView (Optional Lock)
+
+{/* COPIED_END */}

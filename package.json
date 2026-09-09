@@ -6,6 +6,7 @@
     "update:generated-reference-sources": "python3 scripts/update_generated_reference_sources.py",
     "generate:version-compatibility-dashboard": "python3 scripts/generate_network_component_versions.py",
     "generate:canton-topology-proto-link": "python3 scripts/generate_canton_topology_proto_link.py",
+    "generate:canton-topology-transaction-versions": "python3 scripts/generate_canton_topology_transaction_versions.py",
     "generate:json-api-reference": "python3 scripts/generate_json_api_reference.py",
     "generate:json-api-asyncapi-reference": "python3 scripts/generate_json_api_asyncapi_reference.py",
     "generate:grpc-ledger-api-reference": "python3 scripts/generate_grpc_ledger_api_reference.py",
@@ -14,8 +15,11 @@
     "generate:daml-script-reference": "python3 scripts/generate_daml_script_reference.py",
     "generate:splice-token-standard-v2-reference": "python3 scripts/generate_splice_token_standard_v2_reference.py",
     "generate:canton-protobuf-history": "python3 scripts/generate_canton_protobuf_history.py",
+    "generate:canton-error-codes-reference": "python3 scripts/generate_canton_error_codes_reference.py",
+    "generate:canton-release-protocol-versions": "python3 scripts/generate_canton_release_protocol_versions.py",
     "generate:wallet-gateway-openrpc-reference": "python3 scripts/generate_wallet_gateway_openrpc_reference.py",
     "generate:splice-mintlify-openapi": "python3 scripts/generate_splice_mintlify_openapi.py",
+    "generate:canton-console-reference": "python3 scripts/generate_canton_console_reference.py",
     "generate:canton-metrics-reference": "python3 scripts/generate_canton_metrics_reference.py",
     "generate:external-snippets": "python3 scripts/generate_external_snippets.py",
     "generate:network-variable-tabs": "python3 scripts/generate_network_variable_tabs.py",
@@ -23,7 +27,8 @@
     "validate:splice-mintlify-openapi-nav": "python3 scripts/validate_splice_mintlify_openapi_nav.py",
     "test:external-snippets": "python3 -m pytest tests/test_generate_external_snippets.py",
     "generate:typescript-bindings-reference": "python3 scripts/generate_typescript_bindings_reference.py",
-    "dev": "cd docs-main && mintlify dev"
+    "dev": "npm run build && cd docs-main && mintlify dev",
+    "build": "python3 scripts/generate_network_variable_tabs.py"
   },
   "dependencies": {
     "20": "^3.1.9",

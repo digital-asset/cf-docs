@@ -1,0 +1,8 @@
+```bash
+  # Decode base64 hash to temp file
+  printf '%s' "$TRANSACTION_HASH" | base64 --decode > /tmp/tx_hash.bin
+ 
+  # Sign and encode to base64
+  SIGNATURE=$(openssl pkeyutl -sign -inkey external_party_private.pem -rawin -in /tmp/tx_hash.bin | base64 | tr -d '\n')
+
+```

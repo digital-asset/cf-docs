@@ -1,0 +1,62 @@
+---
+title: "Ledger API Errors"
+description: "Common Ledger API error codes encountered during command submission, with causes and resolutions."
+---
+
+import DamlDocsAppdevTroubleshootingGuideErrorCodeReferenceL127 from "/snippets/daml-docs/appdev_troubleshooting-guide_error-code-reference_L127.mdx";
+import DamlDocsAppdevTroubleshootingGuideErrorCodeReferenceL144 from "/snippets/daml-docs/appdev_troubleshooting-guide_error-code-reference_L144.mdx";
+import DamlDocsAppdevTroubleshootingGuideErrorCodeReferenceL158 from "/snippets/daml-docs/appdev_troubleshooting-guide_error-code-reference_L158.mdx";
+
+These gRPC status codes come from the Ledger API layer.
+
+### AUTH_INVALID_TOKEN
+
+```
+UNAUTHENTICATED: Could not verify JWT token
+```
+
+**Cause:** The bearer token is missing, malformed, expired, or signed with an unrecognized key.
+
+**Fix:**
+- Verify the token has not expired (check the `exp` claim)
+- Confirm the token audience matches `LEDGER_API_AUTH_AUDIENCE`
+- Ensure the token includes the `daml_ledger_api` scope
+- Check that the JWKS URL configured on the validator is reachable and returns the correct signing keys
+
+### PACKAGE_NOT_FOUND
+
+```
+NOT_FOUND: PACKAGE_NOT_FOUND - Could not find package <package-id>
+```
+
+**Cause:** The validator does not have the DAR that contains the referenced package, or the package has not been vetted.
+
+**Fix:** Upload the DAR:
+
+<DamlDocsAppdevTroubleshootingGuideErrorCodeReferenceL127 />
+
+After uploading, confirm the package appears in the package list before retrying the command.
+
+### PARTY_NOT_KNOWN
+
+```
+NOT_FOUND: PARTY_NOT_KNOWN - Party not known on participant
+```
+
+**Cause:** The party identifier in the command does not match any party allocated on this validator.
+
+**Fix:** Allocate the party first, or verify you are using the correct party identifier. Party IDs are case-sensitive and include a fingerprint suffix (e.g., `Alice::1220abcd...`). List known parties:
+
+<DamlDocsAppdevTroubleshootingGuideErrorCodeReferenceL144 />
+
+### PERMISSION_DENIED
+
+```
+PERMISSION_DENIED: An error occurred. Please contact the operator.
+```
+
+**Cause:** The authenticated user does not have rights to act as the requested party.
+
+**Fix:** Grant the user read/write access to the party through the Admin API:
+
+<DamlDocsAppdevTroubleshootingGuideErrorCodeReferenceL158 />

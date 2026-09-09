@@ -1,0 +1,26 @@
+```haskell
+template Agreement
+  with
+    partyA : Party
+    partyB : Party
+    terms : Text
+  where
+    signatory partyA, partyB  -- Both must sign to create
+
+-- Proposal pattern for gathering signatures
+template AgreementProposal
+  with
+    proposer : Party
+    counterparty : Party
+    terms : Text
+  where
+    signatory proposer
+    observer counterparty
+
+    choice Accept : ContractId Agreement
+      controller counterparty
+      do create Agreement with
+           partyA = proposer
+           partyB = counterparty
+           terms
+```

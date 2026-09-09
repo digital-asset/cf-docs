@@ -1,0 +1,1261 @@
+---
+title: "Splice.Wallet.Install"
+description: "Documentation for Splice.Wallet.Install"
+---
+
+{/* COPIED_START source="splice:daml/splice-wallet/docs/Splice-Wallet-Install.rst" tag="0.6.4" hash="b86c403d" */}
+
+## Templates
+
+<div id="type-splice-wallet-install-walletappinstall-78445">
+
+**template** WalletAppInstall
+
+</div>
+
+> Signatory: endUserParty, validatorParty
+>
+> | Field          | Type                                                                                                                | Description |
+> |----------------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> | dsoParty       | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> | validatorParty | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> | endUserName    | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        |             |
+> | endUserParty   | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>
+> - **Choice** Archive
+>
+>   Controller: endUserParty, validatorParty
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-wallet-install-walletappinstallacceptedtransferofferabort-68763">
+>
+>   **Choice** WalletAppInstall_AcceptedTransferOffer_Abort
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: WalletAppInstall_AcceptedTransferOffer_AbortResult
+>
+>   | Field  | Type                                                                                                                                                | Description |
+>   |--------|-----------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | cid    | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AcceptedTransferOffer |             |
+>   | reason | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)                                        |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstallacceptedtransferofferexpire-57521">
+>
+>   **Choice** WalletAppInstall_AcceptedTransferOffer_Expire
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: WalletAppInstall_AcceptedTransferOffer_ExpireResult
+>
+>   | Field | Type                                                                                                                                                | Description |
+>   |-------|-----------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | cid   | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AcceptedTransferOffer |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstallacceptedtransferofferwithdraw-52092">
+>
+>   **Choice** WalletAppInstall_AcceptedTransferOffer_Withdraw
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: WalletAppInstall_AcceptedTransferOffer_WithdrawResult
+>
+>   | Field  | Type                                                                                                                                                | Description |
+>   |--------|-----------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | cid    | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AcceptedTransferOffer |             |
+>   | reason | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)                                        |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstallallocationfactoryallocate-87859">
+>
+>   **Choice** WalletAppInstall_AllocationFactory_Allocate
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: AllocationInstructionResult
+>
+>   | Field             | Type                                                                                                                                            | Description |
+>   |-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | allocationFactory | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AllocationFactory |             |
+>   | allocateArg       | AllocationFactory_Allocate                                                                                                                      |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstallallocationwithdraw-36167">
+>
+>   **Choice** WalletAppInstall_Allocation_Withdraw
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: Allocation_WithdrawResult
+>
+>   | Field         | Type                                                                                                                                     | Description |
+>   |---------------|------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | allocationCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Allocation |             |
+>   | withdrawArg   | Allocation_Withdraw                                                                                                                      |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstallapppaymentrequestexpire-63657">
+>
+>   **Choice** WalletAppInstall_AppPaymentRequest_Expire
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: WalletAppInstall_AppPaymentRequest_ExpireResult
+>
+>   | Field | Type                                                                                                                                            | Description |
+>   |-------|-------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | cid   | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AppPaymentRequest |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstallapppaymentrequestreject-30597">
+>
+>   **Choice** WalletAppInstall_AppPaymentRequest_Reject
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: WalletAppInstall_AppPaymentRequest_RejectResult
+>
+>   | Field | Type                                                                                                                                            | Description |
+>   |-------|-------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | cid   | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AppPaymentRequest |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstallbuytrafficrequestcancel-57332">
+>
+>   **Choice** WalletAppInstall_BuyTrafficRequest_Cancel
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: WalletAppInstall_BuyTrafficRequest_CancelResult
+>
+>   | Field      | Type                                                                                                                                            | Description |
+>   |------------|-------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | requestCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) BuyTrafficRequest |             |
+>   | reason     | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)                                    |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstallbuytrafficrequestexpire-56287">
+>
+>   **Choice** WalletAppInstall_BuyTrafficRequest_Expire
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: WalletAppInstall_BuyTrafficRequest_ExpireResult
+>
+>   | Field      | Type                                                                                                                                            | Description |
+>   |------------|-------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | requestCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) BuyTrafficRequest |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstallcreatebuytrafficrequest-33718">
+>
+>   **Choice** WalletAppInstall_CreateBuyTrafficRequest
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: WalletAppInstall_CreateBuyTrafficRequestResult
+>
+>   | Field          | Type                                                                                                              | Description |
+>   |----------------|-------------------------------------------------------------------------------------------------------------------|-------------|
+>   | memberId       | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)      |             |
+>   | synchronizerId | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)      |             |
+>   | migrationId    | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)        |             |
+>   | trafficAmount  | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)        |             |
+>   | expiresAt      | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886) |             |
+>   | trackingId     | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)      |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstallcreatetransferoffer-6821">
+>
+>   **Choice** WalletAppInstall_CreateTransferOffer
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: WalletAppInstall_CreateTransferOfferResult
+>
+>   | Field       | Type                                                                                                                | Description |
+>   |-------------|---------------------------------------------------------------------------------------------------------------------|-------------|
+>   | receiver    | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>   | amount      | PaymentAmount                                                                                                       |             |
+>   | description | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        |             |
+>   | expiresAt   | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)   |             |
+>   | trackingId  | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)        |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstallexecutebatch-90628">
+>
+>   **Choice** WalletAppInstall_ExecuteBatch
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: WalletAppInstall_ExecuteBatchResult
+>
+>   | Field      | Type                   | Description |
+>   |------------|------------------------|-------------|
+>   | context    | PaymentTransferContext |             |
+>   | inputs     | \[TransferInput\]      |             |
+>   | operations | \[AmuletOperation\]    |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstallfeaturedapprightscancel-92504">
+>
+>   **Choice** WalletAppInstall_FeaturedAppRights_Cancel
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: WalletAppInstall_FeaturedAppRights_CancelResult
+>
+>   | Field | Type                                                                                                                                           | Description |
+>   |-------|------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | cid   | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) FeaturedAppRight |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstallfeaturedapprightsselfgrant-7751">
+>
+>   **Choice** WalletAppInstall_FeaturedAppRights_SelfGrant
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: WalletAppInstall_FeaturedAppRights_SelfGrantResult
+>
+>   | Field          | Type                                                                                                                                      | Description |
+>   |----------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | amuletRulesCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AmuletRules |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstallsubscriptionidlestatecancelsubscription-97037">
+>
+>   **Choice** WalletAppInstall_SubscriptionIdleState_CancelSubscription
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: WalletAppInstall_SubscriptionIdleState_CancelSubscriptionResult
+>
+>   | Field | Type                                                                                                                                                | Description |
+>   |-------|-----------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | cid   | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstallsubscriptionrequestreject-94073">
+>
+>   **Choice** WalletAppInstall_SubscriptionRequest_Reject
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: WalletAppInstall_SubscriptionRequest_RejectResult
+>
+>   | Field | Type                                                                                                                                              | Description |
+>   |-------|---------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | cid   | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionRequest |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstalltransferfactorytransfer-23966">
+>
+>   **Choice** WalletAppInstall_TransferFactory_Transfer
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: TransferInstructionResult
+>
+>   | Field              | Type                                                                                                                                          | Description |
+>   |--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | transferFactoryCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferFactory |             |
+>   | transferArg        | TransferFactory_Transfer                                                                                                                      |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstalltransferinstructionaccept-23051">
+>
+>   **Choice** WalletAppInstall_TransferInstruction_Accept
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: TransferInstructionResult
+>
+>   | Field                  | Type                                                                                                                                              | Description |
+>   |------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | transferInstructionCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferInstruction |             |
+>   | acceptArg              | TransferInstruction_Accept                                                                                                                        |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstalltransferinstructionreject-1446">
+>
+>   **Choice** WalletAppInstall_TransferInstruction_Reject
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: TransferInstructionResult
+>
+>   | Field                  | Type                                                                                                                                              | Description |
+>   |------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | transferInstructionCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferInstruction |             |
+>   | rejectArg              | TransferInstruction_Reject                                                                                                                        |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstalltransferinstructionwithdraw-1151">
+>
+>   **Choice** WalletAppInstall_TransferInstruction_Withdraw
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: TransferInstructionResult
+>
+>   | Field                  | Type                                                                                                                                              | Description |
+>   |------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | transferInstructionCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferInstruction |             |
+>   | withdrawArg            | TransferInstruction_Withdraw                                                                                                                      |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstalltransferofferaccept-7295">
+>
+>   **Choice** WalletAppInstall_TransferOffer_Accept
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: WalletAppInstall_TransferOffer_AcceptResult
+>
+>   | Field | Type                                                                                                                                        | Description |
+>   |-------|---------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | cid   | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferOffer |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstalltransferofferexpire-5606">
+>
+>   **Choice** WalletAppInstall_TransferOffer_Expire
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: WalletAppInstall_TransferOffer_ExpireResult
+>
+>   | Field | Type                                                                                                                                        | Description |
+>   |-------|---------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | cid   | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferOffer |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstalltransferofferreject-96746">
+>
+>   **Choice** WalletAppInstall_TransferOffer_Reject
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: WalletAppInstall_TransferOffer_RejectResult
+>
+>   | Field | Type                                                                                                                                        | Description |
+>   |-------|---------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | cid   | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferOffer |             |
+>
+> - <div id="type-splice-wallet-install-walletappinstalltransferofferwithdraw-19519">
+>
+>   **Choice** WalletAppInstall_TransferOffer_Withdraw
+>
+>   </div>
+>
+>   Controller: validatorParty
+>
+>   Returns: WalletAppInstall_TransferOffer_WithdrawResult
+>
+>   | Field  | Type                                                                                                                                        | Description |
+>   |--------|---------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+>   | cid    | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferOffer |             |
+>   | reason | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)                                |             |
+
+## Data Types
+
+<div id="type-splice-wallet-install-amuletoperation-34848">
+
+**data** AmuletOperation
+
+</div>
+
+> <div id="constr-splice-wallet-install-coapppayment-62800">
+>
+> CO_AppPayment ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AppPaymentRequest)
+>
+> </div>
+>
+> <div id="constr-splice-wallet-install-cocompleteacceptedtransfer-10636">
+>
+> CO_CompleteAcceptedTransfer ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AcceptedTransferOffer)
+>
+> </div>
+>
+> <div id="constr-splice-wallet-install-cosubscriptionacceptandmakeinitialpayment-39374">
+>
+> CO_SubscriptionAcceptAndMakeInitialPayment ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionRequest)
+>
+> </div>
+>
+> <div id="constr-splice-wallet-install-cosubscriptionmakepayment-67209">
+>
+> CO_SubscriptionMakePayment ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionIdleState)
+>
+> </div>
+>
+> <div id="constr-splice-wallet-install-comergetransferinputs-20390">
+>
+> CO_MergeTransferInputs
+>
+> </div>
+>
+> <div id="constr-splice-wallet-install-cobuymembertraffic-66746">
+>
+> CO_BuyMemberTraffic
+>
+> </div>
+>
+> > | Field            | Type                                                                                                                                                                                                                                                                               | Description |
+> > |------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | trafficAmount    | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)                                                                                                                                                                         |             |
+> > | memberId         | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)                                                                                                                                                                       |             |
+> > | synchronizerId   | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)                                                                                                                                                                       |             |
+> > | migrationId      | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)                                                                                                                                                                         |             |
+> > | minTopupInterval | [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)                                                                                                                                                             |             |
+> > | topupStateCid    | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorTopUpState) |             |
+>
+> <div id="constr-splice-wallet-install-cocompletebuytrafficrequest-39331">
+>
+> CO_CompleteBuyTrafficRequest
+>
+> </div>
+>
+> > | Field             | Type                                                                                                                                            | Description |
+> > |-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | trafficRequestCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) BuyTrafficRequest |             |
+>
+> <div id="constr-splice-wallet-install-cotap-54191">
+>
+> CO_Tap
+>
+> </div>
+>
+> > | Field     | Type                                                                                                               | Description |
+> > |-----------|--------------------------------------------------------------------------------------------------------------------|-------------|
+> > | tapAmount | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) |             |
+>
+> <div id="constr-splice-wallet-install-extamuletoperation-64373">
+>
+> ExtAmuletOperation
+>
+> </div>
+>
+> > | Field          | Type | Description                                                                                             |
+> > |----------------|------|---------------------------------------------------------------------------------------------------------|
+> > | dummyUnitField | ()   | Extension constructor (and field) to work around the current lack of upgrading for variants in Daml 3.0 |
+>
+> <div id="constr-splice-wallet-install-cocreateexternalpartysetupproposal-60911">
+>
+> CO_CreateExternalPartySetupProposal
+>
+> </div>
+>
+> > | Field                | Type                                                                                                                | Description |
+> > |----------------------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> > | externalParty        | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> > | preapprovalExpiresAt | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)   |             |
+>
+> <div id="constr-splice-wallet-install-coaccepttransferpreapprovalproposal-59253">
+>
+> CO_AcceptTransferPreapprovalProposal
+>
+> </div>
+>
+> > | Field                  | Type                                                                                                                                                      | Description |
+> > |------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | preapprovalProposalCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferPreapprovalProposal |             |
+> > | expiresAt              | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)                                         |             |
+>
+> <div id="constr-splice-wallet-install-corenewtransferpreapproval-62183">
+>
+> CO_RenewTransferPreapproval
+>
+> </div>
+>
+> > | Field               | Type                                                                                                                                              | Description |
+> > |---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | previousApprovalCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferPreapproval |             |
+> > | newExpiresAt        | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)                                 |             |
+>
+> <div id="constr-splice-wallet-install-cotransferpreapprovalsend-6635">
+>
+> CO_TransferPreapprovalSend
+>
+> </div>
+>
+> > | Field                       | Type                                                                                                                                                                                                                                                                            | Description |
+> > |-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | transferPreapprovalCid      | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferPreapproval                                                                                                                               |             |
+> > | providerFeaturedAppRightCid | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) FeaturedAppRight) |             |
+> > | amount                      | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)                                                                                                                                                              |             |
+> > | description                 | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)                                     |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) AmuletOperation
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) AmuletOperation
+>
+> **instance** GetField "amount" AmuletOperation [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "description" AmuletOperation ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952))
+>
+> **instance** GetField "dummyUnitField" AmuletOperation ()
+>
+> **instance** GetField "expiresAt" AmuletOperation [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)
+>
+> **instance** GetField "externalParty" AmuletOperation [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "memberId" AmuletOperation [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** GetField "migrationId" AmuletOperation [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** GetField "minTopupInterval" AmuletOperation [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)
+>
+> **instance** GetField "newExpiresAt" AmuletOperation [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)
+>
+> **instance** GetField "operations" WalletAppInstall_ExecuteBatch \[AmuletOperation\]
+>
+> **instance** GetField "preapprovalExpiresAt" AmuletOperation [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)
+>
+> **instance** GetField "preapprovalProposalCid" AmuletOperation ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferPreapprovalProposal)
+>
+> **instance** GetField "previousApprovalCid" AmuletOperation ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferPreapproval)
+>
+> **instance** GetField "providerFeaturedAppRightCid" AmuletOperation ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) FeaturedAppRight))
+>
+> **instance** GetField "synchronizerId" AmuletOperation [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** GetField "tapAmount" AmuletOperation [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** GetField "topupStateCid" AmuletOperation ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorTopUpState))
+>
+> **instance** GetField "trafficAmount" AmuletOperation [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** GetField "trafficRequestCid" AmuletOperation ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) BuyTrafficRequest)
+>
+> **instance** GetField "transferPreapprovalCid" AmuletOperation ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferPreapproval)
+>
+> **instance** SetField "amount" AmuletOperation [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "description" AmuletOperation ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952))
+>
+> **instance** SetField "dummyUnitField" AmuletOperation ()
+>
+> **instance** SetField "expiresAt" AmuletOperation [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)
+>
+> **instance** SetField "externalParty" AmuletOperation [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "memberId" AmuletOperation [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "migrationId" AmuletOperation [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "minTopupInterval" AmuletOperation [RelTime](/appdev/reference/daml-standard-library/da-time#type-da-time-types-reltime-23082)
+>
+> **instance** SetField "newExpiresAt" AmuletOperation [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)
+>
+> **instance** SetField "operations" WalletAppInstall_ExecuteBatch \[AmuletOperation\]
+>
+> **instance** SetField "preapprovalExpiresAt" AmuletOperation [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)
+>
+> **instance** SetField "preapprovalProposalCid" AmuletOperation ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferPreapprovalProposal)
+>
+> **instance** SetField "previousApprovalCid" AmuletOperation ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferPreapproval)
+>
+> **instance** SetField "providerFeaturedAppRightCid" AmuletOperation ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) FeaturedAppRight))
+>
+> **instance** SetField "synchronizerId" AmuletOperation [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "tapAmount" AmuletOperation [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "topupStateCid" AmuletOperation ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ValidatorTopUpState))
+>
+> **instance** SetField "trafficAmount" AmuletOperation [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "trafficRequestCid" AmuletOperation ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) BuyTrafficRequest)
+>
+> **instance** SetField "transferPreapprovalCid" AmuletOperation ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferPreapproval)
+
+<div id="type-splice-wallet-install-amuletoperationoutcome-52121">
+
+**data** AmuletOperationOutcome
+
+</div>
+
+> <div id="constr-splice-wallet-install-cooacceptedapppayment-45545">
+>
+> COO_AcceptedAppPayment ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AcceptedAppPayment)
+>
+> </div>
+>
+> <div id="constr-splice-wallet-install-coocompleteacceptedtransfer-44398">
+>
+> COO_CompleteAcceptedTransfer (TransferResult, TransferOfferTrackingInfo)
+>
+> </div>
+>
+> <div id="constr-splice-wallet-install-coosubscriptioninitialpayment-16470">
+>
+> COO_SubscriptionInitialPayment ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionInitialPayment)
+>
+> </div>
+>
+> <div id="constr-splice-wallet-install-coosubscriptionpayment-22077">
+>
+> COO_SubscriptionPayment ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) SubscriptionPayment)
+>
+> </div>
+>
+> <div id="constr-splice-wallet-install-coomergetransferinputs-47604">
+>
+> COO_MergeTransferInputs ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> </div>
+>
+> <div id="constr-splice-wallet-install-coobuymembertraffic-30084">
+>
+> COO_BuyMemberTraffic ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) MemberTraffic)
+>
+> </div>
+>
+> <div id="constr-splice-wallet-install-coocompletebuytrafficrequest-58397">
+>
+> COO_CompleteBuyTrafficRequest ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) MemberTraffic, BuyTrafficRequestTrackingInfo)
+>
+> </div>
+>
+> <div id="constr-splice-wallet-install-cootap-14325">
+>
+> COO_Tap ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet)
+>
+> </div>
+>
+> <div id="constr-splice-wallet-install-cooerror-5538">
+>
+> COO_Error InvalidTransferReason
+>
+> </div>
+>
+> <div id="constr-splice-wallet-install-extamuletoperationoutcome-44318">
+>
+> ExtAmuletOperationOutcome
+>
+> </div>
+>
+> > | Field          | Type | Description                                                                                             |
+> > |----------------|------|---------------------------------------------------------------------------------------------------------|
+> > | dummyUnitField | ()   | Extension constructor (and field) to work around the current lack of upgrading for variants in Daml 3.0 |
+>
+> <div id="constr-splice-wallet-install-coocreateexternalpartysetupproposal-75945">
+>
+> COO_CreateExternalPartySetupProposal ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) ExternalPartySetupProposal)
+>
+> </div>
+>
+> <div id="constr-splice-wallet-install-cooaccepttransferpreapprovalproposal-26799">
+>
+> COO_AcceptTransferPreapprovalProposal ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferPreapproval)
+>
+> </div>
+>
+> <div id="constr-splice-wallet-install-coorenewtransferpreapproval-16241">
+>
+> COO_RenewTransferPreapproval ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferPreapproval)
+>
+> </div>
+>
+> <div id="constr-splice-wallet-install-cootransferpreapprovalsend-96669">
+>
+> COO_TransferPreapprovalSend ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Amulet))
+>
+> </div>
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) AmuletOperationOutcome
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) AmuletOperationOutcome
+>
+> **instance** GetField "dummyUnitField" AmuletOperationOutcome ()
+>
+> **instance** GetField "outcomes" WalletAppInstall_ExecuteBatchResult \[AmuletOperationOutcome\]
+>
+> **instance** SetField "dummyUnitField" AmuletOperationOutcome ()
+>
+> **instance** SetField "outcomes" WalletAppInstall_ExecuteBatchResult \[AmuletOperationOutcome\]
+
+<div id="type-splice-wallet-install-executioncontext-4075">
+
+**data** ExecutionContext
+
+</div>
+
+> <div id="constr-splice-wallet-install-executioncontext-25706">
+>
+> ExecutionContext
+>
+> </div>
+>
+> > | Field          | Type                                                                                                                | Description |
+> > |----------------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> > | dso            | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> > | endUser        | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> > | validator      | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> > | paymentContext | PaymentTransferContext                                                                                              |             |
+>
+> **instance** GetField "dso" ExecutionContext [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "endUser" ExecutionContext [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "paymentContext" ExecutionContext PaymentTransferContext
+>
+> **instance** GetField "validator" ExecutionContext [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "dso" ExecutionContext [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "endUser" ExecutionContext [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "paymentContext" ExecutionContext PaymentTransferContext
+>
+> **instance** SetField "validator" ExecutionContext [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+
+<div id="type-splice-wallet-install-walletappinstallacceptedtransferofferabortresult-76594">
+
+**data** WalletAppInstall_AcceptedTransferOffer_AbortResult
+
+</div>
+
+> <div id="constr-splice-wallet-install-walletappinstallacceptedtransferofferabortresult-71839">
+>
+> WalletAppInstall_AcceptedTransferOffer_AbortResult
+>
+> </div>
+>
+> > | Field        | Type                      | Description |
+> > |--------------|---------------------------|-------------|
+> > | trackingInfo | TransferOfferTrackingInfo |             |
+>
+> **instance** GetField "trackingInfo" WalletAppInstall_AcceptedTransferOffer_AbortResult TransferOfferTrackingInfo
+>
+> **instance** SetField "trackingInfo" WalletAppInstall_AcceptedTransferOffer_AbortResult TransferOfferTrackingInfo
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) WalletAppInstall WalletAppInstall_AcceptedTransferOffer_Abort WalletAppInstall_AcceptedTransferOffer_AbortResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) WalletAppInstall WalletAppInstall_AcceptedTransferOffer_Abort WalletAppInstall_AcceptedTransferOffer_AbortResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) WalletAppInstall WalletAppInstall_AcceptedTransferOffer_Abort WalletAppInstall_AcceptedTransferOffer_AbortResult
+
+<div id="type-splice-wallet-install-walletappinstallacceptedtransferofferexpireresult-73364">
+
+**data** WalletAppInstall_AcceptedTransferOffer_ExpireResult
+
+</div>
+
+> <div id="constr-splice-wallet-install-walletappinstallacceptedtransferofferexpireresult-63931">
+>
+> WalletAppInstall_AcceptedTransferOffer_ExpireResult
+>
+> </div>
+>
+> > | Field        | Type                      | Description |
+> > |--------------|---------------------------|-------------|
+> > | trackingInfo | TransferOfferTrackingInfo |             |
+>
+> **instance** GetField "trackingInfo" WalletAppInstall_AcceptedTransferOffer_ExpireResult TransferOfferTrackingInfo
+>
+> **instance** SetField "trackingInfo" WalletAppInstall_AcceptedTransferOffer_ExpireResult TransferOfferTrackingInfo
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) WalletAppInstall WalletAppInstall_AcceptedTransferOffer_Expire WalletAppInstall_AcceptedTransferOffer_ExpireResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) WalletAppInstall WalletAppInstall_AcceptedTransferOffer_Expire WalletAppInstall_AcceptedTransferOffer_ExpireResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) WalletAppInstall WalletAppInstall_AcceptedTransferOffer_Expire WalletAppInstall_AcceptedTransferOffer_ExpireResult
+
+<div id="type-splice-wallet-install-walletappinstallacceptedtransferofferwithdrawresult-30981">
+
+**data** WalletAppInstall_AcceptedTransferOffer_WithdrawResult
+
+</div>
+
+> <div id="constr-splice-wallet-install-walletappinstallacceptedtransferofferwithdrawresult-50854">
+>
+> WalletAppInstall_AcceptedTransferOffer_WithdrawResult
+>
+> </div>
+>
+> > | Field        | Type                      | Description |
+> > |--------------|---------------------------|-------------|
+> > | trackingInfo | TransferOfferTrackingInfo |             |
+>
+> **instance** GetField "trackingInfo" WalletAppInstall_AcceptedTransferOffer_WithdrawResult TransferOfferTrackingInfo
+>
+> **instance** SetField "trackingInfo" WalletAppInstall_AcceptedTransferOffer_WithdrawResult TransferOfferTrackingInfo
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) WalletAppInstall WalletAppInstall_AcceptedTransferOffer_Withdraw WalletAppInstall_AcceptedTransferOffer_WithdrawResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) WalletAppInstall WalletAppInstall_AcceptedTransferOffer_Withdraw WalletAppInstall_AcceptedTransferOffer_WithdrawResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) WalletAppInstall WalletAppInstall_AcceptedTransferOffer_Withdraw WalletAppInstall_AcceptedTransferOffer_WithdrawResult
+
+<div id="type-splice-wallet-install-walletappinstallapppaymentrequestexpireresult-40772">
+
+**data** WalletAppInstall_AppPaymentRequest_ExpireResult
+
+</div>
+
+> <div id="constr-splice-wallet-install-walletappinstallapppaymentrequestexpireresult-9239">
+>
+> WalletAppInstall_AppPaymentRequest_ExpireResult
+>
+> </div>
+>
+> > | Field                | Type                                                                                                                                               | Description |
+> > |----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | terminatedAppPayment | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedAppPayment |             |
+>
+> **instance** GetField "terminatedAppPayment" WalletAppInstall_AppPaymentRequest_ExpireResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedAppPayment)
+>
+> **instance** SetField "terminatedAppPayment" WalletAppInstall_AppPaymentRequest_ExpireResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedAppPayment)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) WalletAppInstall WalletAppInstall_AppPaymentRequest_Expire WalletAppInstall_AppPaymentRequest_ExpireResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) WalletAppInstall WalletAppInstall_AppPaymentRequest_Expire WalletAppInstall_AppPaymentRequest_ExpireResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) WalletAppInstall WalletAppInstall_AppPaymentRequest_Expire WalletAppInstall_AppPaymentRequest_ExpireResult
+
+<div id="type-splice-wallet-install-walletappinstallapppaymentrequestrejectresult-13912">
+
+**data** WalletAppInstall_AppPaymentRequest_RejectResult
+
+</div>
+
+> <div id="constr-splice-wallet-install-walletappinstallapppaymentrequestrejectresult-2323">
+>
+> WalletAppInstall_AppPaymentRequest_RejectResult
+>
+> </div>
+>
+> > | Field                | Type                                                                                                                                               | Description |
+> > |----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | terminatedAppPayment | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedAppPayment |             |
+>
+> **instance** GetField "terminatedAppPayment" WalletAppInstall_AppPaymentRequest_RejectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedAppPayment)
+>
+> **instance** SetField "terminatedAppPayment" WalletAppInstall_AppPaymentRequest_RejectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedAppPayment)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) WalletAppInstall WalletAppInstall_AppPaymentRequest_Reject WalletAppInstall_AppPaymentRequest_RejectResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) WalletAppInstall WalletAppInstall_AppPaymentRequest_Reject WalletAppInstall_AppPaymentRequest_RejectResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) WalletAppInstall WalletAppInstall_AppPaymentRequest_Reject WalletAppInstall_AppPaymentRequest_RejectResult
+
+<div id="type-splice-wallet-install-walletappinstallbuytrafficrequestcancelresult-7425">
+
+**data** WalletAppInstall_BuyTrafficRequest_CancelResult
+
+</div>
+
+> <div id="constr-splice-wallet-install-walletappinstallbuytrafficrequestcancelresult-5910">
+>
+> WalletAppInstall_BuyTrafficRequest_CancelResult
+>
+> </div>
+>
+> > | Field        | Type                          | Description |
+> > |--------------|-------------------------------|-------------|
+> > | trackingInfo | BuyTrafficRequestTrackingInfo |             |
+>
+> **instance** GetField "trackingInfo" WalletAppInstall_BuyTrafficRequest_CancelResult BuyTrafficRequestTrackingInfo
+>
+> **instance** SetField "trackingInfo" WalletAppInstall_BuyTrafficRequest_CancelResult BuyTrafficRequestTrackingInfo
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) WalletAppInstall WalletAppInstall_BuyTrafficRequest_Cancel WalletAppInstall_BuyTrafficRequest_CancelResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) WalletAppInstall WalletAppInstall_BuyTrafficRequest_Cancel WalletAppInstall_BuyTrafficRequest_CancelResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) WalletAppInstall WalletAppInstall_BuyTrafficRequest_Cancel WalletAppInstall_BuyTrafficRequest_CancelResult
+
+<div id="type-splice-wallet-install-walletappinstallbuytrafficrequestexpireresult-53806">
+
+**data** WalletAppInstall_BuyTrafficRequest_ExpireResult
+
+</div>
+
+> <div id="constr-splice-wallet-install-walletappinstallbuytrafficrequestexpireresult-73389">
+>
+> WalletAppInstall_BuyTrafficRequest_ExpireResult
+>
+> </div>
+>
+> > | Field        | Type                          | Description |
+> > |--------------|-------------------------------|-------------|
+> > | trackingInfo | BuyTrafficRequestTrackingInfo |             |
+>
+> **instance** GetField "trackingInfo" WalletAppInstall_BuyTrafficRequest_ExpireResult BuyTrafficRequestTrackingInfo
+>
+> **instance** SetField "trackingInfo" WalletAppInstall_BuyTrafficRequest_ExpireResult BuyTrafficRequestTrackingInfo
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) WalletAppInstall WalletAppInstall_BuyTrafficRequest_Expire WalletAppInstall_BuyTrafficRequest_ExpireResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) WalletAppInstall WalletAppInstall_BuyTrafficRequest_Expire WalletAppInstall_BuyTrafficRequest_ExpireResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) WalletAppInstall WalletAppInstall_BuyTrafficRequest_Expire WalletAppInstall_BuyTrafficRequest_ExpireResult
+
+<div id="type-splice-wallet-install-walletappinstallcreatebuytrafficrequestresult-63991">
+
+**data** WalletAppInstall_CreateBuyTrafficRequestResult
+
+</div>
+
+> <div id="constr-splice-wallet-install-walletappinstallcreatebuytrafficrequestresult-84558">
+>
+> WalletAppInstall_CreateBuyTrafficRequestResult
+>
+> </div>
+>
+> > | Field             | Type                                                                                                                                            | Description |
+> > |-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | buyTrafficRequest | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) BuyTrafficRequest |             |
+>
+> **instance** GetField "buyTrafficRequest" WalletAppInstall_CreateBuyTrafficRequestResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) BuyTrafficRequest)
+>
+> **instance** SetField "buyTrafficRequest" WalletAppInstall_CreateBuyTrafficRequestResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) BuyTrafficRequest)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) WalletAppInstall WalletAppInstall_CreateBuyTrafficRequest WalletAppInstall_CreateBuyTrafficRequestResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) WalletAppInstall WalletAppInstall_CreateBuyTrafficRequest WalletAppInstall_CreateBuyTrafficRequestResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) WalletAppInstall WalletAppInstall_CreateBuyTrafficRequest WalletAppInstall_CreateBuyTrafficRequestResult
+
+<div id="type-splice-wallet-install-walletappinstallcreatetransferofferresult-68160">
+
+**data** WalletAppInstall_CreateTransferOfferResult
+
+</div>
+
+> <div id="constr-splice-wallet-install-walletappinstallcreatetransferofferresult-22589">
+>
+> WalletAppInstall_CreateTransferOfferResult
+>
+> </div>
+>
+> > | Field         | Type                                                                                                                                        | Description |
+> > |---------------|---------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | transferOffer | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferOffer |             |
+>
+> **instance** GetField "transferOffer" WalletAppInstall_CreateTransferOfferResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferOffer)
+>
+> **instance** SetField "transferOffer" WalletAppInstall_CreateTransferOfferResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferOffer)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) WalletAppInstall WalletAppInstall_CreateTransferOffer WalletAppInstall_CreateTransferOfferResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) WalletAppInstall WalletAppInstall_CreateTransferOffer WalletAppInstall_CreateTransferOfferResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) WalletAppInstall WalletAppInstall_CreateTransferOffer WalletAppInstall_CreateTransferOfferResult
+
+<div id="type-splice-wallet-install-walletappinstallexecutebatchresult-15097">
+
+**data** WalletAppInstall_ExecuteBatchResult
+
+</div>
+
+> <div id="constr-splice-wallet-install-walletappinstallexecutebatchresult-44858">
+>
+> WalletAppInstall_ExecuteBatchResult
+>
+> </div>
+>
+> > | Field           | Type                                                                                                                                                                                                                                               | Description |
+> > |-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | endUserName     | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)                                                                                                                                       |             |
+> > | outcomes        | \[AmuletOperationOutcome\]                                                                                                                                                                                                                         |             |
+> > | optEndUserParty | [Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) WalletAppInstall_ExecuteBatchResult
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) WalletAppInstall_ExecuteBatchResult
+>
+> **instance** GetField "endUserName" WalletAppInstall_ExecuteBatchResult [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** GetField "optEndUserParty" WalletAppInstall_ExecuteBatchResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932))
+>
+> **instance** GetField "outcomes" WalletAppInstall_ExecuteBatchResult \[AmuletOperationOutcome\]
+>
+> **instance** SetField "endUserName" WalletAppInstall_ExecuteBatchResult [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "optEndUserParty" WalletAppInstall_ExecuteBatchResult ([Optional](/appdev/reference/daml-standard-library/prelude#type-da-internal-prelude-optional-37153) [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932))
+>
+> **instance** SetField "outcomes" WalletAppInstall_ExecuteBatchResult \[AmuletOperationOutcome\]
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) WalletAppInstall WalletAppInstall_ExecuteBatch WalletAppInstall_ExecuteBatchResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) WalletAppInstall WalletAppInstall_ExecuteBatch WalletAppInstall_ExecuteBatchResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) WalletAppInstall WalletAppInstall_ExecuteBatch WalletAppInstall_ExecuteBatchResult
+
+<div id="type-splice-wallet-install-walletappinstallfeaturedapprightscancelresult-9581">
+
+**data** WalletAppInstall_FeaturedAppRights_CancelResult
+
+</div>
+
+> <div id="constr-splice-wallet-install-walletappinstallfeaturedapprightscancelresult-72714">
+>
+> WalletAppInstall_FeaturedAppRights_CancelResult
+>
+> </div>
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) WalletAppInstall WalletAppInstall_FeaturedAppRights_Cancel WalletAppInstall_FeaturedAppRights_CancelResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) WalletAppInstall WalletAppInstall_FeaturedAppRights_Cancel WalletAppInstall_FeaturedAppRights_CancelResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) WalletAppInstall WalletAppInstall_FeaturedAppRights_Cancel WalletAppInstall_FeaturedAppRights_CancelResult
+
+<div id="type-splice-wallet-install-walletappinstallfeaturedapprightsselfgrantresult-93142">
+
+**data** WalletAppInstall_FeaturedAppRights_SelfGrantResult
+
+</div>
+
+> <div id="constr-splice-wallet-install-walletappinstallfeaturedapprightsselfgrantresult-62683">
+>
+> WalletAppInstall_FeaturedAppRights_SelfGrantResult
+>
+> </div>
+>
+> > | Field            | Type                                                                                                                                           | Description |
+> > |------------------|------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | featuredAppRight | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) FeaturedAppRight |             |
+>
+> **instance** GetField "featuredAppRight" WalletAppInstall_FeaturedAppRights_SelfGrantResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) FeaturedAppRight)
+>
+> **instance** SetField "featuredAppRight" WalletAppInstall_FeaturedAppRights_SelfGrantResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) FeaturedAppRight)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) WalletAppInstall WalletAppInstall_FeaturedAppRights_SelfGrant WalletAppInstall_FeaturedAppRights_SelfGrantResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) WalletAppInstall WalletAppInstall_FeaturedAppRights_SelfGrant WalletAppInstall_FeaturedAppRights_SelfGrantResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) WalletAppInstall WalletAppInstall_FeaturedAppRights_SelfGrant WalletAppInstall_FeaturedAppRights_SelfGrantResult
+
+<div id="type-splice-wallet-install-walletappinstallsubscriptionidlestatecancelsubscriptionresult-84496">
+
+**data** WalletAppInstall_SubscriptionIdleState_CancelSubscriptionResult
+
+</div>
+
+> <div id="constr-splice-wallet-install-walletappinstallsubscriptionidlestatecancelsubscriptionresult-61435">
+>
+> WalletAppInstall_SubscriptionIdleState_CancelSubscriptionResult
+>
+> </div>
+>
+> > | Field                  | Type                                                                                                                                                 | Description |
+> > |------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | terminatedSubscription | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription |             |
+>
+> **instance** GetField "terminatedSubscription" WalletAppInstall_SubscriptionIdleState_CancelSubscriptionResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription)
+>
+> **instance** SetField "terminatedSubscription" WalletAppInstall_SubscriptionIdleState_CancelSubscriptionResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) WalletAppInstall WalletAppInstall_SubscriptionIdleState_CancelSubscription WalletAppInstall_SubscriptionIdleState_CancelSubscriptionResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) WalletAppInstall WalletAppInstall_SubscriptionIdleState_CancelSubscription WalletAppInstall_SubscriptionIdleState_CancelSubscriptionResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) WalletAppInstall WalletAppInstall_SubscriptionIdleState_CancelSubscription WalletAppInstall_SubscriptionIdleState_CancelSubscriptionResult
+
+<div id="type-splice-wallet-install-walletappinstallsubscriptionrequestrejectresult-88896">
+
+**data** WalletAppInstall_SubscriptionRequest_RejectResult
+
+</div>
+
+> <div id="constr-splice-wallet-install-walletappinstallsubscriptionrequestrejectresult-60059">
+>
+> WalletAppInstall_SubscriptionRequest_RejectResult
+>
+> </div>
+>
+> > | Field                  | Type                                                                                                                                                 | Description |
+> > |------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | terminatedSubscription | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription |             |
+>
+> **instance** GetField "terminatedSubscription" WalletAppInstall_SubscriptionRequest_RejectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription)
+>
+> **instance** SetField "terminatedSubscription" WalletAppInstall_SubscriptionRequest_RejectResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TerminatedSubscription)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) WalletAppInstall WalletAppInstall_SubscriptionRequest_Reject WalletAppInstall_SubscriptionRequest_RejectResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) WalletAppInstall WalletAppInstall_SubscriptionRequest_Reject WalletAppInstall_SubscriptionRequest_RejectResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) WalletAppInstall WalletAppInstall_SubscriptionRequest_Reject WalletAppInstall_SubscriptionRequest_RejectResult
+
+<div id="type-splice-wallet-install-walletappinstalltransferofferacceptresult-54230">
+
+**data** WalletAppInstall_TransferOffer_AcceptResult
+
+</div>
+
+> <div id="constr-splice-wallet-install-walletappinstalltransferofferacceptresult-12149">
+>
+> WalletAppInstall_TransferOffer_AcceptResult
+>
+> </div>
+>
+> > | Field                 | Type                                                                                                                                                | Description |
+> > |-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | acceptedTransferOffer | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AcceptedTransferOffer |             |
+>
+> **instance** GetField "acceptedTransferOffer" WalletAppInstall_TransferOffer_AcceptResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AcceptedTransferOffer)
+>
+> **instance** SetField "acceptedTransferOffer" WalletAppInstall_TransferOffer_AcceptResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) AcceptedTransferOffer)
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) WalletAppInstall WalletAppInstall_TransferOffer_Accept WalletAppInstall_TransferOffer_AcceptResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) WalletAppInstall WalletAppInstall_TransferOffer_Accept WalletAppInstall_TransferOffer_AcceptResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) WalletAppInstall WalletAppInstall_TransferOffer_Accept WalletAppInstall_TransferOffer_AcceptResult
+
+<div id="type-splice-wallet-install-walletappinstalltransferofferexpireresult-53807">
+
+**data** WalletAppInstall_TransferOffer_ExpireResult
+
+</div>
+
+> <div id="constr-splice-wallet-install-walletappinstalltransferofferexpireresult-15612">
+>
+> WalletAppInstall_TransferOffer_ExpireResult
+>
+> </div>
+>
+> > | Field        | Type                      | Description |
+> > |--------------|---------------------------|-------------|
+> > | trackingInfo | TransferOfferTrackingInfo |             |
+>
+> **instance** GetField "trackingInfo" WalletAppInstall_TransferOffer_ExpireResult TransferOfferTrackingInfo
+>
+> **instance** SetField "trackingInfo" WalletAppInstall_TransferOffer_ExpireResult TransferOfferTrackingInfo
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) WalletAppInstall WalletAppInstall_TransferOffer_Expire WalletAppInstall_TransferOffer_ExpireResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) WalletAppInstall WalletAppInstall_TransferOffer_Expire WalletAppInstall_TransferOffer_ExpireResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) WalletAppInstall WalletAppInstall_TransferOffer_Expire WalletAppInstall_TransferOffer_ExpireResult
+
+<div id="type-splice-wallet-install-walletappinstalltransferofferrejectresult-95787">
+
+**data** WalletAppInstall_TransferOffer_RejectResult
+
+</div>
+
+> <div id="constr-splice-wallet-install-walletappinstalltransferofferrejectresult-23888">
+>
+> WalletAppInstall_TransferOffer_RejectResult
+>
+> </div>
+>
+> > | Field        | Type                      | Description |
+> > |--------------|---------------------------|-------------|
+> > | trackingInfo | TransferOfferTrackingInfo |             |
+>
+> **instance** GetField "trackingInfo" WalletAppInstall_TransferOffer_RejectResult TransferOfferTrackingInfo
+>
+> **instance** SetField "trackingInfo" WalletAppInstall_TransferOffer_RejectResult TransferOfferTrackingInfo
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) WalletAppInstall WalletAppInstall_TransferOffer_Reject WalletAppInstall_TransferOffer_RejectResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) WalletAppInstall WalletAppInstall_TransferOffer_Reject WalletAppInstall_TransferOffer_RejectResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) WalletAppInstall WalletAppInstall_TransferOffer_Reject WalletAppInstall_TransferOffer_RejectResult
+
+<div id="type-splice-wallet-install-walletappinstalltransferofferwithdrawresult-71362">
+
+**data** WalletAppInstall_TransferOffer_WithdrawResult
+
+</div>
+
+> <div id="constr-splice-wallet-install-walletappinstalltransferofferwithdrawresult-55293">
+>
+> WalletAppInstall_TransferOffer_WithdrawResult
+>
+> </div>
+>
+> > | Field        | Type                      | Description |
+> > |--------------|---------------------------|-------------|
+> > | trackingInfo | TransferOfferTrackingInfo |             |
+>
+> **instance** GetField "trackingInfo" WalletAppInstall_TransferOffer_WithdrawResult TransferOfferTrackingInfo
+>
+> **instance** SetField "trackingInfo" WalletAppInstall_TransferOffer_WithdrawResult TransferOfferTrackingInfo
+>
+> **instance** [HasExercise](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasexercise-70422) WalletAppInstall WalletAppInstall_TransferOffer_Withdraw WalletAppInstall_TransferOffer_WithdrawResult
+>
+> **instance** [HasFromAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hasfromanychoice-81184) WalletAppInstall WalletAppInstall_TransferOffer_Withdraw WalletAppInstall_TransferOffer_WithdrawResult
+>
+> **instance** [HasToAnyChoice](/appdev/reference/daml-standard-library/prelude#class-da-internal-template-functions-hastoanychoice-82571) WalletAppInstall WalletAppInstall_TransferOffer_Withdraw WalletAppInstall_TransferOffer_WithdrawResult
+
+<div id="type-splice-wallet-install-walletappinstalltransferpreapprovalproposalcreateresult-12514">
+
+**data** WalletAppInstall_TransferPreapprovalProposal_CreateResult
+
+</div>
+
+> <div id="constr-splice-wallet-install-walletappinstalltransferpreapprovalproposalcreateresult-3417">
+>
+> WalletAppInstall_TransferPreapprovalProposal_CreateResult
+>
+> </div>
+>
+> > | Field                  | Type                                                                                                                                                      | Description |
+> > |------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | preapprovalProposalCid | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferPreapprovalProposal |             |
+>
+> **instance** GetField "preapprovalProposalCid" WalletAppInstall_TransferPreapprovalProposal_CreateResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferPreapprovalProposal)
+>
+> **instance** SetField "preapprovalProposalCid" WalletAppInstall_TransferPreapprovalProposal_CreateResult ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferPreapprovalProposal)
+
+## Functions
+
+<div id="function-splice-wallet-install-executeamuletoperationrec-79799">
+
+executeAmuletOperationRec
+: ExecutionContext -\> \[TransferInput\] -\> \[AmuletOperationOutcome\] -\> \[AmuletOperation\] -\> [Update](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-update-68072) \[AmuletOperationOutcome\]
+
+</div>
+
+<div id="function-splice-wallet-install-mkmergeamuletandrewardstransfer-3655">
+
+mkMergeAmuletAndRewardsTransfer
+: [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> \[TransferInput\] -\> Transfer
+
+</div>
+
+<div id="function-splice-wallet-install-unpackcid-65301">
+
+unpackCid
+: AnyValue -\> AnyContractId
+
+</div>
+
+{/* COPIED_END */}

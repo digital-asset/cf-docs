@@ -1,0 +1,14 @@
+```haskell
+template OwnedAsset
+  with
+    owner : Party
+    data : Text
+  where
+    signatory owner  -- owner must authorize creation
+
+    choice SensitiveAction : ()
+      controller owner  -- only owner can exercise
+      do
+        -- Protocol enforces: only owner can reach here
+        pure ()
+```

@@ -1,0 +1,65 @@
+---
+title: "ValueDecoder"
+description: "A converter from the encoded form of a Daml value, represented by Value, to the codegen-decoded form, represented by Data. Every codegen class for a template, record, or variant includes a valueDecoder method that produces one of these. If the data type has type parameters, valueDecoder has arguments that correspond to ValueDecoders for those type arguments. For primitive types that are not code-generated, see PrimitiveValueDecoders. // given template 'Foo', and encoded payload 'Value fooValue' Foo foo = Foo.valueDecoder().decode(fooValue); // given Daml datatypes 'Bar a b' and 'Baz', // and encoded 'Bar' 'Value barValue' Bar&lt;Baz, Long> bar = Bar.valueDecoder( Baz.valueDecoder(), PrimitiveValueDecoders.fromInt64) .decode(barValue); Bar&lt;List&lt;Baz>, Map&lt;Long, String>> barWithAggregates = Bar.valueDecoder( PrimitiveValueDecoders.fromList(Baz.valueDecoder), PrimitiveValueDecoders.fromGenMap( PrimitiveValueDecoders.fromInt64, PrimitiveValueDecoders.fromText)) .decode(barAggregateValue); There is also a decode(Value, UnknownTrailingFieldPolicy) method that takes an additional UnknownTrailingFieldPolicy This method is used to handle unknown trailing fields in the value. Currently, the error is thrown if there are unknown trailing fields or extra fields are ignored. In the following situation if the following DAML data object is defined in the DAML project on the client side: data Bar = Bar { bar : Int, baz: Int } deriving (Eq, Show) And the following value is received from the ledger: Value(1, 2, Optional(3)) if the following code is executed on the client side, the IllegalArgumentException is thrown: Bar bar = Bar.valueDecoder().decode(value, UnknownTrailingFieldPolicy.STRICT); and if the following code is executed on the client side, the Bar object is created with bar = 1 and baz = 2, while the extra field 3 is ignored: Bar bar = Bar.valueDecoder().decode(value, UnknownTrailingFieldPolicy.IGNORE);"
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--collection"></div>
+
+
+<p class="x2mdx-ref-back"><a href="./index">Back to package</a></p>
+
+<div class="x2mdx-ref-hero">
+
+  <p class="x2mdx-ref-eyebrow">com.daml.ledger.javaapi.data.codegen</p>
+
+
+  <h1 class="x2mdx-ref-title">ValueDecoder</h1>
+
+
+  <p class="x2mdx-ref-summary">A converter from the encoded form of a Daml value, represented by Value, to the codegen-decoded form, represented by Data. Every codegen class for a template, record, or variant includes a valueDecoder method that produces one of these. If the data type has type parameters, valueDecoder has arguments that correspond to ValueDecoders for those type arguments. For primitive types that are not code-generated, see PrimitiveValueDecoders. // given template &#x27;Foo&#x27;, and encoded payload &#x27;Value fooValue&#x27; Foo foo = Foo.valueDecoder().decode(fooValue); // given Daml datatypes &#x27;Bar a b&#x27; and &#x27;Baz&#x27;, // and encoded &#x27;Bar&#x27; &#x27;Value barValue&#x27; Bar&lt;Baz, Long&gt; bar = Bar.valueDecoder( Baz.valueDecoder(), PrimitiveValueDecoders.fromInt64) .decode(barValue); Bar&lt;List&lt;Baz&gt;, Map&lt;Long, String&gt;&gt; barWithAggregates = Bar.valueDecoder( PrimitiveValueDecoders.fromList(Baz.valueDecoder), PrimitiveValueDecoders.fromGenMap( PrimitiveValueDecoders.fromInt64, PrimitiveValueDecoders.fromText)) .decode(barAggregateValue); There is also a decode(Value, UnknownTrailingFieldPolicy) method that takes an additional UnknownTrailingFieldPolicy This method is used to handle unknown trailing fields in the value. Currently, the error is thrown if there are unknown trailing fields or extra fields are ignored. In the following situation if the following DAML data object is defined in the DAML project on the client side: data Bar = Bar &#123; bar : Int, baz: Int &#125; deriving (Eq, Show) And the following value is received from the ledger: Value(1, 2, Optional(3)) if the following code is executed on the client side, the IllegalArgumentException is thrown: Bar bar = Bar.valueDecoder().decode(value, UnknownTrailingFieldPolicy.STRICT); and if the following code is executed on the client side, the Bar object is created with bar = 1 and baz = 2, while the extra field 3 is ignored: Bar bar = Bar.valueDecoder().decode(value, UnknownTrailingFieldPolicy.IGNORE);</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">Java</span>
+
+</div>
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Package</dt>
+    <dd>com.daml.ledger.javaapi.data.codegen</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Upstream docs</dt>
+    <dd><a href="https://javadoc.io/doc/com.daml/bindings-java/3.5.15/com/daml/ledger/javaapi/data/codegen/ValueDecoder.html">Open Javadoc</a></dd>
+  </div>
+
+</dl>
+
+</div>
+
+
+## Signature
+
+
+```java
+@FunctionalInterface public interface ValueDecoder<Data>
+```
+
+
+
+
+
+
+
+## Members
+
+
+| Member | Lifecycle | Upstream docs |
+| --- | --- | --- |
+| `decode(Value)` | - | [Open](<https://javadoc.io/doc/com.daml/bindings-java/3.5.15/com/daml/ledger/javaapi/data/codegen/ValueDecoder.html#decode%28com.daml.ledger.javaapi.data.Value%29>) |
+| `decode(Value, UnknownTrailingFieldPolicy)` | Added `3.5.1` | [Open](<https://javadoc.io/doc/com.daml/bindings-java/3.5.15/com/daml/ledger/javaapi/data/codegen/ValueDecoder.html#decode%28com.daml.ledger.javaapi.data.Value,com.daml.ledger.javaapi.data.codegen.UnknownTrailingFieldPolicy%29>) |

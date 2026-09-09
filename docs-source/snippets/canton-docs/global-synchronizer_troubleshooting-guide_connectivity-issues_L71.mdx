@@ -1,0 +1,4 @@
+```bash
+openssl s_client -connect sequencer.sync.global:443 -servername sequencer.sync.global 2>/dev/null \
+  | openssl x509 -noout -dates
+```

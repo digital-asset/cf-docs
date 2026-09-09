@@ -1,0 +1,12 @@
+```scala
+@ participant1.synchronizers.connect_local(sequencer1, alias = "mySynchronizer")
+```
+
+```scala
+@ participant2.synchronizers.connect_local(sequencer2, alias = "mySynchronizer")
+```
+
+```scala
+@ participant1.health.ping(participant2)
+    res43: Duration = 3465 milliseconds
+```

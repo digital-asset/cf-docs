@@ -1,0 +1,26 @@
+```haskell
+-- Implement token standard interfaces
+template MyToken
+  with
+    issuer : Party
+    holder : Party
+    amount : Decimal
+  where
+    signatory issuer
+    observer holder
+
+    -- Implement standard holding interface
+    interface instance HoldingInterface for MyToken where
+      view = HoldingView with
+        custodian = issuer
+        owner = holder
+        amount = amount
+
+    -- Standard transfer choice
+    choice Transfer : ContractId MyToken
+      with
+        newHolder : Party
+      controller holder
+      do
+        create this with holder = newHolder
+```

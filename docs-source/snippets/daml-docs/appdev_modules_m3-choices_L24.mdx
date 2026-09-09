@@ -1,0 +1,20 @@
+```haskell
+template Contact
+  with
+    owner : Party
+    party : Party
+    address : Text
+    telephone : Text
+  where
+    signatory owner
+    observer party
+
+    choice UpdateTelephone
+      : ContractId Contact
+      with
+        newTelephone : Text
+      controller owner
+      do
+        create this with
+          telephone = newTelephone
+```

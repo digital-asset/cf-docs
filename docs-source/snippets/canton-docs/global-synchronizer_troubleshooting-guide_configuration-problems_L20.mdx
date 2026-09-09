@@ -1,0 +1,11 @@
+```hocon
+# Wrong -- missing closing brace
+canton {
+  participants {
+    participant {
+      storage {
+        type = postgres
+      }
+    # <-- missing }
+}
+```

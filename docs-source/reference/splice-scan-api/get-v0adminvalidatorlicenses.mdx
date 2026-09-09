@@ -1,0 +1,289 @@
+---
+title: "GET /v0/admin/validator/licenses"
+description: "List all validators currently approved by members of the DSO, paginated, sorted newest-first."
+api: "GET https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/admin/validator/licenses"
+playground: "interactive"
+sidebarTitle: "/v0/admin/validator/licenses"
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--operation x2mdx-ref-page--manual-api"></div>
+
+
+
+<div class="x2mdx-ref-hero">
+
+
+
+  <p class="x2mdx-ref-summary">List all validators currently approved by members of the DSO, paginated, sorted newest-first.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">OpenAPI</span>
+
+</div>
+
+
+</div>
+
+
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/admin/validator/licenses'
+```
+
+```python Python
+import json
+import requests
+
+url = "https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/admin/validator/licenses"
+response = requests.request("GET", url)
+
+print(response.text)
+```
+
+```javascript JavaScript
+const response = await fetch('https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/admin/validator/licenses', {
+  method: 'GET',
+});
+
+console.log(await response.text());
+```
+
+```php PHP
+<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => 'https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/admin/validator/licenses',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+]);
+
+$response = curl_exec($curl);
+echo $response;
+```
+
+```go Go
+package main
+
+import (
+  "fmt"
+  "io"
+  "net/http"
+)
+
+func main() {
+  req, _ := http.NewRequest("GET", "https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/admin/validator/licenses", nil)
+  response, _ := http.DefaultClient.Do(req)
+  defer response.Body.Close()
+  body, _ := io.ReadAll(response.Body)
+  fmt.Println(string(body))
+}
+```
+
+```java Java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+var request = HttpRequest.newBuilder()
+    .uri(URI.create("https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/admin/validator/licenses"))
+    .method("GET", HttpRequest.BodyPublishers.noBody())
+    .build();
+var response = HttpClient.newHttpClient().send(
+    request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```ruby Ruby
+require 'net/http'
+require 'uri'
+
+uri = URI('https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/admin/validator/licenses')
+request = Net::HTTP::Get.new(uri)
+response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+  http.request(request)
+end
+puts response.body
+```
+
+</RequestExample>
+
+
+<ResponseExample>
+
+```json 200
+{
+  "validator_licenses": [
+    {
+      "template_id": "<string>",
+      "contract_id": "<string>",
+      "payload": {},
+      "created_event_blob": "<string>",
+      "created_at": "<string>"
+    }
+  ],
+  "next_page_token": 123
+}
+```
+
+</ResponseExample>
+
+
+
+## Query parameters
+
+
+
+
+
+
+
+
+<ParamField query="after" type="number">
+OpenAPI type: <code>integer (int64)</code>.
+
+
+
+A `next_page_token` from a prior response; if absent, return the first page.
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField query="limit" type="number">
+OpenAPI type: <code>integer (int32)</code>.
+
+
+
+Maximum number of elements to return, 1000 by default.
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+
+## Responses
+
+
+### 200
+
+ok
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="validator_licenses" type="Contract[]" required>
+
+Contracts of Daml template `Splice.ValidatorLicense:ValidatorLicense`.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ResponseField name="template_id" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="contract_id" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="payload" type="object" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="created_event_blob" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="created_at" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+</Expandable>
+
+
+</ResponseField>
+
+
+
+<ResponseField name="next_page_token" type="integer (int64)">
+
+When requesting the next page of results, pass this as URL query parameter `after`. If absent or `null`, there are no more pages.
+
+
+
+
+
+
+</ResponseField>

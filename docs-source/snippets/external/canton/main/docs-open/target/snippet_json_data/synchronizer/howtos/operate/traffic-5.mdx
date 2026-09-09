@@ -1,0 +1,6 @@
+```scala
+@ val nextSerial = allMembersTrafficState.trafficStates(participant1).serial
+  .getOrElse(PositiveNumeric.tryCreate(1))
+  .increment
+    nextSerial : PositiveNumeric[Int] = PositiveNumeric(value = 2)
+```

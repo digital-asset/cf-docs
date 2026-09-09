@@ -1,0 +1,21 @@
+```scala
+@ participant1.topology.vetted_packages.list()
+    res4: Seq[com.digitalasset.canton.admin.api.client.data.topology.ListVettedPackagesResult] = Vector(
+      ListVettedPackagesResult(
+        context = BaseResult(
+          storeId = Synchronizer(id = Right(value = da::122032922613...::35-0)),
+          validFrom = 2026-06-30T12:33:34.738224Z,
+          validUntil = None,
+          sequenced = 2026-06-30T12:33:34.488224Z,
+          operation = Replace,
+          transactionHash = TxHash(hash = SHA-256:8352cebba166...),
+          serial = PositiveNumeric(value = 1),
+          signedBy = Vector(12201ff69b1d...)
+        ),
+        item = VettedPackages(
+          participantId = PAR::participant1::12201ff69b1d...,
+          packages = VettedPackage(packageId = 6f8e6085f576..., unbounded),VettedPackage(packageId = 60c61c542207..., unbounded),VettedPackage(packageId = a1fa18133ae4..., unbounded),VettedPackage(packageId = cae345b5500e..., unbounded),VettedPackage(packageId = c3bb0c5d0479..., unbounded),... 25 more
+        )
+      )
+    )
+```

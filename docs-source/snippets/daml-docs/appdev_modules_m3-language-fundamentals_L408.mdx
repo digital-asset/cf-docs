@@ -1,0 +1,11 @@
+```haskell
+tellSize : Int -> Text
+tellSize d
+  | d < 0 = "Negative"
+  | d == 0 = "Zero"
+  | d == 1 = "Non-Zero"
+  | d < 10 = "Small"
+  | d < 100 = "Big"
+  | d < 1000 = "Huge"
+  | otherwise = "Enormous"
+```

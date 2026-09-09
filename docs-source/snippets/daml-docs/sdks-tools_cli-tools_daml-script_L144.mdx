@@ -1,0 +1,6 @@
+```daml
+token_test_1 = script do
+  alice <- allocateParty "Alice"
+  submit alice do
+    createCmd Token with owner = alice
+```

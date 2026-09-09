@@ -1,0 +1,23 @@
+```haskell
+-- Bob allows Alice to send him Ious.
+  sab <- submit bob do
+    createCmd IouSender with
+      sender = alice
+      receiver = bob
+
+  -- Charlie allows Bob to send him Ious.
+  sbc <- submit charlie do
+    createCmd IouSender with
+      sender = bob
+      receiver = charlie
+
+  -- Alice can now send the Iou she issued herself earlier.
+  iou4 <- submit alice do
+    exerciseCmd sab Send_Iou with
+      iouCid = iou
+
+  -- Bob sends it on to Charlie.
+  submit bob do
+    exerciseCmd sbc Send_Iou with
+      iouCid = iou4
+```

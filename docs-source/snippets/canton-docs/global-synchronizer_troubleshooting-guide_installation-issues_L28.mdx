@@ -1,0 +1,4 @@
+```bash
+# Check if any container was OOM-killed
+docker inspect --format='{{.State.OOMKilled}}' <container_name>
+```

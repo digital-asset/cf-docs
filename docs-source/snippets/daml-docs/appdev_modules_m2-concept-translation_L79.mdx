@@ -1,0 +1,16 @@
+```haskell
+template Token
+  with
+    owner : Party
+    amount : Decimal
+  where
+    signatory owner
+
+    choice Transfer : ContractId Token
+      with newOwner : Party
+      controller owner
+      do
+        -- Archive this contract (implicit)
+        -- Create new contract with new owner
+        create this with owner = newOwner
+```

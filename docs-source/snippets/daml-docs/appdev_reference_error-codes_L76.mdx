@@ -1,0 +1,36 @@
+```java
+import com.google.rpc.ErrorInfo;
+import com.google.rpc.RequestInfo;
+import com.google.rpc.RetryInfo;
+import io.grpc.StatusRuntimeException;
+import io.grpc.protobuf.StatusProto;
+
+try {
+    // your gRPC call here
+} catch (StatusRuntimeException e) {
+    com.google.rpc.Status status = StatusProto.fromThrowable(e);
+
+    // gRPC status code
+    int code = status.getCode();
+
+    // Full error description
+    String message = status.getMessage();
+
+    // Extract structured details
+    for (com.google.protobuf.Any detail : status.getDetailsList()) {
+        if (detail.is(ErrorInfo.class)) {
+            ErrorInfo info = detail.unpack(ErrorInfo.class);
+            String errorId = info.getReason();
+            String category = info.getMetadataMap().get("category");
+        }
+        if (detail.is(RequestInfo.class)) {
+            String requestId = detail.unpack(RequestInfo.class).getRequestId();
+        }
+        if (detail.is(RetryInfo.class)) {
+            RetryInfo retry = detail.unpack(RetryInfo.class);
+            long retryMs = retry.getRetryDelay().getSeconds() * 1000
+                + retry.getRetryDelay().getNanos() / 1_000_000;
+        }
+    }
+}
+```

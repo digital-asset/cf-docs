@@ -1,0 +1,13 @@
+```hocon
+canton.participants.participant.storage {
+  type = "memory"
+
+  config {
+    # Maximum number of connections in the pool
+    maxConnections = 30
+
+    # Connection timeout in milliseconds
+    connectionTimeout = 30000
+  }
+}
+```

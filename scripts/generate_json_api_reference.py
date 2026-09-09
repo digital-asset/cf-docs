@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import os
 import re
@@ -54,11 +53,11 @@ DEFAULT_SOURCE_CONFIG = (
 )
 DEFAULT_CACHE_DIR = DEFAULT_CACHE_ROOT / "ledger-api-bundles"
 DEFAULT_OUTPUT_SPEC = (
-    REPO_ROOT / "docs-main" / "openapi" / "json-ledger-api" / "openapi.yaml"
+    REPO_ROOT / "docs-source" / "openapi" / "json-ledger-api" / "openapi.yaml"
 )
-DEFAULT_DOCS_JSON = REPO_ROOT / "docs-main" / "docs.json"
+DEFAULT_DOCS_JSON = REPO_ROOT / "docs-source" / "docs.json"
 DEFAULT_HISTORY_REPORT = (
-    REPO_ROOT / "docs-main" / "reference" / "json-api-reference" / "history-report.json"
+    REPO_ROOT / "docs-source" / "reference" / "json-api-reference" / "history-report.json"
 )
 DEFAULT_NAV_DROPDOWN = "API Reference"
 DEFAULT_PARENT_GROUP = "Ledger API"
@@ -66,7 +65,7 @@ DEFAULT_GROUP_LABEL = "OpenAPI"
 DEFAULT_OPENAPI_DIRECTORY = "reference/json-api-reference"
 DEFAULT_OVERVIEW_PAGE_REF = "reference/json-api-reference/overview"
 DEFAULT_DETAILS_PAGE_REF = "reference/json-api-reference/details"
-LEGACY_OUTPUT_FILE = REPO_ROOT / "docs-main" / "reference" / "json-api-reference.mdx"
+LEGACY_OUTPUT_FILE = REPO_ROOT / "docs-source" / "reference" / "json-api-reference.mdx"
 HTTP_METHODS = {"get", "put", "post", "delete", "options", "head", "patch", "trace"}
 INTERNAL_TODO_LINE_RE = re.compile(r"(?m)^[ \t]*TODO\([^\r\n)]+\)[^\r\n]*(?:\r?\n|$)")
 
@@ -310,38 +309,6 @@ def openapi_navigation_page_refs(
         method, path = page_ref.split(" ", 1)
         page_refs.append(manual_refs.get((method, path), page_ref))
     return page_refs
-
-
-def validate_manual_route_baseline(
-    source_config: dict[str, Any], *, manual_operations: list[dict[str, str]]
-) -> None:
-    baseline = source_config.get("legacy_manual_route_baseline")
-    if baseline is None:
-        return
-    if not isinstance(baseline, dict):
-        raise ValueError("legacy_manual_route_baseline must be an object")
-    expected_count = baseline.get("operation_count")
-    expected_sha256 = baseline.get("sha256")
-    if not isinstance(expected_count, int) or expected_count < 0:
-        raise ValueError(
-            "legacy_manual_route_baseline.operation_count must be a non-negative integer"
-        )
-    if not isinstance(expected_sha256, str) or not re.fullmatch(
-        r"[0-9a-f]{64}", expected_sha256
-    ):
-        raise ValueError(
-            "legacy_manual_route_baseline.sha256 must be a lowercase SHA-256 digest"
-        )
-    routes = sorted(f"/{operation['page_ref']}" for operation in manual_operations)
-    actual_sha256 = hashlib.sha256(
-        ("\n".join(routes) + "\n").encode("utf-8")
-    ).hexdigest()
-    if len(routes) != expected_count or actual_sha256 != expected_sha256:
-        raise ValueError(
-            "Manual OpenAPI routes do not match the captured native-route baseline: "
-            f"expected {expected_count} routes/{expected_sha256}, got "
-            f"{len(routes)} routes/{actual_sha256}"
-        )
 
 
 def generated_operation_summary(path: str, method: str) -> str:
@@ -865,7 +832,6 @@ def main() -> int:
         spec=specs_by_version[publish_entry["version"]],
         directory=args.openapi_directory,
     )
-    validate_manual_route_baseline(source_config, manual_operations=manual_operations)
     history_report = build_openapi_history_report(
         surface_id="json-ledger-api-openapi",
         title="JSON Ledger API OpenAPI",

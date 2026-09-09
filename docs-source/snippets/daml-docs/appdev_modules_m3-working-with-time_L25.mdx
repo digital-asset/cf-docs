@@ -1,0 +1,12 @@
+```haskell
+template Coin
+  with
+    owner: Party
+    issuer: Party
+    amount: Decimal
+  where
+    signatory issuer
+    signatory owner
+
+    ensure amount > 0.0
+```

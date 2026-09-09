@@ -1,0 +1,119 @@
+---
+title: "Splice.Tests.TestAmuletTokenDvP"
+description: "Documentation for Splice.Tests.TestAmuletTokenDvP"
+---
+
+{/* COPIED_START source="splice:token-standard/splice-token-standard-test/docs/Splice-Tests-TestAmuletTokenDvP.rst" tag="0.6.4" hash="92304d93" */}
+
+Daml script tests showing that the token standard can be used to execute DvP settlements of Amulet tokens; and how to do so.
+
+See this test and the 'Splice.Testing.TradingApp' module for an example of how to integrate with the allocation APIs of the token standard to execute DvP settlements.
+
+Note also that the delivery part of a DvP settelement can be both another token implementing the standard, as well as the creation of on-ledger state specific to your registry; e.g., a license contract.
+
+## Data Types
+
+<div id="type-splice-tests-testamulettokendvp-allocatedotctrade-90362">
+
+**data** AllocatedOTCTrade
+
+</div>
+
+> <div id="constr-splice-tests-testamulettokendvp-allocatedotctrade-19245">
+>
+> AllocatedOTCTrade
+>
+> </div>
+>
+> > | Field                 | Type                                                                                                                                                                                                                                          | Description |
+> > |-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+> > | alice                 | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                           |             |
+> > | bob                   | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                           |             |
+> > | provider              | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                           |             |
+> > | providerBeneficiary1  | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                           |             |
+> > | providerBeneficiary2  | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)                                                                                                                           |             |
+> > | providerBeneficiaries | \[([Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932), [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135))\] |             |
+> > | registry              | AmuletRegistry                                                                                                                                                                                                                                |             |
+> > | otcTradeCid           | [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) OTCTrade                                                                                                        |             |
+> > | otcTrade              | OTCTrade                                                                                                                                                                                                                                      |             |
+> > | amuletId              | InstrumentId                                                                                                                                                                                                                                  |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) AllocatedOTCTrade
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) AllocatedOTCTrade
+>
+> **instance** GetField "alice" AllocatedOTCTrade [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "amuletId" AllocatedOTCTrade InstrumentId
+>
+> **instance** GetField "bob" AllocatedOTCTrade [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "otcTrade" AllocatedOTCTrade OTCTrade
+>
+> **instance** GetField "otcTradeCid" AllocatedOTCTrade ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) OTCTrade)
+>
+> **instance** GetField "provider" AllocatedOTCTrade [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "providerBeneficiaries" AllocatedOTCTrade \[([Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932), [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135))\]
+>
+> **instance** GetField "providerBeneficiary1" AllocatedOTCTrade [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "providerBeneficiary2" AllocatedOTCTrade [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "registry" AllocatedOTCTrade AmuletRegistry
+>
+> **instance** SetField "alice" AllocatedOTCTrade [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "amuletId" AllocatedOTCTrade InstrumentId
+>
+> **instance** SetField "bob" AllocatedOTCTrade [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "otcTrade" AllocatedOTCTrade OTCTrade
+>
+> **instance** SetField "otcTradeCid" AllocatedOTCTrade ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) OTCTrade)
+>
+> **instance** SetField "provider" AllocatedOTCTrade [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "providerBeneficiaries" AllocatedOTCTrade \[([Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932), [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135))\]
+>
+> **instance** SetField "providerBeneficiary1" AllocatedOTCTrade [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "providerBeneficiary2" AllocatedOTCTrade [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "registry" AllocatedOTCTrade AmuletRegistry
+
+## Functions
+
+<div id="function-splice-tests-testamulettokendvp-setupotctrade-96214">
+
+setupOtcTrade
+: Script AllocatedOTCTrade
+
+</div>
+
+<div id="function-splice-tests-testamulettokendvp-testdvp-18055">
+
+testDvP
+: Script ()
+
+Test that a DvP settlement of an OTC trade works when using Amulet via the token standard.
+
+</div>
+
+<div id="function-splice-tests-testamulettokendvp-appbackendlistallocations-88475">
+
+appBackendListAllocations
+: [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> Reference -\> Script ([TextMap](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-textmap-11691) ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Allocation, AllocationView))
+
+List all allocations matching a particular settlement reference, sorted by their tradeLeg id. This function would be run on the trading app provider's backend as part of an automation loop.
+
+</div>
+
+<div id="function-splice-tests-testamulettokendvp-expectnoburn-66061">
+
+expectNoBurn
+: Metadata -\> Script ()
+
+</div>
+
+{/* COPIED_END */}

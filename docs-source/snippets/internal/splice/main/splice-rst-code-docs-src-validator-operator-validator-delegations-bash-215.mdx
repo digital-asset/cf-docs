@@ -1,0 +1,22 @@
+```bash
+curl -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
+--data-raw '{
+  "commands": [
+    {
+      "CreateCommand": {
+        "templateId": "#splice-wallet:Splice.Wallet.MintingDelegation:MintingDelegationProposal",
+        "createArguments": {
+          "delegation": {
+            "beneficiary": "'"$BENEFICIARY_PARTY"'",
+            "delegate": "'"$DELEGATE_PARTY"'",
+            "dso": "'"$DSO_PARTY"'",
+            "expiresAt": "'"$EXPIRES_AT"'",
+            "amuletMergeLimit": '"$AMULET_MERGE_LIMIT"'
+          }
+        }
+      }
+    }
+  ]
+}' \
+"$LEDGER_API_URL/v2/commands"
+```

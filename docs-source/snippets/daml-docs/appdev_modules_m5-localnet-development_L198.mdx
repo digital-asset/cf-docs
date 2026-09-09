@@ -1,0 +1,10 @@
+```bash
+# All containers
+docker compose -f $LOCALNET_DIR/compose.yaml logs -f
+
+# Specific service
+docker compose -f $LOCALNET_DIR/compose.yaml logs -f app-provider-participant
+
+# Filter for errors
+docker compose -f $LOCALNET_DIR/compose.yaml logs -f 2>&1 | grep -i error
+```

@@ -20,7 +20,7 @@ from validate_splice_mintlify_openapi_nav import validate_splice_nav
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CACHE_ROOT = Path(os.environ.get("XDG_CACHE_HOME", "~/.cache")).expanduser() / "x2mdx"
-DOCS_JSON_PATH = REPO_ROOT / "docs-main" / "docs.json"
+DOCS_JSON_PATH = REPO_ROOT / "docs-source" / "docs.json"
 DOCS_ROOT = DOCS_JSON_PATH.parent
 API_REFERENCE_DROPDOWN = "API Reference"
 LEGACY_PAGE_REFS = {
@@ -110,6 +110,26 @@ SCRIPT_JOBS = [
         script_path=REPO_ROOT / "scripts" / "generate_typescript_bindings_reference.py",
         nav_slices=(NavSlice("top_group", ("TypeScript",)),),
         target_ids=("typescript-bindings",),
+    ),
+    ScriptJob(
+        script_path=REPO_ROOT / "scripts" / "generate_canton_console_reference.py",
+        nav_slices=(),
+        target_ids=(),
+    ),
+    ScriptJob(
+        script_path=REPO_ROOT / "scripts" / "generate_canton_error_codes_reference.py",
+        nav_slices=(),
+        target_ids=(),
+    ),
+    ScriptJob(
+        script_path=REPO_ROOT / "scripts" / "generate_canton_release_protocol_versions.py",
+        nav_slices=(),
+        target_ids=(),
+    ),
+    ScriptJob(
+        script_path=REPO_ROOT / "scripts" / "generate_canton_topology_transaction_versions.py",
+        nav_slices=(),
+        target_ids=(),
     ),
 ]
 

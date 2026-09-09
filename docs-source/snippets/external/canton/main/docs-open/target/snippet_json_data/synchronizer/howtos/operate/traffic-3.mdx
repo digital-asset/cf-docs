@@ -1,0 +1,48 @@
+```scala
+@ val allMembersTrafficState = sequencer1.traffic_control.traffic_state_of_all_members()
+  allMembersTrafficState
+    allMembersTrafficState : com.digitalasset.canton.synchronizer.sequencer.traffic.SequencerTrafficStatus = SequencerTrafficStatus(
+      trafficStatesOrErrors = Map(
+        PAR::participant1::12201ff69b1d... -> Right(
+          value = TrafficState(
+            extraTrafficLimit = 0,
+            extraTrafficConsumed = 0,
+            baseTrafficRemainder = 20000,
+            lastConsumedCost = 0,
+            timestamp = 2026-06-30T12:34:15.570300Z,
+            availableTraffic = 20000
+          )
+        ),
+        MED::mediator1::122009299340... -> Right(
+          value = TrafficState(
+            extraTrafficLimit = 0,
+            extraTrafficConsumed = 0,
+            baseTrafficRemainder = 20000,
+            lastConsumedCost = 0,
+            timestamp = 2026-06-30T12:34:15.570300Z,
+            availableTraffic = 20000
+          )
+        ),
+        PAR::participant3::1220d6908163... -> Right(
+          value = TrafficState(
+            extraTrafficLimit = 0,
+            extraTrafficConsumed = 0,
+            baseTrafficRemainder = 20000,
+            lastConsumedCost = 0,
+            timestamp = 2026-06-30T12:34:15.570300Z,
+            availableTraffic = 20000
+          )
+        ),
+        PAR::participant2::1220a4d7463b... -> Right(
+          value = TrafficState(
+            extraTrafficLimit = 0,
+            extraTrafficConsumed = 0,
+            baseTrafficRemainder = 20000,
+            lastConsumedCost = 0,
+            timestamp = 2026-06-30T12:34:15.570300Z,
+            availableTraffic = 20000
+          )
+        )
+      )
+    )
+```

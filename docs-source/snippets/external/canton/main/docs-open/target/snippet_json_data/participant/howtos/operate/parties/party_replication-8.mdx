@@ -1,0 +1,14 @@
+```scala
+@ target.dars.upload("dars/CantonExamples.dar")
+    res7: String = "ccb8bbc31d22c85bb62bab13af5ef01cc004f92e9151c59d110d2cc68fe4e0e3"
+```
+
+```scala
+@ target.topology.vetted_packages.list()
+    .filter(_.item.packages.exists(_.packageId == mainPackageId))
+    .map(r => (r.context.storeId, r.item.participantId))
+    res8: Seq[(TopologyStoreId, ParticipantId)] = List(
+      (Synchronizer(id = Right(value = da::1220a82692ab...::35-0)), PAR::participant1::12201ff69b1d...),
+      (Synchronizer(id = Right(value = da::1220a82692ab...::35-0)), PAR::participant2::1220a4d7463b...)
+    )
+```

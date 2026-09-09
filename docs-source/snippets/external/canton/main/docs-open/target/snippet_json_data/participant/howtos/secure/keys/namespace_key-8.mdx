@@ -1,0 +1,23 @@
+```scala
+@ participant1.topology.init_id(identifier = "participant1", delegationFiles = Seq("/tmp/canton/certs/root_namespace.cert", "/tmp/canton/certs/intermediate_namespace.cert"))
+```
+
+```scala
+@ participant1.health.status
+    res5: NodeStatus[ParticipantStatus] = Participant id: PAR::participant1::12204d7c46410f90550e1c0823b8690747c02bc04387d634475adcce01f340308b11
+    Uptime: 0.126328s
+    Ports: 
+    	ledger: 30660
+    	admin: 30661
+    Connected synchronizers: None
+    Unhealthy synchronizers: None
+    Active: true
+    Components: 
+    	memory_storage : Ok()
+    	connected-synchronizer : Not Initialized
+    	sync-ephemeral-state : Not Initialized
+    	sequencer-client : Not Initialized
+    	acs-commitment-processor : Not Initialized
+    Version: 3.6.0-SNAPSHOT
+    Supported protocol version(s): 34, 35
+```

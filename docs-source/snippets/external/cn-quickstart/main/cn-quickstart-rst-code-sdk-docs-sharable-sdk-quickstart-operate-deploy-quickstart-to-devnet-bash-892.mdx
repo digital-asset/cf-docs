@@ -1,0 +1,8 @@
+```bash
+   docker exec -it keycloak /opt/keycloak/bin/kcadm.sh config credentials \
+     --server http://localhost:8082 --realm master --user admin --password admin
+
+   docker exec -it keycloak /opt/keycloak/bin/kcadm.sh update realms/master \
+     -s sslRequired=NONE
+
+```

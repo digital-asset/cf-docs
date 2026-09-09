@@ -1,0 +1,978 @@
+---
+title: "POST /v2/commands/async/submit-reassignment"
+description: "Submit a single reassignment."
+api: "POST http://localhost:7575/v2/commands/async/submit-reassignment"
+authMethod: "bearer"
+playground: "interactive"
+sidebarTitle: "/v2/commands/async/submit-reassignment"
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--operation x2mdx-ref-page--manual-api"></div>
+
+
+
+<div class="x2mdx-ref-hero">
+
+
+
+  <p class="x2mdx-ref-summary">Submit a single reassignment.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">OpenAPI</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--changed" href="#history-updated-3-5">Updated 3.5</a>
+
+</div>
+
+
+</div>
+
+
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url 'http://localhost:7575/v2/commands/async/submit-reassignment' \
+  --header 'Authorization: Bearer $TOKEN' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "reassignmentCommands": {
+    "workflowId": "<string>",
+    "userId": "<string>",
+    "commandId": "<string>",
+    "submitter": "<string>",
+    "submissionId": "<string>",
+    "commands": [
+      {
+        "command": {
+          "AssignCommand": {
+            "value": "<object>"
+          }
+        }
+      }
+    ]
+  }
+}'
+```
+
+```python Python
+import json
+import requests
+
+url = "http://localhost:7575/v2/commands/async/submit-reassignment"
+headers = {'Authorization': 'Bearer <token>', 'Content-Type': 'application/json'}
+payload = json.loads(r'''{
+  "reassignmentCommands": {
+    "workflowId": "<string>",
+    "userId": "<string>",
+    "commandId": "<string>",
+    "submitter": "<string>",
+    "submissionId": "<string>",
+    "commands": [
+      {
+        "command": {
+          "AssignCommand": {
+            "value": "<object>"
+          }
+        }
+      }
+    ]
+  }
+}''')
+response = requests.request(
+    "POST", url, headers=headers, json=payload
+)
+
+print(response.text)
+```
+
+```javascript JavaScript
+const response = await fetch('http://localhost:7575/v2/commands/async/submit-reassignment', {
+  method: 'POST',
+  headers: {
+  "Authorization": "Bearer <token>",
+  "Content-Type": "application/json"
+},
+  body: JSON.stringify({
+  "reassignmentCommands": {
+    "workflowId": "<string>",
+    "userId": "<string>",
+    "commandId": "<string>",
+    "submitter": "<string>",
+    "submissionId": "<string>",
+    "commands": [
+      {
+        "command": {
+          "AssignCommand": {
+            "value": "<object>"
+          }
+        }
+      }
+    ]
+  }
+}),
+});
+
+console.log(await response.text());
+```
+
+```php PHP
+<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => 'http://localhost:7575/v2/commands/async/submit-reassignment',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS => <<<'JSON'
+{
+  "reassignmentCommands": {
+    "workflowId": "<string>",
+    "userId": "<string>",
+    "commandId": "<string>",
+    "submitter": "<string>",
+    "submissionId": "<string>",
+    "commands": [
+      {
+        "command": {
+          "AssignCommand": {
+            "value": "<object>"
+          }
+        }
+      }
+    ]
+  }
+}
+JSON,
+    CURLOPT_HTTPHEADER => [
+        "Authorization: Bearer <token>",
+        "Content-Type: application/json"
+    ],
+]);
+
+$response = curl_exec($curl);
+echo $response;
+```
+
+```go Go
+package main
+
+import (
+  "bytes"
+  "fmt"
+  "io"
+  "net/http"
+)
+
+func main() {
+  req, _ := http.NewRequest("POST", "http://localhost:7575/v2/commands/async/submit-reassignment", bytes.NewBufferString(`{
+  "reassignmentCommands": {
+    "workflowId": "<string>",
+    "userId": "<string>",
+    "commandId": "<string>",
+    "submitter": "<string>",
+    "submissionId": "<string>",
+    "commands": [
+      {
+        "command": {
+          "AssignCommand": {
+            "value": "<object>"
+          }
+        }
+      }
+    ]
+  }
+}`))
+  req.Header.Set("Authorization", "Bearer <token>")
+  req.Header.Set("Content-Type", "application/json")
+  response, _ := http.DefaultClient.Do(req)
+  defer response.Body.Close()
+  body, _ := io.ReadAll(response.Body)
+  fmt.Println(string(body))
+}
+```
+
+```java Java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+var request = HttpRequest.newBuilder()
+    .uri(URI.create("http://localhost:7575/v2/commands/async/submit-reassignment"))
+    .header("Authorization", "Bearer <token>")
+    .header("Content-Type", "application/json")
+    .method("POST", HttpRequest.BodyPublishers.ofString("""
+{
+  "reassignmentCommands": {
+    "workflowId": "<string>",
+    "userId": "<string>",
+    "commandId": "<string>",
+    "submitter": "<string>",
+    "submissionId": "<string>",
+    "commands": [
+      {
+        "command": {
+          "AssignCommand": {
+            "value": "<object>"
+          }
+        }
+      }
+    ]
+  }
+}
+"""))
+    .build();
+var response = HttpClient.newHttpClient().send(
+    request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```ruby Ruby
+require 'net/http'
+require 'uri'
+
+uri = URI('http://localhost:7575/v2/commands/async/submit-reassignment')
+request = Net::HTTP::Post.new(uri)
+request['Authorization'] = 'Bearer <token>'
+request['Content-Type'] = 'application/json'
+request.body = <<~JSON
+{
+  "reassignmentCommands": {
+    "workflowId": "<string>",
+    "userId": "<string>",
+    "commandId": "<string>",
+    "submitter": "<string>",
+    "submissionId": "<string>",
+    "commands": [
+      {
+        "command": {
+          "AssignCommand": {
+            "value": "<object>"
+          }
+        }
+      }
+    ]
+  }
+}
+JSON
+response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+  http.request(request)
+end
+puts response.body
+```
+
+</RequestExample>
+
+
+<ResponseExample>
+
+```json 200
+{}
+```
+
+```text 400
+<string>
+```
+
+```json default
+{
+  "code": "<string>",
+  "cause": "<string>",
+  "correlationId": "<string>",
+  "traceId": "<string>",
+  "context": {},
+  "resources": [
+    [
+      "<string>"
+    ]
+  ],
+  "errorCategory": 123,
+  "grpcCodeValue": 123,
+  "retryInfo": "<string>",
+  "definiteAnswer": false
+}
+```
+
+</ResponseExample>
+
+
+## Authorizations
+
+
+### httpAuth
+
+
+
+
+
+
+<ParamField header="Authorization" type="string" required>
+
+
+HTTP bearer authentication. Send the token as `Authorization: Bearer &lt;token&gt;`. Ledger API standard JWT token
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+### apiKeyAuth
+
+
+
+
+
+
+<ParamField header="Sec-WebSocket-Protocol" type="string" required>
+
+
+API key authentication in the header. Ledger API standard JWT token (websocket)
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+
+
+## Body
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ParamField body="reassignmentCommands" type="object" required>
+OpenAPI type: <code>ReassignmentCommands</code>.
+
+
+
+The reassignment command to be submitted. Required
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="workflowId" type="string">
+
+
+Identifier of the on-ledger workflow that this command is a part of. Must be a valid LedgerString (as described in ``value.proto``). Optional
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="userId" type="string">
+
+
+Uniquely identifies the participant user that issued the command. Must be a valid UserIdString (as described in ``value.proto``). Required unless authentication is used with a user token. In that case, the token&#x27;s user-id will be used for the request&#x27;s user_id. Optional
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="commandId" type="string" required>
+
+
+Uniquely identifies the command. The triple (user_id, submitter, command_id) constitutes the change ID for the intended ledger change. The change ID can be used for matching the intended ledger changes with all their completions. Must be a valid LedgerString (as described in ``value.proto``). Required
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="submitter" type="string" required>
+
+
+Party on whose behalf the command should be executed. If ledger API authorization is enabled, then the authorization metadata must authorize the sender of the request to act on behalf of the given party. Must be a valid PartyIdString (as described in ``value.proto``). Required
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="submissionId" type="string">
+
+
+A unique identifier to distinguish completions for different submissions with the same change ID. Typically a random UUID. Applications are expected to use a different UUID for each retry of a submission with the same change ID. Must be a valid LedgerString (as described in ``value.proto``). If omitted, the participant or the committer may set a value of their choice. Optional
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="commands" type="object[]" required>
+OpenAPI type: <code>ReassignmentCommand[]</code>.
+
+
+
+Individual elements of this reassignment. Must be non-empty. Required: must be non-empty
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="command" type="object">
+OpenAPI type: <code>Command1</code>.
+
+
+
+A command can either create a new contract or exercise a choice on an existing contract.
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="Variant 1" type="object">
+
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="AssignCommand" type="object" required>
+OpenAPI type: <code>AssignCommand</code>.
+
+
+
+Assign a contract
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="value" type="object" required>
+OpenAPI type: <code>AssignCommand1</code>.
+
+
+
+Assign a contract
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="reassignmentId" type="string" required>
+
+
+The ID from the unassigned event to be completed by this assignment. Must be a valid LedgerString (as described in ``value.proto``). Required
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="source" type="string" required>
+
+
+The ID of the source synchronizer Must be a valid synchronizer id Required
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="target" type="string" required>
+
+
+The ID of the target synchronizer Must be a valid synchronizer id Required
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+<ParamField body="Variant 2" type="object">
+
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="Empty" type="object" required>
+OpenAPI type: <code>Empty2</code>.
+
+
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+<ParamField body="Variant 3" type="object">
+
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="UnassignCommand" type="object" required>
+OpenAPI type: <code>UnassignCommand</code>.
+
+
+
+Unassign a contract
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="value" type="object" required>
+OpenAPI type: <code>UnassignCommand1</code>.
+
+
+
+Unassign a contract
+
+
+
+
+
+<Expandable title="child attributes">
+
+
+
+
+<ParamField body="contractId" type="string" required>
+
+
+The ID of the contract the client wants to unassign. Must be a valid LedgerString (as described in ``value.proto``). Required
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="source" type="string" required>
+
+
+The ID of the source synchronizer Must be a valid synchronizer id Required
+
+
+
+
+
+
+</ParamField>
+
+
+
+<ParamField body="target" type="string" required>
+
+
+The ID of the target synchronizer Must be a valid synchronizer id Required
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+</Expandable>
+
+
+</ParamField>
+
+
+
+
+
+
+
+## Responses
+
+
+### 200
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="value" type="SubmitReassignmentResponse" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+### 400
+
+Invalid value, Invalid value for: body
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">text/plain</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="value" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+### default
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="code" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="cause" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="correlationId" type="string">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="traceId" type="string">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="context" type="Map_String" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="resources" type="Tuple2_String_String[]">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="errorCategory" type="integer (int32)" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="grpcCodeValue" type="integer (int32)">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="retryInfo" type="string">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="definiteAnswer" type="boolean">
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+
+
+## History
+
+<div class="x2mdx-ref-history" aria-label="Reference history">
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-3-5">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">3.5</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">The POST /v2/commands/async/submit-reassignment operation changed in this snapshot.</p>
+
+  </div>
+
+</div>

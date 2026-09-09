@@ -1,0 +1,10 @@
+```haskell
+choice Transfer : ContractId TransferProposal
+      with
+        newOwner: Party
+        startTime: Time
+        duration: RelTime
+      controller owner
+      do create TransferProposal
+            with coin=this; newOwner; startTime; addRelTime startTime duration
+```

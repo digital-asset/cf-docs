@@ -1,0 +1,17 @@
+---
+title: "Validator Ingress and Egress Requirements"
+description: "Network ingress and egress requirements for validator nodes"
+---
+
+{/* COPIED_START source="splice:docs/src/validator_operator/validator_networking.rst" hash="59d9c925" */}
+
+## Ingress
+
+The validators have no external ingress requirements and don't need to whitelist any other SVs or validators.
+
+## Egress
+
+The validators must be able to connect to all the SVs, thus whitelisting of egress on port 443 for the IPs of all the SVs is required (refer to [the network diagram](/global-synchronizer/deployment/validator-kubernetes) for a networking overview). Note that egress is often allowed by default, so in many cases this requires no action.
+
+
+{/* COPIED_END */}

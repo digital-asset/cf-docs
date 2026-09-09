@@ -1,0 +1,11 @@
+```scala
+@ val updatedUser = participant1.ledger_api.users.update(id = user.id, modifier = user => { user.copy(primaryParty = None, annotations = user.annotations.updated("description", "This is a new description").removed("foo").updated("baz", "bar")) })
+    updatedUser : User = User(
+      id = "myuser",
+      primaryParty = None,
+      isDeactivated = false,
+      annotations = Map("description" -> "This is a new description", "baz" -> "bar"),
+      identityProviderId = "",
+      primaryPartyAuthentication = false
+    )
+```

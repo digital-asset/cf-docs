@@ -1,0 +1,200 @@
+---
+title: "Splice.Testing.Registries.AmuletRegistry"
+description: "Documentation for Splice.Testing.Registries.AmuletRegistry"
+---
+
+{/* COPIED_START source="splice:token-standard/splice-token-standard-test/docs/Splice-Testing-Registries-AmuletRegistry.rst" tag="0.6.4" hash="761611ed" */}
+
+Daml script functions for initializing and using an amulet registry via the token standard and the amulet specific functions.
+
+## Data Types
+
+<div id="type-splice-testing-registries-amuletregistry-amuletregistry-76694">
+
+**data** AmuletRegistry
+
+</div>
+
+> A reference to a mock amulet registry. Use it via the the token standard functions provided by the "Splice.Testing.RegistryApi" module and type-class; or via the amulet specific functions exported from this module.
+>
+> <div id="constr-splice-testing-registries-amuletregistry-amuletregistry-65341">
+>
+> AmuletRegistry
+>
+> </div>
+>
+> > | Field        | Type                                                                                                                | Description |
+> > |--------------|---------------------------------------------------------------------------------------------------------------------|-------------|
+> > | dso          | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |             |
+> > | instrumentId | InstrumentId                                                                                                        |             |
+>
+> **instance** RegistryApi AmuletRegistry
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) AmuletRegistry
+>
+> **instance** [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) AmuletRegistry
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) AmuletRegistry
+>
+> **instance** GetField "dso" AmuletRegistry [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** GetField "instrumentId" AmuletRegistry InstrumentId
+>
+> **instance** GetField "registry" AllocatedOTCTrade AmuletRegistry
+>
+> **instance** GetField "registry" TestSetup AmuletRegistry
+>
+> **instance** SetField "dso" AmuletRegistry [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932)
+>
+> **instance** SetField "instrumentId" AmuletRegistry InstrumentId
+>
+> **instance** SetField "registry" AllocatedOTCTrade AmuletRegistry
+>
+> **instance** SetField "registry" TestSetup AmuletRegistry
+
+<div id="type-splice-testing-registries-amuletregistry-amuletregistryconfig-57082">
+
+**data** AmuletRegistryConfig
+
+</div>
+
+> <div id="constr-splice-testing-registries-amuletregistry-amuletregistryconfig-72661">
+>
+> AmuletRegistryConfig
+>
+> </div>
+>
+> > | Field              | Type                                                                                                               | Description |
+> > |--------------------|--------------------------------------------------------------------------------------------------------------------|-------------|
+> > | initialAmuletPrice | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) |             |
+> > | demoTime           | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)  |             |
+> > | dsoPartyName       | [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)       |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) AmuletRegistryConfig
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) AmuletRegistryConfig
+>
+> **instance** GetField "demoTime" AmuletRegistryConfig [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)
+>
+> **instance** GetField "dsoPartyName" AmuletRegistryConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** GetField "initialAmuletPrice" AmuletRegistryConfig [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+>
+> **instance** SetField "demoTime" AmuletRegistryConfig [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)
+>
+> **instance** SetField "dsoPartyName" AmuletRegistryConfig [Text](/appdev/reference/daml-standard-library/prelude#type-ghc-types-text-51952)
+>
+> **instance** SetField "initialAmuletPrice" AmuletRegistryConfig [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)
+
+## Functions
+
+<div id="function-splice-testing-registries-amuletregistry-defaultamuletregistryconfig-89742">
+
+defaultAmuletRegistryConfig
+: AmuletRegistryConfig
+
+Recommended default configuration for setting up the mock amulet registry.
+
+</div>
+
+<div id="function-splice-testing-registries-amuletregistry-initialize-82895">
+
+initialize
+: AmuletRegistryConfig -\> Script AmuletRegistry
+
+Initialize the mock amulet registry.
+
+</div>
+
+<div id="function-splice-testing-registries-amuletregistry-tapfaucet-5281">
+
+tapFaucet
+: AmuletRegistry -\> [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) -\> Script ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Holding)
+
+Tap the faucet on DevNet to get a specified amount of Amulet.
+
+</div>
+
+<div id="function-splice-testing-registries-amuletregistry-createlockedamulet-2941">
+
+createLockedAmulet
+: AmuletRegistry -\> [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) -\> TimeLock -\> Script ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Holding)
+
+Direct-create locked amulet -- used for testing purposes only.
+
+</div>
+
+<div id="function-splice-testing-registries-amuletregistry-createtransferpreapproval-18003">
+
+createTransferPreapproval
+: AmuletRegistry -\> [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886) -\> Script ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) TransferPreapproval)
+
+Simulate that a validator operator created a transfer pre-approval for a party for the purpose of that party being able to receive Amulet from any other party.
+
+</div>
+
+<div id="function-splice-testing-registries-amuletregistry-featureapp-19022">
+
+featureApp
+: AmuletRegistry -\> [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> Script ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) FeaturedAppRight)
+
+Mark a particular registry provider part as featured.
+
+</div>
+
+<div id="function-splice-testing-registries-amuletregistry-beneficiariestometadata-71079">
+
+beneficiariesToMetadata
+: \[([Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932), [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135))\] -\> Metadata
+
+Encode a list of beneficiaries as metadata to pass in via token standard choices. Currently only supported for allocation execution.
+
+</div>
+
+<div id="function-splice-testing-registries-amuletregistry-expirelockasowner-96835">
+
+expireLockAsOwner
+: AmuletRegistry -\> [ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Holding -\> Script ([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Holding)
+
+</div>
+
+<div id="function-splice-testing-registries-amuletregistry-taplockedandunlockedfunds-93647">
+
+tapLockedAndUnlockedFunds
+: AmuletRegistry -\> [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) -\> Script \[[ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) Holding\]
+
+Get funds in equal splits as locked and unlocked holdings to test using expired locked holdings as transfer inputs.
+
+</div>
+
+<div id="function-splice-testing-registries-amuletregistry-advancetonextroundchange-68961">
+
+advanceToNextRoundChange
+: [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> Script ()
+
+Advance time to next round change
+
+</div>
+
+<div id="function-splice-testing-registries-amuletregistry-getactiveopenroundssorted-97680">
+
+getActiveOpenRoundsSorted
+: [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> Script \[([ContractId](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-contractid-95282) OpenMiningRound, OpenMiningRound)\]
+
+</div>
+
+<div id="function-splice-testing-registries-amuletregistry-convertallfeaturedappactivitymarkers-52068">
+
+convertAllFeaturedAppActivityMarkers
+: [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> Script ()
+
+</div>
+
+<div id="function-splice-testing-registries-amuletregistry-runnextissuance-50793">
+
+runNextIssuance
+: [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) -\> [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135) -\> Script ()
+
+</div>
+
+{/* COPIED_END */}

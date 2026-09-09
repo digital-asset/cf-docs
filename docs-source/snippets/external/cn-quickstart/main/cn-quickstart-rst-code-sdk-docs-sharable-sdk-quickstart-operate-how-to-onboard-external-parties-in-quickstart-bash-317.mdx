@@ -1,0 +1,8 @@
+```bash
+  RESPONDER_PARTY=$(grpcurl -plaintext -H "Authorization: Bearer $LEDGER_TOKEN" localhost:2901 \
+    com.daml.ledger.api.v2.admin.PartyManagementService/ListKnownParties | \
+    jq -r '.party_details[] | select(.party | startswith("app_user")) | .party' | head -1)
+
+  echo "Responder party: $RESPONDER_PARTY"
+
+```

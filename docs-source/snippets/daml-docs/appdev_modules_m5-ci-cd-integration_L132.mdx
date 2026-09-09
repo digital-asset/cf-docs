@@ -1,0 +1,38 @@
+```yaml
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install DPM
+        run: curl https://get.digitalasset.com/install/install.sh | sh
+
+      - name: Install SDK
+        run: dpm install package
+
+      - name: Build Daml
+        run: dpm build
+
+      - name: Run Daml tests
+        run: dpm test
+
+      - name: Generate Java bindings
+        run: dpm codegen-java .daml/dist/your-project.dar -o generated-java
+
+      - name: Build backend
+        run: cd backend && ./gradlew build
+
+      - name: Upload DAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dar-${{ github.sha }}
+          path: .daml/dist/*.dar
+```

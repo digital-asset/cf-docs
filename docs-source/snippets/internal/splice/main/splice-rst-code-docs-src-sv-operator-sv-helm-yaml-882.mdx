@@ -1,0 +1,13 @@
+```yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+   name: cn-certificate
+   namespace: cluster-ingress
+spec:
+    dnsNames:
+    - '*.sv.YOUR_HOSTNAME'
+    issuerRef:
+        name: letsencrypt-production
+    secretName: cn-net-tls
+```

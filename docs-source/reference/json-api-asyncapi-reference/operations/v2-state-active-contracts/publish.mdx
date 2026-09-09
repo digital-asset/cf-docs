@@ -1,0 +1,269 @@
+---
+title: "Publish active contracts"
+description: "Returns a stream of the snapshot of the active contracts and incomplete (un)assignments at a ledger offset.
+Once the stream of GetActiveContractsResponses completes,
+the client SHOULD begin streaming updates from the update service,
+starting at the GetActiveContractsRequest.active_at_offset specified in this request.
+Clients SHOULD NOT assume that the set of active contracts they receive reflects the state at the ledger end."
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--operation"></div>
+
+
+<div className="x2mdx-ref-operation-shell">
+<div className="x2mdx-ref-operation-main">
+
+
+<div class="x2mdx-ref-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+
+
+  <a href="../../index">JSON API AsyncAPI</a>
+
+
+  <span class="x2mdx-ref-breadcrumb-separator">›</span>
+
+
+
+  <a href="../../channels/v2-state-active-contracts">/v2/state/active-contracts</a>
+
+
+  <span class="x2mdx-ref-breadcrumb-separator">›</span>
+
+
+
+  <span>publish</span>
+
+
+
+</div>
+
+
+<div class="x2mdx-ref-hero">
+
+  <p class="x2mdx-ref-eyebrow">/v2/state/active-contracts</p>
+
+
+  <h1 class="x2mdx-ref-title">Publish active contracts</h1>
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">WebSocket</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--changed" href="#history-updated-3-5">Updated 3.5</a>
+
+</div>
+
+
+</div>
+
+<div class="x2mdx-ref-operation-bar">
+
+  <span class="x2mdx-ref-operation-method x2mdx-ref-operation-method--publish">PUBLISH</span>
+
+  <code>/v2/state/active-contracts</code>
+</div>
+
+
+Returns a stream of the snapshot of the active contracts and incomplete (un)assignments at a ledger offset.
+Once the stream of GetActiveContractsResponses completes,
+the client SHOULD begin streaming updates from the update service,
+starting at the GetActiveContractsRequest.active_at_offset specified in this request.
+Clients SHOULD NOT assume that the set of active contracts they receive reflects the state at the ledger end.
+
+## Protocol Details
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Protocol</dt>
+    <dd>WebSocket</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Channel</dt>
+    <dd>/v2/state/active-contracts</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Action</dt>
+    <dd>publish</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Operation ID</dt>
+    <dd>sendV2StateActive-contracts</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Content type</dt>
+    <dd>application/json</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Payload</dt>
+    <dd>object</dd>
+  </div>
+
+</dl>
+
+
+## Inputs
+
+
+
+<div class="x2mdx-ref-panel">
+  <div class="x2mdx-ref-panel-head">
+    <h3>GetActiveContractsRequest</h3>
+
+  </div>
+
+
+
+<dl class="x2mdx-ref-meta-grid">
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Direction</dt>
+    <dd>Client -&gt; Server</dd>
+  </div>
+
+  <div class="x2mdx-ref-meta-item">
+    <dt>Message</dt>
+    <dd>GetActiveContractsRequest</dd>
+  </div>
+
+</dl>
+
+
+
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">activeAtOffset</code>
+      <span class="x2mdx-ref-type-badge">string</span>
+
+      <span class="x2mdx-ref-required-badge">required</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+## Outputs
+
+
+
+
+
+
+
+
+## Related Schemas
+
+<AccordionGroup>
+
+<Accordion title="GetActiveContractsRequest">
+<div class="x2mdx-ref-schema" id="schema-v2-state-active-contracts-publish">
+
+
+
+<div class="x2mdx-ref-fields">
+
+  <div class="x2mdx-ref-field-row">
+    <div class="x2mdx-ref-field-main">
+      <code class="x2mdx-ref-field-name">activeAtOffset</code>
+      <span class="x2mdx-ref-type-badge">string</span>
+
+      <span class="x2mdx-ref-required-badge">required</span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+</Accordion>
+
+</AccordionGroup>
+
+
+## History
+
+<div class="x2mdx-ref-history" aria-label="Reference history">
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--changed" id="history-updated-3-5">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Updated</span>
+      <code class="x2mdx-ref-history-event-version">3.5</code>
+    </div>
+
+    <p class="x2mdx-ref-history-event-detail">channel description updated; publish description updated; publish required fields removed: `eventFormat`</p>
+
+  </div>
+
+</div>
+
+
+</div>
+
+<div className="x2mdx-ref-right-rail" role="complementary" aria-label="Examples and responses">
+
+  <div className="x2mdx-ref-rail-panel">
+  <div className="x2mdx-ref-rail-code">
+<div className="x2mdx-ref-rail-head">
+  <span className="x2mdx-ref-rail-heading">wscat</span>
+
+</div>
+
+```bash wscat
+npx wscat \
+  -c <WEBSOCKET_URL> \
+  -x '{"activeAtOffset": "<integer>"}' \
+  -w -1
+```
+
+</div>
+  </div>
+
+  <div className="x2mdx-ref-rail-panel">
+  <div className="x2mdx-ref-rail-code x2mdx-ref-rail-code--response">
+<div className="x2mdx-ref-rail-head">
+  <span className="x2mdx-ref-rail-heading">message</span>
+
+  <span className="x2mdx-ref-response-label">application/json</span>
+
+</div>
+
+```json message
+{
+  "activeAtOffset": "<integer>"
+}
+```
+
+</div>
+  </div>
+
+</div>
+
+</div>

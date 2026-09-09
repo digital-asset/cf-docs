@@ -1,0 +1,5 @@
+```bash
+curl -X POST http://localhost:5002/v2/users/<user-id>/rights \
+  -H "Content-Type: application/json" \
+  -d '{"rights": [{"can_act_as": {"party": "<party-id>"}}]}'
+```

@@ -1,0 +1,248 @@
+---
+title: "GET /registry/metadata/v1/info"
+description: "Get information about the registry. The response includes the standards supported by the registry."
+api: "GET https://example.com/registry/metadata/v1/info"
+playground: "interactive"
+sidebarTitle: "/registry/metadata/v1/info"
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--operation x2mdx-ref-page--manual-api"></div>
+
+
+
+<div class="x2mdx-ref-hero">
+
+
+
+  <p class="x2mdx-ref-summary">Get information about the registry. The response includes the standards supported by the registry.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">OpenAPI</span>
+
+</div>
+
+
+</div>
+
+
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://example.com/registry/metadata/v1/info'
+```
+
+```python Python
+import json
+import requests
+
+url = "https://example.com/registry/metadata/v1/info"
+response = requests.request("GET", url)
+
+print(response.text)
+```
+
+```javascript JavaScript
+const response = await fetch('https://example.com/registry/metadata/v1/info', {
+  method: 'GET',
+});
+
+console.log(await response.text());
+```
+
+```php PHP
+<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => 'https://example.com/registry/metadata/v1/info',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+]);
+
+$response = curl_exec($curl);
+echo $response;
+```
+
+```go Go
+package main
+
+import (
+  "fmt"
+  "io"
+  "net/http"
+)
+
+func main() {
+  req, _ := http.NewRequest("GET", "https://example.com/registry/metadata/v1/info", nil)
+  response, _ := http.DefaultClient.Do(req)
+  defer response.Body.Close()
+  body, _ := io.ReadAll(response.Body)
+  fmt.Println(string(body))
+}
+```
+
+```java Java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+var request = HttpRequest.newBuilder()
+    .uri(URI.create("https://example.com/registry/metadata/v1/info"))
+    .method("GET", HttpRequest.BodyPublishers.noBody())
+    .build();
+var response = HttpClient.newHttpClient().send(
+    request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```ruby Ruby
+require 'net/http'
+require 'uri'
+
+uri = URI('https://example.com/registry/metadata/v1/info')
+request = Net::HTTP::Get.new(uri)
+response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+  http.request(request)
+end
+puts response.body
+```
+
+</RequestExample>
+
+
+<ResponseExample>
+
+```json 200
+{
+  "adminId": "<string>",
+  "supportedApis": {}
+}
+```
+
+```json 404
+{
+  "error": "<string>"
+}
+```
+
+```json 500
+{
+  "error": "<string>"
+}
+```
+
+</ResponseExample>
+
+
+
+
+## Responses
+
+
+### 200
+
+ok
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="adminId" type="string" required>
+
+The Daml party representing the registry app
+
+
+
+
+
+
+</ResponseField>
+
+
+
+<ResponseField name="supportedApis" type="SupportedApis" required>
+
+Map from token standard API name to the minor version of the API supported, e.g., splice-api-token-metadata-v1 -&gt; 1 where the `1` corresponds to the minor version.
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+### 404
+
+not found
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="error" type="string" required>
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+### 500
+
+Internal server error
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="error" type="string" required>
+
+
+
+
+
+
+</ResponseField>

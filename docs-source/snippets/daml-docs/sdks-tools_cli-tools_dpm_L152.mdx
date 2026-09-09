@@ -1,0 +1,19 @@
+```bash
+# 1. Set up the project
+dpm new my-app --template daml-intro-contracts
+cd my-app
+dpm install
+
+# 2. Write Daml code, then compile
+dpm build
+
+# 3. Run tests
+dpm test
+
+# 4. Start a local sandbox for integration testing
+dpm sandbox
+
+# 5. Generate bindings for your backend
+dpm codegen-java .daml/dist/my-app.dar -o generated-java
+dpm codegen-js .daml/dist/my-app.dar -o generated-ts
+```

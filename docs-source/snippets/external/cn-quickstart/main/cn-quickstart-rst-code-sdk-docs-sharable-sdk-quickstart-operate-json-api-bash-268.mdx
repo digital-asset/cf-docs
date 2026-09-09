@@ -1,0 +1,7 @@
+```bash
+   curl -X POST http://localhost:2975/v2/packages \
+     -H "Content-Type: application/octet-stream" \
+     -H "Authorization: Bearer $USER_ADMIN_TOKEN" \
+     --data-binary @./daml/licensing/.daml/dist/quickstart-licensing-0.0.1.dar
+
+```

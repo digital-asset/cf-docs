@@ -1,0 +1,16 @@
+```haskell
+choice MyChoice : (ContractId MyInterface, Int)
+  with
+    argument1 : Bool
+    argument2 : Int
+  controller method1 this
+  do
+    let n0 = method2 this
+    let n1 = method3 this argument1 argument2 n0
+    pure (self, n1)
+
+nonconsuming choice MyNonConsumingChoice : Int
+  controller method1 this
+  do
+    pure $ method2 this
+```

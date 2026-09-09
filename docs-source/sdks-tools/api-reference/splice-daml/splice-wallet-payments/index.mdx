@@ -1,0 +1,21 @@
+---
+title: "splice-wallet-payments docs"
+description: "Documentation for splice-wallet-payments docs"
+---
+
+{/* COPIED_START source="splice:daml/splice-wallet-payments/docs/index.rst" tag="0.6.4" hash="cb7aa487" */}
+
+<Note>
+**Deprecated** (since splice-0.4.10): the modules below and their workflows are deprecated and should not be used in new applications.
+
+To implement a Canton Coin payment, use the Token Standard allocation workflow instead. Note that this immediately makes your application compatible with all Token Standard assets, and allows all of them to be used as payment methods in your application, if desired.
+
+If you need to implement a subscription-like payment, then we recommend doing so via regular renewals on top of token standard allocations in your application. See the `License_Renew` choice and its [tests](https://github.com/digital-asset/cn-quickstart/blob/8b15f38d157d1f88e8da4345f477fffc0cfc4b8f/quickstart/daml/licensing-tests/daml/Licensing/Scripts/TestLicense.daml#L207-L221) in the Canton Network QuickStart repo for an [example of how to do this](https://github.com/digital-asset/cn-quickstart/blob/8b15f38d157d1f88e8da4345f477fffc0cfc4b8f/quickstart/daml/licensing/daml/Licensing/License.daml#L44).
+
+The workflows in the modules below are not compatible with the token standard, and will not be supported in the future.
+</Note>
+
+- [Splice.Wallet.Payment](/sdks-tools/api-reference/splice-daml/splice-wallet-payments/splice-wallet-payment)
+- [Splice.Wallet.Subscriptions](/sdks-tools/api-reference/splice-daml/splice-wallet-payments/splice-wallet-subscriptions)
+
+{/* COPIED_END */}

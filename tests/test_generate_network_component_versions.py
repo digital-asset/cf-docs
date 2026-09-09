@@ -41,7 +41,6 @@ def dashboard_snapshot(*, generated_at: str, splice_version: str) -> dict:
             "endpoint": f"scan.{network_key}.example",
             "cantonVersion": "3.5.1",
             "cantonReleaseLineBranch": "release-line-0.6",
-            "darVersions": [],
         }
 
     return {
@@ -255,7 +254,6 @@ def test_network_snapshot_from_existing_rebuilds_required_fields() -> None:
                     "infoUrl": "https://docs.dev.example/info",
                     "indexUrl": "https://docs.dev.example/index.html",
                     "cantonSourcesUrl": "https://github.com/example/canton-sources",
-                    "darVersionsUrl": "https://github.com/example/dars.lock",
                 }
             }
         },
@@ -265,7 +263,6 @@ def test_network_snapshot_from_existing_rebuilds_required_fields() -> None:
                 "endpoint": "scan.dev.example",
                 "advanced": {
                     "migrationId": "1",
-                    "darVersions": [{"name": "splice-amulet", "version": "0.1.22"}],
                 },
                 "substitutions": {"version": "0.6.14"},
             }
@@ -307,19 +304,19 @@ def test_collect_snapshot_preserves_previous_network_on_failure(monkeypatch) -> 
             "mainnet": {
                 "name": "MainNet",
                 "endpoint": "scan.main.example",
-                "advanced": {"migrationId": "4", "darVersions": []},
+                "advanced": {"migrationId": "4"},
                 "substitutions": {"version": "0.6.12"},
             },
             "testnet": {
                 "name": "TestNet",
                 "endpoint": "scan.test.example",
-                "advanced": {"migrationId": "1", "darVersions": []},
+                "advanced": {"migrationId": "1"},
                 "substitutions": {"version": "0.6.13"},
             },
             "devnet": {
                 "name": "DevNet",
                 "endpoint": "scan.dev.example",
-                "advanced": {"migrationId": "1", "darVersions": []},
+                "advanced": {"migrationId": "1"},
                 "substitutions": {"version": "0.6.14"},
             },
         },
@@ -360,13 +357,11 @@ def test_collect_snapshot_preserves_previous_network_on_failure(monkeypatch) -> 
             "spliceVersion": existing_config["versions"][network_key]["substitutions"]["version"],
             "cantonVersion": "3.5.1",
             "cantonReleaseLineBranch": "release-line-x",
-            "darVersions": [],
             "migrationId": existing_config["versions"][network_key]["advanced"]["migrationId"],
             "sources": {
                 "infoUrl": f"https://docs.{network_key}.example/info",
                 "indexUrl": f"https://docs.{network_key}.example/index.html",
                 "cantonSourcesUrl": "",
-                "darVersionsUrl": "",
             },
             "checks": {
                 "dockerImageTag": existing_config["versions"][network_key]["substitutions"][
@@ -683,21 +678,3 @@ def test_fetch_latest_wallet_gateway_version_paginates_releases(monkeypatch) -> 
         f"{module.WALLET_GATEWAY_RELEASES_URL}?per_page=100&page=2",
         f"{module.WALLET_GATEWAY_RELEASES_URL}?per_page=100&page=3",
     ]
-
-
-def test_parse_dars_lock_selects_latest_dashboard_packages_only() -> None:
-    module = load_script_module()
-    dars_lock = """
-splice-amulet 0.1.17 abc
-splice-amulet 0.1.18 def
-splice-wallet 0.1.19 abc
-splice-dso-governance 0.1.23 abc
-splice-dso-governance 0.1.24 def
-unrelated-package 9.9.9 abc
-"""
-
-    assert module.parse_dars_lock(dars_lock, "test-lock") == {
-        "splice-amulet": "0.1.18",
-        "splice-wallet": "0.1.19",
-        "splice-dso-governance": "0.1.24",
-    }

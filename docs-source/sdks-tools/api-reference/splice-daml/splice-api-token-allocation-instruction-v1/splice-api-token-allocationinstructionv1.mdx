@@ -1,0 +1,380 @@
+---
+title: "Splice.Api.Token.AllocationInstructionV1"
+description: "Documentation for Splice.Api.Token.AllocationInstructionV1"
+---
+
+{/* COPIED_START source="splice:token-standard/splice-api-token-allocation-instruction-v1/docs/Splice-Api-Token-AllocationInstructionV1.rst" hash="dee8a9d7" */}
+
+Interfaces to enable wallets to instruct the registry to create allocations.
+
+## Interfaces
+
+<div id="type-splice-api-token-allocationinstructionv1-allocationfactory-42588">
+
+**interface** AllocationFactory
+
+</div>
+
+> Contracts implementing `AllocationFactory` are retrieved from the registry app and are used by the wallet to create allocation instructions (or allocations directly).
+>
+> **viewtype** AllocationFactoryView
+>
+> - <div id="type-splice-api-token-allocationinstructionv1-allocationfactoryallocate-8885">
+>
+>   **Choice** AllocationFactory_Allocate
+>
+>   </div>
+>
+>   Generic choice for the sender's wallet to request the allocation of assets to a specific leg of a settlement. It depends on the registry whether this results in the allocation being created directly or in an allocation instruction being created instead.
+>
+>   Controller: (DA.Internal.Record.getField @"sender" (DA.Internal.Record.getField @"transferLeg" allocation))
+>
+>   Returns: AllocationInstructionResult
+>
+>   | Field            | Type                                                                                                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+>   |------------------|---------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+>   | expectedAdmin    | Party                       | The expected admin party issuing the factory. Implementations MUST validate that this matches the admin of the factory. Callers should ensure they get `expectedAdmin` from a trusted source, e.g., a read against their own participant. That way they can ensure that it is safe to exercise a choice on a factory contract acquired from an untrusted source *provided* all vetted Daml packages only contain interface implementations that check the expected admin party.                                       |
+>   | allocation       | AllocationSpecification                                                                                       | The allocation which should be created.                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+>   | requestedAt      | Time                         | The time at which the allocation was requested.                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+>   | inputHoldingCids | \[ContractId Holding\] | The holdings that SHOULD be used to fund the allocation. MAY be empty for registries that do not represent their holdings on-ledger; or for registries that support automatic selection of holdings for allocations. If specified, then the successful allocation MUST archive all of these holdings, so that the execution of the allocation conflicts with any other allocations using these holdings. Thereby allowing that the sender can use deliberate contention on holdings to prevent duplicate allocations. |
+>   | extraArgs        | ExtraArgs                                                                                                     | Additional choice arguments.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+>
+> - <div id="type-splice-api-token-allocationinstructionv1-allocationfactorypublicfetch-20324">
+>
+>   **Choice** AllocationFactory_PublicFetch
+>
+>   </div>
+>
+>   Controller: actor
+>
+>   Returns: AllocationFactoryView
+>
+>   | Field         | Type                                                                                    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+>   |---------------|-----------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+>   | expectedAdmin | Party | The expected admin party issuing the factory. Implementations MUST validate that this matches the admin of the factory. Callers should ensure they get `expectedAdmin` from a trusted source, e.g., a read against their own participant. That way they can ensure that it is safe to exercise a choice on a factory contract acquired from an untrusted source *provided* all vetted Daml packages only contain interface implementations that check the expected admin party. |
+>   | actor         | Party |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+>
+> - **Choice** Archive
+>
+>   Controller: Signatories of implementing template
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - **Method allocationFactory_allocateImpl :** ContractId AllocationFactory -\> AllocationFactory_Allocate -\> Update AllocationInstructionResult
+>
+> - **Method allocationFactory_publicFetchImpl :** ContractId AllocationFactory -\> AllocationFactory_PublicFetch -\> Update AllocationFactoryView
+
+<div id="type-splice-api-token-allocationinstructionv1-allocationinstruction-29622">
+
+**interface** AllocationInstruction
+
+</div>
+
+> An interface for tracking the status of an allocation instruction, i.e., a request to a registry app to create an allocation.
+>
+> Registries MAY evolve the allocation instruction in multiple steps. They SHOULD do so using only the choices on this interface, so that wallets can reliably parse the transaction history and determine whether the creation of the allocation ultimately succeeded or failed.
+>
+> **viewtype** AllocationInstructionView
+>
+> - <div id="type-splice-api-token-allocationinstructionv1-allocationinstructionupdate-50223">
+>
+>   **Choice** AllocationInstruction_Update
+>
+>   </div>
+>
+>   Update the state of the allocation instruction. Used by the registry to execute registry internal workflow steps that advance the state of the allocation instruction. A reason may be communicated via the metadata.
+>
+>   Controller: (DA.Internal.Record.getField @"admin" (DA.Internal.Record.getField @"instrumentId" (DA.Internal.Record.getField @"transferLeg" (DA.Internal.Record.getField @"allocation" (view this))))), extraActors
+>
+>   Returns: AllocationInstructionResult
+>
+>   | Field       | Type                                                                                        | Description                                                                                                                           |
+>   |-------------|---------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+>   | extraActors | \[Party\] | Extra actors authorizing the update. Implementations MUST check that this field contains the expected actors for the specific update. |
+>   | extraArgs   | ExtraArgs                                                                                   | Additional context required in order to exercise the choice.                                                                          |
+>
+> - <div id="type-splice-api-token-allocationinstructionv1-allocationinstructionwithdraw-35988">
+>
+>   **Choice** AllocationInstruction_Withdraw
+>
+>   </div>
+>
+>   Withdraw the allocation instruction as the sender.
+>
+>   Controller: (DA.Internal.Record.getField @"sender" (DA.Internal.Record.getField @"transferLeg" (DA.Internal.Record.getField @"allocation" (view this))))
+>
+>   Returns: AllocationInstructionResult
+>
+>   | Field     | Type      | Description                                                  |
+>   |-----------|-----------|--------------------------------------------------------------|
+>   | extraArgs | ExtraArgs | Additional context required in order to exercise the choice. |
+>
+> - **Choice** Archive
+>
+>   Controller: Signatories of implementing template
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - **Method allocationInstruction_updateImpl :** ContractId AllocationInstruction -\> AllocationInstruction_Update -\> Update AllocationInstructionResult
+>
+> - **Method allocationInstruction_withdrawImpl :** ContractId AllocationInstruction -\> AllocationInstruction_Withdraw -\> Update AllocationInstructionResult
+
+## Data Types
+
+<div id="type-splice-api-token-allocationinstructionv1-allocationfactoryview-21751">
+
+**data** AllocationFactoryView
+
+</div>
+
+> View for `AllocationFactory`.
+>
+> <div id="constr-splice-api-token-allocationinstructionv1-allocationfactoryview-66354">
+>
+> AllocationFactoryView
+>
+> </div>
+>
+> > | Field | Type                                                                                    | Description                                                                                                             |
+> > |-------|-----------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+> > | admin | Party | The party representing the registry app that administers the instruments for which this allocation factory can be used. |
+> > | meta  | Metadata                                                                                | Additional metadata specific to the allocation factory, used for extensibility.                                         |
+>
+> **instance** Eq AllocationFactoryView
+>
+> **instance** Show AllocationFactoryView
+>
+> **instance** HasMethod AllocationFactory "allocationFactory_publicFetchImpl" (ContractId AllocationFactory -\> AllocationFactory_PublicFetch -\> Update AllocationFactoryView)
+>
+> **instance** HasFromAnyView AllocationFactory AllocationFactoryView
+>
+> **instance** HasInterfaceView AllocationFactory AllocationFactoryView
+>
+> **instance** GetField "admin" AllocationFactoryView Party
+>
+> **instance** GetField "meta" AllocationFactoryView Metadata
+>
+> **instance** SetField "admin" AllocationFactoryView Party
+>
+> **instance** SetField "meta" AllocationFactoryView Metadata
+>
+> **instance** HasExercise AllocationFactory AllocationFactory_PublicFetch AllocationFactoryView
+>
+> **instance** HasExerciseGuarded AllocationFactory AllocationFactory_PublicFetch AllocationFactoryView
+>
+> **instance** HasFromAnyChoice AllocationFactory AllocationFactory_PublicFetch AllocationFactoryView
+>
+> **instance** HasToAnyChoice AllocationFactory AllocationFactory_PublicFetch AllocationFactoryView
+
+<div id="type-splice-api-token-allocationinstructionv1-allocationinstructionresult-30943">
+
+**data** AllocationInstructionResult
+
+</div>
+
+> The result of instructing an allocation or advancing the state of an allocation instruction.
+>
+> <div id="constr-splice-api-token-allocationinstructionv1-allocationinstructionresult-54130">
+>
+> AllocationInstructionResult
+>
+> </div>
+>
+> > | Field            | Type                                                                                                          | Description                                                                                                                                                                      |
+> > |------------------|---------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+> > | output           | AllocationInstructionResult_Output                                                                            | The output of the step.                                                                                                                                                          |
+> > | senderChangeCids | \[ContractId Holding\] | New holdings owned by the sender created to return "change". Can be used by callers to batch creating or updating multiple allocation instructions in a single Daml transaction. |
+> > | meta             | Metadata                                                                                                      | Additional metadata specific to the allocation instruction, used for extensibility; e.g., fees charged.                                                                          |
+>
+> **instance** Eq AllocationInstructionResult
+>
+> **instance** Show AllocationInstructionResult
+>
+> **instance** HasMethod AllocationFactory "allocationFactory_allocateImpl" (ContractId AllocationFactory -\> AllocationFactory_Allocate -\> Update AllocationInstructionResult)
+>
+> **instance** HasMethod AllocationInstruction "allocationInstruction_updateImpl" (ContractId AllocationInstruction -\> AllocationInstruction_Update -\> Update AllocationInstructionResult)
+>
+> **instance** HasMethod AllocationInstruction "allocationInstruction_withdrawImpl" (ContractId AllocationInstruction -\> AllocationInstruction_Withdraw -\> Update AllocationInstructionResult)
+>
+> **instance** GetField "meta" AllocationInstructionResult Metadata
+>
+> **instance** GetField "output" AllocationInstructionResult AllocationInstructionResult_Output
+>
+> **instance** GetField "senderChangeCids" AllocationInstructionResult \[ContractId Holding\]
+>
+> **instance** SetField "meta" AllocationInstructionResult Metadata
+>
+> **instance** SetField "output" AllocationInstructionResult AllocationInstructionResult_Output
+>
+> **instance** SetField "senderChangeCids" AllocationInstructionResult \[ContractId Holding\]
+>
+> **instance** HasExercise AllocationFactory AllocationFactory_Allocate AllocationInstructionResult
+>
+> **instance** HasExercise AllocationInstruction AllocationInstruction_Update AllocationInstructionResult
+>
+> **instance** HasExercise AllocationInstruction AllocationInstruction_Withdraw AllocationInstructionResult
+>
+> **instance** HasExerciseGuarded AllocationFactory AllocationFactory_Allocate AllocationInstructionResult
+>
+> **instance** HasExerciseGuarded AllocationInstruction AllocationInstruction_Update AllocationInstructionResult
+>
+> **instance** HasExerciseGuarded AllocationInstruction AllocationInstruction_Withdraw AllocationInstructionResult
+>
+> **instance** HasFromAnyChoice AllocationFactory AllocationFactory_Allocate AllocationInstructionResult
+>
+> **instance** HasFromAnyChoice AllocationInstruction AllocationInstruction_Update AllocationInstructionResult
+>
+> **instance** HasFromAnyChoice AllocationInstruction AllocationInstruction_Withdraw AllocationInstructionResult
+>
+> **instance** HasToAnyChoice AllocationFactory AllocationFactory_Allocate AllocationInstructionResult
+>
+> **instance** HasToAnyChoice AllocationInstruction AllocationInstruction_Update AllocationInstructionResult
+>
+> **instance** HasToAnyChoice AllocationInstruction AllocationInstruction_Withdraw AllocationInstructionResult
+
+<div id="type-splice-api-token-allocationinstructionv1-allocationinstructionresultoutput-46212">
+
+**data** AllocationInstructionResult_Output
+
+</div>
+
+> The output of instructing an allocation or advancing the state of an allocation instruction.
+>
+> <div id="constr-splice-api-token-allocationinstructionv1-allocationinstructionresultpending-58494">
+>
+> AllocationInstructionResult_Pending
+>
+> </div>
+>
+> > Use this result to communicate that the creation of the allocation is pending further steps.
+> >
+> > | Field                    | Type                                                                                                                    | Description                                                               |
+> > |--------------------------|-------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+> > | allocationInstructionCid | ContractId AllocationInstruction | Contract id of the allocation instruction representing the pending state. |
+>
+> <div id="constr-splice-api-token-allocationinstructionv1-allocationinstructionresultcompleted-89210">
+>
+> AllocationInstructionResult_Completed
+>
+> </div>
+>
+> > Use this result to communicate that the allocation was created.
+> >
+> > | Field         | Type                                                                                                         | Description                   |
+> > |---------------|--------------------------------------------------------------------------------------------------------------|-------------------------------|
+> > | allocationCid | ContractId Allocation | The newly created allocation. |
+>
+> <div id="constr-splice-api-token-allocationinstructionv1-allocationinstructionresultfailed-56799">
+>
+> AllocationInstructionResult_Failed
+>
+> </div>
+>
+> > Use this result to communicate that the creation of the allocation did not succeed and all holdings reserved for funding the allocation have been released.
+>
+> **instance** Eq AllocationInstructionResult_Output
+>
+> **instance** Show AllocationInstructionResult_Output
+>
+> **instance** GetField "allocationCid" AllocationInstructionResult_Output (ContractId Allocation)
+>
+> **instance** GetField "allocationInstructionCid" AllocationInstructionResult_Output (ContractId AllocationInstruction)
+>
+> **instance** GetField "output" AllocationInstructionResult AllocationInstructionResult_Output
+>
+> **instance** SetField "allocationCid" AllocationInstructionResult_Output (ContractId Allocation)
+>
+> **instance** SetField "allocationInstructionCid" AllocationInstructionResult_Output (ContractId AllocationInstruction)
+>
+> **instance** SetField "output" AllocationInstructionResult AllocationInstructionResult_Output
+
+<div id="type-splice-api-token-allocationinstructionv1-allocationinstructionview-72001">
+
+**data** AllocationInstructionView
+
+</div>
+
+> View for `AllocationInstruction`.
+>
+> <div id="constr-splice-api-token-allocationinstructionv1-allocationinstructionview-32140">
+>
+> AllocationInstructionView
+>
+> </div>
+>
+> > | Field                  | Type                                                                                                                                                                                                                                                         | Description                                                                                                                                                                                                                                |
+> > |------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+> > | originalInstructionCid | Optional (ContractId AllocationInstruction)                                 | The contract id of the original allocation instruction contract. Used by the wallet to track the lineage of allocation instructions through multiple steps. Only set if the registry evolves the allocation instruction in multiple steps. |
+> > | allocation             | AllocationSpecification                                                                                                                                                                                                                                      | The allocation that this instruction should create.                                                                                                                                                                                        |
+> > | pendingActions         | Map Party Text | The pending actions to be taken by different actors to create the allocation. ^ This field can by used to report on the progress of registry specific workflows that are required to prepare the allocation.                               |
+> > | requestedAt            | Time                                                                                                                                                                        | The time at which the allocation was requested.                                                                                                                                                                                            |
+> > | inputHoldingCids       | \[ContractId Holding\]                                                                                                                                                | The holdings to be used to fund the allocation. MAY be empty for registries that do not represent their holdings on-ledger.                                                                                                                |
+> > | meta                   | Metadata                                                                                                                                                                                                                                                     | Additional metadata specific to the allocation instruction, used for extensibility; e.g., more detailed status information.                                                                                                                |
+>
+> **instance** Eq AllocationInstructionView
+>
+> **instance** Show AllocationInstructionView
+>
+> **instance** HasFromAnyView AllocationInstruction AllocationInstructionView
+>
+> **instance** HasInterfaceView AllocationInstruction AllocationInstructionView
+>
+> **instance** GetField "allocation" AllocationInstructionView AllocationSpecification
+>
+> **instance** GetField "inputHoldingCids" AllocationInstructionView \[ContractId Holding\]
+>
+> **instance** GetField "meta" AllocationInstructionView Metadata
+>
+> **instance** GetField "originalInstructionCid" AllocationInstructionView (Optional (ContractId AllocationInstruction))
+>
+> **instance** GetField "pendingActions" AllocationInstructionView (Map Party Text)
+>
+> **instance** GetField "requestedAt" AllocationInstructionView Time
+>
+> **instance** SetField "allocation" AllocationInstructionView AllocationSpecification
+>
+> **instance** SetField "inputHoldingCids" AllocationInstructionView \[ContractId Holding\]
+>
+> **instance** SetField "meta" AllocationInstructionView Metadata
+>
+> **instance** SetField "originalInstructionCid" AllocationInstructionView (Optional (ContractId AllocationInstruction))
+>
+> **instance** SetField "pendingActions" AllocationInstructionView (Map Party Text)
+>
+> **instance** SetField "requestedAt" AllocationInstructionView Time
+
+## Functions
+
+<div id="function-splice-api-token-allocationinstructionv1-allocationinstructionwithdrawimpl-26170">
+
+allocationInstruction_withdrawImpl
+: AllocationInstruction -\> ContractId AllocationInstruction -\> AllocationInstruction_Withdraw -\> Update AllocationInstructionResult
+
+</div>
+
+<div id="function-splice-api-token-allocationinstructionv1-allocationinstructionupdateimpl-49061">
+
+allocationInstruction_updateImpl
+: AllocationInstruction -\> ContractId AllocationInstruction -\> AllocationInstruction_Update -\> Update AllocationInstructionResult
+
+</div>
+
+<div id="function-splice-api-token-allocationinstructionv1-allocationfactoryallocateimpl-1231">
+
+allocationFactory_allocateImpl
+: AllocationFactory -\> ContractId AllocationFactory -\> AllocationFactory_Allocate -\> Update AllocationInstructionResult
+
+</div>
+
+<div id="function-splice-api-token-allocationinstructionv1-allocationfactorypublicfetchimpl-77778">
+
+allocationFactory_publicFetchImpl
+: AllocationFactory -\> ContractId AllocationFactory -\> AllocationFactory_PublicFetch -\> Update AllocationFactoryView
+
+</div>
+
+{/* COPIED_END */}

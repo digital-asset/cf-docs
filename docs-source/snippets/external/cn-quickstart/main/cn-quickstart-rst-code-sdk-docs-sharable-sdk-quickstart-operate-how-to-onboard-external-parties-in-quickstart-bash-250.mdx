@@ -1,0 +1,5 @@
+```bash
+  LEDGER_TOKEN=$(docker exec splice-onboarding \
+    jwt-cli encode hs256 --s unsafe --p '{"sub": "ledger-api-user", "aud": "https://canton.network.global"}')
+
+```

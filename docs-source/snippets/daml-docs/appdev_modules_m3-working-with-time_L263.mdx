@@ -1,0 +1,42 @@
+```daml
+test_restrictions = do
+  alice <- allocateParty "Alice"
+  bob <- allocateParty "Bob"
+  dora <- allocateParty "Dora"
+
+  -- Dora can't issue negative Ious.
+  submitMustFail dora do
+    createCmd SimpleIou with
+      issuer = dora
+      owner = alice
+      cash = Cash with
+        amount = -100.0
+        currency = "USD"
+
+  -- Or even zero Ious.
+  submitMustFail dora do
+    createCmd SimpleIou with
+      issuer = dora
+      owner = alice
+      cash = Cash with
+        amount = 0.0
+        currency = "USD"
+
+  -- Nor positive Ious with invalid currencies.
+  submitMustFail dora do
+    createCmd SimpleIou with
+      issuer = dora
+      owner = alice
+      cash = Cash with
+        amount = 100.0
+        currency = "Swiss Francs"
+
+  -- But positive Ious still work, of course.
+  iou <- submit dora do
+    createCmd SimpleIou with
+      issuer = dora
+      owner = alice
+      cash = Cash with
+        amount = 100.0
+        currency = "USD"
+```

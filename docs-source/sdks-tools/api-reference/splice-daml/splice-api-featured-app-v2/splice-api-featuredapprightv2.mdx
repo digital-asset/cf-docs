@@ -1,0 +1,223 @@
+---
+title: "Splice.Api.FeaturedAppRightV2"
+description: "Documentation for Splice.Api.FeaturedAppRightV2"
+---
+
+{/* COPIED_START source="splice:daml/splice-api-featured-app-v2/docs/Splice-Api-FeaturedAppRightV2.rst" hash="005aaec6" */}
+
+The API for featured apps to record their activity. This package extends FeaturedAppRightV1 with support for specifying a weight when creating a marker to improve efficiency.
+
+## Interfaces
+
+<div id="type-splice-api-featuredapprightv2-featuredappactivitymarker-59464">
+
+**interface** FeaturedAppActivityMarker
+
+</div>
+
+> A marker created by a featured application for activity generated from that app. This is used to record activity other than amulet transfers, which have built-in support for recording featured app activity.
+>
+> **viewtype** FeaturedAppActivityMarkerView
+>
+> - **Choice** Archive
+>
+>   Controller: Signatories of implementing template
+>
+>   Returns: ()
+>
+>   (no fields)
+
+<div id="type-splice-api-featuredapprightv2-featuredappright-28172">
+
+**interface** FeaturedAppRight
+
+</div>
+
+> An interface for contracts allowing application providers to record their featured activity. Note that most instances of amulet will likely define some fair usage constraints.
+>
+> **viewtype** FeaturedAppRightView
+>
+> - **Choice** Archive
+>
+>   Controller: Signatories of implementing template
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-api-featuredapprightv2-featuredapprightcreateactivitymarker-77229">
+>
+>   **Choice** FeaturedAppRight_CreateActivityMarker
+>
+>   </div>
+>
+>   Record activity due to a featured app.
+>
+>   Controller: (DA.Internal.Record.getField @"provider" (view this))
+>
+>   Returns: FeaturedAppRight_CreateActivityMarkerResult
+>
+>   | Field         | Type                                                                                                                                                                                      | Description                                                                                                                                                                                                                                                                                       |
+>   |---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+>   | beneficiaries | \[AppRewardBeneficiary\]                                                                                                                                                                  | The set of beneficiaries and weights that define how the rewards should be split up between the beneficiary parties. Implementations SHOULD check that the weights are positive and add up to 1.0. Implementations MAY also impose a limit on the maximum number of beneficiaries.                |
+>   | weight        | Optional Decimal | A weight for the resulting markers. None defaults to a weight of 1.0. Specifying a weight of 5 for example makes the resulting markers equivalent to 5 markers of weight 1 in terms of rewards they generate. The weight must be \>= 1.0 Implementations MAY impose an upper limit on the weight. |
+>
+> - **Method featuredAppRight_CreateActivityMarkerImpl :** ContractId FeaturedAppRight -\> FeaturedAppRight_CreateActivityMarker -\> Update FeaturedAppRight_CreateActivityMarkerResult
+
+## Data Types
+
+<div id="type-splice-api-featuredapprightv2-apprewardbeneficiary-35536">
+
+**data** AppRewardBeneficiary
+
+</div>
+
+> Specification of a beneficiary of featured app rewards.
+>
+> <div id="constr-splice-api-featuredapprightv2-apprewardbeneficiary-41661">
+>
+> AppRewardBeneficiary
+>
+> </div>
+>
+> > | Field       | Type                                                                                    | Description                                                                                  |
+> > |-------------|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+> > | beneficiary | Party | The party that is granted the right to mint the weighted amount of reward for this activity. |
+> > | weight      | Decimal  | A weight between 0.0 and 1.0 that defines how much of the reward this beneficiary can mint.  |
+>
+> **instance** Eq AppRewardBeneficiary
+>
+> **instance** Ord AppRewardBeneficiary
+>
+> **instance** Show AppRewardBeneficiary
+>
+> **instance** GetField "beneficiaries" FeaturedAppRight_CreateActivityMarker \[AppRewardBeneficiary\]
+>
+> **instance** GetField "beneficiary" AppRewardBeneficiary Party
+>
+> **instance** GetField "weight" AppRewardBeneficiary Decimal
+>
+> **instance** SetField "beneficiaries" FeaturedAppRight_CreateActivityMarker \[AppRewardBeneficiary\]
+>
+> **instance** SetField "beneficiary" AppRewardBeneficiary Party
+>
+> **instance** SetField "weight" AppRewardBeneficiary Decimal
+
+<div id="type-splice-api-featuredapprightv2-featuredappactivitymarkerview-70739">
+
+**data** FeaturedAppActivityMarkerView
+
+</div>
+
+> <div id="constr-splice-api-featuredapprightv2-featuredappactivitymarkerview-19000">
+>
+> FeaturedAppActivityMarkerView
+>
+> </div>
+>
+> > | Field       | Type                                                                                    | Description                                                                                  |
+> > |-------------|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+> > | dso         | Party | The DSO party.                                                                               |
+> > | provider    | Party | The featured app provider.                                                                   |
+> > | beneficiary | Party | The party that is granted the right to mint the weighted amount of reward for this activity. |
+> > | weight      | Decimal  | A weight between 0.0 and 1.0 that defines how much of the reward this beneficiary can mint.  |
+>
+> **instance** Eq FeaturedAppActivityMarkerView
+>
+> **instance** Show FeaturedAppActivityMarkerView
+>
+> **instance** HasFromAnyView FeaturedAppActivityMarker FeaturedAppActivityMarkerView
+>
+> **instance** HasInterfaceView FeaturedAppActivityMarker FeaturedAppActivityMarkerView
+>
+> **instance** GetField "beneficiary" FeaturedAppActivityMarkerView Party
+>
+> **instance** GetField "dso" FeaturedAppActivityMarkerView Party
+>
+> **instance** GetField "provider" FeaturedAppActivityMarkerView Party
+>
+> **instance** GetField "weight" FeaturedAppActivityMarkerView Decimal
+>
+> **instance** SetField "beneficiary" FeaturedAppActivityMarkerView Party
+>
+> **instance** SetField "dso" FeaturedAppActivityMarkerView Party
+>
+> **instance** SetField "provider" FeaturedAppActivityMarkerView Party
+>
+> **instance** SetField "weight" FeaturedAppActivityMarkerView Decimal
+
+<div id="type-splice-api-featuredapprightv2-featuredapprightview-58075">
+
+**data** FeaturedAppRightView
+
+</div>
+
+> <div id="constr-splice-api-featuredapprightv2-featuredapprightview-48166">
+>
+> FeaturedAppRightView
+>
+> </div>
+>
+> > | Field    | Type                                                                                    | Description                |
+> > |----------|-----------------------------------------------------------------------------------------|----------------------------|
+> > | dso      | Party | The DSO party.             |
+> > | provider | Party | The featured app provider. |
+>
+> **instance** Eq FeaturedAppRightView
+>
+> **instance** Show FeaturedAppRightView
+>
+> **instance** HasFromAnyView FeaturedAppRight FeaturedAppRightView
+>
+> **instance** HasInterfaceView FeaturedAppRight FeaturedAppRightView
+>
+> **instance** GetField "dso" FeaturedAppRightView Party
+>
+> **instance** GetField "provider" FeaturedAppRightView Party
+>
+> **instance** SetField "dso" FeaturedAppRightView Party
+>
+> **instance** SetField "provider" FeaturedAppRightView Party
+
+<div id="type-splice-api-featuredapprightv2-featuredapprightcreateactivitymarkerresult-27928">
+
+**data** FeaturedAppRight_CreateActivityMarkerResult
+
+</div>
+
+> Result of calling the `FeaturedAppRight_CreateActivityMarker` choice.
+>
+> <div id="constr-splice-api-featuredapprightv2-featuredapprightcreateactivitymarkerresult-95607">
+>
+> FeaturedAppRight_CreateActivityMarkerResult
+>
+> </div>
+>
+> > | Field              | Type                                                                                                                            | Description                                        |
+> > |--------------------|---------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------|
+> > | activityMarkerCids | \[ContractId FeaturedAppActivityMarker\] | The set of activity markers created by the choice. |
+>
+> **instance** HasMethod FeaturedAppRight "featuredAppRight_CreateActivityMarkerImpl" (ContractId FeaturedAppRight -\> FeaturedAppRight_CreateActivityMarker -\> Update FeaturedAppRight_CreateActivityMarkerResult)
+>
+> **instance** GetField "activityMarkerCids" FeaturedAppRight_CreateActivityMarkerResult \[ContractId FeaturedAppActivityMarker\]
+>
+> **instance** SetField "activityMarkerCids" FeaturedAppRight_CreateActivityMarkerResult \[ContractId FeaturedAppActivityMarker\]
+>
+> **instance** HasExercise FeaturedAppRight FeaturedAppRight_CreateActivityMarker FeaturedAppRight_CreateActivityMarkerResult
+>
+> **instance** HasExerciseGuarded FeaturedAppRight FeaturedAppRight_CreateActivityMarker FeaturedAppRight_CreateActivityMarkerResult
+>
+> **instance** HasFromAnyChoice FeaturedAppRight FeaturedAppRight_CreateActivityMarker FeaturedAppRight_CreateActivityMarkerResult
+>
+> **instance** HasToAnyChoice FeaturedAppRight FeaturedAppRight_CreateActivityMarker FeaturedAppRight_CreateActivityMarkerResult
+
+## Functions
+
+<div id="function-splice-api-featuredapprightv2-featuredapprightcreateactivitymarkerimpl-7767">
+
+featuredAppRight_CreateActivityMarkerImpl
+: FeaturedAppRight -\> ContractId FeaturedAppRight -\> FeaturedAppRight_CreateActivityMarker -\> Update FeaturedAppRight_CreateActivityMarkerResult
+
+</div>
+
+{/* COPIED_END */}

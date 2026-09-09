@@ -1,0 +1,231 @@
+---
+title: "GET /v0/acs/:party"
+description: "**Deprecated**. Fetch the current SV participant ACS snapshot for the DSO and `party`."
+api: "GET https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/acs/{party}"
+playground: "interactive"
+sidebarTitle: "/v0/acs/:party"
+---
+
+<div class="x2mdx-ref-page x2mdx-ref-page--operation x2mdx-ref-page--manual-api"></div>
+
+
+
+<div class="x2mdx-ref-hero">
+
+
+
+  <p class="x2mdx-ref-summary">**Deprecated**. Fetch the current SV participant ACS snapshot for the DSO and `party`.</p>
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--protocol">OpenAPI</span>
+
+  <a class="x2mdx-ref-badge x2mdx-ref-badge--removed" href="#history-deprecated-0-5-10">Deprecated 0.5.10</a>
+
+</div>
+
+
+</div>
+
+
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/acs/{party}'
+```
+
+```python Python
+import json
+import requests
+
+url = "https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/acs/{party}"
+response = requests.request("GET", url)
+
+print(response.text)
+```
+
+```javascript JavaScript
+const response = await fetch('https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/acs/{party}', {
+  method: 'GET',
+});
+
+console.log(await response.text());
+```
+
+```php PHP
+<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => 'https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/acs/{party}',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+]);
+
+$response = curl_exec($curl);
+echo $response;
+```
+
+```go Go
+package main
+
+import (
+  "fmt"
+  "io"
+  "net/http"
+)
+
+func main() {
+  req, _ := http.NewRequest("GET", "https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/acs/{party}", nil)
+  response, _ := http.DefaultClient.Do(req)
+  defer response.Body.Close()
+  body, _ := io.ReadAll(response.Body)
+  fmt.Println(string(body))
+}
+```
+
+```java Java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+var request = HttpRequest.newBuilder()
+    .uri(URI.create("https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/acs/{party}"))
+    .method("GET", HttpRequest.BodyPublishers.noBody())
+    .build();
+var response = HttpClient.newHttpClient().send(
+    request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```ruby Ruby
+require 'net/http'
+require 'uri'
+
+uri = URI('https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/acs/{party}')
+request = Net::HTTP::Get.new(uri)
+response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+  http.request(request)
+end
+puts response.body
+```
+
+</RequestExample>
+
+
+<ResponseExample>
+
+```json 200
+{
+  "acs_snapshot": "<string>"
+}
+```
+
+</ResponseExample>
+
+
+
+## Path parameters
+
+
+
+
+
+
+
+
+<ParamField path="party" type="string" required>
+
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+## Query parameters
+
+
+
+
+
+
+
+
+<ParamField query="record_time" type="string">
+
+
+
+
+
+
+
+</ParamField>
+
+
+
+
+
+
+
+## Responses
+
+
+### 200
+
+ok
+
+
+
+<div class="x2mdx-ref-badges">
+
+  <span class="x2mdx-ref-badge x2mdx-ref-badge--neutral">application/json</span>
+
+</div>
+
+
+
+
+
+
+<ResponseField name="acs_snapshot" type="string" required>
+
+base64-encoded ACS snapshot for the intersection of the DSO party and the requested party’s ACS
+
+
+
+
+
+
+</ResponseField>
+
+
+
+
+
+
+
+
+## History
+
+<div class="x2mdx-ref-history" aria-label="Reference history">
+
+  <div class="x2mdx-ref-history-event x2mdx-ref-history-event--deprecated" id="history-deprecated-0-5-10">
+    <div class="x2mdx-ref-history-event-head">
+      <span class="x2mdx-ref-history-event-label">Deprecated</span>
+      <code class="x2mdx-ref-history-event-version">0.5.10</code>
+    </div>
+
+  </div>
+
+</div>

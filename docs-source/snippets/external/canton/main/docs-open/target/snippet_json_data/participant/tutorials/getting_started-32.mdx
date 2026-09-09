@@ -1,0 +1,8 @@
+```scala
+@ participant1.ledger_api.commands.submit(Seq(bank), Seq(createIouCmd))
+    ERROR com.digitalasset.canton.integration.EnvironmentDefinition$$anon$3:GettingStartedDocumentationIntegrationTest - Request failed for participant1.
+      GrpcRequestRefusedByServer: NOT_FOUND/NO_SYNCHRONIZER_ON_WHICH_ALL_SUBMITTERS_CAN_SUBMIT(11,59e5d752): This participant cannot submit as the given submitter on any connected synchronizer
+      Request: SubmitAndWaitTransaction(actAs = Bank::1220a4d7463b..., readAs = Seq(), commandId = '', workflowId = '', submissionId = '', deduplicationPeriod = None(), commands = ...)
+      DecodedCantonError(
+    ..
+```

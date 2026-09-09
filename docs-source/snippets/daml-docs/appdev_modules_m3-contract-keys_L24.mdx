@@ -1,0 +1,16 @@
+```haskell
+type AccountKey = (Party, Text)
+
+template Account with
+    bank : Party
+    number : Text
+    owner : Party
+    balance : Decimal
+    observers : [Party]
+  where
+    signatory [bank, owner]
+    observer observers
+
+    key (bank, number) : AccountKey
+    maintainer key._1
+```

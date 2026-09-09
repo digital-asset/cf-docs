@@ -1,0 +1,30 @@
+```daml
+template CashBalance
+  with
+    accountant : Party
+    currency : Text
+    amount : Decimal
+    owner : Party
+    account_number : Text
+    bank : Party
+    bank_address : Text
+    bank_telephone : Text
+  where
+    signatory accountant
+
+cash_balance_test = script do
+  accountant <- allocateParty "Bob"
+  alice <- allocateParty "Alice"
+  bob <- allocateParty "Bank of Bob"
+
+  submit accountant do
+    createCmd CashBalance with
+      accountant
+      currency = "USD"
+      amount = 100.0
+      owner = alice
+      account_number = "ABC123"
+      bank = bob
+      bank_address = "High Street"
+      bank_telephone = "012 3456 789"
+```

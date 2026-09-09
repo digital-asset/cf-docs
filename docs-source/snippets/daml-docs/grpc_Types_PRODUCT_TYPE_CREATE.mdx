@@ -1,0 +1,15 @@
+```haskell
+alice <- allocateParty "Alice"
+bob <- allocateParty "Bob"
+someCid <- submit alice do createCmd SomeTemplate with owner=alice
+
+let myProduct = MyProductType with
+            intField = 17
+            textField = "some text"
+            decimalField = 17.42
+            boolField = False
+            partyField = bob
+            timeField = datetime 2018 May 16 0 0 0
+            listField = [1,2,3]
+            contractIdField = someCid
+```

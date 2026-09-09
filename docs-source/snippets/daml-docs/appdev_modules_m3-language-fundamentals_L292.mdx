@@ -1,0 +1,6 @@
+```haskell
+doError t = case t of
+  "True" -> True
+  "False" -> False
+  _ -> error ("Not a Bool: " <> t)
+```

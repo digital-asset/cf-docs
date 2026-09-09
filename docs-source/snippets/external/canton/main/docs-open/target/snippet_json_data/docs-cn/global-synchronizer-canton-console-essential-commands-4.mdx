@@ -1,0 +1,16 @@
+```scala
+@ participant1.dars.list()
+    res9: Seq[DarDescription] = Vector(
+      DarDescription(
+        mainPackageId = "de2cc2f90eb523414ff54e899951dadd8789a4c07e0f71f6d6c9eaf57d412a54",
+        name = "canton-builtin-admin-workflow-ping",
+        version = "3.4.0",
+        description = "System package"
+      )
+    )
+```
+
+```scala
+@ participant1.packages.list().filter(_.packageId.startsWith("com-example"))
+    res10: Seq[PackageDescription] = Vector()
+```

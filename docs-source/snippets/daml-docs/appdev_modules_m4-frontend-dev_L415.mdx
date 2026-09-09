@@ -1,0 +1,9 @@
+```tsx
+useEffect(() => {
+    if (showComments) {
+        fetchComments(showComments);
+        const intervalId = setInterval(() => fetchComments(showComments), 5000);
+        return () => clearInterval(intervalId);
+    }
+}, [showComments, fetchComments]);
+```

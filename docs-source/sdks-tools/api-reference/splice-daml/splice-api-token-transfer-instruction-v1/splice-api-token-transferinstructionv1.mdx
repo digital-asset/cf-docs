@@ -1,0 +1,555 @@
+---
+title: "Splice.Api.Token.TransferInstructionV1"
+description: "Documentation for Splice.Api.Token.TransferInstructionV1"
+---
+
+{/* COPIED_START source="splice:token-standard/splice-api-token-transfer-instruction-v1/docs/Splice-Api-Token-TransferInstructionV1.rst" hash="7caf50a0" */}
+
+Instruct transfers of holdings between parties.
+
+## Interfaces
+
+<div id="type-splice-api-token-transferinstructionv1-transferfactory-55548">
+
+**interface** TransferFactory
+
+</div>
+
+> A factory contract to instruct transfers of holdings between parties.
+>
+> **viewtype** TransferFactoryView
+>
+> - **Choice** Archive
+>
+>   Controller: Signatories of implementing template
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-api-token-transferinstructionv1-transferfactorypublicfetch-56912">
+>
+>   **Choice** TransferFactory_PublicFetch
+>
+>   </div>
+>
+>   Fetch the view of the factory contract.
+>
+>   Controller: actor
+>
+>   Returns: TransferFactoryView
+>
+>   | Field         | Type                                                                                    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+>   |---------------|-----------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+>   | expectedAdmin | Party | The expected admin party issuing the factory. Implementations MUST validate that this matches the admin of the factory. Callers SHOULD ensure they get `expectedAdmin` from a trusted source, e.g., a read against their own participant. That way they can ensure that it is safe to exercise a choice on a factory contract acquired from an untrusted source *provided* all vetted Daml packages only contain interface implementations that check the expected admin party. |
+>   | actor         | Party | The party fetching the contract.                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+>
+> - <div id="type-splice-api-token-transferinstructionv1-transferfactorytransfer-25365">
+>
+>   **Choice** TransferFactory_Transfer
+>
+>   </div>
+>
+>   Instruct the registry to execute a transfer. Implementations MUST ensure that this choice fails if `transfer.executeBefore` is in the past.
+>
+>   Controller: (DA.Internal.Record.getField @"sender" transfer)
+>
+>   Returns: TransferInstructionResult
+>
+>   | Field         | Type                                                                                    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+>   |---------------|-----------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+>   | expectedAdmin | Party | The expected admin party issuing the factory. Implementations MUST validate that this matches the admin of the factory. Callers SHOULD ensure they get `expectedAdmin` from a trusted source, e.g., a read against their own participant. That way they can ensure that it is safe to exercise a choice on a factory contract acquired from an untrusted source *provided* all vetted Daml packages only contain interface implementations that check the expected admin party. |
+>   | transfer      | Transfer                                                                                | The transfer to execute.                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+>   | extraArgs     | ExtraArgs                                                                               | The extra arguments to pass to the transfer implementation.                                                                                                                                                                                                                                                                                                                                                                                                                     |
+>
+> - **Method transferFactory_publicFetchImpl :** ContractId TransferFactory -\> TransferFactory_PublicFetch -\> Update TransferFactoryView
+>
+> - **Method transferFactory_transferImpl :** ContractId TransferFactory -\> TransferFactory_Transfer -\> Update TransferInstructionResult
+
+<div id="type-splice-api-token-transferinstructionv1-transferinstruction-69882">
+
+**interface** TransferInstruction
+
+</div>
+
+> An interface for tracking the status of a transfer instruction, i.e., a request to a registry app to execute a transfer.
+>
+> Registries MAY evolve the transfer instruction in multiple steps. They SHOULD do so using only the choices on this interface, so that wallets can reliably parse the transaction history and determine whether the instruction ultimately succeeded or failed.
+>
+> **viewtype** TransferInstructionView
+>
+> - **Choice** Archive
+>
+>   Controller: Signatories of implementing template
+>
+>   Returns: ()
+>
+>   (no fields)
+>
+> - <div id="type-splice-api-token-transferinstructionv1-transferinstructionaccept-36884">
+>
+>   **Choice** TransferInstruction_Accept
+>
+>   </div>
+>
+>   Accept the transfer as the receiver.
+>
+>   This choice is only available if the instruction is in `TransferPendingReceiverAcceptance` state.
+>
+>   Note that while implementations will typically return `TransferInstructionResult_Completed`, this is not guaranteed. The result of the choice is implementation-specific and MAY be any of the three possible results.
+>
+>   Controller: (DA.Internal.Record.getField @"receiver" (DA.Internal.Record.getField @"transfer" (view this)))
+>
+>   Returns: TransferInstructionResult
+>
+>   | Field     | Type      | Description                                                  |
+>   |-----------|-----------|--------------------------------------------------------------|
+>   | extraArgs | ExtraArgs | Additional context required in order to exercise the choice. |
+>
+> - <div id="type-splice-api-token-transferinstructionv1-transferinstructionreject-89645">
+>
+>   **Choice** TransferInstruction_Reject
+>
+>   </div>
+>
+>   Reject the transfer as the receiver.
+>
+>   This choice is only available if the instruction is in `TransferPendingReceiverAcceptance` state.
+>
+>   Controller: (DA.Internal.Record.getField @"receiver" (DA.Internal.Record.getField @"transfer" (view this)))
+>
+>   Returns: TransferInstructionResult
+>
+>   | Field     | Type      | Description                                                  |
+>   |-----------|-----------|--------------------------------------------------------------|
+>   | extraArgs | ExtraArgs | Additional context required in order to exercise the choice. |
+>
+> - <div id="type-splice-api-token-transferinstructionv1-transferinstructionupdate-27423">
+>
+>   **Choice** TransferInstruction_Update
+>
+>   </div>
+>
+>   Update the state of the transfer instruction. Used by the registry to execute registry internal workflow steps that advance the state of the transfer instruction. A reason may be communicated via the metadata.
+>
+>   Controller: (DA.Internal.Record.getField @"admin" (DA.Internal.Record.getField @"instrumentId" (DA.Internal.Record.getField @"transfer" (view this)))), extraActors
+>
+>   Returns: TransferInstructionResult
+>
+>   | Field       | Type                                                                                        | Description                                                                                                                           |
+>   |-------------|---------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+>   | extraActors | \[Party\] | Extra actors authorizing the update. Implementations MUST check that this field contains the expected actors for the specific update. |
+>   | extraArgs   | ExtraArgs                                                                                   | Additional context required in order to exercise the choice.                                                                          |
+>
+> - <div id="type-splice-api-token-transferinstructionv1-transferinstructionwithdraw-43648">
+>
+>   **Choice** TransferInstruction_Withdraw
+>
+>   </div>
+>
+>   Withdraw the transfer instruction as the sender.
+>
+>   Controller: (DA.Internal.Record.getField @"sender" (DA.Internal.Record.getField @"transfer" (view this)))
+>
+>   Returns: TransferInstructionResult
+>
+>   | Field     | Type      | Description                                                  |
+>   |-----------|-----------|--------------------------------------------------------------|
+>   | extraArgs | ExtraArgs | Additional context required in order to exercise the choice. |
+>
+> - **Method transferInstruction_acceptImpl :** ContractId TransferInstruction -\> TransferInstruction_Accept -\> Update TransferInstructionResult
+>
+> - **Method transferInstruction_rejectImpl :** ContractId TransferInstruction -\> TransferInstruction_Reject -\> Update TransferInstructionResult
+>
+> - **Method transferInstruction_updateImpl :** ContractId TransferInstruction -\> TransferInstruction_Update -\> Update TransferInstructionResult
+>
+> - **Method transferInstruction_withdrawImpl :** ContractId TransferInstruction -\> TransferInstruction_Withdraw -\> Update TransferInstructionResult
+
+## Data Types
+
+<div id="type-splice-api-token-transferinstructionv1-transfer-51973">
+
+**data** Transfer
+
+</div>
+
+> A specification of a transfer of holdings between two parties.
+>
+> <div id="constr-splice-api-token-transferinstructionv1-transfer-5022">
+>
+> Transfer
+>
+> </div>
+>
+> > | Field            | Type                                                                                                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+> > |------------------|---------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+> > | sender           | Party                       | The sender of the transfer.                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+> > | receiver         | Party                       | The receiver of the transfer.                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+> > | amount           | Decimal                        | The amount to transfer.                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+> > | instrumentId     | InstrumentId                                                                                                  | The instrument identifier.                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+> > | requestedAt      | Time                         | Wallet provided timestamp when the transfer was requested. MUST be in the past when instructing the transfer.                                                                                                                                                                                                                                                                                                                                                               |
+> > | executeBefore    | Time                         | Until when (exclusive) the transfer may be executed. MUST be in the future when instructing the transfer. Registries SHOULD NOT execute the transfer instruction after this time, so that senders can retry creating a new transfer instruction after this time.                                                                                                                                                                                                            |
+> > | inputHoldingCids | \[ContractId Holding\] | The holding contracts that should be used to fund the transfer. MAY be empty if the registry supports automatic selection of holdings for transfers or does not represent holdings on-ledger. If specified, then the transfer MUST archive all of these holdings, so that the execution of the transfer conflicts with any other transfers using these holdings. Thereby allowing that the sender can use deliberate contention on holdings to prevent duplicate transfers. |
+> > | meta             | Metadata                                                                                                      | Metadata.                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+>
+> **instance** Eq Transfer
+>
+> **instance** Show Transfer
+>
+> **instance** GetField "amount" Transfer Decimal
+>
+> **instance** GetField "executeBefore" Transfer Time
+>
+> **instance** GetField "inputHoldingCids" Transfer \[ContractId Holding\]
+>
+> **instance** GetField "instrumentId" Transfer InstrumentId
+>
+> **instance** GetField "meta" Transfer Metadata
+>
+> **instance** GetField "receiver" Transfer Party
+>
+> **instance** GetField "requestedAt" Transfer Time
+>
+> **instance** GetField "sender" Transfer Party
+>
+> **instance** GetField "transfer" TransferFactory_Transfer Transfer
+>
+> **instance** GetField "transfer" TransferInstructionView Transfer
+>
+> **instance** SetField "amount" Transfer Decimal
+>
+> **instance** SetField "executeBefore" Transfer Time
+>
+> **instance** SetField "inputHoldingCids" Transfer \[ContractId Holding\]
+>
+> **instance** SetField "instrumentId" Transfer InstrumentId
+>
+> **instance** SetField "meta" Transfer Metadata
+>
+> **instance** SetField "receiver" Transfer Party
+>
+> **instance** SetField "requestedAt" Transfer Time
+>
+> **instance** SetField "sender" Transfer Party
+>
+> **instance** SetField "transfer" TransferFactory_Transfer Transfer
+>
+> **instance** SetField "transfer" TransferInstructionView Transfer
+
+<div id="type-splice-api-token-transferinstructionv1-transferfactoryview-36679">
+
+**data** TransferFactoryView
+
+</div>
+
+> View for `TransferFactory`.
+>
+> <div id="constr-splice-api-token-transferinstructionv1-transferfactoryview-43930">
+>
+> TransferFactoryView
+>
+> </div>
+>
+> > | Field | Type                                                                                    | Description                                                                                                           |
+> > |-------|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+> > | admin | Party | The party representing the registry app that administers the instruments for which this transfer factory can be used. |
+> > | meta  | Metadata                                                                                | Additional metadata specific to the transfer factory, used for extensibility.                                         |
+>
+> **instance** Eq TransferFactoryView
+>
+> **instance** Show TransferFactoryView
+>
+> **instance** HasMethod TransferFactory "transferFactory_publicFetchImpl" (ContractId TransferFactory -\> TransferFactory_PublicFetch -\> Update TransferFactoryView)
+>
+> **instance** HasFromAnyView TransferFactory TransferFactoryView
+>
+> **instance** HasInterfaceView TransferFactory TransferFactoryView
+>
+> **instance** GetField "admin" TransferFactoryView Party
+>
+> **instance** GetField "meta" TransferFactoryView Metadata
+>
+> **instance** SetField "admin" TransferFactoryView Party
+>
+> **instance** SetField "meta" TransferFactoryView Metadata
+>
+> **instance** HasExercise TransferFactory TransferFactory_PublicFetch TransferFactoryView
+>
+> **instance** HasExerciseGuarded TransferFactory TransferFactory_PublicFetch TransferFactoryView
+>
+> **instance** HasFromAnyChoice TransferFactory TransferFactory_PublicFetch TransferFactoryView
+>
+> **instance** HasToAnyChoice TransferFactory TransferFactory_PublicFetch TransferFactoryView
+
+<div id="type-splice-api-token-transferinstructionv1-transferinstructionresult-24735">
+
+**data** TransferInstructionResult
+
+</div>
+
+> The result of instructing a transfer or advancing the state of a transfer instruction.
+>
+> <div id="constr-splice-api-token-transferinstructionv1-transferinstructionresult-25274">
+>
+> TransferInstructionResult
+>
+> </div>
+>
+> > | Field            | Type                                                                                                          | Description                                                                                                                                                                    |
+> > |------------------|---------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+> > | output           | TransferInstructionResult_Output                                                                              | The output of the step.                                                                                                                                                        |
+> > | senderChangeCids | \[ContractId Holding\] | New holdings owned by the sender created to return "change". Can be used by callers to batch creating or updating multiple transfer instructions in a single Daml transaction. |
+> > | meta             | Metadata                                                                                                      | Additional metadata specific to the transfer instruction, used for extensibility; e.g., fees charged.                                                                          |
+>
+> **instance** Eq TransferInstructionResult
+>
+> **instance** Show TransferInstructionResult
+>
+> **instance** HasMethod TransferFactory "transferFactory_transferImpl" (ContractId TransferFactory -\> TransferFactory_Transfer -\> Update TransferInstructionResult)
+>
+> **instance** HasMethod TransferInstruction "transferInstruction_acceptImpl" (ContractId TransferInstruction -\> TransferInstruction_Accept -\> Update TransferInstructionResult)
+>
+> **instance** HasMethod TransferInstruction "transferInstruction_rejectImpl" (ContractId TransferInstruction -\> TransferInstruction_Reject -\> Update TransferInstructionResult)
+>
+> **instance** HasMethod TransferInstruction "transferInstruction_updateImpl" (ContractId TransferInstruction -\> TransferInstruction_Update -\> Update TransferInstructionResult)
+>
+> **instance** HasMethod TransferInstruction "transferInstruction_withdrawImpl" (ContractId TransferInstruction -\> TransferInstruction_Withdraw -\> Update TransferInstructionResult)
+>
+> **instance** GetField "meta" TransferInstructionResult Metadata
+>
+> **instance** GetField "output" TransferInstructionResult TransferInstructionResult_Output
+>
+> **instance** GetField "senderChangeCids" TransferInstructionResult \[ContractId Holding\]
+>
+> **instance** SetField "meta" TransferInstructionResult Metadata
+>
+> **instance** SetField "output" TransferInstructionResult TransferInstructionResult_Output
+>
+> **instance** SetField "senderChangeCids" TransferInstructionResult \[ContractId Holding\]
+>
+> **instance** HasExercise TransferFactory TransferFactory_Transfer TransferInstructionResult
+>
+> **instance** HasExercise TransferInstruction TransferInstruction_Accept TransferInstructionResult
+>
+> **instance** HasExercise TransferInstruction TransferInstruction_Reject TransferInstructionResult
+>
+> **instance** HasExercise TransferInstruction TransferInstruction_Update TransferInstructionResult
+>
+> **instance** HasExercise TransferInstruction TransferInstruction_Withdraw TransferInstructionResult
+>
+> **instance** HasExerciseGuarded TransferFactory TransferFactory_Transfer TransferInstructionResult
+>
+> **instance** HasExerciseGuarded TransferInstruction TransferInstruction_Accept TransferInstructionResult
+>
+> **instance** HasExerciseGuarded TransferInstruction TransferInstruction_Reject TransferInstructionResult
+>
+> **instance** HasExerciseGuarded TransferInstruction TransferInstruction_Update TransferInstructionResult
+>
+> **instance** HasExerciseGuarded TransferInstruction TransferInstruction_Withdraw TransferInstructionResult
+>
+> **instance** HasFromAnyChoice TransferFactory TransferFactory_Transfer TransferInstructionResult
+>
+> **instance** HasFromAnyChoice TransferInstruction TransferInstruction_Accept TransferInstructionResult
+>
+> **instance** HasFromAnyChoice TransferInstruction TransferInstruction_Reject TransferInstructionResult
+>
+> **instance** HasFromAnyChoice TransferInstruction TransferInstruction_Update TransferInstructionResult
+>
+> **instance** HasFromAnyChoice TransferInstruction TransferInstruction_Withdraw TransferInstructionResult
+>
+> **instance** HasToAnyChoice TransferFactory TransferFactory_Transfer TransferInstructionResult
+>
+> **instance** HasToAnyChoice TransferInstruction TransferInstruction_Accept TransferInstructionResult
+>
+> **instance** HasToAnyChoice TransferInstruction TransferInstruction_Reject TransferInstructionResult
+>
+> **instance** HasToAnyChoice TransferInstruction TransferInstruction_Update TransferInstructionResult
+>
+> **instance** HasToAnyChoice TransferInstruction TransferInstruction_Withdraw TransferInstructionResult
+
+<div id="type-splice-api-token-transferinstructionv1-transferinstructionresultoutput-59824">
+
+**data** TransferInstructionResult_Output
+
+</div>
+
+> The output of instructing a transfer or advancing the state of a transfer instruction.
+>
+> <div id="constr-splice-api-token-transferinstructionv1-transferinstructionresultpending-18902">
+>
+> TransferInstructionResult_Pending
+>
+> </div>
+>
+> > Use this result to communicate that the transfer is pending further steps.
+> >
+> > | Field                  | Type                                                                                                                  | Description                                                             |
+> > |------------------------|-----------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+> > | transferInstructionCid | ContractId TransferInstruction | Contract id of the transfer instruction representing the pending state. |
+>
+> <div id="constr-splice-api-token-transferinstructionv1-transferinstructionresultcompleted-47798">
+>
+> TransferInstructionResult_Completed
+>
+> </div>
+>
+> > Use this result to communicate that the transfer succeeded and the receiver has received their holdings.
+> >
+> > | Field               | Type                                                                                                          | Description                                                                                       |
+> > |---------------------|---------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+> > | receiverHoldingCids | \[ContractId Holding\] | The newly created holdings owned by the receiver as part of successfully completing the transfer. |
+>
+> <div id="constr-splice-api-token-transferinstructionv1-transferinstructionresultfailed-21543">
+>
+> TransferInstructionResult_Failed
+>
+> </div>
+>
+> > Use this result to communicate that the transfer did not succeed and all holdings (minus fees) have been returned to the sender.
+>
+> **instance** Eq TransferInstructionResult_Output
+>
+> **instance** Show TransferInstructionResult_Output
+>
+> **instance** GetField "output" TransferInstructionResult TransferInstructionResult_Output
+>
+> **instance** GetField "receiverHoldingCids" TransferInstructionResult_Output \[ContractId Holding\]
+>
+> **instance** GetField "transferInstructionCid" TransferInstructionResult_Output (ContractId TransferInstruction)
+>
+> **instance** SetField "output" TransferInstructionResult TransferInstructionResult_Output
+>
+> **instance** SetField "receiverHoldingCids" TransferInstructionResult_Output \[ContractId Holding\]
+>
+> **instance** SetField "transferInstructionCid" TransferInstructionResult_Output (ContractId TransferInstruction)
+
+<div id="type-splice-api-token-transferinstructionv1-transferinstructionstatus-36298">
+
+**data** TransferInstructionStatus
+
+</div>
+
+> Status of a transfer instruction.
+>
+> <div id="constr-splice-api-token-transferinstructionv1-transferpendingreceiveracceptance-84710">
+>
+> TransferPendingReceiverAcceptance
+>
+> </div>
+>
+> > The transfer is pending acceptance by the receiver.
+>
+> <div id="constr-splice-api-token-transferinstructionv1-transferpendinginternalworkflow-24806">
+>
+> TransferPendingInternalWorkflow
+>
+> </div>
+>
+> > The transfer is pending actions to be taken as part of registry internal workflows.
+> >
+> > | Field          | Type                                                                                                                                                                                                                                                         | Description                                                                                                                                            |
+> > |----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+> > | pendingActions | Map Party Text | The actions that a party could take to advance the transfer. This field can by used to inform wallet users whether they need to take an action or not. |
+>
+> **instance** Eq TransferInstructionStatus
+>
+> **instance** Show TransferInstructionStatus
+>
+> **instance** GetField "pendingActions" TransferInstructionStatus (Map Party Text)
+>
+> **instance** GetField "status" TransferInstructionView TransferInstructionStatus
+>
+> **instance** SetField "pendingActions" TransferInstructionStatus (Map Party Text)
+>
+> **instance** SetField "status" TransferInstructionView TransferInstructionStatus
+
+<div id="type-splice-api-token-transferinstructionv1-transferinstructionview-46309">
+
+**data** TransferInstructionView
+
+</div>
+
+> View for `TransferInstruction`.
+>
+> <div id="constr-splice-api-token-transferinstructionv1-transferinstructionview-88808">
+>
+> TransferInstructionView
+>
+> </div>
+>
+> > | Field                  | Type                                                                                                                                                                                                                       | Description                                                                                                                                                                                                                          |
+> > |------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+> > | originalInstructionCid | Optional (ContractId TransferInstruction) | The contract id of the original transfer instruction contract. Used by the wallet to track the lineage of transfer instructions through multiple steps. Only set if the registry evolves the transfer instruction in multiple steps. |
+> > | transfer               | Transfer                                                                                                                                                                                                                   | The transfer specified by the transfer instruction.                                                                                                                                                                                  |
+> > | status                 | TransferInstructionStatus                                                                                                                                                                                                  | The status of the transfer instruction.                                                                                                                                                                                              |
+> > | meta                   | Metadata                                                                                                                                                                                                                   | Additional metadata specific to the transfer instruction, used for extensibility; e.g., more detailed status information.                                                                                                            |
+>
+> **instance** Eq TransferInstructionView
+>
+> **instance** Show TransferInstructionView
+>
+> **instance** HasFromAnyView TransferInstruction TransferInstructionView
+>
+> **instance** HasInterfaceView TransferInstruction TransferInstructionView
+>
+> **instance** GetField "meta" TransferInstructionView Metadata
+>
+> **instance** GetField "originalInstructionCid" TransferInstructionView (Optional (ContractId TransferInstruction))
+>
+> **instance** GetField "status" TransferInstructionView TransferInstructionStatus
+>
+> **instance** GetField "transfer" TransferInstructionView Transfer
+>
+> **instance** SetField "meta" TransferInstructionView Metadata
+>
+> **instance** SetField "originalInstructionCid" TransferInstructionView (Optional (ContractId TransferInstruction))
+>
+> **instance** SetField "status" TransferInstructionView TransferInstructionStatus
+>
+> **instance** SetField "transfer" TransferInstructionView Transfer
+
+## Functions
+
+<div id="function-splice-api-token-transferinstructionv1-transferinstructionacceptimpl-78274">
+
+transferInstruction_acceptImpl
+: TransferInstruction -\> ContractId TransferInstruction -\> TransferInstruction_Accept -\> Update TransferInstructionResult
+
+</div>
+
+<div id="function-splice-api-token-transferinstructionv1-transferinstructionrejectimpl-50311">
+
+transferInstruction_rejectImpl
+: TransferInstruction -\> ContractId TransferInstruction -\> TransferInstruction_Reject -\> Update TransferInstructionResult
+
+</div>
+
+<div id="function-splice-api-token-transferinstructionv1-transferinstructionwithdrawimpl-10586">
+
+transferInstruction_withdrawImpl
+: TransferInstruction -\> ContractId TransferInstruction -\> TransferInstruction_Withdraw -\> Update TransferInstructionResult
+
+</div>
+
+<div id="function-splice-api-token-transferinstructionv1-transferinstructionupdateimpl-73329">
+
+transferInstruction_updateImpl
+: TransferInstruction -\> ContractId TransferInstruction -\> TransferInstruction_Update -\> Update TransferInstructionResult
+
+</div>
+
+<div id="function-splice-api-token-transferinstructionv1-transferfactorytransferimpl-82483">
+
+transferFactory_transferImpl
+: TransferFactory -\> ContractId TransferFactory -\> TransferFactory_Transfer -\> Update TransferInstructionResult
+
+</div>
+
+<div id="function-splice-api-token-transferinstructionv1-transferfactorypublicfetchimpl-930">
+
+transferFactory_publicFetchImpl
+: TransferFactory -\> ContractId TransferFactory -\> TransferFactory_PublicFetch -\> Update TransferFactoryView
+
+</div>
+
+{/* COPIED_END */}

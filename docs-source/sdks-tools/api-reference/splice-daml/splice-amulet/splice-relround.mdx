@@ -1,0 +1,54 @@
+---
+title: "Splice.RelRound"
+description: "Documentation for Splice.RelRound"
+---
+
+{/* COPIED_START source="splice:daml/splice-amulet/docs/Splice-RelRound.rst" tag="0.6.4" hash="e41bbbfd" */}
+
+## Data Types
+
+<div id="type-splice-relround-relround-10584">
+
+**data** RelRound
+
+</div>
+
+> The equivalent of RelTime for rounds, i.e., a delta between two rounds
+>
+> <div id="constr-splice-relround-relround-94237">
+>
+> RelRound
+>
+> </div>
+>
+> > | Field | Type                                                                                                       | Description |
+> > |-------|------------------------------------------------------------------------------------------------------------|-------------|
+> > | diff  | [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261) |             |
+>
+> **instance** [Eq](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-eq-22713) RelRound
+>
+> **instance** [Ord](/appdev/reference/daml-standard-library/prelude#class-ghc-classes-ord-6395) RelRound
+>
+> **instance** [Show](/appdev/reference/daml-standard-library/prelude#class-ghc-show-show-65360) RelRound
+>
+> **instance** GetField "diff" RelRound [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+>
+> **instance** SetField "diff" RelRound [Int](/appdev/reference/daml-standard-library/prelude#type-ghc-types-int-37261)
+
+## Functions
+
+<div id="function-splice-relround-addrelround-11446">
+
+addRelRound
+: Round -\> RelRound -\> Round
+
+</div>
+
+<div id="function-splice-relround-subround-39329">
+
+subRound
+: Round -\> Round -\> RelRound
+
+</div>
+
+{/* COPIED_END */}

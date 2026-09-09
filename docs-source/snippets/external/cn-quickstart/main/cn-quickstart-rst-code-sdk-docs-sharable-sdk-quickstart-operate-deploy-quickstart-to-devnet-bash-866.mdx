@@ -1,0 +1,9 @@
+```bash
+   curl -s -X POST http://keycloak.localhost:8082/realms/AppUser/protocol/openid-connect/token \
+    -H "Content-Type: application/x-www-form-urlencoded" \
+    -d "grant_type=password" \
+    -d "client_id=app-user-unsafe" \
+    -d "username=app-user" \
+    -d "password=app-user" | jq .access_token
+
+```

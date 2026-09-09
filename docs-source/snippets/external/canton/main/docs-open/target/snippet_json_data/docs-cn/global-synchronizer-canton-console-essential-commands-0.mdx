@@ -1,0 +1,41 @@
+```scala
+@ participant1.health.status
+    res1: NodeStatus[ParticipantStatus] = Participant id: PAR::participant1::12201ff69b1d24edbf0ee2028a304ea702ee8536790dab1a31e7136e6d90ff6d473c
+    Uptime: 23.86915s
+    Ports: 
+    	ledger: 30421
+    	admin: 30422
+    	json: 30423
+    Connected synchronizers: 
+    	da::122032922613...::35-0
+    Unhealthy synchronizers: None
+    Active: true
+    Components: 
+    	memory_storage : Ok()
+    	connected-synchronizer : Ok()
+    	sync-ephemeral-state : Ok()
+    	sequencer-client : Ok()
+    	acs-commitment-processor : Ok()
+    	sequencer-connection-pool : Ok()
+    	sequencer-subscription-pool : Ok()
+    	internal-sequencer-connection-sequencer1-0 : Ok()
+    	subscription-sequencer-connection-sequencer1-0 : Ok()
+    Version: 3.6.0-SNAPSHOT
+    Supported protocol version(s): 34, 35
+```
+
+```scala
+@ participant1.health.is_running
+    res2: Boolean = true
+```
+
+```scala
+@ participant1.synchronizers.list_connected()
+    res3: Seq[ListConnectedSynchronizersResult] = Vector(
+      ListConnectedSynchronizersResult(
+        synchronizerAlias = Synchronizer 'da',
+        physicalSynchronizerId = da::122032922613...::35-0,
+        healthy = true
+      )
+    )
+```

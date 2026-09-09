@@ -1,0 +1,13 @@
+```scala
+@ participant1.ledger_api.users.rights.revoke(id = user.id, actAs = Set(bob), readAs = Set(alice), participantAdmin = true)
+    res12: UserRights = UserRights(
+      actAs = Set(alice::12201ff69b1d...),
+      readAs = Set(bob::12201ff69b1d..., eve::12201ff69b1d...),
+      executeAs = Set(),
+      readAsAnyParty = false,
+      executeAsAnyParty = false,
+      actAsAnyParty = false,
+      participantAdmin = false,
+      identityProviderAdmin = false
+    )
+```

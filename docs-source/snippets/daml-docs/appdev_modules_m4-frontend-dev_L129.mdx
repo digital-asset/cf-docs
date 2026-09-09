@@ -1,0 +1,45 @@
+```tsx
+const LicensesView: React.FC = () => {
+    const { licenses, fetchLicenses, initiateLicenseRenewal,
+            initiateLicenseExpiration, completeLicenseRenewal } = useLicenseStore();
+    const { user } = useUserStore();
+
+    useEffect(() => {
+        fetchLicenses();
+        const intervalId = setInterval(() => {
+            fetchLicenses();
+        }, 5000);
+        return () => clearInterval(intervalId);
+    }, [fetchLicenses]);
+
+    return (
+        <div>
+            <h2>Licenses</h2>
+            <table className="table table-fixed" id="licenses-table">
+                <thead>
+                    <tr>
+                        <th>License Contract ID</th>
+                        <th>Expires At</th>
+                        <th>License #</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {licenses.map((license) => (
+                        <tr key={license.contractId}>
+                            <td>{license.contractId}</td>
+                            <td>{formatDateTime(license.expiresAt)}</td>
+                            <td>{license.licenseNum}</td>
+                            <td>{license.isExpired ? 'EXPIRED' : 'ACTIVE'}</td>
+                            <td>
+                                {/* Renew, Archive buttons */}
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
+};
+```

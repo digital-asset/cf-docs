@@ -1,0 +1,10 @@
+```haskell
+choice UpdateAddress
+      : ContractId Contact
+      with
+        newAddress : Text
+      controller party
+      do
+        create this with
+          address = newAddress
+```

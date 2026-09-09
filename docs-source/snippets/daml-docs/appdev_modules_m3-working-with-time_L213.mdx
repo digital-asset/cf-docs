@@ -1,0 +1,13 @@
+```haskell
+choice AcceptTransfer : ContractId Coin
+      controller newOwner
+      do
+        withinWindow <- isLedgerTimeGE startTime && isLedgerTimeLT endTime
+        _ <- unless withinWindow $ failWithStatus $
+               FailureStatus
+                 "transfer-outside-time-window"
+                 InvalidGivenCurrentSystemStateOther
+                 ("Ledger time is outside permitted transfer time window [" <> show startTime <> ", " <> show endTime <> ")")
+                 (TextMap.fromList [("startTime", show startTime), ("endTime", show endTime)])
+        create coin with owner = newOwner
+```

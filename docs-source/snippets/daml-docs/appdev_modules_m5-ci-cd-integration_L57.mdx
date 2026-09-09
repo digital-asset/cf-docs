@@ -1,0 +1,14 @@
+```bash
+# Start sandbox in the background
+dpm sandbox &
+SANDBOX_PID=$!
+
+# Wait for sandbox to be ready
+sleep 30  # Or use a health check loop
+
+# Run backend tests, e.g. for a Java backend
+cd backend && ./gradlew test
+
+# Clean up
+kill $SANDBOX_PID
+```

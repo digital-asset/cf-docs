@@ -1,0 +1,31 @@
+```daml
+manipulation_demo = script do
+  let
+    eq_record = EqRecord with
+      my_txt = "Text"
+      my_int = 2
+      my_dec = 2.5
+      my_list = ["One", "Two", "Three"]
+
+    -- A verbose way to change `eq_record`
+    changed_record = EqRecord with
+      my_txt = eq_record.my_txt
+      my_int = 3
+      my_dec = eq_record.my_dec
+      my_list = eq_record.my_list
+
+    -- A better way
+    better_changed_record = eq_record with
+      my_int = 3
+
+    record_with_changed_list = eq_record with
+      my_list = "Zero" :: eq_record.my_list
+
+  assert (eq_record.my_int == 2)
+  assert (changed_record == better_changed_record)
+
+  -- The list on `eq_record` can't be changed.
+  assert (eq_record.my_list == ["One", "Two", "Three"])
+  -- The list on `record_with_changed_list` is a new one.
+  assert (record_with_changed_list.my_list == ["Zero", "One", "Two", "Three"])
+```

@@ -1,0 +1,7 @@
+```daml
+nonPerformedAbort = do
+  let abortScript = False
+  let failingAction : Script () = abort "Foo"
+  let successfulAction : Script () = return ()
+  if abortScript then failingAction else successfulAction
+```

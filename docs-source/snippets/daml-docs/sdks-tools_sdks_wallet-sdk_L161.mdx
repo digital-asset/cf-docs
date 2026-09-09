@@ -1,0 +1,35 @@
+```typescript
+import { v4 } from 'uuid'
+
+// 1. Create the transfer command
+const [transferCommand, disclosedContracts] =
+    await sdk.tokenStandard!.createTransfer(
+        sender,
+        receiver,
+        '100',
+        { instrumentId: 'Amulet', instrumentAdmin: instrumentAdminPartyId },
+        [],
+        'memo-ref'
+    )
+
+// 2. Prepare the transaction on the validator
+const transaction = await sdk.userLedger?.prepareSubmission(
+    transferCommand,
+    v4(),
+    disclosedContracts
+)
+
+// 3. Sign the transaction hash
+const signature = signTransactionHash(
+    transaction.preparedTransactionHash,
+    keys.privateKey
+)
+
+// 4. Execute the signed transaction
+await sdk.userLedger!.executeSubmission(
+    transaction,
+    signature,
+    keys.publicKey,
+    v4()
+)
+```

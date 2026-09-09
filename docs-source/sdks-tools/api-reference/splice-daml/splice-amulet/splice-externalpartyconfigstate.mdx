@@ -1,0 +1,38 @@
+---
+title: "Splice.ExternalPartyConfigState"
+description: "Documentation for Splice.ExternalPartyConfigState"
+---
+
+{/* COPIED_START source="splice:daml/splice-amulet/docs/Splice-ExternalPartyConfigState.rst" tag="0.6.4" hash="b2e0230d" */}
+
+## Templates
+
+<div id="type-splice-externalpartyconfigstate-externalpartyconfigstate-1378">
+
+**template** ExternalPartyConfigState
+
+</div>
+
+> `ExternalPartyConfigState` stores the configuration required for transfer, allocations, traffic purchases and taps. While it exposes a subset of the information also available on `OpenMiningRound`, `ExternalPartyConfigState` contracts are active much longer allowing for a 24 delay between preparing and executing a transaction.
+>
+> There are always two `ExternalPartyConfigState` contracts created approximately `externalPartyConfigStateTickDuration` apart from each other and each is active for `2 * externalPartyConfigStateTickDuration`.
+>
+> Signatory: dso
+>
+> | Field                      | Type                                                                                                                | Description                                                                               |
+> |----------------------------|---------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+> | dso                        | [Party](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-party-57932) |                                                                                           |
+> | holdingFeesOpenRoundNumber | Round                                                                                                               | The round number to use for charging holding fees for newly created contracts.            |
+> | amuletPrice                | [Decimal](/appdev/reference/daml-standard-library/prelude#type-ghc-types-decimal-18135)  | Amulet price at the time the config state was created.                                    |
+> | transferConfig             | TransferConfigV2 USD                                                                                                | Transfer config at the time the config state was created.                                 |
+> | targetArchiveAfter         | [Time](/appdev/reference/daml-standard-library/prelude#type-da-internal-lf-time-63886)   | Lower bound on the time the contract gets archived, not enforced as a strict upper bound. |
+>
+> - **Choice** Archive
+>
+>   Controller: dso
+>
+>   Returns: ()
+>
+>   (no fields)
+
+{/* COPIED_END */}

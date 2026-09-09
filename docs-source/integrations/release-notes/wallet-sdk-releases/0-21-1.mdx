@@ -1,0 +1,15 @@
+---
+title: "0.21.1"
+description: "Wallet SDK 0.21.1 release notes."
+---
+
+{/* GENERATED_RELEASE_NOTES target="wallet-sdk" format="split-release" version="0.21.1" source="158b3ff4c316ba7a5d6c89a6099a5303b76d4f77" */}
+
+# 0.21.1
+
+**Released on February 20th, 2026**
+
+- fix fetching active contracts in loop mode
+
+*a bug was identified where fetching active contracts in loop mode (`continueUntilCompletion`) would not correctly handle pagination, resulting
+in incomplete results being returned. This has now been fixed ensuring all contracts are reliably returned.*

@@ -1,0 +1,28 @@
+```daml
+data EqRecord = EqRecord with
+  my_txt : Text
+  my_int : Int
+  my_dec : Decimal
+  my_list : [Text]
+    deriving (Eq)
+
+data MyContainer a = MyContainer with
+  contents : a
+    deriving (Eq)
+
+eq_test = script do
+  let
+    eq_record = EqRecord with
+      my_txt = "Text"
+      my_int = 2
+      my_dec = 2.5
+      my_list = ["One", "Two", "Three"]
+
+    my_container = MyContainer with
+      contents = eq_record
+    other_container = MyContainer with
+      contents = eq_record
+
+  assert(my_container.contents == eq_record)
+  assert(my_container == other_container)
+```

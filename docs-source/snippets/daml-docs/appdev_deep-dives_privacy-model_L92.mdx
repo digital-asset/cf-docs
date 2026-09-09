@@ -1,0 +1,9 @@
+```haskell
+choice SettleTrade : ()
+  controller buyer
+  do
+    -- Fetching sellerAsset here divulges it to the buyer
+    asset <- fetch sellerAssetId
+    archive sellerAssetId
+    create Asset with owner = buyer, issuer = asset.issuer, value = asset.value
+```

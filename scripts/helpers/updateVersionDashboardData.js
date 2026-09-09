@@ -13,7 +13,7 @@ const path = require('path');
 const PROJECT_ROOT = path.join(__dirname, '../..');
 const REPO_VERSION_CONFIG_PATH = path.join(PROJECT_ROOT, 'config/repo-version-config.json');
 const VERSION_DASHBOARD_META_PATH = path.join(PROJECT_ROOT, 'config/version-dashboard-meta.json');
-const OUTPUT_PATH = path.join(PROJECT_ROOT, 'docs-main/snippets/generated/version-dashboard-data.mdx');
+const OUTPUT_PATH = path.join(PROJECT_ROOT, 'docs-source/snippets/generated/version-dashboard-data.mdx');
 
 const VERSION_ORDER = [
   'splice',
@@ -181,13 +181,6 @@ function generateMDX(dashboardMetadata, networkData) {
     lines.push(`    advanced: {`);
     lines.push(`      minProtocolVersion: ${formatValue(network.advanced.minProtocolVersion, 3)},`);
     lines.push(`      migrationId: ${formatValue(network.advanced.migrationId, 3)},`);
-    
-    // darVersions array
-    lines.push(`      darVersions: [`);
-    for (const dar of network.advanced.darVersions) {
-      lines.push(`        { name: ${formatValue(dar.name, 4)}, version: ${formatValue(dar.version, 4)} },`);
-    }
-    lines.push(`      ],`);
     
     lines.push(`      releaseUrl: ${formatValue(network.advanced.releaseUrl, 3)},`);
     lines.push(`    },`);
