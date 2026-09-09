@@ -1,0 +1,153 @@
+---
+title: "Transfers"
+description: "Send, withdraw, accept, and reject transfer offers in Splice Portfolio."
+---
+
+All transfers are sent and received through your primary party. To act from a different party, first [switch your primary party](/sdks-tools/development-tools/splice-portfolio/switch-parties).
+
+## Send a Transfer Offer
+
+1. From the Dashboard or your primary party view, click **Transfer** in the top right corner of the screen.
+   ![Transfer button on the Dashboard](/images/SEND-A-TRANSFER-OFFER-\(STEP-1A\).png)
+   <img
+     src="images/SEND-A-TRANSFER-OFFER-(STEP-1B).png"
+     alt="Transfer button on the primary party view"
+     lightAlt="Transfer button on the primary party view"
+     darkAlt="Transfer button on the primary party view"
+     className="dark:hidden"
+   />
+   <img
+     src="/images/SEND-A-TRANSFER-OFFER-(STEP-1B).png"
+     alt="Transfer button on the primary party view"
+     lightAlt="Transfer button on the primary party view"
+     darkAlt="Transfer button on the primary party view"
+     className="hidden dark:block"
+   />
+2. Complete the transfer form and select **Make Transfer**.
+   <img
+     src="/images/SEND-A-TRANSFER-OFFER-(STEP-2)-1.png"
+     alt="Completed transfer form"
+     lightAlt="Completed transfer form"
+     darkAlt="Completed transfer form"
+   />
+   The **Description** field is where any memo tag or ID received from an exchange should be pasted.
+   <Note>
+     If the recipient party has pre-approved the asset being transferred, an offer expiration date is not required.
+   </Note>
+3. Review the transfer details on the confirmation screen.
+   <img
+     src="images/SEND-A-TRANSFER-OFFER-(STEP-3).png"
+     alt="Transfer confirmation screen"
+     lightAlt="Transfer confirmation screen"
+     darkAlt="Transfer confirmation screen"
+     className="dark:hidden"
+   />
+   <img
+     src="/images/SEND-A-TRANSFER-OFFER-(STEP-3).png"
+     alt="Transfer confirmation screen"
+     lightAlt="Transfer confirmation screen"
+     darkAlt="Transfer confirmation screen"
+     className="hidden dark:block"
+   />
+4. To complete the transfer, go to your CIP-103 compliant wallet to complete signing.
+5. Verify the transfer in **Offers > Transfers**.
+   <img
+     src="images/SEND-A-TRANSFER-OFFER-(STEP-5).png"
+     alt="Transfer listed with Sent status in the Offers page"
+     lightAlt="Transfer listed with Sent status in the Offers page"
+     darkAlt="Transfer listed with Sent status in the Offers page"
+     className="dark:hidden"
+   />
+   <img
+     src="/images/SEND-A-TRANSFER-OFFER-(STEP-5).png"
+     alt="Transfer listed with Sent status in the Offers page"
+     lightAlt="Transfer listed with Sent status in the Offers page"
+     darkAlt="Transfer listed with Sent status in the Offers page"
+     className="hidden dark:block"
+   />
+
+<Note>
+  If the recipient party has pre-approved the asset, the completed transfer appears in the transaction history as soon as it completes on-chain.
+</Note>
+
+## Withdraw a Transfer Offer
+
+You can withdraw a transfer offer you have sent only if the recipient has not yet accepted it and has not set up pre-approval for the asset being transferred.
+
+1. Go to **Offers > Transfers**.
+2. Select the offer you want to withdraw.
+   <img
+     src="images/WITHDRAW-A-TRANSFER-OFFER-(STEP-2).png"
+     alt="Transfer offer selected in the Offers page"
+     lightAlt="Transfer offer selected in the Offers page"
+     darkAlt="Transfer offer selected in the Offers page"
+     className="dark:hidden"
+   />
+   <img
+     src="/images/WITHDRAW-A-TRANSFER-OFFER-(STEP-2).png"
+     alt="Transfer offer selected in the Offers page"
+     lightAlt="Transfer offer selected in the Offers page"
+     darkAlt="Transfer offer selected in the Offers page"
+     className="hidden dark:block"
+   />
+3. Click **Withdraw**.
+   <img
+     src="images/WITHDRAW-A-TRANSFER-OFFER-(STEP-3).png"
+     alt="Withdraw button on a transfer offer"
+     lightAlt="Withdraw button on a transfer offer"
+     darkAlt="Withdraw button on a transfer offer"
+     className="dark:hidden"
+   />
+   <img
+     src="/images/WITHDRAW-A-TRANSFER-OFFER-(STEP-3).png"
+     alt="Withdraw button on a transfer offer"
+     lightAlt="Withdraw button on a transfer offer"
+     darkAlt="Withdraw button on a transfer offer"
+     className="hidden dark:block"
+   />
+4. To complete this action, go to your CIP-103 wallet to complete signing.
+
+## Accept or Reject a Transfer Offer
+
+There are two ways to respond to a transfer offer.
+
+1. From the Dashboard, select the transfer offer.
+   ![Incoming transfer offer on the Dashboard](/images/ACCEPT-OR-REJECT-A-TRANSFER-OFFER-\(STEP-1A\).png)
+   Or navigate to **Offers > Transfers** and select the transfer offer.
+   <img
+     src="images/ACCEPT-OR-REJECT-A-TRANSFER-OFFER-(STEP-1B).png"
+     alt="Transfer offer detail in the Offers page"
+     lightAlt="Transfer offer detail in the Offers page"
+     darkAlt="Transfer offer detail in the Offers page"
+     className="dark:hidden"
+   />
+   <img
+     src="/images/ACCEPT-OR-REJECT-A-TRANSFER-OFFER-(STEP-1B).png"
+     alt="Transfer offer detail in the Offers page"
+     lightAlt="Transfer offer detail in the Offers page"
+     darkAlt="Transfer offer detail in the Offers page"
+     className="hidden dark:block"
+   />
+2. Click **Accept** or **Reject**.
+   ![Accept and Reject buttons on a transfer offer](/images/sdks-tools/splice-portfolio/transfer-accept-reject.png)
+3. To complete this action, go to your CIP-103 wallet to complete signing.
+4. If accepted, review the completed transaction in your primary party's transaction history.
+   <img
+     src="images/ACCEPT-OR-REJECT-A-TRANSFER-OFFER-(STEP-4).png"
+     alt="Completed transfer in the transaction history"
+     lightAlt="Completed transfer in the transaction history"
+     darkAlt="Completed transfer in the transaction history"
+     className="dark:hidden"
+   />
+   <img
+     src="/images/ACCEPT-OR-REJECT-A-TRANSFER-OFFER-(STEP-4).png"
+     alt="Completed transfer in the transaction history"
+     lightAlt="Completed transfer in the transaction history"
+     darkAlt="Completed transfer in the transaction history"
+     className="hidden dark:block"
+   />
+
+## Next Steps
+
+- [Enable Pre-Approvals](/sdks-tools/development-tools/splice-portfolio/pre-approvals) -- Accept incoming transfers of an asset automatically
+- [Allocations](/sdks-tools/development-tools/splice-portfolio/allocations) -- Respond to allocation requests

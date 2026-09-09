@@ -864,6 +864,21 @@
               "sdks-tools/development-tools/sandbox",
               "sdks-tools/development-tools/darsyncer",
               {
+                "group": "Splice Portfolio dApp UI",
+                "pages": [
+                  "sdks-tools/development-tools/splice-portfolio/overview",
+                  "sdks-tools/development-tools/splice-portfolio/first-time-setup",
+                  "sdks-tools/development-tools/splice-portfolio/navigation",
+                  "sdks-tools/development-tools/splice-portfolio/transfers",
+                  "sdks-tools/development-tools/splice-portfolio/allocations",
+                  "sdks-tools/development-tools/splice-portfolio/add-a-registry",
+                  "sdks-tools/development-tools/splice-portfolio/pre-approvals",
+                  "sdks-tools/development-tools/splice-portfolio/devnet-faucet",
+                  "sdks-tools/development-tools/splice-portfolio/switch-parties",
+                  "sdks-tools/development-tools/splice-portfolio/troubleshooting"
+                ]
+              },
+              {
                 "group": "PQS",
                 "pages": [
                   "sdks-tools/development-tools/pqs",
