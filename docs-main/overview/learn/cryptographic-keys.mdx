@@ -7,6 +7,8 @@ description: "Storage of secrets, key types, and key management in Canton. Cover
 
 This section is about cryptographic keys in Canton. As a preliminary, it outlines general options for storing secrets in Canton. Then, it gives an overview of the various kinds of cryptographic keys and how Canton uses and stores them.
 
+Finally, we briefly introduce the ``usage`` parameter, which is part of each signing key and specifies its intended purpose.
+
 ## Storage of secrets
 
 This section outlines the general options for storing secrets in Canton.
@@ -35,6 +37,8 @@ For better protection of secrets that Canton needs to persist, Canton allows for
 
 - **KMS envelope encryption:** Canton stores a secret in an encrypted manner in the database. Canton keeps the secret as plaintext in memory. When Canton needs to decrypt the secret, it sends its ciphertext to a KMS, the KMS decrypts the secret and sends the plaintext of the secret back to Canton.
 - **Full KMS:** A KMS generates and stores a secret, typically a private signing or encryption key. The KMS does not expose the secret to anybody. When Canton needs to sign some data, it sends the data to the KMS, the KMS produces the digital signature, and sends the signature back to Canton. Similarly, when Canton needs to decrypt some data, it sends the ciphertext to the KMS, the KMS decrypts the ciphertext, and sends the plaintext back to Canton.
+
+You can find more details about these two modes by reading the section on [securing keys with KMS](/overview/learn/kms#securing-keys-with-a-key-management-service-kms).
 
 ### KMS with session signing keys
 
@@ -127,7 +131,14 @@ Canton nodes keep session encryption keys in memory in plaintext for a configura
 
 ## Overview of cryptographic keys in Canton
 
-This section provides an overview of how Canton makes use of cryptographic keys.
+This section describes each of the cryptographic keys used in Canton.
+
+We distinguish between three types of keys: short-term, long-term, and permanent keys.
+This nomenclature is used to simplify the distinction between keys and to make it easier to refer to them afterwards.
+
+- `Short-term keys`: These are the session signing, session encryption and TLS keys. These keys are retained in memory for only a short period of time.
+- `Long-term keys`: These are keys used for topology transaction signing, sequencer authentication, protocol transaction signing, encryption of short-term key secrets, and authorizing session keys.
+- `Permanent keys`: A namespace **root** key is a permanent key. It cannot be rotated without losing the namespace, as the namespace is identified by the fingerprint of the signing key. This is an architectural feature.
 
 ### TLS keys
 
@@ -204,5 +215,41 @@ Canton makes use of tokens on the following APIs:
 - The public API of Sequencer Nodes mandates the use of tokens for every request.
 - Operators can configure Participant Nodes to enable authorization at the Ledger API. If enabled, clients of a Ledger API need to include a [JWT](https://jwt.io) token into every request.
 
+## Signing Key Usage
+
+Canton's signing keys, as described in the previous section, are used across multiple parts of the system.
+To manage these different purposes, each signing key is assigned a usage.
+The possible usages are:
+
+- ``Namespace``: for [namespace signing keys](/overview/learn/cryptographic-keys#namespace-signing-keys)
+- ``SequencerAuthentication``: for [sequencer client/server authentication](/overview/learn/cryptographic-keys#node-signing-keys)
+- ``Protocol``: for signing keys that handle all [signing performed as part of the protocol](/overview/learn/cryptographic-keys#node-signing-keys).
+- ``Proof-of-Ownership``: **only used internally** to indicate that a key can be used to prove ownership of itself.
+
+Key usage is strictly checked whenever a signing key is used to sign messages or verify signatures.
+Any attempt to use a key outside of its assigned usage is rejected by the system, ensuring that keys
+are only used for their intended purposes.
+
+By default, Canton creates a separate key for each usage (except ``Proof-of-Ownership``) to prevent a single key
+from being used to sign different types of requests. By using separate keys for different usages, each signing
+key remains more "isolated", significantly reducing its attack surface and, consequently, the impact of a
+compromised key.
+
+This is particularly critical for root namespace keys, which represent a node's namespace and are
+typically only used to initialize the topology state and delegate authority to an intermediate key responsible
+for signing other topology requests. If a root key is also used, for example, to sign protocol transactions,
+it is exposed frequently — and since this is the root key, the consequences of a key breach would be severe.
+An attacker could perform an oracle attack, potentially recover the key, and gain control of the namespace,
+and thus the node.
+
+## Public Key Distribution using Topology Management
+
+The long-term public keys of the corresponding key pairs used for signing and asymmetric encryption within Canton
+are distributed via Canton's Topology Management. More specifically, signing and asymmetric encryption public keys
+are distributed using `OwnerToKeyMapping` transactions, which associate a public key for either signing or encryption.
+`NamespaceDelegation` transactions are used to announce the root namespace and to delegate this namespace to
+other *intermediate* keys.
+
+See [Topology transactions](/overview/reference/topology#topology-management) for more details on the specific topology transactions in use.
 
 {/* COPIED_END */}

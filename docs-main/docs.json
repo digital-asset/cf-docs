@@ -90,7 +90,8 @@
               "overview/learn/validator-architecture",
               "overview/learn/global-synchronizer-architecture",
               "overview/learn/how-transactions-work",
-              "overview/learn/cryptographic-keys"
+              "overview/learn/cryptographic-keys",
+              "overview/learn/kms"
             ]
           },
           {

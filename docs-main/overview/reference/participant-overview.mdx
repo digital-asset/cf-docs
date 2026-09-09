@@ -5,7 +5,6 @@ description: "How the Canton participant node works: its role in the distributed
 
 {/* COPIED_START source="docs-website:docs/replicated/canton/3.6/participant/overview/index.rst" hash="3ca8e4c3" */}
 
-
 Participants form the core part of Canton's distributed ledger architecture. A Participant provides a party-specific view of the distributed ledger, processes its Daml logic, and participates in the Canton protocol with other participants via the synchronizer. In essence, a Canton Participant is the **private, self-sovereign computational and storage unit** for an entity within the Canton Network.
 
 ## Core Technical Responsibilities
@@ -35,5 +34,83 @@ Link to protocol description when referring to the canton protocol below \<[http
     - The Participant node exposes the **Ledger API** (a gRPC or JSON-based API) to client applications and users.
     - This API allows users to submit Daml commands (to create contracts or exercise choices on contracts), query contract states, and subscribe to ledger updates for their relevant parties.
 
+## Security & Key Management
+
+Besides standard network and system security mechanisms, such as firewalls and access controls, an essential
+aspect of the security of a Participant node is the proper use of cryptography. Cryptography offers tools that help
+achieve key security properties, helping to protect data, ensure its integrity, and support trustworthy communication.
+Because cryptography plays a central role in providing a secure, minimal trust platform, it must be applied carefully
+and deliberately, following established best practices. Improper key management or misuse of cryptographic primitives
+can undermine otherwise robust security mechanisms.
+
+In this section, we focus on the cryptographic keys of a Participant and explain what keys a Participant possesses.
+For details on how they are distributed to other nodes, how their correct usage is enforced, and ways to secure them
+using a KMS, we provide links to the corresponding sections of this documentation.
+
+We do not cover how cryptography is applied in the protocol itself here. That information is available in other parts
+of the protocol documentation.
+
+### Cryptography keys of a Participant Node
+
+A Participant node, **by default**, on initialization, contains the following keys:
+
+- A [namespace root signing key](/overview/learn/cryptographic-keys#namespace-signing-keys).
+- Two other signing keys:
+   - A [sequencer authentication signing key](/overview/learn/cryptographic-keys#node-signing-keys).
+   - A [protocol signing key](/overview/learn/cryptographic-keys#node-signing-keys).
+- An :[asymmetric encryption key](/overview/learn/cryptographic-keys#encryption-keys).
+
+A Participant **can have more than one of each key type**, with the most recent key being used when multiple keys exist.
+An exception is the **namespace root key**, which **must remain unique**. Instead, a Participant
+can have **delegated intermediate keys**, with the same purpose of signing topology transactions, that are
+authorized by the root key. It is also possible to have **fewer keys** if, for example, a single signing key
+is created to cover all the usages listed above. For more information on what this means and how we capture the
+intended signing usage for each key, refer to the section: [signing key usage](/overview/learn/cryptographic-keys#signing-key-usage).
+
+A Participant can also have an **arbitrary number** of [session keys](/global-synchronizer/production-operations/key-management#configure-session-keys). These are
+delegated keys authorised by the original key and are intended for short-term use, after which they are replaced.
+
+You can read in more detail about each key type in the: [cryptographic keys in Canton](/overview/learn/cryptographic-keys#cryptographic-keys-in-canton).
+
+.. table:: Participant Keys and Usage
+
+    +--------------------------------------+-----------------------------------------------+-------------------------+
+    | Participant Keys                     | Usage                                         | Optional                |
+    +======================================+===============================================+=========================+
+    | Encryption key                       | N/A                                           |                         |
+    +--------------------------------------+-----------------------------------------------+-------------------------+
+    | Namespace root signing key           | *namespace*                                   |                         |
+    +--------------------------------------+-----------------------------------------------+-------------------------+
+    | Intermediate namespace signing  key  | *namespace*                                   | yes                     |
+    +--------------------------------------+-----------------------------------------------+-------------------------+
+    | Sequencer authentication signing key | *sequencer-auth*, *proof-of-ownership* [3]_   |                         |
+    +--------------------------------------+-----------------------------------------------+-------------------------+
+    | Protocol signing key                 | *signing* [2]_, *proof-of-ownership* [3]_     |                         |
+    +--------------------------------------+-----------------------------------------------+-------------------------+
+    | Session encryption key [1]_          | N/A                                           | yes                     |
+    +--------------------------------------+-----------------------------------------------+-------------------------+
+    | Session signing key [1]_             | *signing* [2]_                                | yes                     |
+    +--------------------------------------+-----------------------------------------------+-------------------------+
+
+.. [1] A Participant can have multiple session keys throughout its lifetime.
+.. [2] ``signing`` refers to protocol signing usage.
+.. [3] ``proof-of-ownership`` is an internal usage type.
+
+#### Exposing a Participant’s Public Keys
+
+As with any other node in Canton, Participant public keys of the corresponding key pairs used for
+signing and asymmetric encryption within Canton are distributed and exposed via Canton's Topology Management.
+You can find more information on how this is done in the
+[section on key distribution](/overview/learn/cryptographic-keys#public-key-distribution-using-topology-management).
+
+Local parties hosted in a Participant share the same keys as the Participant, whereas
+[external parties](/overview/reference/external-party#local-and-external-parties) **have their own keys: one namespace root key
+and one protocol signing key**.
+
+#### Secure cryptographic private key storage
+
+Similar to other nodes, a Participant's keys are, by default, stored in plaintext. Canton provides ways to protect
+the private key material of these keys by integrating with Key Management Services (KMS). See the section
+on [securing keys with KMS](/overview/learn/kms#securing-keys-with-a-key-management-service-kms) to learn about the two ways KMS can be used.
 
 {/* COPIED_END */}
