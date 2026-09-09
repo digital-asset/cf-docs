@@ -11,8 +11,7 @@
       "walletSdk": "npm latest dist-tag for @canton-network/wallet-sdk.",
       "dappSdk": "npm latest dist-tag for @canton-network/dapp-sdk.",
       "walletGateway": "Latest stable @canton-network/wallet-gateway-remote GitHub release from canton-network/wallet.",
-      "pqs": "Read org.opencontainers.image.version from the public Artifact Registry Scribe component image europe-docker.pkg.dev/da-images/public/components/scribe:3.5. If the floating release-line tag resolves to a prerelease, retain the previous stable dashboard value.",
-      "minProtocolVersion": "Manual/fallback until a public live source is identified."
+      "pqs": "Read org.opencontainers.image.version from the public Artifact Registry Scribe component image europe-docker.pkg.dev/da-images/public/components/scribe:3.5. If the floating release-line tag resolves to a prerelease, retain the previous stable dashboard value."
     },
     "networkSources": {
       "mainnet": {
@@ -36,7 +35,6 @@
     "mainnet": {
       "name": "MainNet",
       "advanced": {
-        "minProtocolVersion": "35",
         "migrationId": "4",
         "releaseUrl": "https://github.com/canton-network/splice/releases/tag/0.7.4"
       },
@@ -70,7 +68,6 @@
     "testnet": {
       "name": "TestNet",
       "advanced": {
-        "minProtocolVersion": "35",
         "migrationId": "1",
         "releaseUrl": "https://github.com/canton-network/splice/releases/tag/0.7.5"
       },
@@ -104,7 +101,6 @@
     "devnet": {
       "name": "DevNet",
       "advanced": {
-        "minProtocolVersion": "35",
         "migrationId": "1",
         "releaseUrl": "https://github.com/canton-network/splice/releases/tag/0.8.0"
       },
