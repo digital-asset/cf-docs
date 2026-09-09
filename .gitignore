@@ -153,3 +153,6 @@ vite.config.ts.timestamp-*
 .internal/*
 .venv
 .venv/*
+
+*.pyc
+__pycache__/

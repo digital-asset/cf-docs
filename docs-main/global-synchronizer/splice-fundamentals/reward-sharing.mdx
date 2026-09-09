@@ -12,6 +12,10 @@ sharing allows the provider to distribute (part of) the minting allowance of the
 parties (beneficiaries) before minting, using the `assignBeneficiaries` API
 provided by the `splice-api-reward-assignment-v1` interface package.
 
+Reward Sharing has a type discriminator that distinguishes between two modes:
+- `built-in`: the validator performs beneficiary assignment and minting itself. This is the default type when the `type` key is omitted.
+- `external`: beneficiary assignment is handled by automation outside the validator and the node leaves unassigned coupons untouched.
+
 <Note>
 API reference docs for `splice-api-reward-assignment-v1` are [forthcoming](https://github.com/canton-network/cf-docs/issues/838).
 </Note>
@@ -33,6 +37,7 @@ canton.validator-apps.validator_backend {
   reward-sharing-config-by-party = {
     # 30% -> charlie, 20% -> dave, remaining 50% stays with alice
     "alice::1220abc...def" = {
+      # if `type` is omitted, it defaults to "built-in"
       # Minimum remaining coupon TTL before sharing is triggered (default: 30h).
       # With the default 36h coupon TTL, 25h means sharing fires ~11h after creation.
       min-ttl-after-sharing = 25h
@@ -45,12 +50,39 @@ canton.validator-apps.validator_backend {
 
     # External party bob sends 100% of rewards to a treasury party
     "bob::1220bbb...ccc" = {
+      # an example of `type` being explicitly declared as `built-in`
+      type = "built-in"
       min-ttl-after-sharing = 25h
       # Max coupons to share per trigger run (default: 100)
       batch-size = 50
       beneficiaries = [
         { beneficiary = "treasury::1220eee...fff", percentage = 1.0 },
       ]
+    }
+  }
+}
+```
+
+## External Sharing
+
+If it is desired to perform the reward sharing with the beneficiaries without using the validator node's built-in automation.
+
+Then the validator node can be configured to not do the minting of the unassigned `Splice.Amulet.RewardCouponV2` coupons, by specifying the `type` as `external`.
+
+Only keys `type` and `batch-size` are permitted for external configurations so any other keys in the config will cause an error.
+
+For each beneficiary you want to share rewards with, set up a [minting delegation](/global-synchronizer/splice-fundamentals/rewards-minting)
+
+Build an external automation that lists unassigned `RewardCouponV2` contracts and assigns them to beneficiaries using the `assignBeneficiaries` API
+
+Once the contracts are assigned, the validator app automation will use the minting delegation to mint them. The `batch-size` parameter limits the number of coupons minted per trigger run.
+
+```hocon
+canton.validator-apps.validator_backend {
+  reward-sharing-config-by-party = {
+    "charlie::1220ccc...ddd" = {
+      type = "external"
+      batch-size = 50
     }
   }
 }
