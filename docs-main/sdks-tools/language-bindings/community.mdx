@@ -7,6 +7,12 @@ Beyond the officially supported Java and TypeScript bindings, community members 
 
 ## Available Community Bindings
 
+### TypeScript and JavaScript
+
+The [c7_ledger project](https://github.com/C7-Digital/c7_ledger) publishes `@c7/ledger` and `@c7/react`, community packages that serve as replacements for the official `@daml/ledger` and `@daml/react` libraries. They provide type-safe access to a validator's JSON Ledger API and React hooks for building frontends against it.
+
+Each release targets a specific Daml/Canton version, so check that the package version matches your deployment before adopting it.
+
 ### Python
 
 The [Daml Python bindings, also known as dazl](https://github.com/digital-asset/dazl-client), provide a Python client for Ledger API-based applications. They wrap the gRPC Ledger API using Python's `grpcio` library, providing a more Pythonic interface for command submission and event streaming.
