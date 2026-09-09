@@ -1,0 +1,29 @@
+---
+title: "Overview"
+description: "A reference dApp wallet UI for viewing and interacting with assets on Canton."
+---
+
+The Splice Portfolio UI is a reference dApp wallet UI for viewing and interacting with assets on Canton. It is not intended to function as a wallet or custody layer for creating parties and storing keys. Instead, it is an open source dApp that you can clone and install, connect to a wallet, and use to understand your assets, review positions, and perform supported portfolio actions. Wallet developers can also use it to view and copy reference implementations of common wallet UI patterns.
+
+Its role is to provide a practical and capable portfolio experience on top of wallet connectivity. This gives the ecosystem more than a technical standard or an SDK: it gives teams a concrete example of what a Canton wallet UI experience can look like in practice, including support for more advanced workflows such as offers and allocations.
+
+The Portfolio UI works with wallets connected through the standard connectivity model, [CIP-103](https://github.com/canton-foundation/cips/blob/main/cip-0103/cip-0103.md), so it also supports [Wallet Gateway](/integrations/wallet-gateway/overview)-based setups where you may be working with multiple parties.
+
+## What You Can Do
+
+- View assets across multiple Canton Network parties in a single aggregated dashboard
+- Review transaction history per party
+- Send, withdraw, accept, and reject transfer offers
+- Allocate assets to allocation requests, and withdraw those allocations
+- Enable pre-approvals so incoming transfers of a chosen asset are accepted automatically
+- Add registries to make their assets visible and transferable
+
+## About This Guide
+
+This guide uses the Wallet Gateway as the wallet to connect to for a local deployment. Any CIP-103 compliant wallet can be used to connect to Splice Portfolio. The guide notes where the Wallet Gateway is specifically being demonstrated and where other wallet experiences may differ.
+
+## Next Steps
+
+- [First-Time Setup](/sdks-tools/development-tools/splice-portfolio/first-time-setup) -- Deploy the portfolio and connect a wallet
+- [Navigation](/sdks-tools/development-tools/splice-portfolio/navigation) -- Understand the layout and what each view does
+- [Deployment documentation](https://github.com/canton-network/wallet/blob/main/docs/dapp-building/examples/portfolio/index.md) -- Run the portfolio yourself

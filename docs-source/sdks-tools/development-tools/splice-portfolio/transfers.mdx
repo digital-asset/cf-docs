@@ -1,0 +1,81 @@
+---
+title: "Transfers"
+description: "Send, withdraw, accept, and reject transfer offers in Splice Portfolio."
+---
+
+All transfers are sent and received through your primary party. To act from a different party, first [switch your primary party](/sdks-tools/development-tools/splice-portfolio/switch-parties).
+
+## Send a Transfer Offer
+
+1. From the Dashboard or your primary party view, click **Transfer** in the top right corner of the screen.
+
+   ![Transfer button on the Dashboard](/images/sdks-tools/splice-portfolio/transfer-button-dashboard.png)
+
+   ![Transfer button on the primary party view](/images/sdks-tools/splice-portfolio/transfer-button-primary-party.png)
+
+2. Complete the transfer form and select **Make Transfer**.
+
+   ![Completed transfer form](/images/sdks-tools/splice-portfolio/transfer-form.png)
+
+   The **Description** field is where any memo tag or ID received from an exchange should be pasted.
+
+   <Note>
+   If the recipient party has pre-approved the asset being transferred, an offer expiration date is not required.
+   </Note>
+
+3. Review the transfer details on the confirmation screen.
+
+   ![Transfer confirmation screen](/images/sdks-tools/splice-portfolio/transfer-confirmation.png)
+
+4. To complete the transfer, go to your CIP-103 compliant wallet to complete signing.
+
+5. Verify the transfer in **Offers > Transfers**.
+
+   ![Transfer listed with Sent status in the Offers page](/images/sdks-tools/splice-portfolio/transfer-status-sent.png)
+
+<Note>
+If the recipient party has pre-approved the asset, the completed transfer appears in the transaction history as soon as it completes on-chain.
+</Note>
+
+## Withdraw a Transfer Offer
+
+You can withdraw a transfer offer you have sent only if the recipient has not yet accepted it and has not set up pre-approval for the asset being transferred.
+
+1. Go to **Offers > Transfers**.
+
+2. Select the offer you want to withdraw.
+
+   ![Transfer offer selected in the Offers page](/images/sdks-tools/splice-portfolio/transfer-status-sent.png)
+
+3. Click **Withdraw**.
+
+   ![Withdraw button on a transfer offer](/images/sdks-tools/splice-portfolio/transfer-withdraw.png)
+
+4. To complete this action, go to your CIP-103 wallet to complete signing.
+
+## Accept or Reject a Transfer Offer
+
+There are two ways to respond to a transfer offer.
+
+1. From the Dashboard, select the transfer offer.
+
+   ![Incoming transfer offer on the Dashboard](/images/sdks-tools/splice-portfolio/dashboard-incoming-transfer-offer.png)
+
+   Or navigate to **Offers > Transfers** and select the transfer offer.
+
+   ![Transfer offer detail in the Offers page](/images/sdks-tools/splice-portfolio/offers-transfer-detail.png)
+
+2. Click **Accept** or **Reject**.
+
+   ![Accept and Reject buttons on a transfer offer](/images/sdks-tools/splice-portfolio/transfer-accept-reject.png)
+
+3. To complete this action, go to your CIP-103 wallet to complete signing.
+
+4. If accepted, review the completed transaction in your primary party's transaction history.
+
+   ![Completed transfer in the transaction history](/images/sdks-tools/splice-portfolio/transaction-history.png)
+
+## Next Steps
+
+- [Enable Pre-Approvals](/sdks-tools/development-tools/splice-portfolio/pre-approvals) -- Accept incoming transfers of an asset automatically
+- [Allocations](/sdks-tools/development-tools/splice-portfolio/allocations) -- Respond to allocation requests

@@ -1,0 +1,60 @@
+---
+title: "Allocations"
+description: "Allocate assets to allocation requests and withdraw allocations in Splice Portfolio."
+---
+
+<Note>
+  Allocation requests can only be received and actioned from the Splice Portfolio, they cannot be initiated or created.
+</Note>
+
+## Allocate Assets to an Allocation Request
+
+There are two ways to allocate assets to an allocation request.
+
+1. From the Dashboard, select the allocation request.
+   ![Allocation request on the Dashboard](/images/ALLOCATE-ASSETS-TO-AN-ALLOCATION-REQUEST-\(STEP-1A\).png)
+   Or navigate to **Offers > Allocations** and select the allocation request.
+   ![Allocation request in the Offers page](/images/ALLOCATE-ASSETS-TO-AN-ALLOCATION-REQUEST-\(STEP-1B\).png)
+2. Click **Allocate** for each trader leg where you are the sender.
+   ![Allocate buttons on the trader legs of an allocation request](/images/ALLOCATE-ASSETS-TO-AN-ALLOCATION-REQUEST-\(STEP-2\).png)
+   If your primary party does not have enough assets available for allocation, the **Allocate** button is disabled and a message indicates that you have insufficient funds to complete the allocation.
+   ![Insufficient funds message on an allocation request](/images/ALLOCATE-ASSETS-TO-AN-ALLOCATION-REQUEST-\(STEP-2A\).png)
+3. To complete this action, go to your CIP-103 wallet to complete signing.
+4. Review the allocated request in **Offers > Allocations**.
+   <img
+     src="ALLOCATE ASSETS TO AN ALLOCATION REQUEST (STEP 4)"
+     alt="Allocated request in the Offers page"
+     lightAlt="Allocated request in the Offers page"
+     darkAlt="Allocated request in the Offers page"
+     className="dark:hidden"
+   />
+   <img
+     src="/images/ALLOCATE-ASSETS-TO-AN-ALLOCATION-REQUEST-(STEP-4).png"
+     alt="Allocated request in the Offers page"
+     lightAlt="Allocated request in the Offers page"
+     darkAlt="Allocated request in the Offers page"
+     className="hidden dark:block"
+   />
+
+<Note>
+  The allocated request remains in the Incoming tab because it is still pending and cannot be executed until the **Allocate Before** date. Until that date, you can withdraw your allocation if needed.
+</Note>
+
+## Withdraw Allocations
+
+Allocated offers can be withdrawn until the **Allocate Before** date.
+
+1. Navigate to **Offers > Allocations** and select the allocated allocation request.
+   ![Allocated request selected in the Offers page](/images/WITHDRAW-ALLOCATIONS-\(STEP-1\).png)
+2. Open the allocation request and click **Withdraw** for one or more transfer legs.
+   ![Withdraw buttons on the transfer legs of an allocation](/images/WITHDRAW-ALLOCATIONS-\(STEP-2\).png)
+3. To complete this action, go to your CIP-103 wallet to complete signing.
+
+<Note>
+  You can re-allocate or withdraw one or more legs as many times as needed until the **Allocate Before** date.
+</Note>
+
+## Next Steps
+
+- [Add a Registry](/sdks-tools/development-tools/splice-portfolio/add-a-registry) -- Make a registry's assets available to allocate
+- [Switch Parties](/sdks-tools/development-tools/splice-portfolio/switch-parties) -- Act on allocation requests sent to a different party

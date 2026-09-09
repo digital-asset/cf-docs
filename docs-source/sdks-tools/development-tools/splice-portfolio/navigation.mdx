@@ -1,0 +1,121 @@
+---
+title: "Navigation"
+description: "Understand the Splice Portfolio layout: parties, dashboard, offers, and settings."
+---
+
+## Primary Party
+
+![Navigation (primary Party) 3](/images/Navigation-\(primary-party\)-3.png "Navigation (primary Party) 3")
+
+Splice Portfolio can see, and take actions on, assets across multiple Canton Network addresses. Although you can see assets from multiple accounts at all times, you can only take actions from one address at a time.
+
+Your primary party is the party you can currently take actions from, such as transferring assets and sending and receiving transfer offers and allocation requests. It is identified by the **Primary** pill in the left navigation. To take an action from a different party, first [switch your primary party](/sdks-tools/development-tools/splice-portfolio/switch-parties) in your wallet provider.
+
+Within the primary party view, you can:
+
+- View assets in your primary party
+- Review transaction history
+- Initiate transfers
+
+## Non-Primary Parties
+
+![Left navigation listing additional non-primary parties](/images/Navigation-\(non-primary-party\).png)
+
+All additional parties connected through your wallet provider are listed in the navigation.
+
+Within each non-primary party view, you can:
+
+- View assets
+- Review transaction history
+
+<Note>
+Transfers and allocation requests can only be sent and received through your primary party. See [Switch Parties](/sdks-tools/development-tools/splice-portfolio/switch-parties).
+</Note>
+
+## Dashboard
+
+![Dashboard showing aggregated assets and offers requiring action](/images/Navigation-\(dashboard\).png)
+
+The Dashboard provides an aggregated view of assets across all parties from your wallet provider. You can select any asset to see how it is distributed across your parties.
+
+The Dashboard also displays:
+
+- Incoming transfer offers sent to your primary party that require your action
+- Allocation requests sent to your primary party that require your action
+
+## Offers
+
+The Offers page is divided into two tabs: **Transfers** and **Allocations**. All offers shown on this page are associated with your current primary party. To view offers sent to or from another party, [switch your primary party](/sdks-tools/development-tools/splice-portfolio/switch-parties) in your wallet provider.
+
+### Transfers
+
+![Offers page with the Transfers tab selected](/images/sdks-tools/splice-portfolio/offers-transfers-tab.png)
+
+The Transfers tab displays all transfers sent to and from your current primary party. Each offer includes a status that reflects its current state.
+
+![Transfer offer with Action Required status](/images/sdks-tools/splice-portfolio/transfer-status-action-required.png)
+
+**Action Required** -- This offer requires your attention. You need to either accept or reject the offer.
+
+![Transfer offer with Sent status](/images/sdks-tools/splice-portfolio/transfer-status-sent.png)
+
+**Sent** -- Your offer has been sent to the recipient. The offer stays on the Offers page until the recipient accepts or rejects it, or until you withdraw it.
+
+![Transfer offer with Expired status](/images/sdks-tools/splice-portfolio/transfer-status-expired.png)
+
+**Expired** -- This offer has passed its expiration date. If you sent the offer, you can remove it from this page by opening the offer and clicking **Withdraw**. If you received the offer, it remains visible until the sender withdraws it. To hide expired offers from this page, turn off **Show Expired Offers** at the top of the view.
+
+### Allocations
+
+![Offers page with the Allocations tab selected](/images/sdks-tools/splice-portfolio/offers-allocations-tab.png)
+
+The Allocations tab is where you view all allocation requests sent from your current primary party. Each offer includes a status that reflects its current state.
+
+<Note>
+Allocation requests cannot be sent from Splice Portfolio.
+</Note>
+
+![Allocation request with Action Required status](/images/sdks-tools/splice-portfolio/allocation-status-action-required.png)
+
+**Action Required** -- This offer requires your attention. You need to allocate assets to complete the request.
+
+![Allocation request with Partially Allocated status](/images/sdks-tools/splice-portfolio/allocation-status-partially-allocated.png)
+
+**Partially Allocated** -- Part of the allocation is still pending on your end. At least one allocation leg still requires action.
+
+![Allocation request with Allocated status](/images/sdks-tools/splice-portfolio/allocation-status-allocated.png)
+
+**Allocated** -- All allocation legs have been completed and no further action is required from you. You can still withdraw allocations from one or more legs at this point. The allocation stays on the Offers page until the **Allocate Before** date is reached.
+
+## Wallet Gateway
+
+![Wallet Gateway button at the bottom of the left navigation](/images/sdks-tools/splice-portfolio/wallet-gateway-button.png)
+
+When connected, this button launches the [Wallet Gateway](/integrations/wallet-gateway/overview), the open source wallet signing provider.
+
+If you are using the Wallet Gateway as your wallet signing provider, you can launch it to:
+
+- [Switch your primary party](/sdks-tools/development-tools/splice-portfolio/switch-parties)
+- View transfer offers (incoming and outgoing) and incoming allocation requests, and send them to the address's assigned key store
+
+## Disconnect
+
+![Disconnect button in the left navigation](/images/sdks-tools/splice-portfolio/disconnect-button.png)
+
+This button disconnects Splice Portfolio from your wallet provider.
+
+## Settings
+
+![Settings page showing registries, pre-approvals, and DevNet sections](/images/sdks-tools/splice-portfolio/settings-annotated.png)
+
+Settings allow you to:
+
+- [Configure asset pre-approvals](/sdks-tools/development-tools/splice-portfolio/pre-approvals) for your primary party. Transfers of assets that have pre-approval enabled do not need to be accepted through a two-step transfer and are automatically accepted into your party.
+- [Add registries](/sdks-tools/development-tools/splice-portfolio/add-a-registry) to Splice Portfolio. A registry is a Daml application that can issue, service, and govern digital assets.
+- DevNet only: [tap the faucet](/sdks-tools/development-tools/splice-portfolio/devnet-faucet) to receive test tokens for deployment and testing purposes.
+
+## Next Steps
+
+- [Transfers](/sdks-tools/development-tools/splice-portfolio/transfers) -- Send, withdraw, accept, and reject transfer offers
+- [Allocations](/sdks-tools/development-tools/splice-portfolio/allocations) -- Respond to allocation requests
+- [Switch Parties](/sdks-tools/development-tools/splice-portfolio/switch-parties) -- Change which party you take actions from
