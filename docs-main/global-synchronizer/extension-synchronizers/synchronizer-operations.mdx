@@ -242,30 +242,6 @@ While the BFT Sequencer defaults to using the top-level Sequencer storage, confi
 > - Support distinct data read and write patterns with different database backends and settings
 > - Separate backups
 
-### Configure network-wide parameters
-
-If you change the defaults, keep the following parameters in sync across the network:
-
-> - \`epoch-length\`: a length of all epochs
-> - \`max-requests-in-batch\`: a maximum number of requests in a batch, validated at runtime
-> - \`max-batches-per-block-proposal\`: a maximum number of batches per block proposal, validated at runtime
-
-All the above parameters reside under `config` and must be the same across all BFT Orderer nodes.
-
-For details on the related concepts, check the BFT Orderer explanation page.
-
-### Configure other (local) parameters
-
-There are other (local) configuration parameters under `config` that can be changed.
-
-<div className="todo">
-
-{/* Link the reference documentation. \<[https://github.com/DACH-NY/canton/issues/26126](https://github.com/DACH-NY/canton/issues/26126)\> */}
-
-</div>
-
-For details, check the reference documentation.
-
 ## External Sequencer
 
 To use an external Sequencer (for example, CometBFT), configure the underlying Sequencer `type` under `config` in the `sequencer` configuration:
@@ -282,6 +258,58 @@ sequencer {
 
 Every external Sequencer requires a corresponding Sequencer Driver on the classpath.
 
+
+{/* COPIED_END */}
+
+
+{/* COPIED_START source="docs-website:docs/replicated/canton/3.5/synchronizer/howtos/optimize/orderer.rst" hash="fabed5c0" */}
+
+# Optimize the BFT orderer
+
+## System resources
+
+Available system resources can affect the performance of the BFT orderer in multiple ways:
+
+- Node resources:
+  - CPU: affects general processing and particularly cryptographic operations.
+  - Memory: affects general processing and particularly the ability of a node to cope with bigger networks
+  - Disk I/O: affects the performance of an orderer's database operations.
+  - Network adapter performance: affects general network throughput and latency.
+- Network resources:
+  - Network bandwidth: affects message dissemination times and can directly affect ordering latency.
+  - Network latency: affects message propagation times and can directly affect ordering latency.
+
+## Dimensions
+
+The size of the network and the characteristics of the ordering requests can also affect performance and resource usage:
+
+- Number of Sequencer Nodes: the ISS protocol scales in the number of nodes up to node saturation.
+- Request Size: larger requests can lead to increased processing times, however the dissemination sub-protocol, when running on a high-bandwidth network, reduces the overall effect of request size up to node saturation.
+
+## Synchronizer parameters
+
+Some general Synchronizer parameters can also affect the performance of the BFT orderer:
+
+- Topology change delay: as for the Sequencer in general, bigger values reduces the chance of waiting for the topology processor to complete computing the requested topology snapshot.
+
+Refer to [Manage dynamic Synchronizer parameters](#manage-dynamic-synchronizer-parameters) for more information on Synchronizer parameters.
+
+## Configuration
+
+Some configuration parameters can affect performance and resource usage of the BFT orderer and are discussed below.
+
+Refer to [Configure Sequencer Backend](#configure-sequencer-backend) for general information on how to configure the orderer.
+
+- Epoch length: epoch transitions' overhead may be significant, because all nodes need to wait for the whole epoch's blocks to be complete to detect potential topology changes. Increasing the epoch length reduces the frequency of these transitions, at the cost of slower reaction to topology changes.
+- Minimum and maximum requests in batches, maximum batch creation interval: larger and less frequent batches increase throughput, at the cost of increased latency.
+- Maximum batches in blocks: larger block sizes increase throughput, at the cost of increased latency.
+- Leader selection policy: by default, failing leaders are blacklisted for a certain period. Disabling blacklisting may improve performance in stable networks, at the cost of reduced performance and resilience during node and network instability.
+- Consensus empty block creation timeout: the orderer creates empty blocks after a certain timeout in the absence of ordering traffic so that sequencing time does not lag too much behind median wall clock time. Reducing this timeout may make sequencing timestamps closer to wall clock time, at the cost of increased resource usage.
+- Maximum mempool queue size: larger values reduce backpressure on clients submitting requests, at the cost of increased memory usage, load, and ordering latency.
+- Maximum number of unordered batches per node: larger values allow peers to disseminate more data before it must be ordered, at the cost of additional storage and memory usage.
+- Storage: using fast, dedicated storage for the orderers' databases improves overall performance.
+- Batch aggregator: by default batch aggregation is enabled with a default configuration for all database insert operations. Tuning the batch aggregator's parameters may improve performance depending on the workload.
+- Dedicated execution context divisor: if set, a dedicated execution context is created for the orderer node, with a thread pool size equal to the number of available processors divided by the divisor. Setting this parameter may improve performance under high load, at the cost of increased resource usage.
 
 {/* COPIED_END */}
 
